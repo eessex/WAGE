@@ -7,66 +7,65 @@ var Certification = React.createClass({
       errors: {}
     }
   },
+  setEditMode() {
+    this.setState({editMode: true});
+  },
 
-  // setEditMode() {
-  //   this.setState({editMode: true});
-  // },
-  //
-  // handleNameChange(e) {
-  //   var newCertification = this.state.certification
-  //   newCertification.name = e.target.value
-  //   this.setState({certification: newCertification});
-  // },
-  //
-  // handleEmailChange(e) {
-  //   var newCertification = this.state.certification
-  //   newCertification.email = e.target.value
-  //   this.setState({certification: newCertification});
-  // },
-  //
-  // handleManagerChange(e) {
-  //   var newCertification = this.state.certification
-  //   newCertification.manager = e.target.value
-  //   this.setState({certification: newCertification});
-  // },
+  handleFiscalStartChange(e) {
+    var newCertification = this.state.certification
+    newCertification.fiscal_start = e.target.value
+    this.setState({certification: newCertification});
+  },
 
-  // toggleManagerStatus: function () {
-  //   var newCertification = this.state.certification
-  //   newCertification.manager = !this.state.certification.manager
-  //   this.handleCertificationUpdate();
-  // },
+  handleFiscalEndChange(e) {
+    var newCertification = this.state.certification
+    newCertification.fiscal_end = e.target.value
+    this.setState({certification: newCertification});
+  },
 
-  // handleCertificationUpdate() {
-  //   var that = this;
-  //   $.ajax({
-  //     method: 'PUT',
-  //     data: {
-  //       certification: that.state.certification,
-  //     },
-  //     url: '/certifications/' + that.state.certification.id + '.json',
-  //     success: function(res) {
-  //       that.setState({
-  //         errors: {},
-  //         certification: res,
-  //         editMode: false
-  //       });
-  //     },
-  //     error: function(res) {
-  //       that.setState({errors: res.responseJSON.errors});
-  //     }
-  //   });
-  // },
-  //
-  // handleCertificationFire() {
-  //   var that = this;
-  //   $.ajax({
-  //     method: 'DELETE',
-  //     url: '/certifications/' + that.state.certification.id + '.json',
-  //     success: function(res) {
-  //       that.props.onFireCertification(that.state.certification);
-  //     }
-  //   })
-  // },
+  handleStatusChange(e) {
+    var newCertification = this.state.certification
+    newCertification.status = e.target.value
+    this.setState({certification: newCertification});
+  },
+
+  toggleStatus: function () {
+    var newCertification = this.state.certification
+    newCertification.status = !this.state.certification.status
+    this.handleCertificationUpdate();
+  },
+
+  handleCertificationUpdate() {
+    var that = this;
+    $.ajax({
+      method: 'PUT',
+      data: {
+        certification: that.state.certification,
+      },
+      url: '/certifications/' + that.state.certification.id + '.json',
+      success: function(res) {
+        that.setState({
+          errors: {},
+          certification: res,
+          editMode: false
+        });
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors});
+      }
+    });
+  },
+
+  handleCertificationDelete() {
+    var that = this;
+    $.ajax({
+      method: 'DELETE',
+      url: '/certifications/' + that.state.certification.id + '.json',
+      success: function(res) {
+        that.props.onDeleteCertification(that.state.certification);
+      }
+    })
+  },
 
   render() {
     if ( this.state.editMode ) {
@@ -76,14 +75,14 @@ var Certification = React.createClass({
             <input
               type="date"
               value={this.state.certification.fiscal_start}
-              />
+              onChange={this.handleFiscalStartChange} />
             <span style={{color: 'red'}}>{this.state.errors.fiscal_start}</span>
           </td>
           <td>
             <input
               type="date"
               value={this.state.certification.fiscal_end}
-               />
+              onChange={this.handleFiscalEndChange} />
             <br />
             <span style={{color: 'red'}}>{this.state.errors.fiscal_start}</span>
           </td>
@@ -91,10 +90,10 @@ var Certification = React.createClass({
             <input
               type="checkbox"
               value={this.state.certification.status}
-               />
+              onChange={this.handleStatusChange} />
           </td>
           <td>
-            <button>Save</button>
+            <button  onClick={this.handleCertificationUpdate}>Save</button>
           </td>
         </tr>
       );
@@ -107,7 +106,7 @@ var Certification = React.createClass({
           <td>
             <button>Edit</button>
             <button>{this.state.certification.status ? 'Demote' : 'Promote'}</button>
-            <button style={{color: 'red'}}>Fire</button>
+            <button onClick={this.handleCertificationDelete}  style={{color: 'red'}}>Delete</button>
           </td>
         </tr>
       );
