@@ -1,3 +1,4 @@
+
 var Certifications = React.createClass({
   getInitialState() {
     return {
@@ -12,24 +13,24 @@ var Certifications = React.createClass({
   },
 
   // handleNameChange(e) {
-  //   var newEmployee = this.state.certification
-  //   newEmployee.name = e.target.value
-  //   this.setState({certification: newEmployee});
+  //   var newCertification = this.state.certification
+  //   newCertification.name = e.target.value
+  //   this.setState({certification: newCertification});
   // },
   //
   // handleEmailChange(e) {
-  //   var newEmployee = this.state.certification
-  //   newEmployee.email = e.target.value
-  //   this.setState({certification: newEmployee});
+  //   var newCertification = this.state.certification
+  //   newCertification.email = e.target.value
+  //   this.setState({certification: newCertification});
   // },
   //
   // handleManagerChange(e) {
-  //   var newEmployee = this.state.certification
-  //   newEmployee.manager = e.target.value
-  //   this.setState({certification: newEmployee});
+  //   var newCertification = this.state.certification
+  //   newCertification.manager = e.target.value
+  //   this.setState({certification: newCertification});
   // },
   //
-  // handleHireEmployee() {
+  // handleHireCertification() {
   //   var that = this;
   //   $.ajax({
   //     method: 'POST',
@@ -38,10 +39,10 @@ var Certifications = React.createClass({
   //     },
   //     url: '/certifications.json',
   //     success: function(res) {
-  //       var newEmployeeList = that.state.certifications;
-  //       newEmployeeList.push(res);
+  //       var newCertificationList = that.state.certifications;
+  //       newCertificationList.push(res);
   //       that.setState({
-  //         certifications: newEmployeeList,
+  //         certifications: newCertificationList,
   //         certification: {
   //           name: '',
   //           email: '',
@@ -56,7 +57,7 @@ var Certifications = React.createClass({
   //   });
   // },
   //
-  // handleFireEmployee(certification) {
+  // handleFireCertification(certification) {
   //   var certificationList = this.state.certifications.filter(function(item) {
   //     return certification.id !== item.id;
   //   });
