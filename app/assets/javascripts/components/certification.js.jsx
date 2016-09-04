@@ -87,13 +87,9 @@ var Certification = React.createClass({
             <span style={{color: 'red'}}>{this.state.errors.fiscal_start}</span>
           </td>
           <td>
-            <input
-              type="checkbox"
-              value={this.state.certification.status}
-              onChange={this.handleStatusChange} />
           </td>
           <td>
-            <button  onClick={this.handleCertificationUpdate}>Save</button>
+            <button onClick={this.handleCertificationUpdate}>Save</button>
           </td>
         </tr>
       );
@@ -102,10 +98,9 @@ var Certification = React.createClass({
         <tr>
           <td>{this.state.certification.fiscal_start}</td>
           <td>{this.state.certification.fiscal_end}</td>
-          <td>{this.state.certification.status ? '✔' : ''}</td>
+          <td>{this.state.certification.status}</td>
           <td>
-            <button>Edit</button>
-            <button>{this.state.certification.status ? 'Demote' : 'Promote'}</button>
+            <button onClick={this.setEditMode}>Edit</button>
             <button onClick={this.handleCertificationDelete}  style={{color: 'red'}}>Delete</button>
           </td>
         </tr>

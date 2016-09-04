@@ -78,21 +78,21 @@ var Certifications = React.createClass({
               <tr>
                 <th>Fiscal Start</th>
                 <th>Fiscal End</th>
-                <th>Manager</th>
+                <th>Status</th>
               </tr>
             </thead>
             <tbody>
               {certifications}
               <tr>
                 <td>
-                  <input type="text" value={this.state.certification.name} onChange={this.handleFiscalStartChange} /><br />
+                  <input type="date" value={this.state.certification.name} onChange={this.handleFiscalStartChange} /><br />
                   <span style={{color: 'red'}}>{this.state.errors.name}</span>
                 </td>
                 <td>
-                  <input value={this.state.certification.fiscal_end} type="text" onChange={this.handleFiscalEndChange} /><br />
+                  <input value={this.state.certification.fiscal_end} type="date" onChange={this.handleFiscalEndChange} /><br />
                   <span style={{color: 'red'}}>{this.state.errors.fiscal_end}</span>
                 </td>
-                <td><input value={this.state.certification.status} type="checkbox" onChange={this.handleStatusChange} /></td>
+                <td></td>
                 <td><button onClick={this.handleAddCertification}>New</button></td>
               </tr>
             </tbody>

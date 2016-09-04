@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   authenticated :user do
-    root to: 'certifications#index', as: :authenticated_root
+    root to: 'site#index', as: :authenticated_root
     resources :employees, :except => [:new, :edit]
     resources :certifications, :except => [:new, :edit]
   end
