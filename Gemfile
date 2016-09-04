@@ -50,3 +50,6 @@ end
 
 gem 'react-rails'
 gem 'devise'
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'
+gem 'font-awesome-rails'
