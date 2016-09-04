@@ -7,9 +7,9 @@ var Certification = React.createClass({
     }
   },
 
-  setEditMode() {
-    this.setState({editMode: true});
-  },
+  // setEditMode() {
+  //   this.setState({editMode: true});
+  // },
   //
   // handleNameChange(e) {
   //   var newCertification = this.state.certification
@@ -104,7 +104,7 @@ var Certification = React.createClass({
           <td>{this.state.certification.fiscal_end}</td>
           <td>{this.state.certification.status ? '✔' : ''}</td>
           <td>
-            <button onClick={this.setEditMode}>Edit</button>
+            <button>Edit</button>
             <button>{this.state.certification.status ? 'Demote' : 'Promote'}</button>
             <button style={{color: 'red'}}>Fire</button>
           </td>

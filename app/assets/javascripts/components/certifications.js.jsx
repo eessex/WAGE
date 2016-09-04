@@ -3,9 +3,9 @@ var Certifications = React.createClass({
     return {
       certifications: this.props.certifications,
       certification: {
-        name: '',
-        email: '',
-        manager: false
+        fiscal_start: '',
+        fiscal_end: '',
+        status: false
       },
       errors: {}
     }
@@ -84,18 +84,6 @@ var Certifications = React.createClass({
             </thead>
             <tbody>
               {certifications}
-              <tr>
-                <td>
-                  <input type="text" value={this.state.certification.fiscal_start} /><br />
-                  <span style={{color: 'red'}}>{this.state.errors.fiscal_start}</span>
-                </td>
-                <td>
-                  <input value={this.state.certification.fiscal_end} type="text" /><br />
-                  <span style={{color: 'red'}}>{this.state.errors.fiscal_end}</span>
-                </td>
-                <td><input value={this.state.certification.status} type="checkbox"  /></td>
-                <td><button onClick={this.handleHireEmployee}>New</button></td>
-              </tr>
             </tbody>
           </table>
         </div>
