@@ -6,69 +6,67 @@ var Certifications = React.createClass({
       certification: {
         fiscal_start: '',
         fiscal_end: '',
-        status: false
+        status: 0
       },
       errors: {}
     }
   },
+  handleFiscalStartChange(e) {
+    var newCertification = this.state.certification
+    newCertification.fiscal_start = e.target.value
+    this.setState({certification: newCertification});
+  },
 
-  // handleNameChange(e) {
-  //   var newCertification = this.state.certification
-  //   newCertification.name = e.target.value
-  //   this.setState({certification: newCertification});
-  // },
-  //
-  // handleEmailChange(e) {
-  //   var newCertification = this.state.certification
-  //   newCertification.email = e.target.value
-  //   this.setState({certification: newCertification});
-  // },
-  //
-  // handleManagerChange(e) {
-  //   var newCertification = this.state.certification
-  //   newCertification.manager = e.target.value
-  //   this.setState({certification: newCertification});
-  // },
-  //
-  // handleHireCertification() {
-  //   var that = this;
-  //   $.ajax({
-  //     method: 'POST',
-  //     data: {
-  //       certification: that.state.certification,
-  //     },
-  //     url: '/certifications.json',
-  //     success: function(res) {
-  //       var newCertificationList = that.state.certifications;
-  //       newCertificationList.push(res);
-  //       that.setState({
-  //         certifications: newCertificationList,
-  //         certification: {
-  //           name: '',
-  //           email: '',
-  //           manager: false
-  //         },
-  //         errors: {}
-  //       });
-  //     },
-  //     error: function(res) {
-  //       that.setState({errors: res.responseJSON.errors})
-  //     }
-  //   });
-  // },
-  //
-  // handleFireCertification(certification) {
-  //   var certificationList = this.state.certifications.filter(function(item) {
-  //     return certification.id !== item.id;
-  //   });
-  //   this.setState({certifications: certificationList});
-  // },
+  handleFiscalEndChange(e) {
+    var newCertification = this.state.certification
+    newCertification.fiscal_end = e.target.value
+    this.setState({certification: newCertification});
+  },
+
+  handleStatusChange(e) {
+    var newCertification = this.state.certification
+    newCertification.status = e.target.value
+    this.setState({certification: newCertification});
+  },
+  handleAddCertification() {
+    var that = this;
+    $.ajax({
+      method: 'POST',
+      data: {
+        certification: that.state.certification,
+      },
+      url: '/certifications.json',
+      success: function(res) {
+        var newCertificationList = that.state.certifications;
+        newCertificationList.push(res);
+        that.setState({
+          certifications: newCertificationList,
+          certification: {
+            fiscal_start: '',
+            fiscal_end: '',
+            status: 0
+          },
+          errors: {}
+        });
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors})
+      }
+    });
+  },
+
+  handleDeleteCertification(certification) {
+    var certificationList = this.state.certifications.filter(function(item) {
+      return certification.id !== item.id;
+    });
+    this.setState({certifications: certificationList});
+  },
 
   render() {
     var that = this;
     certifications = this.state.certifications.map( function(certification) {
       return (
-        <Certification certification={certification} key={certification.id}  />
+        <Certification certification={certification} key={certification.id} onDeleteCertification={that.handleDeleteCertification} />
       );
     });
     return (
@@ -85,6 +83,18 @@ var Certifications = React.createClass({
             </thead>
             <tbody>
               {certifications}
+              <tr>
+                <td>
+                  <input type="text" value={this.state.certification.name} onChange={this.handleFiscalStartChange} /><br />
+                  <span style={{color: 'red'}}>{this.state.errors.name}</span>
+                </td>
+                <td>
+                  <input value={this.state.certification.fiscal_end} type="text" onChange={this.handleFiscalEndChange} /><br />
+                  <span style={{color: 'red'}}>{this.state.errors.fiscal_end}</span>
+                </td>
+                <td><input value={this.state.certification.status} type="checkbox" onChange={this.handleStatusChange} /></td>
+                <td><button onClick={this.handleAddCertification}>New</button></td>
+              </tr>
             </tbody>
           </table>
         </div>
