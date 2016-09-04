@@ -6,7 +6,6 @@ class CertificationsController < ApplicationController
 
   def create
     @certification = Certification.new(certification_params)
-    @certification.user = current_user
     respond_to do |format|
       format.json do
         if @certification.save
