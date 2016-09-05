@@ -58,6 +58,7 @@ h3 span {
 nav {
   background-color: $blue;
   height: 4em;
+  border-bottom: 2px solid $primary-color !important;
   a.navbar-brand {
     font-weight: 800;
     font-size: 3.55em;
@@ -66,25 +67,75 @@ nav {
     height: inherit;
     line-height: .5em;
     color: yellow;
+    padding-left: .55em;
   }
   .navbar-right {
     margin-right: 0;
     .btn {
       text-decoration: none;
       padding: .65em .95em;
-      margin-right: 1em;
-      margin-top: .65em;
+      margin-right: 2em;
+      margin-top: .85em;
       line-height: 1em;
+      &:hover {
+        background-color: yellow;
+        border-color: $lime;
+      }
+    }
+    .dropdown-menu {
+      left: 0;
+      padding-left: 1em;
+      margin-right: 1.9em;
+      border-color: lime;
+      border-top-color: #000;
+      margin-top: -1px;
+      border-radius: 0 0 5px 5px;
     }
   }
 }
 main {
+  .greeting {
+    padding: 0 2em;
+  }
   .dashboard {
     min-width: 100%;
     align-self: flex-start;
-    .title {
-      border-top: 2px solid;
-      padding-left: 1em;
+    background-color: $med-gray;
+    #dashboard {
+      background-color: #fff;
+      border-bottom: 2px solid;
+      .title {
+        border-top: 2px solid;
+        padding-left: 2em;
+        padding-top: .5em;
+        padding-bottom: .5em;
+      }
+      i.collapse {
+        font-size: xx-large;
+        position: absolute;
+        top: -1.8em;
+        left: -1.05em;
+      }
+      .actions {
+        position: absolute;
+        right: 1em;
+        top: -4em;
+        text-align: right;
+        .btn {
+          font-size: x-large;
+          margin-top: -12px;
+          border: 2px solid lime;
+          letter-spacing: .025em;
+          background-color: yellow;
+          &:hover {
+            background-color: $blue;
+          }
+        }
+      }
+      .collapse {
+        position: relative;
+        padding: 0 1em;
+      }
     }
   }
   margin-top: 4em;

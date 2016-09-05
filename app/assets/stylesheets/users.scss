@@ -1,3 +1,9 @@
-.user.view {
-
+#statement {
+  .edit {
+    textarea {
+      min-height: 12em;
+      font-size: 1.2em;
+      line-height: 1.45em;
+    }
+  }
 }

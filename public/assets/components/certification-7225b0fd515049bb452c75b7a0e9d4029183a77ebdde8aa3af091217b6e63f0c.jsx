@@ -68,11 +68,11 @@ var Certification = React.createClass({
   },
 
   render() {
-    // if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_start).format('Y') ) {
-    //   var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
-    // } else {
-    //   var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
-    // }
+    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_start).format('Y') ) {
+      var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
+    } else {
+      var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
+    }
 
     if ( this.state.editMode ) {
       markup = (
@@ -103,6 +103,7 @@ var Certification = React.createClass({
       markup = (
         <div>
           <div className="">{this.state.certification.fiscal_start}</div>
+          <div>{formatted_date}</div>
           <div className="">{this.state.certification.fiscal_end}</div>
           <div className="">{this.state.certification.status}</div>
           <div className="">
