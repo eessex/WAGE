@@ -6,8 +6,9 @@ class CertificationsController < ApplicationController
 
   def show
     @certification = Certification.find(params[:id])
-    # @artist_payment = ArtistPayment.new
-    render component: 'CertificationShow', props: { certification: @certification }
+    @fee_categories = fee_categories_list
+    @artist_payments = @certification.artist_payments
+    render component: 'CertificationShow', props: { certification: @certification, artist_payments: @artist_payments, fee_categories: @fee_categories }, class: "certification show"
   end
 
   def create
@@ -49,6 +50,16 @@ class CertificationsController < ApplicationController
   def certification_params
     params.require(:certification).permit(:fiscal_start, :fiscal_end, :status)
   end
+
+  def fee_categories_list
+    @fee_categories = []
+    the_cats = FeeCategory.all.sort_by(&:id)
+    the_cats.map do |category|
+      @fee_categories << category.name
+    end
+    @fee_categories
+  end
+
 end
 
 

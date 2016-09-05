@@ -2,9 +2,18 @@ var CertificationShow = React.createClass({
   getInitialState() {
     return {
       certification: this.props.certification,
+      artist_payments: this.hasPayments(),
       submitMode: this.setSubmitMode(),
       errors: {},
     }
+  },
+  hasPayments() {
+    if (this.props.artist_payments) {
+      var artist_payments = this.props.artist_payments
+    } else {
+      var artist_payments = []
+    }
+    return artist_payments
   },
   setSubmitMode() {
     if (this.props.certification.status > 0) {
@@ -71,7 +80,6 @@ var CertificationShow = React.createClass({
 
   render() {
     if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_start).format('Y') ) {
-      debugger
       var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
     } else {
       var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
@@ -91,11 +99,16 @@ var CertificationShow = React.createClass({
     };
 
     var row = (
-        <div key={this.state.certification.id} className="certification teaser col-xs-12">
-          <h4>{formatted_date}</h4>
-          <h5 className="status">{formatted_status}</h5>
-          {submit}
-          <ArtistPayments artist_payments={this.state.certification.artist_payments} />
+        <div key={this.state.certification.id}>
+          <div className="title">
+            <h4>{formatted_date}</h4>
+            <h5 className="status">{formatted_status}</h5>
+            {submit}
+          </div>
+          <div className="body">
+          <div className="certification form">the form</div>
+          <ArtistPayments artist_payments={this.state.artist_payments} certification={this.state.certification} fee_categories={this.props.fee_categories}/>
+          </div>
         </div>
       );
     return row;

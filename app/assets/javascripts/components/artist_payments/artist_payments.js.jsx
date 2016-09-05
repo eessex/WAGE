@@ -3,9 +3,13 @@ var ArtistPayments = React.createClass({
     return {
       artist_payments: this.props.artist_payments,
       artist_payment: {
-        name: '',
+        date: '',
         artist_name: '',
-        date: ''
+        name: '',
+        fee_category_id: 1,
+        amount: '',
+        check_no: '',
+        certification_id: this.props.certification.id,
       },
       errors: {}
     }
@@ -38,7 +42,12 @@ var ArtistPayments = React.createClass({
     newArtistPayment.check_no = e.target.value
     this.setState({artist_payment: newArtistPayment});
   },
-  handleNewArtistPayment() {
+  handleFeeCategoryChange(e) {
+    var newArtistPayment = this.state.artist_payment
+    newArtistPayment.fee_category_id = e.target.value
+    this.setState({artist_payment: newArtistPayment});
+  },
+  handleAddArtistPayment() {
     var that = this;
     $.ajax({
       method: 'POST',
@@ -47,14 +56,19 @@ var ArtistPayments = React.createClass({
       },
       url: '/artist_payments.json',
       success: function(res) {
-        var newArtistPayment = that.state.artist_payments;
-        newArtistPayment.push(res);
+        var newArtistPayments = that.state.artist_payments;
+        newArtistPayments.push(res);
+        debugger
         that.setState({
-          artist_payments: newArtistPayment,
+          artist_payments: newArtistPayments,
           artist_payment: {
-            name: '',
+            date: '',
             artist_name: '',
-            description: false
+            name: '',
+            fee_category_id: 1,
+            amount: '',
+            check_no: '',
+            certification_id: that.props.certification.id,
           },
           errors: {}
         });
@@ -73,35 +87,29 @@ var ArtistPayments = React.createClass({
   },
 
   render() {
-    var that = this;
-    var all_payments = <tr>
-            <td>Hi</td>
-            <td>Hi</td>
-            <td>Hi</td>
-            <td>Hi</td>
-            <td>Hi</td>
-            <td>Hi</td>
-          </tr>
-    var payments_table = <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Artist Name</th>
-                    <th>Program Name</th>
-                    <th>Fee Category</th>
-                    <th>Amount</th>
-                    <th>Check No.</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {all_payments}
-                </tbody>
-              </table>
+    var that = this
+    var options = this.props.fee_categories.map( function(fee_category, i) {
+      var index = i + 1
+      return (
+        <option key={index} value={index}>
+          {fee_category}
+        </option>
+      )
+    })
+        if (this.state.artist_payments.length > 0 ) {
+          var artist_payments_table = <ArtistPaymentsTable artist_payments={this.state.artist_payments} fee_categories={this.props.fee_categories} />
+        } else {
+          var artist_payments_table = ""
+        }
     return (
-      <div>
-        <h1>Artist Payments</h1>
+      <div className="artist_payments">
+        <div className="intro">
+          <h1><span>Artist Payments</span></h1>
+          <h4>Create one entry for each payment to an artist between {this.props.formatted_date}.</h4>
+        </div>
           <div id="artist_payments" className="new">
             <div className="form">
+              <div className="col col-md-3 col-lg-6">
               <div className="field-group">
                 <label>Date</label>
                 <input
@@ -131,6 +139,20 @@ var ArtistPayments = React.createClass({
                     className="form-control"/>
                   <span style={{color: 'red'}}>{this.state.errors.name}</span>
                 </div>
+              </div>
+
+              <div className="col col-md-3 col-lg-6">
+                <div className="field-group">
+                  <label>Fee Category</label>
+                  <select
+                    type='text'
+                    className='form-control'
+                    value={this.optionState}
+                    onChange={this.handleFeeCategoryChange}
+                    >
+                    {options}
+                  </select>
+                </div>
                 <div className="field-group">
                 <label>Amount</label>
                   <input
@@ -151,10 +173,11 @@ var ArtistPayments = React.createClass({
                     className="form-control"/>
                   <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
                 </div>
-                <div className="field-group"><button onClick={this.handleAddArtistPayment}>Add</button></div>
               </div>
+              <div className="field-group"><button onClick={this.handleAddArtistPayment} className="btn btn-lg">Add New Payment</button></div>
+            </div>
           </div>
-          {payments_table}
+          {artist_payments_table}
         </div>
     );
   }

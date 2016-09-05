@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :employees, :except => [:new, :edit]
     resources :certifications, :except => [:new, :edit]
     resources :fee_categories, :except => [:new, :edit]
+    resources :artist_payments, :except => [:new, :edit, :show]
   end
   root to: redirect('/users/sign_in')
 

@@ -166,3 +166,11 @@ main {
     min-height: 60vh;
   }
 }
+
+
+.table {
+  td.first,
+  th.first {
+    padding-left: 2em;
+  }
+}

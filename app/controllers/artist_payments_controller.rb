@@ -40,6 +40,6 @@ class ArtistPaymentsController < ApplicationController
   private
 
   def artist_payment_params
-    params.require(:artist_payment).permit(:name, :email, :manager)
+    params.require(:artist_payment).permit(:date, :artist_name, :name, :fee_category_id, :amount, :check_no, :certification_id)
   end
 end
