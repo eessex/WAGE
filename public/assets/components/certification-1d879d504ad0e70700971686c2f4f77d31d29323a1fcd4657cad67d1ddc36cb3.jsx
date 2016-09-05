@@ -3,17 +3,14 @@ var Certification = React.createClass({
   getInitialState() {
     return {
       certification: this.props.certification,
-      submitMode: this.setSubmitMode(),
-      errors: {},
+      editMode: false,
+      errors: {}
     }
   },
-  setSubmitMode() {
-    if (this.props.certification.status >= 0) {
-      return true
-    } else {
-      return false
-    }
+  setEditMode() {
+    this.setState({editMode: true});
   },
+
   handleFiscalStartChange(e) {
     var newCertification = this.state.certification
     newCertification.fiscal_start = e.target.value
@@ -71,7 +68,6 @@ var Certification = React.createClass({
   },
 
   render() {
-    var url = "certifications/" + this.state.certification.id
     if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_start).format('Y') ) {
       var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
     } else {
@@ -84,20 +80,38 @@ var Certification = React.createClass({
       var formatted_status = <span className="submit">Ready To Submit</span>
     }
 
-    if ( this.state.submitMode ) {
-      var submit = ( <div>
-          <button onClick={this.handleCertificationUpdate} className="btn">Submit</button>
+    if ( this.state.editMode ) {
+      var markup = (
+        <div>
+          <div className="field-group">
+            <input
+              type="date"
+              value={this.state.certification.fiscal_start}
+              onChange={this.handleFiscalStartChange} />
+            <span style={{color: 'red'}}>{this.state.errors.fiscal_start}</span>
+          </div>
+          <div className="field-group">
+            <input
+              type="date"
+              value={this.state.certification.fiscal_end}
+              onChange={this.handleFiscalEndChange} />
+            <span style={{color: 'red'}}>{this.state.errors.fiscal_start}</span>
+          </div>
+          <div className="field-group">
+          </div>
+          <div className="field-group">
+            <button onClick={this.handleCertificationUpdate}>Save</button>
+          </div>
         </div>
       );
-    };
-
-    var row = (
-        <a href={url} className="certification teaser col-md-6 col-lg-4">
+    } else {
+    var markup = (
+        <a href={this.state.certification.id} className="certification teaser col-md-6 col-lg-4">
           <h4>{formatted_date}</h4>
           <h5 className="status">{formatted_status}</h5>
-          {submit}
         </a>
       );
-    return row;
+    }
+    return markup;
   }
 });

@@ -72,43 +72,41 @@ var Certifications = React.createClass({
     return (
       <div>
         <div id="certifications">
-          <div className="new">
-            <table className="form">
-              <thead>
-                <tr>
-                  <th>Fiscal Start</th>
-                  <th>Fiscal End</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <input
-                    type="date"
-                    value={this.state.certification.name}
-                    onChange={this.handleFiscalStartChange}
-                    className="form-control" />
-                    <span style={{color: 'red'}}>{this.state.errors.name}</span>
-                  </td>
-                  <td>
-                    <input
-                    value={this.state.certification.fiscal_end}
-                    type="date"
-                    className="form-control"
-                    onChange={this.handleFiscalEndChange} />
-                    <span style={{color: 'red'}}>{this.state.errors.fiscal_end}</span>
-                  </td>
-                  <td>
-                    <button
-                      className="btn"
-                      onClick={this.handleAddCertification}>
-                      New
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Fiscal Start</th>
+                <th>Fiscal End</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input
+                  type="date"
+                  value={this.state.certification.name}
+                  onChange={this.handleFiscalStartChange}
+                  className="form-control" />
+                  <span style={{color: 'red'}}>{this.state.errors.name}</span>
+                </td>
+                <td>
+                  <input
+                  value={this.state.certification.fiscal_end}
+                  type="date"
+                  className="form-control"
+                  onChange={this.handleFiscalEndChange} />
+                  <span style={{color: 'red'}}>{this.state.errors.fiscal_end}</span>
+                </td>
+                <td>
+                  <button
+                    className="btn"
+                    onClick={this.handleAddCertification}>
+                    New
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           {certifications}
         </div>
       </div>

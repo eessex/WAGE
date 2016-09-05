@@ -8,6 +8,7 @@ class CertificationsController < ApplicationController
     @certification = Certification.new(certification_params)
     respond_to do |format|
       format.json do
+        @certification.user = current_user
         if @certification.save
           render :json => @certification
         else

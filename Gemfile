@@ -48,9 +48,9 @@ group :production do
   gem 'rails_12factor'
 end
 
+gem 'momentjs-rails'
 gem 'react-rails'
 gem 'devise'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
 gem 'font-awesome-rails'
-gem 'momentjs-rails'
