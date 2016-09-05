@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     root to: 'site#index', as: :authenticated_root
     resources :employees, :except => [:new, :edit]
     resources :certifications, :except => [:new, :edit]
+    resources :fee_categories, :except => [:new, :edit]
   end
   root to: redirect('/users/sign_in')
 

@@ -8,7 +8,7 @@ var Certification = React.createClass({
     }
   },
   setSubmitMode() {
-    if (this.props.certification.status >= 0) {
+    if (this.props.certification.status > 0) {
       return true
     } else {
       return false
@@ -92,7 +92,7 @@ var Certification = React.createClass({
     };
 
     var row = (
-        <a href={url} className="certification teaser col-md-6 col-lg-4">
+        <a href={url} key={this.state.certification.id} className="certification teaser col-md-6 col-lg-4">
           <h4>{formatted_date}</h4>
           <h5 className="status">{formatted_status}</h5>
           {submit}

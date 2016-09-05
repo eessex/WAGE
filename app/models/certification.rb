@@ -1,8 +1,8 @@
 class Certification < ActiveRecord::Base
   belongs_to :user
-  # has_many :artist_payments
-  # validates :fiscal_start, uniqueness: { scope: :user_id }
-  # validates :fiscal_end, uniqueness: { scope: :user_id }
+  has_many :artist_payments
+  validates :fiscal_start, uniqueness: { scope: :user_id }
+  validates :fiscal_end, uniqueness: { scope: :user_id }
   # # validates :fiscal_start, :presence => true
   #
   # def formatted_date_year

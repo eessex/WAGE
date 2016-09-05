@@ -4,6 +4,12 @@ class CertificationsController < ApplicationController
     render component: 'Certifications', props: { certifications: @certifications }
   end
 
+  def show
+    @certification = Certification.find(params[:id])
+    # @artist_payment = ArtistPayment.new
+    render component: 'CertificationShow', props: { certification: @certification }
+  end
+
   def create
     @certification = Certification.new(certification_params)
     respond_to do |format|
