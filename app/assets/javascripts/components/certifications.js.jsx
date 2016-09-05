@@ -71,7 +71,6 @@ var Certifications = React.createClass({
     });
     return (
       <div>
-        <h1>Certifications</h1>
         <div id="certifications">
           <table>
             <thead>

@@ -1,7 +1,8 @@
 class SiteController < ApplicationController
   def index
     @certifications = Certification.all
-    render component: 'Dashboard', props: { certifications: @certifications }
+    @user = current_user
+    render component: 'Dashboard', props: { certifications: @certifications, user: @user }, class: 'dashboard'
   end
 
   # def create

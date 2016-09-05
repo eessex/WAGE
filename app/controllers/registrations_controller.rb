@@ -2,6 +2,18 @@ class RegistrationsController < Devise::RegistrationsController
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  respond_to :json
+  # def update
+    # @user = User.create(user_params)
+    # if @user.save
+    #   respond_to do |format|
+    #     format.json {
+    #       @user.save ? (render :json => {:state => {:code => 0}, :data => @user }) : render (:json => {:state => {:code => 1, :messages => @user.errors.full_messages} })
+    #     }
+    #   end
+    # end
+  # end
+
   protected
 
   def configure_permitted_parameters
