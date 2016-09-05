@@ -3,6 +3,24 @@ class Certification < ActiveRecord::Base
   has_many :artist_payments
   validates :fiscal_start, uniqueness: { scope: :user_id }
   validates :fiscal_end, uniqueness: { scope: :user_id }
+
+
+  def formatted_date_month
+    if self.fiscal_start && self.fiscal_start.to_date.year == self.fiscal_end.to_date.year
+      self.fiscal_start.to_date.strftime("%B") + " - " + self.fiscal_end.to_date.strftime("%B %Y")
+    elsif self.fiscal_start
+      self.fiscal_start.to_date.strftime("%B %Y") + " - " + self.fiscal_end.to_date.strftime("%B %Y")
+    end
+  end
+
+  def formatted_date_month_short
+    if self.fiscal_start && self.fiscal_start.to_date.year == self.fiscal_end.to_date.year
+      self.fiscal_start.to_date.strftime("%b") + " - " + self.fiscal_end.to_date.strftime("%b %Y")
+    elsif self.fiscal_start
+      self.fiscal_start.to_date.strftime("%b %Y") + " - " + self.fiscal_end.to_date.strftime("%b %Y")
+    end
+  end
+
   # # validates :fiscal_start, :presence => true
   #
   # def formatted_date_year

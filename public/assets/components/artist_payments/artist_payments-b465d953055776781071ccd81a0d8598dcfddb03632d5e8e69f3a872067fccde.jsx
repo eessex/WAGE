@@ -58,7 +58,6 @@ var ArtistPayments = React.createClass({
       success: function(res) {
         var newArtistPayments = that.state.artist_payments;
         newArtistPayments.push(res);
-        debugger
         that.setState({
           artist_payments: newArtistPayments,
           artist_payment: {

@@ -43,6 +43,9 @@ a {
     background-color: $blue;
   }
 }
+.btn-danger {
+  color: $red;
+}
 
 h1, h2, h3, h4, h5 {
   font-weight: $font-heavy;
@@ -114,8 +117,8 @@ main {
       i.collapse {
         font-size: xx-large;
         position: absolute;
-        top: -1.8em;
-        left: -1.05em;
+        top: -2.25em;
+        left: -1px;
       }
       .actions {
         position: absolute;
@@ -133,9 +136,9 @@ main {
           }
         }
       }
-      .collapse {
+      .view {
         position: relative;
-        padding: 0 1em;
+        padding: 0 2em;
       }
     }
   }
@@ -144,12 +147,12 @@ main {
   display: flex;
   align-items: center;
   .notices {
-    position: fixed;
-    top: 5em;
+    position: absolute;
+    top: 4.25em;
     background-color: $blue;
     color: yellow;
     padding: .5em;
-    margin-left: 15px;
+    right: 2em;
     font-weight: $font-heavy;
   }
   form, .form {
