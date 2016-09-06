@@ -24,21 +24,90 @@
 .certification.show {
   width: 100%;
   .title {
-    position: absolute;
-    top: 4em;
-    background-color: #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     border-bottom: 2px solid;
     padding: 0 2em;
+    .page-header {
+      margin: 0;
+      padding: 0;
+      border: none;
+      h2 {
+        margin-top: .2em;
+        float: left;
+        font-size: 2.75em;
+        line-height: 1em;
+        margin-bottom: 0;
+      }
+      div {
+        display: inline-block;
+        margin: .75em 1em;
+        h5 {
+          margin: 0;
+        }
+        h4 {
+          margin: 0;
+        }
+      }
+    }
+    .status {
+      float: right;
+    }
   }
   .body {
-    padding-top: 5em;
+    // padding-top: 5em;
+    .intro {
+      padding-left: 2em;
+      padding-top: .5em;
+      padding-bottom: .5em;
+      background-color: #fff;
+      h2 {
+        display: inline-block;
+      }
+      h5.status {
+        float: right;
+        margin-top: 1.5em;
+        font-size: 1.25em;
+        margin-right: 2em;
+      }
+    }
+    .intro.payments {
+      background-color: #eee;
+    }
+    .view {
+      position: relative;
+      background-color: #fff;
+      margin: 0;
+      padding: 1em;
+      i.collapse {
+        font-size: xx-large;
+        position: absolute;
+        top: -1.75em;
+        left: -1px;
+      }
+      .actions {
+        position: absolute;
+        right: 2em;
+        top: -4em;
+        text-align: right;
+        .btn {
+          font-size: x-large;
+          margin-top: -12px;
+          border: 2px solid lime;
+          letter-spacing: .025em;
+          background-color: yellow;
+        }
+      }
+    }
     .certification.form {
       padding: 0 2em;
     }
     .artist_payments {
       background-color: #eee;
       border-top: 1px solid;
+      clear: both;
       .intro, .new {
         padding: 0 2em;
       }

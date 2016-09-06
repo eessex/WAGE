@@ -28,6 +28,8 @@ class CertificationsController < ApplicationController
   def update
     @certification = Certification.find(params[:id])
     respond_to do |format|
+      # certification_params[:operating_expenses] = certification_params[:operating_expenses].gsub(",","")
+      # certification_params[:ant_artist_expenses] = certification_params[:ant_artist_expenses].gsub(",","")
       format.json do
         if @certification.update(certification_params)
           render :json => @certification
@@ -48,7 +50,7 @@ class CertificationsController < ApplicationController
   private
 
   def certification_params
-    params.require(:certification).permit(:fiscal_start, :fiscal_end, :status)
+    params.require(:certification).permit(:id, :operating_expenses, :ant_artist_expenses, :file_990, :file_budget, :statement)
   end
 
   def fee_categories_list

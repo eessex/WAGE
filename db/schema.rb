@@ -30,13 +30,16 @@ ActiveRecord::Schema.define(version: 20160819012513) do
 
   create_table "certifications", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "status",             default: 0
+    t.integer  "status",              default: 0
     t.date     "fiscal_start"
     t.date     "fiscal_end"
     t.integer  "operating_expenses"
+    t.integer  "ant_artist_expenses"
     t.string   "file_990"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "file_budget"
+    t.string   "statement"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "employees", force: :cascade do |t|
