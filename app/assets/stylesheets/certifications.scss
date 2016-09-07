@@ -68,9 +68,16 @@
       }
       h5.status {
         float: right;
-        margin-top: 1.5em;
+        margin-top: 1.65em;
         font-size: 1.25em;
-        margin-right: 2em;
+        margin-right: 1.65em;
+        i {
+          margin-left: .5em;
+          color: red;
+          &.complete {
+            color: lime;
+          }
+        }
       }
     }
     .intro.payments {
@@ -106,7 +113,7 @@
     }
     .artist_payments {
       background-color: #eee;
-      border-top: 1px solid;
+      border-top: 2px solid;
       clear: both;
       .intro, .new {
         padding: 0 2em;
