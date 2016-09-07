@@ -69,6 +69,15 @@ var Certifications = React.createClass({
       );
     });
     return (
+      <div className="certifications">
+        <div className="title" data-toggle="collapse" data-target="#certifications" href="#certifications">
+          <h2><span>Applications</span></h2>
+        </div>
+        <div id="certifications" className="certifications view collapse">
+          <i className="fa collapse fa-caret-right" aria-hidden="true"></i>
+          <div className="header">
+            <h4>Complete an application for each fiscal year in which your organization wishes to be certified.</h4>
+          </div>
       <div>
         <div id="certifications">
           <div className="new">
@@ -111,6 +120,8 @@ var Certifications = React.createClass({
           {certifications}
         </div>
       </div>
+        </div>
+        </div>
     );
   }
 });

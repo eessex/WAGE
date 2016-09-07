@@ -27,7 +27,6 @@ var CertificationFinancials = React.createClass({
     return financial_status
   },
   setProgress(status) {
-    debugger
     if (status == 0) {
       var progress = "empty"
     } else if (status == 4 ) {

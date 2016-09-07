@@ -119,6 +119,25 @@ main {
         padding-left: 2em;
         padding-top: .5em;
         padding-bottom: .5em;
+        h2 {
+          display: inline-block;
+        }
+        h5.status {
+          float: right;
+          margin-top: 1.65em;
+          font-size: 1.25em;
+          margin-right: 1.65em;
+          i {
+            margin-left: .5em;
+            color: red;
+            &.complete {
+              color: lime;
+            }
+            &.pending {
+              color: $yellow;
+            }
+          }
+        }
       }
       i.collapse {
         font-size: xx-large;
@@ -175,6 +194,7 @@ main {
     min-height: 60vh;
   }
 }
+
 
 
 .table {

@@ -1,7 +1,11 @@
 var UserStatement = React.createClass({
   getInitialState() {
+    var status = this.setStatus(this.props.user)
+    var progress = this.setProgress(status)
     return {
       user: this.props.user,
+      status: status,
+      progress: progress,
       editMode: this.isNew(),
       errors: {}
     }
@@ -15,6 +19,23 @@ var UserStatement = React.createClass({
   },
   setEditMode() {
     this.setState({editMode: true});
+  },
+  setStatus(user) {
+    status = 0
+    if (user.statement && user.statement.length > 300 ) {
+      status += 1
+    }
+    return status
+  },
+  setProgress(status) {
+    if (status == 0) {
+      var progress = "empty"
+    } else if (status == 2 ) {
+      var progress = "complete"
+    } else {
+      var progress = "pending"
+    }
+    return progress
   },
   handleStatementChange(e) {
     var newUser = this.state.user
@@ -93,6 +114,20 @@ var UserStatement = React.createClass({
         </div>
       );
     }
-    return markup;
+    return (
+              <div>
+      <div className="title" data-toggle="collapse" data-target="#statement" href="#statement">
+        <h2><span>Statement of Intent</span></h2>
+        <h5 className="status">{this.state.status}/1 <i className={this.state.progress + " fa fa-circle"} aria-hidden="true"></i></h5>
+      </div>
+      <div id="statement" className="statement view collapse">
+        <i className="fa collapse fa-caret-right" aria-hidden="true"></i>
+        <div className="header">
+          <h4>A letter detailing your organization's interest in W.A.G.E. Certification.</h4>
+        </div>
+        {markup}
+        </div>
+    </div>
+    )
   }
 });

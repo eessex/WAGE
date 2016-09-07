@@ -7,9 +7,13 @@ var STATES = [
 
 var UserContact = React.createClass({
   getInitialState() {
+    var status = this.setStatus(this.props.user)
+    var progress = this.setProgress(status)
     return {
       user: this.props.user,
       editMode: this.isNew(),
+      status: status,
+      progress: progress,
       errors: {}
     }
   },
@@ -23,19 +27,41 @@ var UserContact = React.createClass({
       return true
     }
   },
-
+  setStatus(user) {
+    status = 0
+    if (user.rep_name) {
+      status += 1
+    } if (user.rep_title) {
+      status += 1
+    } if (user.email) {
+      status += 1
+    } if (user.website) {
+      status += 1
+    } if (user.phone) {
+      status += 1
+    }
+    return status
+  },
+  setProgress(status) {
+    if (status == 0) {
+      var progress = "empty"
+    } else if (status == 5 ) {
+      var progress = "complete"
+    } else {
+      var progress = "pending"
+    }
+    return progress
+  },
   handleRepNameChange(e) {
     var newUser = this.state.user
     newUser.rep_name = e.target.value
     this.setState({user: newUser});
   },
-
   handleRepTitleChange(e) {
     var newUser = this.state.user
     newUser.rep_title = e.target.value
     this.setState({user: newUser});
   },
-
   handleEmailChange(e) {
     var newUser = this.state.user
     newUser.email = e.target.value
@@ -277,6 +303,17 @@ var UserContact = React.createClass({
         </div>
       );
     }
-    return markup;
+    return (
+      <div>
+        <div className="title" data-toggle="collapse" data-target="#contact" href="#contact">
+          <h2><span>Contact Information</span></h2>
+          <h5 className="status">{this.state.status}/5 <i className={this.state.progress + " fa fa-circle"} aria-hidden="true"></i></h5>
+        </div>
+        <div id="contact" className="user view collapse">
+          <i className="fa collapse fa-caret-right" aria-hidden="true"></i>
+          {markup}
+        </div>
+      </div>
+    )
   }
 });
