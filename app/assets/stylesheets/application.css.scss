@@ -122,6 +122,9 @@ main {
         h2 {
           display: inline-block;
         }
+        .collapse.in h5.status {
+          display: none;
+        }
         h5.status {
           float: right;
           margin-top: 1.65em;

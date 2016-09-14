@@ -29,15 +29,16 @@
     align-items: center;
     width: 100%;
     border-bottom: 2px solid;
-    padding: 0 2em;
+    padding: 1.35em 2em;
+    clear: both;
     .page-header {
       margin: 0;
       padding: 0;
       border: none;
       h2 {
-        margin-top: .2em;
+        margin-top: .15em;
         float: left;
-        font-size: 2.75em;
+        font-size: 3em;
         line-height: 1em;
         margin-bottom: 0;
       }
@@ -60,9 +61,10 @@
     // padding-top: 5em;
     .intro {
       padding-left: 2em;
-      padding-top: .5em;
-      padding-bottom: .5em;
+      padding-top: 1.25em;
+      padding-bottom: 1.25em;
       background-color: #fff;
+      clear: both;
       h2 {
         display: inline-block;
       }
@@ -82,6 +84,10 @@
     }
     .intro.payments {
       background-color: #eee;
+      clear:both;
+      .col {
+        padding-left: 0;
+      }
     }
     .view {
       position: relative;
@@ -115,8 +121,13 @@
       background-color: #eee;
       border-top: 2px solid;
       clear: both;
+      padding-top: 1em;
       .intro, .new {
-        padding: 0 2em;
+        padding: 0em 2em 3em 2em;
+        clear: both;
+      }
+      .amount-box {
+        padding-top: 1em;
       }
       .table .btn:nth-child(1) {
         margin-right: .75em;
@@ -140,6 +151,15 @@
           }
         }
       }
+    }
+  }
+}
+.preview {
+  background-color: #fff;
+  padding-top: 3em;
+  .certification.submit-view {
+    .section {
+      margin-bottom: 4em;
     }
   }
 }

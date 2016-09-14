@@ -6,9 +6,10 @@ class CertificationsController < ApplicationController
 
   def show
     @certification = Certification.find(params[:id])
+    @user = User.find(@certification.user_id)
     @fee_categories = fee_categories_list
     @artist_payments = @certification.artist_payments
-    render component: 'CertificationShow', props: { certification: @certification, artist_payments: @artist_payments, fee_categories: @fee_categories }, class: "certification show"
+    render component: 'CertificationShow', props: { certification: @certification, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
   end
 
   def create
