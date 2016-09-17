@@ -30,9 +30,9 @@ var AmountBox = React.createClass({
    var total_artists = this.totals(this.props.artist_payments).total_artists;
    var total_programs = this.totals(this.props.artist_payments).total_programs;
    var formatted_total = '$' + Number(total_payments).toLocaleString();
-   
+
     return (
-      <div className="stats offset-lg-2 col-lg-4">
+      <div key="amount-box" className="stats offset-lg-2 col-lg-4">
         <p><span className="hightlight">{formatted_total}</span> total fees paid</p>
         <p>to <span className="hightlight">{total_artists}</span> artists for <span className="hightlight">{total_programs}</span> programs.</p>
       </div>
