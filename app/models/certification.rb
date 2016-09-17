@@ -121,7 +121,9 @@ class Certification < ActiveRecord::Base
   #   elsif self.status == 3
   #     "Approved"
   #   elsif self.status == 4
-  #     "Rejected"
+  #     "Pending"
+  #   elsif self.status == 5
+  #     "Not Approved"
   #   end
   # end
 

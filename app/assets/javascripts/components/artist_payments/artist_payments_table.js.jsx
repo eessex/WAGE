@@ -1,8 +1,39 @@
 var ArtistPaymentsTable = React.createClass({
   getInitialState() {
     return {
-      artist_payments: this.props.artist_payments
+      artist_payments: this.props.artist_payments,
+      sortBy: 'date',
+      sortDir: 'ASC'
     }
+  },
+  _sortRowsBy(event) {
+    var sortDir = this.state.sortDir;
+    var sortBy = event.target.className.split(' ')[0];
+    if (sortBy === this.state.sortBy) {
+      sortDir = this.state.sortDir == 'ASC' ? 'DESC' : 'ASC';
+    } else {
+     sortDir = 'ASC';
+    }
+    var artist_payments = this.state.artist_payments.slice();
+    artist_payments.sort((a, b) => {
+      var sortVal = 0;
+      if (a[sortBy] > b[sortBy]) {
+        sortVal = 1;
+      }
+      if (a[sortBy] < b[sortBy]) {
+        sortVal = -1;
+      }
+
+      if (sortDir === 'DESC') {
+        sortVal = sortVal * -1;
+      }
+      return sortVal;
+    });
+    this.setState({sortBy, sortDir, artist_payments: artist_payments});
+
+    $('th').removeClass('active')
+    $(event.target).addClass('active').toggleClass('ASC')
+
   },
   handleDeleteArtistPayment(artist_payment) {
     var artist_payments = this.state.artist_payments.filter(function(item) {
@@ -17,16 +48,16 @@ var ArtistPaymentsTable = React.createClass({
                <ArtistPaymentsTableRow key={artist_payment.id} deleteArtistPayment={that.handleDeleteArtistPayment} artist_payment={artist_payment} fee_categories={that.props.fee_categories} />
               )
     })
-    var payments_table = <table className="table table-responsive table-striped">
+    var payments_table = <table className="table table-responsive table-striped table-hover">
                 <thead>
                   <tr>
-                    <th className="first">Date</th>
-                    <th>Artist Name</th>
-                    <th>Program Name</th>
-                    <th>Fee Category</th>
-                    <th>Amount</th>
-                    <th>Check No.</th>
-                    <th>Actions</th>
+                  <th className="date first" onClick={this._sortRowsBy}>Date</th>
+                  <th className="artist_name" onClick={this._sortRowsBy}>Artist Name</th>
+                  <th className="name" onClick={this._sortRowsBy}>Program/Exhibition</th>
+                  <th className="fee_category_id" onClick={this._sortRowsBy}>Fee Category</th>
+                  <th className="amount" onClick={this._sortRowsBy}>Amount</th>
+                  <th className="check_no" onClick={this._sortRowsBy}>Check #</th>
+                  <th className="actions">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -111,7 +142,7 @@ var ArtistPaymentsTableRow = React.createClass({
           that.props.deleteArtistPayment(that.state.artist_payment);
         }
       })
-    } 
+    }
   },
   setEditMode() {
     this.setState({editMode: true});

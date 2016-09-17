@@ -25,7 +25,7 @@ var CertificationShow = React.createClass({
     }
   },
   setPreviewMode() {
-    this.setState({previewMode: true});
+    this.setState({previewMode: false});
   },
   togglePreviewMode() {
     this.setState({previewMode: !this.state.previewMode});

@@ -7,38 +7,33 @@ var CertificationSubmitView = React.createClass({
     }
   },
   render() {
-    var artist_payments = this.state.artist_payments.map( function(artist_payment, i) {
-      var payment_row =
-                <tr key={artist_payment.id}>
-                   <td className="first">{artist_payment.date}</td>
-                   <td>{artist_payment.artist_name}</td>
-                   <td>{artist_payment.name}</td>
-                   <td>{artist_payment.fee_category_id}</td>
-                   <td>{artist_payment.amount}</td>
-                   <td>{artist_payment.check_no}</td>
-                </tr>
-
-      var index = i + 1
-      return (
-        <table className="table">
-          <thead>
-            <tr>
-              <th className="first">Date</th>
-              <th>Artist Name</th>
-              <th>Program Name</th>
-              <th>Fee Category</th>
-              <th>Amount</th>
-              <th>Check No.</th>
-            </tr>
-          </thead>
-          <tbody>
-            {payment_row}
-          </tbody>
-        </table>
-      )
+    var payment_row = this.state.artist_payments.map( function(artist_payment) {
+         return (
+           <tr key={artist_payment.id}>
+              <td className="first">{artist_payment.date}</td>
+              <td>{artist_payment.artist_name}</td>
+              <td>{artist_payment.name}</td>
+              <td>{artist_payment.fee_category_id}</td>
+              <td>{artist_payment.amount}</td>
+              <td>{artist_payment.check_no}</td>
+           </tr>
+        )
     })
-
-
+    var artist_payments = <table className="table table-responsive">
+                <thead>
+                  <tr>
+                    <th className="first">Date</th>
+                    <th>Artist Name</th>
+                    <th>Program Name</th>
+                    <th>Fee Category</th>
+                    <th>Amount</th>
+                    <th>Check No.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payment_row}
+                </tbody>
+              </table>
     return (
       <div className="certification submit-view container">
         <h3>{this.state.user.institution_name}</h3>
