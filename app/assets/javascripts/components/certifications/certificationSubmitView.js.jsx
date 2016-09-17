@@ -64,7 +64,7 @@ var CertificationSubmitView = React.createClass({
         <div className="section artist-fees">
           <h4>Artist Fees</h4>
           <AmountBox artist_payments={this.props.artist_payments} />
-          {artist_payments}
+
         </div>
       </div>
     );

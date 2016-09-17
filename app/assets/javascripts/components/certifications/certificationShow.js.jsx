@@ -137,7 +137,7 @@ var CertificationShow = React.createClass({
       );
     };
 
-    if ( !this.state.previewMode ) {
+    if ( this.state.previewMode ) {
       var preview = (
         <div className="preview">
           <CertificationSubmitView certification={this.state.certification} user={this.state.user} artist_payments={this.state.artist_payments}/>
@@ -147,11 +147,10 @@ var CertificationShow = React.createClass({
       var edit_mode = (
         <div className="edit">
           <CertificationFinancials certification={this.state.certification} />
-          <ArtistPayments artist_payments={this.state.artist_payments} certification={this.state.certification} fee_categories={this.props.fee_categories}/>
         </div>
       )
     };
-    if ( !this.state.previewMode ) {
+    if ( this.state.previewMode ) {
       var editButton = "Edit"
     } else {
       var editButton = "Preview"
@@ -175,6 +174,7 @@ var CertificationShow = React.createClass({
           <div className="body ">
             {preview}
             {edit_mode}
+            <ArtistPayments artist_payments={this.state.artist_payments} formatted_date={formatted_date} previewMode={this.state.previewMode} certification={this.state.certification} fee_categories={this.props.fee_categories}/>
           </div>
         </div>
       );

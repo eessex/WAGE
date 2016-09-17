@@ -14,7 +14,7 @@ var ArtistPaymentsTable = React.createClass({
     } else {
      sortDir = 'ASC';
     }
-    var artist_payments = this.state.artist_payments.slice();
+    var artist_payments = this.props.artist_payments.slice();
     artist_payments.sort((a, b) => {
       var sortVal = 0;
       if (a[sortBy] > b[sortBy]) {
@@ -29,21 +29,23 @@ var ArtistPaymentsTable = React.createClass({
       }
       return sortVal;
     });
-    this.setState({sortBy, sortDir, artist_payments: artist_payments});
+    this.setState({sortBy, sortDir});
+    this.props.thisSorted(artist_payments);
 
     $('th').removeClass('active')
     $(event.target).addClass('active').toggleClass('ASC')
 
   },
   handleDeleteArtistPayment(artist_payment) {
-    var artist_payments = this.state.artist_payments.filter(function(item) {
-      return artist_payment.id !== item.id;
-    });
-    this.setState({artist_payments: artist_payments});
+    // var artist_payments = this.state.artist_payments.filter(function(item) {
+    //   return artist_payment.id !== item.id;
+    // });
+    // this.setState({artist_payments: artist_payments});
+    this.props.handleDeleteArtistPayment(artist_payment);
   },
   render() {
     var that = this
-    var payment_row = this.state.artist_payments.map( function(artist_payment) {
+    var payment_row = this.props.artist_payments.map( function(artist_payment) {
          return (
                <ArtistPaymentsTableRow key={artist_payment.id} deleteArtistPayment={that.handleDeleteArtistPayment} artist_payment={artist_payment} fee_categories={that.props.fee_categories} />
               )
@@ -85,7 +87,6 @@ var ArtistPaymentsTableRow = React.createClass({
     newArtistPayment.name = e.target.value
     this.setState({artist_payment: newArtistPayment});
   },
-
   handleArtistNameChange(e) {
     var newArtistPayment = this.state.artist_payment
     newArtistPayment.artist_name = e.target.value
@@ -216,8 +217,24 @@ var ArtistPaymentsTableRow = React.createClass({
                {options}
              </select>
              </td>
-             <td>{this.state.artist_payment.amount}</td>
-             <td>{this.state.artist_payment.check_no}</td>
+             <td className="field-group">
+               <input
+                 type="text"
+                 className="form-control"
+                 value={this.state.artist_payment.amount}
+                 onChange={this.handleAmountChange}
+                 />
+               <span style={{color: 'red'}}>{this.state.errors.amount}</span>
+             </td>
+             <td className="field-group">
+               <input
+                 type="text"
+                 className="form-control"
+                 value={this.state.artist_payment.check_no}
+                 onChange={this.handleCheckNoChange}
+                 />
+               <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
+             </td>
              <td className="last">
                <button onClick={this.handleArtistPaymentUpdate} className="btn">Save</button>
              </td>
