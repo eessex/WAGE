@@ -37,10 +37,6 @@ var ArtistPaymentsTable = React.createClass({
 
   },
   handleDeleteArtistPayment(artist_payment) {
-    // var artist_payments = this.state.artist_payments.filter(function(item) {
-    //   return artist_payment.id !== item.id;
-    // });
-    // this.setState({artist_payments: artist_payments});
     this.props.handleDeleteArtistPayment(artist_payment);
   },
   render() {
@@ -153,12 +149,13 @@ var ArtistPaymentsTableRow = React.createClass({
       var index = i + 1
       return (
         <option key={index} value={index}>
-          {fee_category}
+          {fee_category.name}
         </option>
       )
     })
     var cat_index = this.state.artist_payment.fee_category_id - 1
-    var fee_category_name = this.props.fee_categories[cat_index]
+    var fee_category_name = this.props.fee_categories[cat_index].name
+    var fee_category_floor = this.props.fee_categories[cat_index].floor_fee
     var formatted_date = moment(this.props.artist_payment.date).format('MM/DD/Y');
     var formatted_amount = '$' + Number(this.props.artist_payment.amount).toLocaleString();
 
@@ -169,7 +166,7 @@ var ArtistPaymentsTableRow = React.createClass({
           <td>{this.state.artist_payment.artist_name}</td>
           <td>{this.state.artist_payment.name}</td>
           <td>{fee_category_name}</td>
-          <td>{formatted_amount}</td>
+          <td>{formatted_amount} <ArtistPaymentsFeeComparison artist_payment={this.state.artist_payment} floor_fee={fee_category_floor}/></td>
           <td>{this.state.artist_payment.check_no}</td>
           <td className="last">
             <button onClick={this.setEditMode} className="btn">Edit</button>
@@ -242,5 +239,22 @@ var ArtistPaymentsTableRow = React.createClass({
         )
       }
     return payment_row;
+  }
+})
+
+var ArtistPaymentsFeeComparison = React.createClass({
+  percentDiff(amount, fee) {
+      var diff = amount - fee
+      var percent = (diff / fee) * 100
+      if ( percent > 0 ) {
+        return ( <span className="diff over">+{percent.toFixed(2)}%</span> )
+      } else {
+        return ( <span className="diff under">{percent.toFixed(2)}%</span> )
+      }
+  },
+
+  render() {
+    var difference = this.percentDiff( this.props.artist_payment.amount, this.props.floor_fee )
+    return difference
   }
 })

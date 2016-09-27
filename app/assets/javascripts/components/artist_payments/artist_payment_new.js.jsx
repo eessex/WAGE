@@ -77,17 +77,17 @@ var ArtistPaymentNew = React.createClass({
       var index = i + 1
       return (
         <option key={index} value={index}>
-          {fee_category}
+          {fee_category.name}
         </option>
       )
     })
     return (
       <div id="artist_payments" className="artist_payments new">
-        <div className="intro payments">
+        <div className="intro">
             <h2><span>Artist Payments</span></h2>
-            <h4>Create one entry for each payment to an artist between {this.props.formatted_date}.</h4>
         </div>
         <div className="form">
+        <h4>Create one entry for each payment to an artist between {this.props.formatted_date}.</h4>
           <div className="col col-md-3 col-lg-6">
           <div className="field-group">
             <label>Date</label>

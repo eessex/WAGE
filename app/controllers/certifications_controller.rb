@@ -58,7 +58,7 @@ class CertificationsController < ApplicationController
     @fee_categories = []
     the_cats = FeeCategory.all.sort_by(&:id)
     the_cats.map do |category|
-      @fee_categories << category.name
+      @fee_categories << { name: category.name, floor_fee: category.floor_fee }
     end
     @fee_categories
   end
