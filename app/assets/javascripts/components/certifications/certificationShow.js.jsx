@@ -12,9 +12,13 @@ var CertificationShow = React.createClass({
     this.setState({artist_payments: artist_payments})
   },
   handleDeleteArtistPayment(artist_payment) {
-    artist_payments = this.state.artist_payments
-    artist_payments.pop(artist_payment)
+    var artist_payments = this.state.artist_payments.filter(function(item) {
+      return artist_payment.id !== item.id;
+    });
     this.setState({artist_payments: artist_payments})
+  },
+  paymentsSorted(artist_payments) {
+    this.setState({artist_payments: artist_payments});
   },
   formatDates() {
     if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_start).format('Y') ) {
@@ -28,7 +32,7 @@ var CertificationShow = React.createClass({
   },
   getArtistPayments() {
     if (this.state.artist_payments) {
-      var payments = <ArtistPaymentsTable artist_payments={this.state.artist_payments} handleDeleteArtistPayment={this.handleDeleteArtistPayment} fee_categories={this.props.fee_categories}/>
+      var payments = <ArtistPaymentsTable artist_payments={this.state.artist_payments} paymentsSorted={this.paymentsSorted} handleDeleteArtistPayment={this.handleDeleteArtistPayment} fee_categories={this.props.fee_categories}/>
     } else {
       var payments
     }
@@ -41,7 +45,7 @@ var CertificationShow = React.createClass({
         <div className="operating_expenses"><span>Operating Expenses:</span> ${this.formatOperatingExpenses()}</div>
         <div className="file_990">{this.state.certification.file_990}</div>
         <div className="file_budget">{this.state.certification.file_budget}</div>
-        <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories}/>
+        <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates}/>
         {this.getArtistPayments()}
       </div>
     )

@@ -30,7 +30,7 @@ var ArtistPaymentsTable = React.createClass({
       return sortVal;
     });
     this.setState({sortBy, sortDir});
-    this.props.thisSorted(artist_payments);
+    this.props.paymentsSorted(artist_payments);
 
     $('th').removeClass('active')
     $(event.target).addClass('active').toggleClass('ASC')
@@ -46,7 +46,7 @@ var ArtistPaymentsTable = React.createClass({
                <ArtistPaymentsTableRow key={artist_payment.id} deleteArtistPayment={that.handleDeleteArtistPayment} artist_payment={artist_payment} fee_categories={that.props.fee_categories} />
               )
     })
-    var payments_table = <table className="table table-responsive table-striped table-hover">
+    var payments_table = <table id="artist_payments" className="table table-responsive table-striped table-hover">
                 <thead>
                   <tr>
                   <th className="date first" onClick={this._sortRowsBy}>Date</th>

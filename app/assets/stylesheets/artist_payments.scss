@@ -1,5 +1,11 @@
 #artist_payments.new {
+  padding-left: 15px;
+  margin: 3em auto;
+  .intro > h4 > span {
+    border: none;
+  }
   .form {
+    margin: 2em 0;
     .col {
       display: flex;
       justify-content: space-between;
@@ -8,8 +14,21 @@
         width: 32%;
       }
       label {
-        display: block;
+        display: none;
       }
     }
+  }
+}
+
+#artist_payments.table {
+  .diff {
+    font-size: smaller;
+    padding-left: 1em;
+  }
+  .diff.over {
+    color: forestgreen;
+  }
+  .diff.under {
+    color: red;
   }
 }

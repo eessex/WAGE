@@ -82,12 +82,12 @@ var ArtistPaymentNew = React.createClass({
       )
     })
     return (
-      <div id="artist_payments" className="artist_payments new">
+      <div id="artist_payments" className="artist_payments new container">
         <div className="intro">
-            <h2><span>Artist Payments</span></h2>
+            <h1><span>Artist Payments</span></h1>
+            <h4>Create one entry for each payment to an artist between {this.props.formatted_dates()}.</h4>
         </div>
         <div className="form">
-        <h4>Create one entry for each payment to an artist between {this.props.formatted_date}.</h4>
           <div className="col col-md-3 col-lg-6">
           <div className="form-group">
             <label>Date</label>
