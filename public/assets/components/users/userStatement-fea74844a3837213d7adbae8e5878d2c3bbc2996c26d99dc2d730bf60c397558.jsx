@@ -59,7 +59,6 @@ var UserStatement = React.createClass({
           errors: {}
         });
         that.props.onNext()
-        debugger
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
@@ -91,24 +90,27 @@ var UserStatement = React.createClass({
     </div>
       var markup = (
         <div className="edit">
+        <div className="actions col-sm-12 col-lg-2">
+          <button className="btn btn-sm" onClick={this.handleUserUpdate}>Next</button>
+          <button className="btn btn-sm" onClick={this.onBack}>Back</button>
+        </div>
+          <div className="rep col-sm-12 col-lg-8">
             {form}
-            <div id="actions">
-              <button className="btn btn-lg save" onClick={this.handleUserUpdate}>Save</button>
-            </div>
+          </div>
         </div>
       );
 
     return (
-    <div id="statement">
+              <div>
       <div className="title">
         <h2><span>3. Statement of Intent</span></h2>
       </div>
-      <div id="statement" className="col-xs-12">
+      <div id="statement" className="statement view">
         <div className="header">
           <h4>A letter detailing your organization's interest in W.A.G.E. Certification.</h4>
-      </div>
-      {markup}
-      </div>
+        </div>
+        {markup}
+        </div>
     </div>
     )
   }

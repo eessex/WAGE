@@ -1,8 +1,12 @@
 class SiteController < ApplicationController
   def index
-    @certifications = Certification.all
+    if current_user.certifications.length > 0
+      @certifications = current_user.certifications
+    else
+      @certifications = []
+    end
     @user = current_user
-    render component: 'Dashboard', props: { certifications: @certifications, user: @user }, class: 'dashboard'
+    render component: 'Dashboard', props: { certifications: @user.certifications, user: @user }, class: 'dashboard'
   end
 
   # def create

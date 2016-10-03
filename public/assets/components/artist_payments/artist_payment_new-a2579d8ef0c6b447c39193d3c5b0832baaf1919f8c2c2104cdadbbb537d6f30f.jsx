@@ -89,7 +89,7 @@ var ArtistPaymentNew = React.createClass({
         <div className="form">
         <h4>Create one entry for each payment to an artist between {this.props.formatted_date}.</h4>
           <div className="col col-md-3 col-lg-6">
-          <div className="form-group">
+          <div className="field-group">
             <label>Date</label>
             <input
               value={this.state.artist_payment.date}
@@ -98,7 +98,7 @@ var ArtistPaymentNew = React.createClass({
               onChange={this.handleDateChange}  />
             <span style={{color: 'red'}}>{this.state.errors.date}</span>
           </div>
-            <div className="form-group">
+            <div className="field-group">
             <label>Artist Name</label>
               <input
                 value={this.state.artist_payment.artist_name}
@@ -108,7 +108,7 @@ var ArtistPaymentNew = React.createClass({
                 className="form-control" />
               <span style={{color: 'red'}}>{this.state.errors.artist_name}</span>
             </div>
-            <div className="form-group">
+            <div className="field-group">
             <label>Program Name</label>
               <input
                 type="text"
@@ -121,7 +121,7 @@ var ArtistPaymentNew = React.createClass({
           </div>
 
           <div className="col col-md-3 col-lg-6">
-            <div className="form-group">
+            <div className="field-group">
               <label>Fee Category</label>
               <select
                 type='text'
@@ -132,7 +132,7 @@ var ArtistPaymentNew = React.createClass({
                 {options}
               </select>
             </div>
-            <div className="form-group">
+            <div className="field-group">
             <label>Amount</label>
               <input
                 type="text"
@@ -142,7 +142,7 @@ var ArtistPaymentNew = React.createClass({
                 className="form-control"/>
               <span style={{color: 'red'}}>{this.state.errors.amount}</span>
             </div>
-            <div className="form-group">
+            <div className="field-group">
             <label>Check No.</label>
               <input
                 type="text"

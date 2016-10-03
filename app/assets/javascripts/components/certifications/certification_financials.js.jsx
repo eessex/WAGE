@@ -1,67 +1,62 @@
 var CertificationFinancials = React.createClass({
   getInitialState() {
-    var status = this.setFinancialStatus(this.props.certification)
-    var progress = this.setProgress(status)
     return {
       certification: this.props.certification,
-      editMode: false,
-      financial_status: status,
-      progress: progress,
       errors: {}
     }
   },
-  setEditMode() {
-    this.setState({editMode: true});
-  },
-  setFinancialStatus(certification) {
-    financial_status = 0
-    if (certification.operating_expenses) {
-      financial_status += 1
-    } if (certification.ant_artist_expenses) {
-      financial_status += 1
-    } if (certification.file_budget) {
-      financial_status += 1
-    } if (certification.file_990) {
-      financial_status += 1
-    }
-    return financial_status
-  },
-  setProgress(status) {
-    if (status == 0) {
-      var progress = "empty"
-    } else if (status == 4 ) {
-      var progress = "complete"
+  hasFile990() {
+    if (this.state.certification.file_990) {
+      var file_990 = <p className="form-control"><button onClick={this.clearFile990}>Replace</button> {this.state.certification.file_990}</p>
     } else {
-      var progress = "pending"
+      var file_990 = <input
+        value={this.state.certification.file_990}
+        type="file"
+        className="form-control"
+        onChange={this.handleFile990Change} />
     }
-    return progress
+    return file_990
+  },
+  hasFileBudget() {
+    if (this.state.certification.file_budget) {
+      var file_budget = <p className="form-control"><button>Replace</button> {this.state.certification.file_budget}</p>
+    } else {
+      var file_budget = <input
+        value={this.state.certification.file_budget}
+        type="file"
+        className="form-control"
+        onChange={this.handleFileBudgetChange} />
+    }
+    return file_budget
+  },
+  clearFile990() {
+    var newCertification = this.state.certification
+    newCertification.file_990 = null
+    this.setState({certification: newCertification });
   },
   handleOperatingExpensesChange(e) {
     var newCertification = this.state.certification
     newCertification.operating_expenses = e.target.value
-    var financial_status = this.setFinancialStatus(newCertification)
-    this.setState({certification: newCertification, financial_status: financial_status });
+    this.setState({certification: newCertification});
   },
   handleFileBudgetChange(e) {
     var newCertification = this.state.certification
     newCertification.file_budget = e.target.value
-    var financial_status = this.setFinancialStatus(newCertification)
-    this.setState({certification: newCertification, financial_status: financial_status });
+    this.setState({certification: newCertification});
   },
   handleAntArtistExpensesChange(e) {
     var newCertification = this.state.certification
     newCertification.ant_artist_expenses = e.target.value
-    var financial_status = this.setFinancialStatus(newCertification)
-    this.setState({certification: newCertification, financial_status: financial_status });
+    this.setState({certification: newCertification });
   },
   handleFile990Change(e) {
     var newCertification = this.state.certification
     newCertification.file_990 = e.target.value
-    var financial_status = this.setFinancialStatus(newCertification)
-    this.setState({certification: newCertification, financial_status: financial_status });
+    this.setState({certification: newCertification });
   },
   handleCertificationUpdate() {
     var that = this;
+    $('.btn.save').html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>').addClass('loading')
     $.ajax({
       method: 'PUT',
       data: {
@@ -71,95 +66,45 @@ var CertificationFinancials = React.createClass({
       success: function(res) {
         that.setState({
           errors: {},
-          certification: res,
-          progress: that.setProgress(that.state.financial_status),
-          editMode: false
+          certification: res
         });
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
       }
     });
+    setTimeout(function(){
+      $('.btn.save').html('Save').removeClass('loading')
+    }, 2000);
   },
   render() {
-    if ( !this.state.editMode ) {
-    var formatted_operating_expenses = '$' + Number(this.props.certification.operating_expenses).toLocaleString();
-    var formatted_ant_artist_expenses = '$' + Number(this.props.certification.ant_artist_expenses).toLocaleString();
-
-    certification = (
-        <div id="financials" className="view view collapse">
-        <i className="fa collapse fa-caret-right" aria-hidden="true"></i>
-          <div className="actions">
-            <button onClick={this.setEditMode} className="btn btn-lg">Edit</button>
-          </div>
-          <div className="col-lg-4">
-            <h4>Operating Expenses<span>: {formatted_operating_expenses}</span></h4>
-            <h4>File 990<span>: {this.props.certification.file_990}</span></h4>
-          </div>
-          <div className="col-lg-4">
-            <h4>Budgeted Artist Fees<span>: {formatted_ant_artist_expenses}</span></h4>
-            <h4>Operating Budget<span>: {this.props.certification.file_budget}</span></h4>
-          </div>
-        </div>
-       )
-    } else {
-      certification = (
-      <div id="financials" className="view form financials view collapse in">
-        <i className="fa collapse fa-caret-right" aria-hidden="true"></i>
-        <div className="actions">
-          <button onClick={this.handleCertificationUpdate} className="btn btn-lg">Save</button>
-        </div>
-        <div className="col-lg-4">
-          <div className="field-group">
-          <h4>Operating Expenses: </h4>
-            <input
-              value={this.state.certification.operating_expenses}
-              type="text"
-              className="form-control"
-              onChange={this.handleOperatingExpensesChange} />
-            <span style={{color: 'red'}}>{this.state.errors.operating_expenses}</span>
-          </div>
-          <div className="field-group">
-            <h4>File 990: </h4>
-              <input
-                value={this.state.certification.file_990}
-                type="file"
-                className="form-control"
-                onChange={this.handleFile990Change} />
-              <span style={{color: 'red'}}>{this.state.errors.file_990}</span>
-            </div>
-          </div>
-          <div className="col-lg-4">
+    return (
+      <div id="financials" className="form">
+          <div>
             <div className="field-group">
-            <h4>Budgeted Artist Fees: </h4>
+            <h4 className="col-md-6">Operating Expenses</h4>
               <input
-                value={this.state.certification.ant_artist_expenses}
+                value={this.state.certification.operating_expenses}
                 type="text"
                 className="form-control"
-                onChange={this.handleAntArtistExpensesChange} />
-              <span style={{color: 'red'}}>{this.state.errors.ant_artist_expenses}</span>
+                onChange={this.handleOperatingExpensesChange} />
+              <span style={{color: 'red'}}>{this.state.errors.operating_expenses}</span>
             </div>
             <div className="field-group">
-              <h4>Operating Budget: </h4>
-                <input
-                  value={this.state.certification.file_budget}
-                  type="file"
-                  className="form-control"
-                  onChange={this.handleFileBudgetChange} />
-                <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
+              <h4 className="col col-md-6">File 990 (most recent)</h4>
+                {this.hasFile990()}
+                <span style={{color: 'red'}}>{this.state.errors.file_990}</span>
               </div>
             </div>
-          </div>
-      )
-    }
-    return (
-      <div className="financials">
-        <div className="intro" data-toggle="collapse" data-target="#financials" href="#financials">
-          <h2><span>Financial Details</span></h2>
-          <h5 className="status">{this.state.financial_status}/4 <i className={this.state.progress + " fa fa-circle"} aria-hidden="true"></i></h5>
-        </div>
-        {certification}
-      </div>
+              <div className="field-group">
+                <h4 className="col col-md-6">Operating Budget</h4>
+                  {this.hasFileBudget()}
+                  <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
+                </div>
+              <div id="actions">
+                <button onClick={this.handleCertificationUpdate} className="btn btn-lg save">Save</button>
+              </div>
+            </div>
     );
   }
 });
