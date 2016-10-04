@@ -1,7 +1,10 @@
 class FeeCategoriesController < ApplicationController
   def index
     @fee_categories = FeeCategory.all
-    render component: 'FeeCategories', props: { fee_categories: @fee_categories }
+    if current_user
+      @user = current_user
+    end
+    render component: 'FeeCategories', props: { fee_categories: @fee_categories, user: @user }
   end
 
   def create

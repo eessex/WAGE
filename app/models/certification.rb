@@ -3,29 +3,29 @@ class Certification < ActiveRecord::Base
   has_many :artist_payments
   validates :fiscal_start, uniqueness: { scope: :user_id }
   validates :fiscal_end, uniqueness: { scope: :user_id }
-  validates :operating_expenses, :ant_artist_expenses, :numericality => {:integer => true}
-  validate :start_is_before_end
+  # validates :operating_expenses, :ant_artist_expenses, :numericality => {:integer => true}
+  # validate :start_is_before_end
 
-  def formatted_date_month
-    if self.fiscal_start && self.fiscal_start.to_date.year == self.fiscal_end.to_date.year
-      self.fiscal_start.to_date.strftime("%B") + " - " + self.fiscal_end.to_date.strftime("%B %Y")
-    elsif self.fiscal_start
-      self.fiscal_start.to_date.strftime("%B %Y") + " - " + self.fiscal_end.to_date.strftime("%B %Y")
-    end
-  end
-
-  def formatted_date_month_short
-    if self.fiscal_start && self.fiscal_start.to_date.year == self.fiscal_end.to_date.year
-      self.fiscal_start.to_date.strftime("%b") + " - " + self.fiscal_end.to_date.strftime("%b %Y")
-    elsif self.fiscal_start
-      self.fiscal_start.to_date.strftime("%b %Y") + " - " + self.fiscal_end.to_date.strftime("%b %Y")
-    end
-  end
-
-  private
-    def start_is_before_end
-      errors.add(:fiscal_start, "must be before end date") unless self.fiscal_start.to_date < self.fiscal_end.to_date
-    end
+  # def formatted_date_month
+  #   if self.fiscal_start && self.fiscal_start.to_date.year == self.fiscal_end.to_date.year
+  #     self.fiscal_start.to_date.strftime("%B") + " - " + self.fiscal_end.to_date.strftime("%B %Y")
+  #   elsif self.fiscal_start
+  #     self.fiscal_start.to_date.strftime("%B %Y") + " - " + self.fiscal_end.to_date.strftime("%B %Y")
+  #   end
+  # end
+  #
+  # def formatted_date_month_short
+  #   if self.fiscal_start && self.fiscal_start.to_date.year == self.fiscal_end.to_date.year
+  #     self.fiscal_start.to_date.strftime("%b") + " - " + self.fiscal_end.to_date.strftime("%b %Y")
+  #   elsif self.fiscal_start
+  #     self.fiscal_start.to_date.strftime("%b %Y") + " - " + self.fiscal_end.to_date.strftime("%b %Y")
+  #   end
+  # end
+  #
+  # private
+  #   def start_is_before_end
+  #     errors.add(:fiscal_start, "must be before end date") unless self.fiscal_start.to_date < self.fiscal_end.to_date
+  #   end
   # # validates :fiscal_start, :presence => true
   #
   # def formatted_date_year

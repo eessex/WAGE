@@ -1,0 +1,35 @@
+.dashboard {
+  .title, .actions {
+    padding: 0 15px;
+  }
+  .actions {
+    margin: 1em auto;
+    padding: 15px;
+    float: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  #dashboard {
+    margin: 0 auto;
+    float: none;
+  }
+  #fiscal-dates {
+    margin: 0 auto;
+    float: none;
+    .form {
+      width: 100%;
+    }
+  }
+  #statement {
+    margin: 0 auto;
+    float: none;
+  }
+  #review {
+    .section {
+      margin: 2em 0;
+      .col {
+        padding-left: 0;
+      }
+    }
+  }
+}

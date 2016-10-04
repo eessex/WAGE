@@ -123,37 +123,55 @@
       padding: 0 2em;
     }
     .artist_payments {
-      background-color: #eee;
+      // background-color: #eee;
       border-top: 2px solid;
       clear: both;
-      padding-top: 1em;
-      .intro, .new {
-        padding: 0em 2em 3em 2em;
+      // padding-top: 1em;
+      .intro {
+        // padding: 0em 2em 3em 2em;
         clear: both;
       }
+      .new {
+        background-color: #fff;
+      }
+
       .amount-box {
         padding-top: 1em;
       }
-      .table .btn:nth-child(1) {
-        margin-right: .75em;
-      }
-      th.active {
-        background-color: transparent;
-        &:before {
-          content: "\f0d7";
-          font-family: FontAwesome;
-          font-style: normal;
-          font-weight: normal;
-          padding-right: .35em;
-          margin-left: -.8em;
+      .table {
+        .diff {
+          font-size: smaller;
+          padding-left: 1em;
+          &.over {
+            color: limegreen;
+          }
+          &.under {
+            color: red;
+          }
         }
-      &.ASC {
-        &:before {
-          content: "\f0d8";
+        .btn:nth-child(1) {
+          margin-right: .75em;
+        }
+        th.active {
+          background-color: transparent;
+          &:before {
+            content: "\f0d7";
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            padding-right: .35em;
+            margin-left: -.8em;
+          }
+        &.ASC {
+          &:before {
+            content: "\f0d8";
+          }
         }
       }
     }
       .form {
+        padding: 0 2em 2em 2em;
+        margin: 0;
         .col {
           margin-left: 0;
           margin-right: 0;

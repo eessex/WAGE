@@ -16,7 +16,7 @@ class CertificationsController < ApplicationController
     @certification = Certification.new(certification_params)
     respond_to do |format|
       format.json do
-        @certification.user = current_user
+        # @certification.user = current_user
         if @certification.save
           render :json => @certification
         else
@@ -51,14 +51,14 @@ class CertificationsController < ApplicationController
   private
 
   def certification_params
-    params.require(:certification).permit(:id, :operating_expenses, :ant_artist_expenses, :file_990, :file_budget, :statement)
+    params.require(:certification).permit(:id, :fiscal_start, :fiscal_end, :user_id, :operating_expenses, :ant_artist_expenses, :file_990, :file_budget, :statement)
   end
 
   def fee_categories_list
     @fee_categories = []
     the_cats = FeeCategory.all.sort_by(&:id)
     the_cats.map do |category|
-      @fee_categories << category.name
+      @fee_categories << { name: category.name, floor_fee: category.floor_fee }
     end
     @fee_categories
   end
