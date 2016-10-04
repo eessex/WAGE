@@ -201,3 +201,57 @@
     }
   }
 }
+#certification.show {
+  padding-bottom: 2.5em;
+}
+.amount-box {
+  border-top: 2px solid;
+  background-color: #fff;
+  position: fixed;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  height: 4em;
+  justify-content: space-between;
+  width: 100%;
+  bottom: 0;
+  .bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background-color: yellow;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 1em;
+  }
+  p {
+    z-index: 300;
+    margin: 0;
+    padding: 0 2em;
+    font-weight: 700;
+  }
+}
+
+#certification.show {
+  h3 {
+    border: none;
+    padding: 0;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    text-align: center;
+    margin: 0;
+    span {
+      z-index: 2000;
+      border: none;
+    }
+    .title {
+      justify-content: center;
+      padding: .65em;
+      margin: 0;
+    }
+  }
+}

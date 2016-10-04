@@ -4,7 +4,6 @@
     </div>
     <% if user_signed_in? %>
     <div class="dropdown navbar-right">
-      <%= link_to 'Fee Categories', fee_categories_path, :class => 'btn navbar-link' %>
       <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <%= current_user.email %></button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
