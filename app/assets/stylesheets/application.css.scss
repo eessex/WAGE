@@ -103,6 +103,11 @@ nav {
         border-color: $lime;
       }
     }
+    .dropdown-toggle {
+      font-size: 3.55em;
+      line-height: 1.1em;
+      padding-right: 0.675em;
+    }
     .dropdown-menu {
       left: 0;
       padding-left: 1em;
@@ -218,6 +223,15 @@ main {
       padding-left: 0;
       clear: both;
       display: flex;
+    }
+    p.form-control {
+      font-size: smaller
+    }
+    .helper{
+      text-align: right;
+      font-size: small;
+      margin-top: -1em;
+      margin-bottom: 2em;
     }
   }
   .collapse.in {

@@ -13,11 +13,33 @@
     margin: 0 auto;
     float: none;
   }
+  #guidelines {
+    ul {
+      padding-left: .5em;
+      margin: 1em 0;
+      li {
+        font-size: 16px;
+        margin: 1em 0;
+      }
+    }
+  }
   #fiscal-dates {
     margin: 0 auto;
     float: none;
+    h4.saved-dates {
+      float: right;
+      margin-top: -2.4em;
+    }
     .form {
       width: 100%;
+      .col {
+        padding-left: 0;
+      }
+    }
+  }
+  #financials {
+    .form-item {
+      margin: 3em 0;
     }
   }
   #statement {

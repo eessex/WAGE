@@ -203,6 +203,13 @@
 }
 #certification.show {
   padding-bottom: 2.5em;
+  .status-img img {
+    width: 165px;
+    margin-top: -3em;
+    margin-right: 2.5em;
+    margin-bottom: 2.5em;
+    float: right;
+  }
 }
 .amount-box {
   border-top: 2px solid;
@@ -226,6 +233,7 @@
     align-items: center;
     justify-content: flex-end;
     padding-right: 1em;
+    min-width: 200px;
   }
   p {
     z-index: 300;

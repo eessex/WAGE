@@ -6,7 +6,8 @@ class SiteController < ApplicationController
       @certifications = []
     end
     @user = current_user
-    render component: 'Dashboard', props: { certifications: @user.certifications, user: @user }, class: 'dashboard'
+    @fee_categories = FeeCategory.all
+    render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
   end
 
   # def create

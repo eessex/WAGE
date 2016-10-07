@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20160927001954) do
   create_table "certifications", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "status",              default: 0
+    t.boolean  "approved",            default: false
     t.date     "fiscal_start"
     t.date     "fiscal_end"
     t.integer  "operating_expenses"
@@ -38,8 +39,8 @@ ActiveRecord::Schema.define(version: 20160927001954) do
     t.string   "file_990"
     t.string   "file_budget"
     t.string   "statement"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
   end
 
   create_table "employees", force: :cascade do |t|
@@ -85,8 +86,9 @@ ActiveRecord::Schema.define(version: 20160927001954) do
     t.boolean  "certified",              default: false
     t.boolean  "admin",                  default: false
     t.string   "phone"
-    t.integer  "fiscal_start",           default: 1
-    t.integer  "fiscal_end",             default: 12
+    t.date     "fiscal_start"
+    t.date     "fiscal_end"
+    t.string   "file_501c3"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

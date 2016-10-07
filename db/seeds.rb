@@ -24,4 +24,4 @@ issue = User.create(institution_name: "ISSUE Project Room", email: "test@issuepr
 artistsspace = User.create(institution_name: "Artists Space", email: "test@artistsspace.org", password: "password", password_confirmation: "password")
 
 
-cert1 = Certification.create(user_id: 1, fiscal_start: "2015-01-01", fiscal_end: "2015-12-31", operating_expenses: 500000)
+# cert1 = Certification.create(user_id: 1, fiscal_start: "2015-01-01", fiscal_end: "2015-12-31", operating_expenses: 500000)
