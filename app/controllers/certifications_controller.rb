@@ -51,7 +51,7 @@ class CertificationsController < ApplicationController
   private
 
   def certification_params
-    params.require(:certification).permit(:id, :fiscal_start, :fiscal_end, :user_id, :operating_expenses, :ant_artist_expenses, :file_990, :file_budget, :statement)
+    params.require(:certification).permit(:id, :fiscal_start, :fiscal_end, :user_id, :status, :operating_expenses, :ant_artist_expenses, :file_990, :file_budget, :statement)
   end
 
   def fee_categories_list

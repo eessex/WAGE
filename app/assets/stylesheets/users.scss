@@ -8,7 +8,7 @@
   }
 }
 
-.dashboard {
+.new-user-dashboard {
   .greeting {
     h4 {
       position: absolute;
@@ -19,6 +19,12 @@
       font-size: 14px;
       margin: 1em auto;
       padding: 0;
+    }
+    .btn {
+      position: fixed;
+      top: 10px;
+      right: 6.5em;
+      z-index: 2000;
     }
     .status span {
       margin-right: 1.5em;

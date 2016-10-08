@@ -38,11 +38,9 @@ var FeeSchedule = React.createClass({
       newCategory.floor_fee = fee
       return newCategory
     }, this);
-    debugger
     this.setState({fee_categories: newFeeCategories})
   },
   render() {
-    debugger
     var fee_categories = this.state.fee_categories.map( function(fee_category, i) {
       var format_fee = '$' + Number(fee_category.floor_fee).toLocaleString() + fee_category.fee_subtitle
         return (
@@ -58,7 +56,7 @@ var FeeSchedule = React.createClass({
     return (
       <div id="fee-schedule">
         <h1><span>Fee Schedule: {moment(this.props.certification.fiscal_start).format('Y')}</span></h1>
-        <p>{this.props.certification.operating_expenses}</p>
+        <h4 className="taoe">TAOE: ${Number(this.props.certification.operating_expenses).toLocaleString()}</h4>
         <div>
           <div className="fee-category header">
             <h4>
