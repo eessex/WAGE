@@ -21,7 +21,7 @@
  @import "variables";
  @import "./users";
  @import "./certifications";
- @import "./dashboard";
+ @import "./new_user_dashboard";
  @import "./artist_payments";
 
 body {
@@ -104,9 +104,9 @@ nav {
       }
     }
     .dropdown-toggle {
-      font-size: 3.55em;
-      line-height: 1.1em;
-      padding-right: 0.675em;
+      font-size: 3.25em;
+      line-height: 1.25em;
+      padding-right: 0.5em;
     }
     .dropdown-menu {
       left: 0;
@@ -123,24 +123,25 @@ main {
   .greeting {
     padding: 0 2em;
   }
-  .dashboard {
+  .new-user-dashboard {
     min-width: 100%;
     align-self: flex-start;
     .body {
       background-color: #eee;
     }
   }
-  .dashboard {
+  .new-user-dashboard {
     .greeting {
       background-color: white;
       display: flex;
       border-bottom: 2px solid;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 3.5em;
     }
   }
     // background-color: $med-gray;
-    #dashboard {
+    #new-user-dashboard {
       // background-color: #fff;
       // border-bottom: 2px solid;
       .title {

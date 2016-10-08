@@ -17,3 +17,8 @@
 //= require react
 //= require react_ujs
 //= require components
+
+
+$(function() {
+    console.log($('.fee-category'))
+});
