@@ -100,7 +100,7 @@ var UserStatement = React.createClass({
     return (
     <div id="statement">
       <div className="title">
-        <h2><span>3. Statement of Intent</span></h2>
+        <h2><span>Statement of Intent</span></h2>
       </div>
       <div id="statement" className="col-xs-12">
         <div className="header">

@@ -1,4 +1,4 @@
-var STATUS = ['guidelines', 'contact', 'fiscal-details', 'statement', 'review', 'submit'];
+var STATUS = ['guidelines', 'contact', 'statement', 'fiscal-details', 'review', 'submit'];
 var NewUserDashboard = React.createClass({
   getInitialState() {
     var i = 0;
@@ -7,14 +7,31 @@ var NewUserDashboard = React.createClass({
       certification_progress: i,
       certifications: this.props.certifications,
       certification: this.props.certifications[0],
-      // fee_categories: this.props.artist_payments,
       user: this.props.user,
       canSubmit: false,
       errors: {}
     }
   },
-  handleCertificationUpdate(certification) {
+  handleAddCertification(certification) {
     debugger
+    var that = this;
+    $.ajax({
+      method: 'POST',
+      data: {
+        certification: certification,
+      },
+      url: '/certifications.json',
+      success: function(res) {
+        certifications = that.state.certifications
+        certifications.push(res)
+        that.setState({certifications: certifications, certification: res})
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors})
+      }
+    });
+  },
+  handleCertificationUpdate(certification) {
     var that = this;
     $.ajax({
       method: 'PUT',
@@ -23,11 +40,9 @@ var NewUserDashboard = React.createClass({
       },
       url: '/certifications/' + certification.id + '.json',
       success: function(res) {
-        that.setState({
-          errors: {},
-          certification: res,
-          editMode: false
-        });
+        certifications = that.state.certifications
+        certifications.push(res)
+        that.setState({certifications: certifications, certification: res})
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
@@ -106,8 +121,8 @@ var NewUserDashboard = React.createClass({
     if ((this.state.certification_progress < 1) || (this.state.certification_progress == 5)) {
       var back = <div></div>
     }
-    if (this.state.certification_progress == 4 || this.state.certification_progress == 5 || (this.state.certifications.length == 0 && this.state.certification_progress == 2) ||
-    (this.state.certification_progress == 3 && !this.canSubmit() ) )  {
+    if (this.state.certification_progress == 3 || this.state.certification_progress == 5 ||
+    (this.state.certification_progress == 4 && !this.canSubmit() ) )  {
       var next = <div></div>
     }
     if (this.state.application_progress < 1) {
@@ -149,8 +164,8 @@ var NewUserDashboard = React.createClass({
         <h6 data-state={this.state.application_progress} className={"status col-xs-12 col-md-9 col-lg-7 " + STATUS[this.state.certification_progress]}>
           <span onClick={this.setProgress}>1. Guildelines</span>
           <span onClick={this.setProgress}>2. Contact</span>
-          <span onClick={this.setProgress}>3. Fiscal Details</span>
-          <span onClick={this.setProgress}>4. Statement of Intent</span>
+          <span onClick={this.setProgress}>3. Statement of Intent</span>
+          <span onClick={this.setProgress}>4. Fiscal Details</span>
           {review}
         </h6>
         {button}
@@ -168,9 +183,9 @@ var NewUserDashboard = React.createClass({
         var dashboard =  <Guidelines key="new-user-contact"/>
       } else if (this.state.certification_progress == 1) {
         var dashboard =  <NewUserContact key="new-user-contact" user={this.state.user} refreshUser={this.refreshUser}/>
-      } else if (this.state.certification_progress == 2) {
-        var dashboard = <FiscalDates user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} Next={this.onNext} onBack={this.onBack}/>
       } else if (this.state.certification_progress == 3) {
+        var dashboard = <FiscalDates user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
+      } else if (this.state.certification_progress == 2) {
         var dashboard = <UserStatement user={this.state.user} onNext={this.onNext} onBack={this.onBack}/>
       } else if (this.state.certification_progress == 4) {
         var dashboard = <CertificationSubmitView user={this.state.user} certification={this.state.certifications[0]} artist_payment={this.state.artist_payments} handleSubmit={this.handleSubmit} onNext={this.onNext} onBack={this.onBack}/>

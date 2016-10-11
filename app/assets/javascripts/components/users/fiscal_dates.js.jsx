@@ -90,23 +90,7 @@ var FiscalDates = React.createClass({
     }
   },
   handleAddCertification() {
-    var that = this;
-    $.ajax({
-      method: 'POST',
-      data: {
-        certification: that.state.certification,
-      },
-      url: '/certifications.json',
-      success: function(res) {
-        that.setState({
-          certification: res,
-          errors: {}
-        });
-      },
-      error: function(res) {
-        that.setState({errors: res.responseJSON.errors})
-      }
-    });
+    this.props.handleAddCertification(this.state.certification)
   },
   handleCertificationUpdate() {
     this.props.handleCertificationUpdate(this.state.certification)
