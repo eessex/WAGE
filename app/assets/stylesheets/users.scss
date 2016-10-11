@@ -27,10 +27,18 @@
       z-index: 2000;
     }
     .status span {
-      margin-right: 1.5em;
+      margin-right: 2em;
     }
-    .guidelines span:hover {
+    .status span:hover {
       border-bottom: 2px solid lime;
+      cursor: pointer;
+    }
+    .status span.review.disabled {
+      color: rgba(0,0,0,.25);
+      cursor: default;
+    }
+    .status span.review.disabled:hover {
+      border: none;
     }
     .guidelines span:nth-child(1),
     .contact span:nth-child(2),

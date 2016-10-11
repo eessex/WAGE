@@ -14,7 +14,6 @@ var NewUserDashboard = React.createClass({
     }
   },
   handleCertificationUpdate(certification) {
-    debugger
     var that = this;
     $.ajax({
       method: 'PUT',

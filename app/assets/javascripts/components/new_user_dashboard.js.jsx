@@ -54,6 +54,9 @@ var NewUserDashboard = React.createClass({
         }
       });
   },
+  refreshUser(user) {
+    this.setState({user: user})
+  },
   canSubmit() {
     if (this.state.user.rep_name
         && this.state.user.rep_title
@@ -103,7 +106,8 @@ var NewUserDashboard = React.createClass({
     if ((this.state.certification_progress < 1) || (this.state.certification_progress == 5)) {
       var back = <div></div>
     }
-    if ((this.state.certification_progress == 4) || (this.state.certification_progress == 5))  {
+    if (this.state.certification_progress == 4 || this.state.certification_progress == 5 || (this.state.certifications.length == 0 && this.state.certification_progress == 2) ||
+    (this.state.certification_progress == 3 && !this.canSubmit() ) )  {
       var next = <div></div>
     }
     if (this.state.application_progress < 1) {
@@ -128,6 +132,11 @@ var NewUserDashboard = React.createClass({
     this.setState({certification_progress: 5 })
   },
   greeting() {
+    if (this.canSubmit()) {
+      var review = <span onClick={this.setProgress} className="review active">5. Review</span>
+    } else {
+      var review = <span className="review disabled">5. Review</span>
+    }
     if (this.state.application_progress == 1) {
       if (this.props.certifications[0] && this.props.certifications[0].operating_expenses) {
         var button = <button className="btn" onClick={this.getFeeCategories}>My Fee Schedule</button>
@@ -137,7 +146,13 @@ var NewUserDashboard = React.createClass({
       var greeting =
       <div className="greeting">
         <h4>Get Certified</h4>
-        <h6 data-state={this.state.application_progress} className={"status col-xs-12 col-md-9 col-lg-7 " + STATUS[this.state.certification_progress]}><span onClick={this.setProgress}>1. Guildelines</span><span onClick={this.setProgress}>2. Contact</span><span onClick={this.setProgress}>3. Fiscal Details</span><span onClick={this.setProgress}>4. Statement of Intent</span><span onClick={this.setProgress}>5. Review</span></h6>
+        <h6 data-state={this.state.application_progress} className={"status col-xs-12 col-md-9 col-lg-7 " + STATUS[this.state.certification_progress]}>
+          <span onClick={this.setProgress}>1. Guildelines</span>
+          <span onClick={this.setProgress}>2. Contact</span>
+          <span onClick={this.setProgress}>3. Fiscal Details</span>
+          <span onClick={this.setProgress}>4. Statement of Intent</span>
+          {review}
+        </h6>
         {button}
       </div>
     } else {
@@ -152,7 +167,7 @@ var NewUserDashboard = React.createClass({
       if (this.state.certification_progress == 0) {
         var dashboard =  <Guidelines key="new-user-contact"/>
       } else if (this.state.certification_progress == 1) {
-        var dashboard =  <NewUserContact key="new-user-contact" user={this.state.user} onNext={this.onNext} onBack={this.onBack} revealNext={this.revealNext}/>
+        var dashboard =  <NewUserContact key="new-user-contact" user={this.state.user} refreshUser={this.refreshUser}/>
       } else if (this.state.certification_progress == 2) {
         var dashboard = <FiscalDates user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} Next={this.onNext} onBack={this.onBack}/>
       } else if (this.state.certification_progress == 3) {

@@ -16,7 +16,6 @@ var FiscalDates = React.createClass({
     }
   },
   hasCertifications() {
-    debugger
     if (this.props.certifications[0]) {
       return this.props.certifications[0]
     } else {
