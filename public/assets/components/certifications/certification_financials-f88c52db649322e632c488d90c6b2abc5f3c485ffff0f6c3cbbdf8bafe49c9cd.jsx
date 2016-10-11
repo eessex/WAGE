@@ -54,13 +54,14 @@ var CertificationFinancials = React.createClass({
   },
   clearFile_501c3() {
     var newUser = this.state.user
-    newUser._501c3 = null
+    newUser.file_501c3 = null
     this.setState({user: newUser });
   },
   handleOperatingExpensesChange(e) {
     var newCertification = this.state.certification
     newCertification.operating_expenses = e.target.value
     this.setState({certification: newCertification});
+    this.props.handleCertificationUpdate(this.state.certification)
   },
   handleFileBudgetChange(e) {
     var newCertification = this.state.certification
@@ -72,6 +73,7 @@ var CertificationFinancials = React.createClass({
     var newCertification = this.state.certification
     newCertification.file_990 = e.target.value
     this.setState({certification: newCertification });
+    this.props.handleCertificationUpdate(this.state.certification)
   },
   handleFile_501c3Change(e) {
     var newUser = this.state.user
@@ -80,11 +82,7 @@ var CertificationFinancials = React.createClass({
     this.props.handleUserUpdate(this.state.user)
   },
   handleCertificationUpdate() {
-    $('.btn.save').html('<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>').addClass('loading')
     this.props.handleCertificationUpdate(this.state.certification)
-    setTimeout(function(){
-      $('.btn.save').html('Save').removeClass('loading')
-    }, 2000);
   },
   render() {
     return (
@@ -119,9 +117,6 @@ var CertificationFinancials = React.createClass({
               <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
               {this.hasFile_501c3()}
               <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
-            </div>
-            <div id="actions">
-              <button onClick={this.handleCertificationUpdate} className="btn btn-lg save">Save</button>
             </div>
           </div>
     );

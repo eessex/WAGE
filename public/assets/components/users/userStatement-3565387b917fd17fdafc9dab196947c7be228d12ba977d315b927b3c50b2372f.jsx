@@ -59,7 +59,6 @@ var UserStatement = React.createClass({
           errors: {}
         });
         that.props.onNext()
-        debugger
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
