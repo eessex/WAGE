@@ -8,12 +8,22 @@ var NewUserDashboard = React.createClass({
       certifications: this.props.certifications,
       certification: this.props.certifications[0],
       user: this.props.user,
+      editDates: this.setEditDates(),
       canSubmit: false,
       errors: {}
     }
   },
+  setEditDates() {
+    if (this.props.user.fiscal_start) {
+      return false
+    } else {
+      return true
+    }
+  },
+  toggleEditDates() {
+    this.setState({editDates: !this.state.editDates})
+  },
   handleAddCertification(certification) {
-    debugger
     var that = this;
     $.ajax({
       method: 'POST',
@@ -24,12 +34,13 @@ var NewUserDashboard = React.createClass({
       success: function(res) {
         certifications = that.state.certifications
         certifications.push(res)
-        that.setState({certifications: certifications, certification: res})
+        that.setState({certification: res})
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors})
       }
     });
+    that.setState({canSubmit: this.canSubmit()})
   },
   handleCertificationUpdate(certification) {
     var that = this;
@@ -40,14 +51,16 @@ var NewUserDashboard = React.createClass({
       },
       url: '/certifications/' + certification.id + '.json',
       success: function(res) {
-        certifications = that.state.certifications
-        certifications.push(res)
-        that.setState({certifications: certifications, certification: res})
+        NewCertifications = that.state.certifications
+        NewCertifications[0] = res
+        that.setState({certifications: NewCertifications, certification: res})
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
       }
     });
+    debugger
+    that.setState({canSubmit: that.canSubmit()})
   },
   handleUserUpdate(user) {
     var that = this;
@@ -100,7 +113,6 @@ var NewUserDashboard = React.createClass({
   },
   onNext() {
     this.setState({certification_progress: this.state.certification_progress + 1 })
-    console.log('status updated')
   },
   revealNext() {
     var button = <button className="btn next" onClick={this.onNext}>Next</button>
@@ -118,14 +130,14 @@ var NewUserDashboard = React.createClass({
   btn() {
     var back = <button className="btn col-xs-3 back" onClick={this.onBack}><i className="fa fa-chevron-left" aria-hidden="true"></i> Back</button>
     var next = <button className="btn col-xs-3 next" onClick={this.onNext}>Next <i className="fa fa-chevron-right" aria-hidden="true"></i></button>
-    if ((this.state.certification_progress < 1) || (this.state.certification_progress == 5)) {
+    if ( (this.state.certification_progress < 1) || (this.state.certification_progress == 5) ) {
       var back = <div></div>
     }
-    if (this.state.certification_progress == 3 || this.state.certification_progress == 5 ||
-    (this.state.certification_progress == 4 && !this.canSubmit() ) )  {
+    if (this.state.certification_progress == 5 ||
+    (this.state.certification_progress == 3 && !this.canSubmit() ) )  {
       var next = <div></div>
     }
-    if (this.state.application_progress < 1) {
+    if (this.state.application_progress < 1 || (this.state.certification_progress == 3 && this.state.editDates) ) {
       var btn = ""
     } else {
       var btn = <div className="actions">{back}{next}</div>
@@ -184,7 +196,13 @@ var NewUserDashboard = React.createClass({
       } else if (this.state.certification_progress == 1) {
         var dashboard =  <NewUserContact key="new-user-contact" user={this.state.user} refreshUser={this.refreshUser}/>
       } else if (this.state.certification_progress == 3) {
-        var dashboard = <FiscalDates user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
+        if (this.state.editDates || (this.state.certification && !this.state.certification.fiscal_start) ) {
+          var dashboard = <FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
+        } else if (this.state.certification && this.state.certification.fiscal_start) {
+          var dashboard = <div><FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
+          <CertificationFinancials certification={this.state.certification} user={this.state.user} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} />
+          </div>
+        }
       } else if (this.state.certification_progress == 2) {
         var dashboard = <UserStatement user={this.state.user} onNext={this.onNext} onBack={this.onBack}/>
       } else if (this.state.certification_progress == 4) {

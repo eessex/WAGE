@@ -42,6 +42,13 @@ var CertificationFinancials = React.createClass({
     }
     return _501c3
   },
+  hasOperatingExpenses() {
+    if (this.props.certification) {
+      return this.props.certification.operating_expenses
+    } else {
+      return ""
+    }
+  },
   clearFile990() {
     var newCertification = this.state.certification
     newCertification.file_990 = null
@@ -81,17 +88,14 @@ var CertificationFinancials = React.createClass({
     this.setState({user: newUser });
     this.props.handleUserUpdate(this.state.user)
   },
-  handleCertificationUpdate() {
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
   render() {
     return (
-      <div id="financials" className="form">
+      <div id="financials" className="form col-xs-12">
             <div className="form-item">
                 <h4 className="col">Operating Expenses</h4>
                 <p>Anticipated total annual expenses for the current fiscal year.</p>
                   <input
-                    value={this.state.certification.operating_expenses}
+                    value={this.hasOperatingExpenses()}
                     type="text"
                     className="form-control"
                     onChange={this.handleOperatingExpensesChange} />

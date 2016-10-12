@@ -6,8 +6,6 @@ var FiscalDates = React.createClass({
     return {
       user: this.props.user,
       certification: this.hasCertifications(),
-      editDates: this.setEdit(),
-      editCertification: false,
       s_m: this.getEditDates().s_m,
       s_d: this.getEditDates().s_d,
       e_m: this.getEditDates().e_m,
@@ -16,8 +14,8 @@ var FiscalDates = React.createClass({
     }
   },
   hasCertifications() {
-    if (this.props.certifications[0]) {
-      return this.props.certifications[0]
+    if (this.props.certification) {
+      return this.props.certification
     } else {
       return {
         fiscal_start: '',
@@ -28,13 +26,13 @@ var FiscalDates = React.createClass({
     }
   },
   getEditDates() {
-    if (this.props.certifications[0]) {
-      if (this.props.certifications[0].fiscal_start != "" ) {
+    if (this.props.certification) {
+      if (this.props.certification.fiscal_start != "" ) {
         return {
-          s_m: moment(this.props.certifications[0].fiscal_start).format('M'),
-          s_d: moment(this.props.certifications[0].fiscal_start).format('D'),
-          e_m: moment(this.props.certifications[0].fiscal_end).format('M'),
-          e_d: moment(this.props.certifications[0].fiscal_end).format('D')
+          s_m: moment(this.props.certification.fiscal_start).format('M'),
+          s_d: moment(this.props.certification.fiscal_start).format('D'),
+          e_m: moment(this.props.certification.fiscal_end).format('M'),
+          e_d: moment(this.props.certification.fiscal_end).format('D')
         }
       }
     } else {
@@ -45,16 +43,6 @@ var FiscalDates = React.createClass({
         e_d: '31'
       }
     }
-  },
-  setEdit() {
-    if (this.props.user.fiscal_start) {
-      return false
-    } else {
-      return true
-    }
-  },
-  toggleEdit() {
-    this.setState({editDates: !this.state.editDates})
   },
   handleFiscalStartChange(e) {
     var changed = $(e.target).data('id')
@@ -78,26 +66,15 @@ var FiscalDates = React.createClass({
   handleUserUpdate() {
     this.handleFormatDates()
     this.props.handleUserUpdate(this.state.user)
-    this.setState({
-      editDates: false,
-      editCertification: true,
-      errors: {}
-    });
+    this.setState({ errors: {} });
     if (this.state.certification.id != null) {
       this.props.handleCertificationUpdate(this.state.certification)
+      this.props.toggleEditDates()
     } else {
-      this.handleAddCertification()
+      this.props.handleAddCertification(this.state.certification)
     }
   },
-  handleAddCertification() {
-    this.props.handleAddCertification(this.state.certification)
-  },
-  handleCertificationUpdate() {
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
   render() {
-    var that = this;
-    var disabled = that.state.disabled ? 'disabled' : ''
     var options_months = MONTHS.map( function(month, i) {
       var index = i + 1
       return (
@@ -124,11 +101,11 @@ var FiscalDates = React.createClass({
           </div>
     var date_edit = <button
                   className="btn btn-sm edit"
-                  onClick={this.toggleEdit}>
+                  onClick={this.props.toggleEditDates}>
                   Edit
                 </button>
 
-    if (this.state.editDates) {
+    if (this.props.editDates) {
       var actions = date_save
     } else {
       var actions = date_edit
@@ -189,12 +166,10 @@ var FiscalDates = React.createClass({
       }
       var fiscal_dates_show = <h4 className="saved-dates"><span>{format_start} - {moment(this.state.user.fiscal_end).format('MMM D, Y')}</span> {actions}</h4>
 
-    if (this.state.editDates) {
+    if (this.props.editDates) {
       var fiscal_dates = fiscal_dates_form
-      var certification = ""
     } else {
       var fiscal_dates = fiscal_dates_show
-      var certification = <CertificationFinancials certification={this.state.certification} user={this.props.user} handleCertificationUpdate={this.props.handleCertificationUpdate} handleUserUpdate={this.props.handleUserUpdate} onNext={this.props.onNext} onBack={this.props.onBack} />
     }
 
     return (
@@ -202,7 +177,6 @@ var FiscalDates = React.createClass({
         <div className="col-xs-12">
           <h2><span>Fiscal Details</span></h2>
           {fiscal_dates}
-          {certification}
         </div>
      </div>
     );
