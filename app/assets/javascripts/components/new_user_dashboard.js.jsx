@@ -59,7 +59,6 @@ var NewUserDashboard = React.createClass({
         that.setState({errors: res.responseJSON.errors});
       }
     });
-    debugger
     that.setState({canSubmit: that.canSubmit()})
   },
   handleUserUpdate(user) {
@@ -146,7 +145,7 @@ var NewUserDashboard = React.createClass({
   },
   handleSubmit() {
     certification = this.props.certifications[0]
-    certification.status = 1
+    certification.status = 2
     this.handleCertificationUpdate(certification)
     window.location.pathname = "/certifications/" + this.props.certifications[0].id
     this.setState({application_progress: 2 })
@@ -200,7 +199,7 @@ var NewUserDashboard = React.createClass({
           var dashboard = <FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
         } else if (this.state.certification && this.state.certification.fiscal_start) {
           var dashboard = <div><FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
-          <CertificationFinancials certification={this.state.certification} user={this.state.user} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} />
+          <CertificationFinancials certification={this.state.certification} user={this.state.user} newUser={this.props.newUser} certifications={this.state.certifications.length} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} />
           </div>
         }
       } else if (this.state.certification_progress == 2) {

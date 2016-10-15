@@ -3,6 +3,8 @@ var CertificationFinancials = React.createClass({
     return {
       certification: this.props.certification,
       user: this.props.user,
+      certifications: this.props.certifications,
+      isFuture: this.props.isFuture,
       errors: {}
     }
   },
@@ -31,15 +33,22 @@ var CertificationFinancials = React.createClass({
     return file_budget
   },
   hasFile_501c3() {
-    if (this.state.user.file_501c3) {
-      var _501c3 = <p className="form-control"><button onClick={this.clearFile_501c3}>Replace</button> {this.state.user.file_501c3}</p>
-    } else {
-      var _501c3 = <input
-        value={this.state.user.file_501c3}
-        type="file"
-        className="form-control"
-        onChange={this.handleFile_501c3Change} />
-    }
+    if (this.props.newUser == true) {
+      if (this.state.user.file_501c3) {
+        var _501c3 =  <div className="form-item">
+                      <h4>501c3</h4>
+                      <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
+                      <p className="form-control"><button onClick={this.clearFile_501c3}>Replace</button> {this.state.user.file_501c3}</p>
+                      <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
+                    </div>
+      } else {
+        var _501c3 = <input
+          value={this.state.user.file_501c3}
+          type="file"
+          className="form-control"
+          onChange={this.handleFile_501c3Change} />
+      }
+    } else { var _501c3 }
     return _501c3
   },
   hasOperatingExpenses() {
@@ -89,11 +98,21 @@ var CertificationFinancials = React.createClass({
     this.props.handleUserUpdate(this.state.user)
   },
   render() {
+    var file_990_caption
+
+    if ( this.state.certification.isFuture) {
+      var operating_caption = "Anticipated total"
+      if (this.state.newUser) {
+        var file_990_caption = <small> * Most recent</small>
+      }
+    } else {
+      var operating_caption = "Total"
+    }
     return (
       <div id="financials" className="form col-xs-12">
             <div className="form-item">
                 <h4 className="col">Operating Expenses</h4>
-                <p>Anticipated total annual expenses for the current fiscal year.</p>
+                <p>{operating_caption} annual expenses for fiscal year {moment(this.state.certification.fiscal_start).format('Y')}.</p>
                   <input
                     value={this.hasOperatingExpenses()}
                     type="text"
@@ -104,7 +123,7 @@ var CertificationFinancials = React.createClass({
                 </div>
             </div>
             <div className="form-item">
-                <h4>Form 990 <small>* Most recent</small></h4>
+                <h4>Form 990{file_990_caption}</h4>
                 {this.hasFile990()}
               <div className="helper">
                 <span style={{color: 'red'}}>{this.state.errors.file_990}</span>
@@ -112,16 +131,11 @@ var CertificationFinancials = React.createClass({
             </div>
             <div className="form-item">
               <h4>Operating Budget</h4>
-              <p>A closed out operating budget for the current year with ‘Artist Fees’ visible as a distinct line item.</p>
+              <p>A closed out operating budget for the fiscal year {moment(this.state.certification.fiscal_start).format('Y')} with ‘Artist Fees’ visible as a distinct line item.</p>
               {this.hasFileBudget()}
               <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
             </div>
-            <div className="form-item">
-              <h4>501c3</h4>
-              <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
-              {this.hasFile_501c3()}
-              <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
-            </div>
+            {this.hasFile_501c3()}
           </div>
     );
   }

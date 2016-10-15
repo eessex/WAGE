@@ -8,7 +8,7 @@ var Certification = React.createClass({
     }
   },
   setSubmitMode() {
-    if (this.props.certification.status > 0) {
+    if (this.props.certification.status == 1) {
       return true
     } else {
       return false
@@ -34,18 +34,18 @@ var Certification = React.createClass({
 
   toggleStatus: function () {
     var newCertification = this.state.certification
-    newCertification.status = !this.state.certification.status
-    this.handleCertificationUpdate();
+    newCertification.status = this.state.certification.status + 1
+    this.handleCertificationUpdate(newCertification);
   },
 
-  handleCertificationUpdate() {
+  handleCertificationUpdate(certification) {
     var that = this;
     $.ajax({
       method: 'PUT',
       data: {
-        certification: that.state.certification,
+        certification: certification,
       },
-      url: '/certifications/' + that.state.certification.id + '.json',
+      url: '/certifications/' + certification.id + '.json',
       success: function(res) {
         that.setState({
           errors: {},
@@ -69,19 +69,24 @@ var Certification = React.createClass({
       }
     })
   },
-
+  formatFiscalDates() {
+    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y') ) {
+      var formatted_date = moment(this.state.certification.fiscal_start).format('Y')
+    } else {
+      var formatted_date = moment(this.state.certification.fiscal_start).format('Y') + " - " + moment(this.state.certification.fiscal_end).format('Y');
+    };
+    return formatted_date
+  },
   render() {
     var url = "certifications/" + this.state.certification.id
-    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_start).format('Y') ) {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
-    } else {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM YYYY');
-    };
-
     if (this.state.certification.status == 0 ) {
       var formatted_status = <span className="in-progress">In Progress</span>
     } else if (this.state.certification.status == 1 ) {
       var formatted_status = <span className="submit">Ready To Submit</span>
+    } else if (this.state.certification.status == 2 ) {
+      var formatted_status = <div className="status-img"><img src="https://s3.amazonaws.com/wagency/WAGE-Pending-Logo.png"/></div>
+    } else {
+      var formatted_status = <span className="submit">Certified</span>
     }
 
     if ( this.state.submitMode ) {
@@ -92,12 +97,14 @@ var Certification = React.createClass({
     };
 
     var row = (
-        <a href={url} key={this.state.certification.id} className="certification teaser col-md-6 col-lg-4">
-          <h4>{formatted_date}</h4>
-          <h5 className="status">{formatted_status}</h5>
+        <a href={url} key={this.state.certification.id} className="certification teaser col-xs-1 col-sm-6 col-md-4">
+          <h1>{this.formatFiscalDates()}</h1>
+          {formatted_status}
           {submit}
         </a>
       );
     return row;
   }
 });
+
+          // <h5 className="status">{formatted_status}</h5>

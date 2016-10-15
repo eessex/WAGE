@@ -38,6 +38,7 @@ var FeeSchedule = React.createClass({
       newCategory.floor_fee = fee
       return newCategory
     }, this);
+    debugger
     this.setState({fee_categories: newFeeCategories})
   },
   render() {

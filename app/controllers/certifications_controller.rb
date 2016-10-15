@@ -7,16 +7,16 @@ class CertificationsController < ApplicationController
   def show
     @certification = Certification.find(params[:id])
     @user = User.find(@certification.user_id)
+    @certifications = Certification.where(user_id: User.first.id)
     @fee_categories = fee_categories_list
     @artist_payments = @certification.artist_payments
-    render component: 'CertificationShow', props: { certification: @certification, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
+    render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
   end
 
   def create
     @certification = Certification.new(certification_params)
     respond_to do |format|
       format.json do
-        # @certification.user = current_user
         if @certification.save
           render :json => @certification
         else

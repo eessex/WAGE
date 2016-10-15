@@ -6,9 +6,9 @@ class SiteController < ApplicationController
       @certifications = current_user.certifications
       @certification = current_user.certifications[0]
       if @certification.status > 0
-        render component: 'Dashboard', props: { certifications: @certifications, certification: @certification,  user: @user, fee_categories: @fee_categories}, class: 'dashboard'
+        render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
       else
-        render component: 'NewUserDashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'new-user-dashboard'
+        render component: 'NewUserDashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories, newUser: true }, class: 'new-user-dashboard'
       end
     else
       @certifications = []

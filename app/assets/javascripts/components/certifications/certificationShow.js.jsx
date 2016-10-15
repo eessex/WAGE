@@ -5,7 +5,16 @@ var CertificationShow = React.createClass({
       user: this.props.user,
       artist_payments: this.props.artist_payments,
       sortBy: 'date',
+      isFuture: false,
       sortDir: 'ASC'
+    }
+  },
+  componentDidMount() {
+    this.setState({isFuture: this.isFuture()})
+  },
+  isFuture() {
+    if (new Date < Date.parse(this.state.certification.fiscal_start) ) {
+      return true
     }
   },
   _sortRowsBy(event) {
@@ -32,12 +41,11 @@ var CertificationShow = React.createClass({
     });
     this.setState({sortBy, sortDir});
     this.setState({artist_payments: artist_payments});
-    // this.state.paymentsSorted(artist_payments);
     $('th').removeClass('active')
     $(event.target).addClass('active').toggleClass('ASC')
   },
   handleAddArtistPayment(artist_payment) {
-    artist_payments = this.state.artist_payments
+    var artist_payments = this.state.artist_payments
     artist_payments.push(artist_payment)
     this.setState({artist_payments: artist_payments})
   },
@@ -46,6 +54,26 @@ var CertificationShow = React.createClass({
       return artist_payment.id !== item.id;
     });
     this.setState({artist_payments: artist_payments})
+  },
+  handleCertificationUpdate(certification) {
+    var that = this;
+    $.ajax({
+      method: 'PUT',
+      data: {
+        certification: certification,
+      },
+      url: '/certifications/' + certification.id + '.json',
+      success: function(res) {
+        that.setState({certification: res})
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors});
+      }
+    });
+    // that.setState({canSubmit: that.canSubmit()})
+  },
+  handleUserUpdate() {
+
   },
   paymentsSorted(artist_payments) {
     this.setState({artist_payments: artist_payments});
@@ -69,15 +97,25 @@ var CertificationShow = React.createClass({
     return payments
   },
   render() {
+    if (this.state.certification.status >= 2) {
     return (
       <div id="certification" className="show">
         <h3><span className="title">Certification: FY {moment(this.state.certification.fiscal_start).format('YYYY')}</span></h3>
         <AmountBox artist_payments={this.state.artist_payments} certification={this.state.certification} />
         <div className="status-img"><img src="https://s3.amazonaws.com/wagency/WAGE-Pending-Logo.png"/></div>
+
         <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates}/>
         {this.getArtistPayments()}
       </div>
     )
+  } else {
+    return (
+      <div id="certification" className="show">
+        <h3><span className="title">Certification: FY {moment(this.state.certification.fiscal_start).format('YYYY')}</span></h3>
+        <CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} isFuture={this.props.isFuture}/>
+      </div>
+    )
+  }
   }
 });
 

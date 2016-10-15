@@ -18,7 +18,7 @@ var CertificationSubmitView = React.createClass({
     var fiscal_dates_show = <span>{format_start} - {moment(this.props.user.fiscal_end).format('MMM D, Y')}</span>
     var formatted_operating = '$' + Number(this.props.certification.operating_expenses).toLocaleString()
     return (
-      <div id="review" className="certification">
+      <div id="review" className="certification col-xs-12">
         <h1><span>Review</span></h1>
         <div className="section intro">
           <h3>{this.props.user.institution_name}</h3>

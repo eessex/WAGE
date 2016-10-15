@@ -20,5 +20,5 @@
 
 
 $(function() {
-    console.log($('.fee-category'))
+    // console.log($('.fee-category'))
 });
