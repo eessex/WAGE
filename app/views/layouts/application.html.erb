@@ -10,6 +10,8 @@
     <%= render '/site/nav' %>
     <main>
       <% if notice || alert %>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
         <!-- <div class="notices">* <span><%= notice %></span><span><%= alert %></span></div> -->
       <% end %>
       <%= yield %>
