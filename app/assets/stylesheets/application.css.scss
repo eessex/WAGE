@@ -240,7 +240,12 @@ main {
   }
 }
 
-
+.alert, .notice {
+  position: absolute;
+  right: 1.5em;
+  top: 4.75em;
+  z-index: 1000;
+}
 
 .table {
   td.first,
