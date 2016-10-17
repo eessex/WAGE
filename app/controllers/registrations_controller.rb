@@ -1,18 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
-
   before_action :configure_permitted_parameters, if: :devise_controller?
-
   respond_to :json
-  # def update
-    # @user = User.create(user_params)
-    # if @user.save
-    #   respond_to do |format|
-    #     format.json {
-    #       @user.save ? (render :json => {:state => {:code => 0}, :data => @user }) : render (:json => {:state => {:code => 1, :messages => @user.errors.full_messages} })
-    #     }
-    #   end
-    # end
-  # end
 
   protected
 
@@ -25,5 +13,9 @@ class RegistrationsController < Devise::RegistrationsController
 
   def update_resource(resource, params)
     resource.update_without_password(params)
+  end
+
+  def after_sign_up_path_for(resource)
+    :root_path # Or :prefix_to_your_route
   end
 end

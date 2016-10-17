@@ -12,10 +12,11 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'eve.essex@gmail.com'
+  config.mailer_sender = ENV['SENDMAIL_USERNAME']
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
+  config.mailer = 'WageMailer'
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'
