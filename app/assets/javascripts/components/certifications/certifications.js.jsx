@@ -18,7 +18,6 @@ var Certifications = React.createClass({
         window.location.pathname = "/certifications/" + res.id
       },
       error: function(res) {
-        debugger
         that.setState({errors: res.responseJSON.errors})
       }
     });
@@ -115,7 +114,7 @@ var CertificationNew = React.createClass({
     });
     if (this.state.canDisplay == true) {
       return (
-        <div className="new col-xs-1 col-sm-6 col-md-4">
+        <div className="new col-xs-1 col-sm-6 col-md-3">
         <h3>Get Certified</h3>
         <div className="field-group">
           <select

@@ -4,7 +4,7 @@ var CertificationFinancials = React.createClass({
       certification: this.props.certification,
       user: this.props.user,
       certifications: this.props.certifications,
-      isFuture: this.props.isFuture,
+      canSubmit: this.props.canSubmit,
       errors: {}
     }
   },
@@ -45,7 +45,7 @@ var CertificationFinancials = React.createClass({
     return file_contract
   },
   hasFile_501c3() {
-    if (this.props.newUser == true && this.state.user.file_501c3) {
+    if ( (this.props.newUser == true && this.state.user.file_501c3) || this.state.user.file_501c3 ) {
         var _501c3 =  <div className="form-item">
                       <h4>501c3</h4>
                       <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
@@ -77,21 +77,25 @@ var CertificationFinancials = React.createClass({
     var newCertification = this.state.certification
     newCertification.file_990 = null
     this.setState({certification: newCertification });
+    this.props.handleCertificationUpdate(this.state.certification)
   },
   clearFileBudget() {
     var newCertification = this.state.certification
     newCertification.file_budget = null
     this.setState({certification: newCertification });
+    this.props.handleCertificationUpdate(this.state.certification)
   },
   clearFileContract() {
     var newCertification = this.state.certification
     newCertification.file_contract = null
     this.setState({certification: newCertification });
+    this.props.handleCertificationUpdate(this.state.certification)
   },
   clearFile_501c3() {
     var newUser = this.state.user
     newUser.file_501c3 = null
     this.setState({user: newUser });
+    this.props.handleUserUpdate(this.state.user)
   },
   handleOperatingExpensesChange(e) {
     var newCertification = this.state.certification
@@ -125,10 +129,9 @@ var CertificationFinancials = React.createClass({
   },
   render() {
     var file_990_caption
-
-    if ( this.state.certification.isFuture) {
+    if ( this.props.isFuture ) {
       var operating_caption = "Anticipated total"
-      if (this.state.newUser) {
+      if (this.props.newUser) {
         var file_990_caption = <small> * Most recent</small>
       }
     } else {

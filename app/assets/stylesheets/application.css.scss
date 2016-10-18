@@ -92,6 +92,9 @@ nav {
   }
   .navbar-right {
     margin-right: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
     .btn {
       text-decoration: none;
       padding: .65em .95em;
