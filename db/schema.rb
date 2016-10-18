@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 20160927001954) do
     t.string   "file_contract"
     t.string   "file_990"
     t.string   "file_budget"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   create_table "fee_categories", force: :cascade do |t|
