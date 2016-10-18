@@ -1,6 +1,5 @@
 #certifications {
   .new {
-    margin-left: 1em;
     padding-top: 2em;
     td {
       padding-right: 2em;
@@ -11,7 +10,6 @@
     display: block;
     padding: 2em 3em;
     border: 2px solid;
-    margin: 2em 1em;
     text-decoration: none;
     &:hover {
       background-color: #00aeef;
@@ -220,6 +218,16 @@
     margin-right: 2.5em;
     margin-bottom: 2.5em;
     float: right;
+  }
+  .new {
+    margin: 0 auto;
+    float: none;
+    .form-item {
+      margin-bottom: 3em;
+      &:nth-last-child(1) {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 .amount-box {

@@ -6,15 +6,39 @@ var CertificationShow = React.createClass({
       artist_payments: this.props.artist_payments,
       sortBy: 'date',
       isFuture: false,
+      canSubmit: false,
+      applicationStatus: this.applicationStatus(),
       sortDir: 'ASC'
     }
   },
   componentDidMount() {
-    this.setState({isFuture: this.isFuture()})
+    this.setState({isFuture: this.isFuture(), canSubmit: this.canSubmit(this.state.certification, this.state.user)})
+  },
+  canSubmit(certification, user) {
+    if (
+      this.isFuture() &&
+      certification.file_990 &&
+      certification.file_budget &&
+      certification.operating_expenses &&
+      user.file_501c3
+    ) {
+      return true
+    } else {
+      return false
+    }
   },
   isFuture() {
     if (new Date < Date.parse(this.state.certification.fiscal_start) ) {
       return true
+    } else {
+      return false
+    }
+  },
+  applicationStatus() {
+    if (this.props.certification.status != 2) {
+      return 0
+    } else {
+      return 1
     }
   },
   _sortRowsBy(event) {
@@ -55,6 +79,11 @@ var CertificationShow = React.createClass({
     });
     this.setState({artist_payments: artist_payments})
   },
+  onCertificationSubmit() {
+    var certification = this.state.certification
+    certification.status = 2
+    this.handleCertificationUpdate(certification)
+  },
   handleCertificationUpdate(certification) {
     var that = this;
     $.ajax({
@@ -64,16 +93,28 @@ var CertificationShow = React.createClass({
       },
       url: '/certifications/' + certification.id + '.json',
       success: function(res) {
-        that.setState({certification: res})
+        that.setState({certification: res, canSubmit: that.canSubmit(certification, that.state.user)})
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
       }
     });
-    // that.setState({canSubmit: that.canSubmit()})
   },
-  handleUserUpdate() {
-
+  handleUserUpdate(user) {
+    var that = this;
+    $.ajax({
+      method: 'PATCH',
+      data: {
+        user: user,
+      },
+      url: '/users' + '.json',
+      success: function(res) {
+        that.setState({user: user, canSubmit: that.canSubmit(that.state.certification, user)})
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors});
+      }
+    });
   },
   paymentsSorted(artist_payments) {
     this.setState({artist_payments: artist_payments});
@@ -96,11 +137,20 @@ var CertificationShow = React.createClass({
     }
     return payments
   },
+  actions() {
+    if (!this.state.canSubmit) {
+      var disabled = true
+    } else {
+      var disabled = false
+    }
+    var actions = <div id="actions" className="col-xs-12"><button disabled={disabled} className="btn btn-lg save" onClick={this.onCertificationSubmit}>Submit</button></div>
+    return actions
+  },
   render() {
     if (this.state.certification.status >= 2) {
     return (
       <div id="certification" className="show">
-        <h3><span className="title">Certification: FY {moment(this.state.certification.fiscal_start).format('YYYY')}</span></h3>
+        <h3><span className="title">Certifications: FY  {moment(this.state.certification.fiscal_start).format('YYYY')}</span></h3>
         <AmountBox artist_payments={this.state.artist_payments} certification={this.state.certification} />
         <div className="status-img"><img src="https://s3.amazonaws.com/wagency/WAGE-Pending-Logo.png"/></div>
 
@@ -111,98 +161,13 @@ var CertificationShow = React.createClass({
   } else {
     return (
       <div id="certification" className="show">
-        <h3><span className="title">Certification: FY {moment(this.state.certification.fiscal_start).format('YYYY')}</span></h3>
-        <CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} isFuture={this.props.isFuture}/>
+        <h3><span className="title">New Certification: FY  {moment(this.state.certification.fiscal_start).format('YYYY')}</span></h3>
+        <div className="new col-xs-12 col-md-9 col-lg-7">
+        <CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} canSubmit={this.state.canSubmit} handleUserUpdate={this.handleUserUpdate} isFuture={this.state.isFuture} />
+        {this.actions()}
+        </div>
       </div>
     )
   }
   }
 });
-
-// var artist_payments = this.state.artist_payments.map( function(artist_payment, i) {
-//   var payment_row =
-//             <tr key={artist_payment.id}>
-//                <td className="first">{artist_payment.date}</td>
-//                <td>{artist_payment.artist_name}</td>
-//                <td>{artist_payment.name}</td>
-//                <td>{artist_payment.fee_category_id}</td>
-//                <td>{artist_payment.amount}</td>
-//                <td>{artist_payment.check_no}</td>
-//             </tr>
-//
-//   var index = i + 1
-//   return (
-//     <table>
-//       <thead>
-//         <tr>
-//           <th className="first">Date</th>
-//           <th>Artist Name</th>
-//           <th>Program Name</th>
-//           <th>Fee Category</th>
-//           <th>Amount</th>
-//           <th>Check No.</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         {payment_row}
-//       </tbody>
-//     </table>
-//   )
-// })
-//
-//
-// if (this.state.certification.status == 0 ) {
-//   var formatted_status = <span className="in-progress">In Progress</span>
-// } else if (this.state.certification.status == 1 ) {
-//   var formatted_status = <span className="submit">Ready To Submit</span>
-// }
-//
-// if ( this.state.submitMode ) {
-//   var submit = ( <div>
-//       <button onClick={this.handleCertificationUpdate} className="btn">Submit</button>
-//     </div>
-//   );
-// };
-//
-// if ( this.state.previewMode ) {
-//   var preview = (
-//     <div className="preview">
-//       <CertificationSubmitView certification={this.state.certification} user={this.state.user} artist_payments={this.state.artist_payments}/>
-//     </div>
-//   );
-// } else {
-//   var edit_mode = (
-//     <div className="edit">
-//       <CertificationFinancials certification={this.state.certification} />
-//     </div>
-//   )
-// };
-// if ( this.state.previewMode ) {
-//   var editButton = "Edit"
-// } else {
-//   var editButton = "Preview"
-// }
-//
-// var row = (
-//     <div key={this.state.certification.id}>
-//       <div className="title">
-//       <div className="page-header">
-//         <h2>Application</h2>
-//         <div>
-//           <h5 className="header">For fiscal year</h5>
-//           <h4>{formatted_date}</h4>
-//         </div>
-//       </div>
-//       <div className="status">
-//         <h4 className="status">{formatted_status} <button onClick={this.togglePreviewMode} className="btn">{editButton}</button></h4>
-//         {submit}
-//       </div>
-//       </div>
-//       <div className="body ">
-//         {preview}
-//         {edit_mode}
-//         <ArtistPayments artist_payments={this.state.artist_payments} formatted_date={formatted_date} previewMode={this.state.previewMode} certification={this.state.certification} fee_categories={this.props.fee_categories}/>
-//       </div>
-//     </div>
-//   );
-// return row;

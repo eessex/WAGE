@@ -175,7 +175,7 @@ var FiscalDates = React.createClass({
     return (
       <div id="fiscal-dates">
         <div className="col-xs-12">
-          <h2><span>Fiscal Details</span></h2>
+          <h1><span>Fiscal Details</span></h1>
           {fiscal_dates}
         </div>
      </div>
