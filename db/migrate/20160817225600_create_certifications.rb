@@ -7,10 +7,9 @@ class CreateCertifications < ActiveRecord::Migration
       t.date   :fiscal_start
       t.date   :fiscal_end
       t.integer  :operating_expenses
-      t.integer  :ant_artist_expenses
+      t.string  :file_contract
       t.string  :file_990
       t.string  :file_budget
-      t.string  :statement
       t.timestamps null: false
     end
   end

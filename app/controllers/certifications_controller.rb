@@ -28,11 +28,14 @@ class CertificationsController < ApplicationController
 
   def update
     @certification = Certification.find(params[:id])
+    @user = @certification.user
     respond_to do |format|
-      # certification_params[:operating_expenses] = certification_params[:operating_expenses].gsub(",","")
-      # certification_params[:ant_artist_expenses] = certification_params[:ant_artist_expenses].gsub(",","")
+      certification_params[:operating_expenses] = certification_params[:operating_expenses].gsub(",","")
       format.json do
         if @certification.update(certification_params)
+          if @certification.status == 2
+            WageMailer.submit_confirmation(@user, @certification).deliver_now
+          end
           render :json => @certification
         else
           render :json => { :errors => @certification.errors.messages }, :status => 422
@@ -51,7 +54,7 @@ class CertificationsController < ApplicationController
   private
 
   def certification_params
-    params.require(:certification).permit(:id, :fiscal_start, :fiscal_end, :user_id, :status, :operating_expenses, :ant_artist_expenses, :file_990, :file_budget, :statement)
+    params.require(:certification).permit(:id, :fiscal_start, :fiscal_end, :user_id, :status, :operating_expenses, :file_contract, :file_990, :file_budget, :statement)
   end
 
   def fee_categories_list

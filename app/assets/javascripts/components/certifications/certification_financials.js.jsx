@@ -32,9 +32,20 @@ var CertificationFinancials = React.createClass({
     }
     return file_budget
   },
+  hasFileContract() {
+    if (this.state.certification.file_contract) {
+      var file_contract = <p className="form-control"><button onClick={this.clearFileContract}>Replace</button> {this.state.certification.file_contract}</p>
+    } else {
+      var file_contract = <input
+        value={this.state.certification.file_contract}
+        type="file"
+        className="form-control"
+        onChange={this.handleFileContractChange} />
+    }
+    return file_contract
+  },
   hasFile_501c3() {
-    if (this.props.newUser == true) {
-      if (this.state.user.file_501c3) {
+    if (this.props.newUser == true && this.state.user.file_501c3) {
         var _501c3 =  <div className="form-item">
                       <h4>501c3</h4>
                       <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
@@ -42,13 +53,17 @@ var CertificationFinancials = React.createClass({
                       <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
                     </div>
       } else {
-        var _501c3 = <input
-          value={this.state.user.file_501c3}
-          type="file"
-          className="form-control"
-          onChange={this.handleFile_501c3Change} />
+        var _501c3 = <div className="form-item">
+                      <h4>501c3</h4>
+                      <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
+                      <input
+                      value={this.state.user.file_501c3}
+                      type="file"
+                      className="form-control"
+                      onChange={this.handleFile_501c3Change} />
+                      <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
+                    </div>
       }
-    } else { var _501c3 }
     return _501c3
   },
   hasOperatingExpenses() {
@@ -68,6 +83,11 @@ var CertificationFinancials = React.createClass({
     newCertification.file_budget = null
     this.setState({certification: newCertification });
   },
+  clearFileContract() {
+    var newCertification = this.state.certification
+    newCertification.file_contract = null
+    this.setState({certification: newCertification });
+  },
   clearFile_501c3() {
     var newUser = this.state.user
     newUser.file_501c3 = null
@@ -82,6 +102,12 @@ var CertificationFinancials = React.createClass({
   handleFileBudgetChange(e) {
     var newCertification = this.state.certification
     newCertification.file_budget = e.target.value
+    this.setState({certification: newCertification});
+    this.props.handleCertificationUpdate(this.state.certification)
+  },
+  handleFileContractChange(e) {
+    var newCertification = this.state.certification
+    newCertification.file_contract = e.target.value
     this.setState({certification: newCertification});
     this.props.handleCertificationUpdate(this.state.certification)
   },
@@ -130,8 +156,16 @@ var CertificationFinancials = React.createClass({
               </div>
             </div>
             <div className="form-item">
+                <h4>Sample Contracts</h4>
+                <p>A PDF of templates for any contracts used with artists.</p>
+                {this.hasFileContract()}
+              <div className="helper">
+                <span style={{color: 'red'}}>{this.state.errors.file_990}</span>
+              </div>
+            </div>
+            <div className="form-item">
               <h4>Operating Budget</h4>
-              <p>A closed out operating budget for the fiscal year {moment(this.state.certification.fiscal_start).format('Y')} with ‘Artist Fees’ visible as a distinct line item.</p>
+              <p>A closed out operating budget for the fiscal year  {moment(this.state.certification.fiscal_start).format('Y')} with ‘Artist Fees’ visible as a distinct line item.</p>
               {this.hasFileBudget()}
               <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
             </div>

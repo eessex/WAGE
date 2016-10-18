@@ -20,8 +20,12 @@ fee_cat_12 = FeeCategory.create(name: "Existing Text for Publication", descripti
 fee_cat_13 = FeeCategory.create(name: "Commissioned Text for Publication", description: "A new essay or text commissioned for publication by an organization. (Copyright remains with the artist/author: payment of a fee does not render the commission 'work for hire.')", floor_fee: 0.25, fee_subtitle: "/word")
 fee_cat_14 = FeeCategory.create(name: "Day Rate for Performers", description: "Fees paid to performers participating in commissioned and existing performances created by the Contracted Artist. Fees are paid to performers directly by the organization.", floor_fee: 20, fee_subtitle: "/hour")
 
-issue = User.create(institution_name: "ISSUE Project Room", email: "test@issueprojectroom.org", password: "password", password_confirmation: "password")
-artistsspace = User.create(institution_name: "Artists Space", email: "test@artistsspace.org", password: "password", password_confirmation: "password")
+issue = User.new(institution_name: "ISSUE Project Room", email: "test@issueprojectroom.org", password: "password", password_confirmation: "password")
+artistsspace = User.new(institution_name: "Artists Space", email: "test@artistsspace.org", password: "password", password_confirmation: "password")
 
+issue.skip_confirmation!
+artistsspace.skip_confirmation!
+issue.save!
+artistsspace.save!
 
 # cert1 = Certification.create(user_id: 1, fiscal_start: "2015-01-01", fiscal_end: "2015-12-31", operating_expenses: 500000)

@@ -1,0 +1,11 @@
+<p>Dear <%= @user.rep_name %>,</p>
+
+<p>Thank you, we have received your application for W.A.G.E. certification during <%= @user.institution_name %>'s fiscal year XXXX.</p>
+
+<p>If your application is in the future year...</p>
+
+<p>If your application is in the current year...</p>
+
+<p>If your application is in a past year...</p>
+
+<p><a href="<%= @url + '/certifications/' + @certification.id.to_s %>"> MY APPLICATION LINK</a></p>

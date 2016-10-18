@@ -13,4 +13,12 @@ class WageMailer < Devise::Mailer
    end
    super
   end
+
+  def submit_confirmation(user, certification)
+    @user = user
+    @certification = certification
+    @url  = 'http://localhost:3000'
+    mail(to: @user.email, from: ENV['SENDMAIL_USERNAME'], subject: 'Your Application to W.A.G.E. has been received')
+  end
+
 end

@@ -3,7 +3,7 @@ class Certification < ActiveRecord::Base
   has_many :artist_payments
   validates :fiscal_start, uniqueness: { scope: :user_id }
   validates :fiscal_end, uniqueness: { scope: :user_id }
-  # validates :operating_expenses, :ant_artist_expenses, :numericality => {:integer => true}
+  # validates :operating_expenses, :numericality => {:float => true}
   # validate :start_is_before_end
 
   # def formatted_date_month

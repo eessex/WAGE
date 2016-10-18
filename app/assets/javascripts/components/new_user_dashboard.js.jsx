@@ -97,6 +97,7 @@ var NewUserDashboard = React.createClass({
         && this.state.user.fiscal_start
         && this.state.user.fiscal_end
         && this.state.user.statement
+        && this.state.user.file_501c3
         && this.state.certifications.length > 0
         && this.state.certifications[0].operating_expenses
         && this.state.certifications[0].file_990
