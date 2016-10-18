@@ -41,6 +41,7 @@ var UserStatement = React.createClass({
     var newUser = this.state.user
     newUser.statement = e.target.value
     this.setState({user: newUser});
+    this.handleUserUpdate()
   },
   toggleStatus: function () {
     var newUser = this.state.user
@@ -58,22 +59,11 @@ var UserStatement = React.createClass({
         that.setState({
           errors: {}
         });
-        that.props.onNext()
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
       }
     });
-  },
-  handleUserDelete() {
-    var that = this;
-    $.ajax({
-      method: 'DELETE',
-      url: '/users/' + that.state.user.id + '.json',
-      success: function(res) {
-        that.props.onDeleteUser(that.state.user);
-      }
-    })
   },
 
   render() {
@@ -91,16 +81,13 @@ var UserStatement = React.createClass({
       var markup = (
         <div className="edit">
             {form}
-            <div id="actions">
-              <button className="btn btn-lg save" onClick={this.handleUserUpdate}>Save</button>
-            </div>
         </div>
       );
 
     return (
     <div id="statement">
       <div className="title">
-        <h2><span>Statement of Intent</span></h2>
+        <h1><span>Statement of Intent</span></h1>
       </div>
       <div id="statement" className="col-xs-12">
         <div className="header">

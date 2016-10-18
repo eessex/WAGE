@@ -231,7 +231,7 @@ var NewUserContact = React.createClass({
     var displayStreet = <span>{this.state.user.address_st2 ? ", " + this.state.user.address_st2 : ""}</span>;
     return (
       <div id="contact" className="contact">
-        <h2 className="title"><span>Contact Information</span></h2>
+        <h1 className="title"><span>Contact Information</span></h1>
         {this.contactForm()}
         {this.addressForm()}
       </div>
