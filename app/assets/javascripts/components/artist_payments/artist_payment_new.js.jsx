@@ -85,42 +85,47 @@ var ArtistPaymentNew = React.createClass({
       <div id="artist_payments" className="artist_payments new container">
         <div className="intro">
             <h1><span>Artist Payments</span></h1>
+            <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
             <h4>Please fill in the fields below detailing your history of fee payments to artists between {this.props.formatted_dates()}. </h4>
+            <p>If you prefer to submit a Quickbooks P&L, upload it <a href="/#">HERE</a>.</p>
         </div>
-        <div className="form">
-          <div className="col col-md-3 col-lg-6">
-          <div className="form-group">
-            <label>Date</label>
-            <input
-              value={this.state.artist_payment.date}
-              type="date"
-              className="form-control"
-              onChange={this.handleDateChange}  />
-            <span style={{color: 'red'}}>{this.state.errors.date}</span>
-          </div>
+        <div className="new-payment">
+          <h3 className="header">Create A New Payment</h3>
+          <div className="form">
+            <div className="col col-xs-12 col-md-6">
             <div className="form-group">
-            <label>Artist Name</label>
+              <label>Date</label>
               <input
-                value={this.state.artist_payment.artist_name}
-                type="text"
-                placeholder="Artist Name"
-                onChange={this.handleArtistNameChange}
-                className="form-control" />
-              <span style={{color: 'red'}}>{this.state.errors.artist_name}</span>
+                value={this.state.artist_payment.date}
+                type="date"
+                className="form-control"
+                onChange={this.handleDateChange}  />
+              <span style={{color: 'red'}}>{this.state.errors.date}</span>
             </div>
-            <div className="form-group">
-            <label>Program Name</label>
-              <input
-                type="text"
-                value={this.state.artist_payment.name}
-                placeholder="Program Name"
-                onChange={this.handleNameChange}
-                className="form-control"/>
-              <span style={{color: 'red'}}>{this.state.errors.name}</span>
+              <div className="form-group">
+              <label>Artist Name</label>
+                <input
+                  value={this.state.artist_payment.artist_name}
+                  type="text"
+                  placeholder="Artist Name"
+                  onChange={this.handleArtistNameChange}
+                  className="form-control" />
+                <span style={{color: 'red'}}>{this.state.errors.artist_name}</span>
+              </div>
+              <div className="form-group">
+              <label>Program Name</label>
+                <input
+                  type="text"
+                  value={this.state.artist_payment.name}
+                  placeholder="Program Name"
+                  onChange={this.handleNameChange}
+                  className="form-control"/>
+                <span style={{color: 'red'}}>{this.state.errors.name}</span>
+              </div>
             </div>
-          </div>
 
-          <div className="col col-md-3 col-lg-6">
+
+          <div className="col col-xs-12 col-md-6">
             <div className="form-group">
               <label>Fee Category</label>
               <select
@@ -153,9 +158,10 @@ var ArtistPaymentNew = React.createClass({
               <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
             </div>
           </div>
-          <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg">Add New Payment</button><p>If you prefer to submit a Quickbooks P&L, upload it <a href="/#">HERE</a>.</p></div>
+          <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg">Add New Payment</button></div>
         </div>
       </div>
+            </div>
       );
     }
   });

@@ -15,8 +15,7 @@
   }
 }
 
-.new-user-dashboard {
-  .greeting {
+.new-user-dashboard .greeting {
     h4 {
       position: absolute;
       left: 1em 0;
@@ -54,6 +53,5 @@
     .review span:nth-child(5) {
       font-weight: 700;
       border-bottom: 2px solid lime;
-    }
   }
 }

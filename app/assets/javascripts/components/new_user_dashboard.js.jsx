@@ -173,7 +173,7 @@ var NewUserDashboard = React.createClass({
       var greeting =
       <div className="greeting">
         <h4>Get Certified</h4>
-        <h6 data-state={this.state.application_progress} className={"status col-xs-12 col-md-9 col-lg-7 " + STATUS[this.state.certification_progress]}>
+        <h6 data-state={this.state.application_progress} className={"status col-xs-12 col-sm-9 col-md-7 " + STATUS[this.state.certification_progress]}>
           <span onClick={this.setProgress}>1. Guildelines</span>
           <span onClick={this.setProgress}>2. Contact</span>
           <span onClick={this.setProgress}>3. Statement of Intent</span>
@@ -217,7 +217,7 @@ var NewUserDashboard = React.createClass({
     return (
       <div className="new-user-dashboard">
         {this.greeting()}
-        <div id="new-user-dashboard" className="col-xs-12 col-md-9 col-lg-7">
+        <div id="new-user-dashboard" className="col-xs-12 col-sm-9 col-md-7">
           {flash}
           {dashboard}
           {this.btn()}
