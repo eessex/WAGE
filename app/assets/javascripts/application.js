@@ -16,6 +16,8 @@
 //= require bootstrap-sprockets
 //= require react
 //= require react_ujs
+//= require ./vendor/jquery.ui.widget
+//= require ./vendor/jquery.fileupload
 //= require components
 
 

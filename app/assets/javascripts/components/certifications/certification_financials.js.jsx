@@ -5,8 +5,144 @@ var CertificationFinancials = React.createClass({
       user: this.props.user,
       certifications: this.props.certifications,
       canSubmit: this.props.canSubmit,
+      sign: null,
       errors: {}
     }
+  },
+  hasOperatingExpenses() {
+    if (this.props.certification) {
+      return this.props.certification.operating_expenses
+    } else {
+      return ""
+    }
+  },
+  clearFile990() {
+    var newCertification = this.state.certification
+    newCertification.file_990 = null
+    this.setState({certification: newCertification })
+    this.props.handleCertificationUpdate(this.state.certification)
+  },
+  clearFileBudget() {
+    var newCertification = this.state.certification
+    newCertification.file_budget = null
+    this.setState({certification: newCertification })
+    this.props.handleCertificationUpdate(this.state.certification)
+  },
+  clearFileContract() {
+    var newCertification = this.state.certification
+    newCertification.file_contract = null
+    this.setState({certification: newCertification })
+    this.props.handleCertificationUpdate(this.state.certification)
+  },
+  clearFile_501c3() {
+    var newUser = this.state.user
+    newUser.file_501c3 = null
+    this.setState({user: newUser })
+    this.props.handleUserUpdate(this.state.user)
+  },
+  handleOperatingExpensesChange(e) {
+    var newCertification = this.state.certification
+    newCertification.operating_expenses = e.target.value
+    this.setState({certification: newCertification})
+    this.props.handleCertificationUpdate(this.state.certification)
+  },
+  // getSignature() {
+  //   var self = this
+  //   var returnedData
+  //   // $.getJSON('/upload.json', function (data) {
+  //   //     that.setState({sign: data.data})
+  //   //   });
+  //   //   debugger
+  //   $.getJSON('/upload.json').done(function(response) {
+  //       console.log(response); //here's your response
+  //       debugger
+  //       self.setState({sign: response })
+  //   });
+  //   debugger
+  // },
+  getSignature(e, cb) {
+    console.log('getSignature')
+      $.getJSON('/upload.json', function (signature) {
+          cb(signature.data);
+      });
+  },
+  uploadFile(signature) {
+    console.log('uploadFile')
+    // fileInput.fileupload({
+    //   fileInput:       fileInput,
+    //   url:             this.state.sign.url,
+    //   type:            'POST',
+    //   autoUpload:       true,
+    //   formData:         this.state.sign.form-data,
+    //   paramName:        'file', // S3 does not like nested name fields i.e. name="user[avatar_url]"
+    //   dataType:         'XML',  // S3 returns XML if success_action_status is set to 201
+    //   replaceFileInput: false,
+    //   // progressall: function (e, data) {
+    //   //   debugger
+    //   //   var progress = parseInt(data.loaded / data.total * 100, 10);
+    //   //   progressBar.css('width', progress + '%')
+    //   // },
+    //   start: function (e) {
+    //     debugger
+    //     // submitButton.prop('disabled', true);
+    //
+    //     // progressBar.
+    //     //   css('background', 'green').
+    //     //   css('display', 'block').
+    //     //   css('width', '0%').
+    //     //   text("Loading...");
+    //   },
+    //   done: function(e, data) {
+    //     debugger
+    //     // // submitButton.prop('disabled', false);
+    //     // progressBar.text("Uploading done");
+    //     //
+    //     // // extract key and generate URL from response
+    //     // var key   = $(data.jqXHR.responseXML).find("Key").text();
+    //     // var url   = '//' + form.data('host') + '/' + key;
+    //
+    //     // create hidden field
+    //     // var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
+    //     // form.append(input);
+    //   },
+    //   fail: function(e, data) {
+    //     debugger
+    //     // submitButton.prop('disabled', false);
+    //
+    //     // progressBar.
+    //     //   css("background", "red").
+    //     //   text("Failed");
+    //     }
+    //   });
+    // });
+  },
+  handleFileBudgetChange(e) {
+    console.log('handleFileBudgetChange')
+    this.getSignature(e, this.uploadFile)
+    var fileInput    = e.target
+    console.log('handleFileBudgetChange')
+    // var newCertification = this.state.certification
+    // newCertification.file_budget = e.target.value
+    // this.setState({certification: newCertification});
+    // this.props.handleCertificationUpdate(this.state.certification)
+  },
+  handleFileContractChange(e) {
+    var newCertification = this.state.certification
+    newCertification.file_contract = e.target.value
+    this.setState({certification: newCertification});
+    this.props.handleCertificationUpdate(this.state.certification)
+  },
+  handleFile990Change(e) {
+    var newCertification = this.state.certification
+    newCertification.file_990 = e.target.value
+    this.setState({certification: newCertification });
+    this.props.handleCertificationUpdate(this.state.certification)
+  },
+  handleFile_501c3Change(e) {
+    var newUser = this.state.user
+    newUser.file_501c3 = e.target.value
+    this.setState({user: newUser });
+    this.props.handleUserUpdate(this.state.user)
   },
   hasFile990() {
     if (this.state.certification.file_990) {
@@ -15,7 +151,7 @@ var CertificationFinancials = React.createClass({
       var file_990 = <input
         value={this.state.certification.file_990}
         type="file"
-        className="form-control"
+        className="form-control directUpload"
         onChange={this.handleFile990Change} />
     }
     return file_990
@@ -24,11 +160,14 @@ var CertificationFinancials = React.createClass({
     if (this.state.certification.file_budget) {
       var file_budget = <p className="form-control"><button onClick={this.clearFileBudget}>Replace</button> {this.state.certification.file_budget}</p>
     } else {
-      var file_budget = <input
-        value={this.state.certification.file_budget}
-        type="file"
-        className="form-control"
-        onChange={this.handleFileBudgetChange} />
+      var file_budget = <div className="directUpload form-control">
+        <input
+          value={this.state.certification.file_budget}
+          type="file"
+          className="form"
+          onChange={this.handleFileBudgetChange} />
+        <div className='bar'><div className='progress'></div></div>
+        </div>
     }
     return file_budget
   },
@@ -39,7 +178,7 @@ var CertificationFinancials = React.createClass({
       var file_contract = <input
         value={this.state.certification.file_contract}
         type="file"
-        className="form-control"
+        className="form-control directUpload"
         onChange={this.handleFileContractChange} />
     }
     return file_contract
@@ -59,73 +198,12 @@ var CertificationFinancials = React.createClass({
                       <input
                       value={this.state.user.file_501c3}
                       type="file"
-                      className="form-control"
+                      className="form-control directUpload"
                       onChange={this.handleFile_501c3Change} />
                       <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
                     </div>
       }
     return _501c3
-  },
-  hasOperatingExpenses() {
-    if (this.props.certification) {
-      return this.props.certification.operating_expenses
-    } else {
-      return ""
-    }
-  },
-  clearFile990() {
-    var newCertification = this.state.certification
-    newCertification.file_990 = null
-    this.setState({certification: newCertification });
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
-  clearFileBudget() {
-    var newCertification = this.state.certification
-    newCertification.file_budget = null
-    this.setState({certification: newCertification });
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
-  clearFileContract() {
-    var newCertification = this.state.certification
-    newCertification.file_contract = null
-    this.setState({certification: newCertification });
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
-  clearFile_501c3() {
-    var newUser = this.state.user
-    newUser.file_501c3 = null
-    this.setState({user: newUser });
-    this.props.handleUserUpdate(this.state.user)
-  },
-  handleOperatingExpensesChange(e) {
-    var newCertification = this.state.certification
-    newCertification.operating_expenses = e.target.value
-    this.setState({certification: newCertification});
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
-  handleFileBudgetChange(e) {
-    var newCertification = this.state.certification
-    newCertification.file_budget = e.target.value
-    this.setState({certification: newCertification});
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
-  handleFileContractChange(e) {
-    var newCertification = this.state.certification
-    newCertification.file_contract = e.target.value
-    this.setState({certification: newCertification});
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
-  handleFile990Change(e) {
-    var newCertification = this.state.certification
-    newCertification.file_990 = e.target.value
-    this.setState({certification: newCertification });
-    this.props.handleCertificationUpdate(this.state.certification)
-  },
-  handleFile_501c3Change(e) {
-    var newUser = this.state.user
-    newUser.file_501c3 = e.target.value
-    this.setState({user: newUser });
-    this.props.handleUserUpdate(this.state.user)
   },
   render() {
     var file_990_caption

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   authenticated :user do
     root to: 'site#index', as: :authenticated_root
-    resources :employees, :except => [:new, :edit]
+    get "/upload.json" => "file#show"
     resources :certifications, :except => [:new, :edit]
     resources :fee_categories, :except => [:new, :edit]
     resources :artist_payments, :except => [:new, :edit, :show]

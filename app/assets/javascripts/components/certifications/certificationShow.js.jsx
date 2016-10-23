@@ -7,7 +7,7 @@ var CertificationShow = React.createClass({
       sortBy: 'date',
       isFuture: false,
       canSubmit: false,
-      contentState: 0,
+      contentState: 1,
       applicationStatus: this.applicationStatus(),
       sortDir: 'ASC'
     }
