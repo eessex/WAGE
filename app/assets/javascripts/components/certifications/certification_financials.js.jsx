@@ -5,7 +5,6 @@ var CertificationFinancials = React.createClass({
       user: this.props.user,
       certifications: this.props.certifications,
       canSubmit: this.props.canSubmit,
-      sign: null,
       errors: {}
     }
   },
@@ -46,54 +45,54 @@ var CertificationFinancials = React.createClass({
     this.setState({certification: newCertification})
     this.props.handleCertificationUpdate(this.state.certification)
   },
-  // getSignature() {
-  //   var self = this
-  //   var returnedData
-  //   // $.getJSON('/upload.json', function (data) {
-  //   //     that.setState({sign: data.data})
-  //   //   });
-  //   //   debugger
-  //   $.getJSON('/upload.json').done(function(response) {
-  //       console.log(response); //here's your response
-  //       debugger
-  //       self.setState({sign: response })
-  //   });
-  //   debugger
-  // },
   getSignature(e, cb) {
     console.log('getSignature')
       $.getJSON('/upload.json', function (signature) {
-          cb(signature.data);
+          cb(e, signature.data);
       });
   },
-  uploadFile(signature) {
+  uploadFile(event, signature) {
     console.log('uploadFile')
-    // fileInput.fileupload({
-    //   fileInput:       fileInput,
-    //   url:             this.state.sign.url,
-    //   type:            'POST',
-    //   autoUpload:       true,
-    //   formData:         this.state.sign.form-data,
-    //   paramName:        'file', // S3 does not like nested name fields i.e. name="user[avatar_url]"
-    //   dataType:         'XML',  // S3 returns XML if success_action_status is set to 201
-    //   replaceFileInput: false,
-    //   // progressall: function (e, data) {
-    //   //   debugger
-    //   //   var progress = parseInt(data.loaded / data.total * 100, 10);
-    //   //   progressBar.css('width', progress + '%')
-    //   // },
-    //   start: function (e) {
-    //     debugger
-    //     // submitButton.prop('disabled', true);
-    //
-    //     // progressBar.
-    //     //   css('background', 'green').
-    //     //   css('display', 'block').
-    //     //   css('width', '0%').
-    //     //   text("Loading...");
-    //   },
-    //   done: function(e, data) {
-    //     debugger
+    var fileInput = $(event.target)
+    debugger
+    // fileInput: $(this).find('input:file')
+    fileInput.fileupload({
+      fileInput:        fileInput,
+      url:              signature['url'],
+      type:             'POST',
+      headers:          {'Content-Type': 'multipart/form-data'},
+      autoUpload:       true,
+      formData:         signature['form-data'],
+      paramName:        'file', // S3 does not like nested name fields i.e. name="user[avatar_url]"
+      dataType:         'XML',  // S3 returns XML if success_action_status is set to 201
+      replaceFileInput: false,
+      progressall: function (e, data) {
+        console.log('progress')
+        debugger
+        // var progress = parseInt(data.loaded / data.total * 100, 10);
+        // progressBar.css('width', progress + '%')
+      },
+      add: function (e, data) {
+        console.log('add')
+        debugger
+        data.submit()
+        // var progress = parseInt(data.loaded / data.total * 100, 10);
+        // progressBar.css('width', progress + '%')
+      },
+      start: function (e) {
+        console.log('start')
+        debugger
+        // submitButton.prop('disabled', true);
+
+        // progressBar.
+        //   css('background', 'green').
+        //   css('display', 'block').
+        //   css('width', '0%').
+        //   text("Loading...");
+      },
+      done: function(e, data) {
+        console.log('done')
+        debugger
     //     // // submitButton.prop('disabled', false);
     //     // progressBar.text("Uploading done");
     //     //
@@ -104,17 +103,17 @@ var CertificationFinancials = React.createClass({
     //     // create hidden field
     //     // var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
     //     // form.append(input);
-    //   },
-    //   fail: function(e, data) {
-    //     debugger
-    //     // submitButton.prop('disabled', false);
-    //
-    //     // progressBar.
-    //     //   css("background", "red").
-    //     //   text("Failed");
-    //     }
-    //   });
-    // });
+      },
+      fail: function(e, data) {
+        console.log('fail')
+        debugger
+        // submitButton.prop('disabled', false);
+
+        // progressBar.
+        //   css("background", "red").
+        //   text("Failed");
+        }
+    });
   },
   handleFileBudgetChange(e) {
     console.log('handleFileBudgetChange')
@@ -157,9 +156,9 @@ var CertificationFinancials = React.createClass({
     return file_990
   },
   hasFileBudget() {
-    if (this.state.certification.file_budget) {
-      var file_budget = <p className="form-control"><button onClick={this.clearFileBudget}>Replace</button> {this.state.certification.file_budget}</p>
-    } else {
+    // if (this.state.certification.file_budget) {
+    //   var file_budget = <p className="form-control"><button onClick={this.clearFileBudget}>Replace</button> {this.state.certification.file_budget}</p>
+    // } else {
       var file_budget = <div className="directUpload form-control">
         <input
           value={this.state.certification.file_budget}
@@ -168,7 +167,7 @@ var CertificationFinancials = React.createClass({
           onChange={this.handleFileBudgetChange} />
         <div className='bar'><div className='progress'></div></div>
         </div>
-    }
+    // }
     return file_budget
   },
   hasFileContract() {
