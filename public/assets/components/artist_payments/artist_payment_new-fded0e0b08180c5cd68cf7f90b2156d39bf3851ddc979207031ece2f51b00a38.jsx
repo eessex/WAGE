@@ -86,8 +86,8 @@ var ArtistPaymentNew = React.createClass({
         <div className="intro">
             <h1><span>Artist Payments</span></h1>
             <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
-            <h4>Please fill in the fields below detailing your history of fee payments to artists between {this.props.formatted_dates()}. </h4>
-            <p>If you prefer to submit a Quickbooks P&L, upload it <a href="/#">HERE</a>.</p>
+            <h4>Create an entry for each fee payment to an artist between {this.props.formatted_dates()}. </h4>
+            <h5>If you prefer to submit a Quickbooks P&L: <input type="file" id="qb_pl"/></h5>
         </div>
         <div className="new-payment">
           <h3 className="header">Create A New Payment</h3>
@@ -158,7 +158,7 @@ var ArtistPaymentNew = React.createClass({
               <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
             </div>
           </div>
-          <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg">Add New Payment</button></div>
+          <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg"><i className="fa fa-plus" aria-hidden="true"></i> Submit</button></div>
         </div>
       </div>
             </div>

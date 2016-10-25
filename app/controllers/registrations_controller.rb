@@ -1,5 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters, if: :devise_controller?
+  # before_action :set_user, only: [:show, :edit, :update, :destroy]
+  # before_action :set_s3_direct_post, only: [:edit, :update]
   respond_to :json
 
   protected
@@ -18,4 +20,5 @@ class RegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(resource)
     :root_path
   end
+
 end

@@ -1,4 +1,7 @@
 class SiteController < ApplicationController
+  # before_action :set_user, only: [:show, :edit, :update, :destroy]
+  # before_action :set_s3_direct_post, only: [:edit, :update]
+
   def index
     @user = current_user
     @fee_categories = FeeCategory.all

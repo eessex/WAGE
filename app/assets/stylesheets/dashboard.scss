@@ -1,3 +1,16 @@
+.progress {
+  width: 50%;
+  float: right;
+  margin-top: -1.9em;
+  margin-right: 8px;
+  .bar {
+    padding-left: 10px;
+    font-size: smaller;
+    height: 100%;
+    padding-top: 1px;
+  }
+}
+
 #dashboard {
   #certifications {
     display: flex;

@@ -7,13 +7,15 @@ var CertificationShow = React.createClass({
       sortBy: 'date',
       isFuture: false,
       canSubmit: false,
-      contentState: 0,
+      hasFinancials: false,
+      hasPayments: false,
+      contentState: 1,
       applicationStatus: this.applicationStatus(),
       sortDir: 'ASC'
     }
   },
   componentDidMount() {
-    this.setState({isFuture: this.isFuture(), canSubmit: this.canSubmit(this.state.certification, this.state.user)})
+    this.setState({isFuture: this.isFuture(), canSubmit: this.canSubmit(this.state.certification, this.state.user), hasFinancials: this.hasFinancials(), hasPayments: this.hasPayments() })
   },
   canSubmit(certification, user) {
     if (
@@ -33,6 +35,21 @@ var CertificationShow = React.createClass({
       return true
     } else {
       return false
+    }
+  },
+  hasFinancials() {
+    if ( this.state.certification.operating_expenses &&
+        this.state.certification.file_990 &&
+        this.state.certification.file_budget &&
+        this.state.user.file_501c3 ) {
+      // console.log('has operating_expenses & file_990 & file_budget & file_501c3')
+      return true
+    }
+  },
+  hasPayments() {
+    if ( this.state.artist_payments && this.state.artist_payments.length > 0 ) {
+      console.log('has payments')
+      return true
     }
   },
   applicationStatus() {
@@ -188,7 +205,7 @@ var CertificationShow = React.createClass({
             <i className="fa" aria-hidden="true"></i>
             <span onClick={this.setContentState}>Guidelines</span>
           </div>
-          <div className="item" data-id="1">
+          <div className="item" data-complete={this.hasFinancials()} data-id="1">
             <i className="fa fa-check" aria-hidden="true"></i>
             <span onClick={this.setContentState}>Fiscal Details</span>
           </div>
