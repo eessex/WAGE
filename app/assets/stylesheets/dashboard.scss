@@ -10,7 +10,17 @@
     padding-top: 1px;
   }
 }
-
+#qb_pl {
+  display: flex;
+  .progress {
+    margin-top: -.25em;
+    font-size: smaller;
+  }
+  p {
+    font-size: smaller;
+    font-weight: 300;
+  }
+}
 #dashboard {
   #certifications {
     display: flex;
@@ -35,8 +45,8 @@
   #fee-schedule {
     clear: both;
     margin-top: 5em;
-    h1 {
-      display: none;
-    }
+    // h1 {
+    //   display: none;
+    // }
   }
 }

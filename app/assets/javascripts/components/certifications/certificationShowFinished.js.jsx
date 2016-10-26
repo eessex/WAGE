@@ -1,4 +1,4 @@
-var CertificationShow = React.createClass({
+var CertificationShowFinished = React.createClass({
   getInitialState() {
     return {
       certification: this.props.certification,
@@ -171,27 +171,27 @@ var CertificationShow = React.createClass({
     return actions
   },
   contentState() {
-    if (this.state.contentState == 0) {
-    var contentState = <Guidelines key="new-user-contact"/>
-  } else if (this.state.contentState == 1) {
-    var contentState =  <div><h1><span>Fiscal Details</span></h1><CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} canSubmit={this.state.canSubmit} handleUserUpdate={this.handleUserUpdate} isFuture={this.state.isFuture} /></div>
-  } else if (this.state.contentState == 2) {
-    if (this.hasPayments()) {
+  //   if (this.state.contentState == 0) {
+  //   var contentState = <Guidelines key="new-user-contact"/>
+  // } else if (this.state.contentState == 1) {
+  //   var contentState =  <div><h1><span>Fiscal Details</span></h1><CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} canSubmit={this.state.canSubmit} handleUserUpdate={this.handleUserUpdate} isFuture={this.state.isFuture} /></div>
+  // } else if (this.state.contentState == 2) {
+  //   if (this.hasPayments()) {
+  //   var contentState =  <div>
+  //       <AmountBox artist_payments={this.state.artist_payments} certification={this.state.certification} />
+  //       <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} handleCertificationUpdate={this.handleCertificationUpdate} formatted_dates={this.formatDates} />
+  //       {this.getArtistPayments()}
+  //     </div>
+  //   } else {
+  //     var contentState =
+  //         <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates} handleCertificationUpdate={this.handleCertificationUpdate} />
+  //   }
+  // } else if (this.state.contentState == 3) {
     var contentState =  <div>
-        <AmountBox artist_payments={this.state.artist_payments} certification={this.state.certification} />
-        <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} handleCertificationUpdate={this.handleCertificationUpdate} formatted_dates={this.formatDates} />
-        {this.getArtistPayments()}
-      </div>
-    } else {
-      var contentState =
-          <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates} handleCertificationUpdate={this.handleCertificationUpdate} />
-    }
-  } else if (this.state.contentState == 3) {
-    var contentState =  <div>
-          <h1><span>Review</span></h1>
+          <h1><span>Application</span><small> * In Review</small></h1>
           <CertificationSubmitView user={this.state.user} certification={this.state.certification} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit}/>
         </div>
-  }
+  // }
     return contentState
   },
   setContentState(e) {
@@ -215,28 +215,10 @@ var CertificationShow = React.createClass({
                 </div>
     }
     return (
-      <div id="certification" className="show">
-        <div className="greeting">
-          <h4><span>Get Certified: FY  {formatted_date}</span></h4>
-          <h6 className="status col-xs-12 col-sm-9 col-md-7 ">
-          <div className="item" data-id="0">
-            <i className="fa" aria-hidden="true"></i>
-            <span onClick={this.setContentState}>Guidelines</span>
-          </div>
-          <div className="item" data-complete={this.hasFinancials()} data-id="1">
-            <i className="fa fa-check" aria-hidden="true"></i>
-            <span onClick={this.setContentState}>Fiscal Details</span>
-          </div>
-          {payments}
-          <div className="item" data-id="3">
-            <i className="fa fa-check" aria-hidden="true"></i>
-            <span onClick={this.setContentState}>Review</span>
-          </div>
-          </h6>
+      <div id="certification" className="show finished">
+        <div className="content" data-content-state={this.state.contentState}>
+          {this.contentState()}
         </div>
-      <div className="content" data-content-state={this.state.contentState}>
-        {this.contentState()}
-      </div>
         <div className="status-img"><img src="https://s3.amazonaws.com/wagency/WAGE-Pending-Logo.png"/></div>
       </div>
     )

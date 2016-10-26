@@ -226,6 +226,11 @@ input[type="file"] {
           color: lime;
         }
       }
+      .item[data-complete='progress'] {
+        i {
+          color: gold;
+        }
+      }
       i {
         font-size: 12px;
         margin-right: 5px;

@@ -55,8 +55,6 @@ var FeeSchedule = React.createClass({
       }, this);
     return (
       <div id="fee-schedule">
-        <h1><span>Fee Schedule: {moment(this.props.certification.fiscal_start).format('Y')}</span></h1>
-        <h4 className="taoe">TAOE: ${Number(this.props.certification.operating_expenses).toLocaleString()}</h4>
         <div>
           <div className="fee-category header">
             <h4>
@@ -79,3 +77,6 @@ var FeeCategoryRow = React.createClass({
     )
   }
 })
+// 
+// <h1><span>Fee Schedule: {moment(this.props.certification.fiscal_start).format('Y')}</span></h1>
+// <h4 className="taoe">TAOE: ${Number(this.props.certification.operating_expenses).toLocaleString()}</h4>

@@ -10,7 +10,11 @@ class CertificationsController < ApplicationController
     @certifications = Certification.where(user_id: User.first.id)
     @fee_categories = fee_categories_list
     @artist_payments = @certification.artist_payments
-    render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
+    if @certification.status < 2
+      render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
+    else
+      render component: 'CertificationShowFinished', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
+    end
   end
 
   def create
@@ -54,7 +58,7 @@ class CertificationsController < ApplicationController
   private
 
   def certification_params
-    params.require(:certification).permit(:id, :fiscal_start, :fiscal_end, :user_id, :status, :operating_expenses, :file_contract, :file_990, :file_budget, :statement)
+    params.require(:certification).permit(:id, :fiscal_start, :fiscal_end, :user_id, :status, :operating_expenses, :file_contract, :file_990, :qb_pl, :file_budget, :statement)
   end
 
   def fee_categories_list

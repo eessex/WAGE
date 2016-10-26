@@ -71,6 +71,10 @@ var ArtistPaymentNew = React.createClass({
       }
     });
   },
+  formQbPl() {
+    var qb_pl = <QbPl certification={this.props.certification} handleCertificationUpdate={this.props.handleCertificationUpdate} />
+    return qb_pl
+  },
   render() {
     var that = this
     var options = this.props.fee_categories.map( function(fee_category, i) {
@@ -87,10 +91,9 @@ var ArtistPaymentNew = React.createClass({
             <h1><span>Artist Payments</span></h1>
             <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
             <h4>Create an entry for each fee payment to an artist between {this.props.formatted_dates()}. </h4>
-            <h5>If you prefer to submit a Quickbooks P&L: <input type="file" id="qb_pl"/></h5>
+            <h5>Alternatively, you may submit a Quickbooks P&L: {this.formQbPl()}</h5>
         </div>
         <div className="new-payment">
-          <h3 className="header">Create A New Payment</h3>
           <div className="form">
             <div className="col col-xs-12 col-md-6">
             <div className="form-group">
@@ -158,10 +161,102 @@ var ArtistPaymentNew = React.createClass({
               <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
             </div>
           </div>
-          <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg"><i className="fa fa-plus" aria-hidden="true"></i> Submit</button></div>
+          <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg"><i className="fa fa-plus" aria-hidden="true"></i> Create New Payment</button></div>
         </div>
       </div>
             </div>
       );
     }
   });
+
+
+var QbPl = React.createClass({
+  getInitialState() {
+    return {
+      certification: this.props.certification
+    }
+  },
+  clearFile(e) {
+    var newCertification = this.state.certification
+    newCertification[e.target.id] = null
+    this.setState({certification: newCertification })
+    this.props.handleCertificationUpdate(this.state.certification)
+  },
+  getSignature(theUpload, cb) {
+    $.when( ajaxSign() ).done(function(res){
+      cb(theUpload, res.data);
+    }.bind(this));
+    function ajaxSign() {
+      return $.ajax({
+        url: '/upload.json',
+        dataType: 'json'
+      })
+    }
+  },
+  uploadFile(theUpload, signature) {
+    var that = this
+    var fileInput = $(theUpload.target)
+    var progressBar  = $('#' + theUpload.target.id + ' .bar');
+    fileInput.fileupload({
+      fileInput:       fileInput,
+      url:             signature['url'],
+      type:            'POST',
+      autoUpload:       true,
+      formData:         signature['form-data'],
+      paramName:        'file',
+      dataType:         'XML',
+      replaceFileInput: false,
+      progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        progressBar.css('width', progress + '%')
+      },
+      start: function (e) {
+        progressBar.
+          css('background', 'lime').
+          css('display', 'block').
+          css('width', '1%').
+          text("Loading...");
+      },
+      done: function(e, data) {
+        progressBar.text("Upload complete");
+        var key   = $(data.jqXHR.responseXML).find("Key").text();
+        var url = $(data.jqXHR.responseXML).find("Location").text()
+        var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
+        var newCertification = that.state.certification
+        newCertification[e.target.id] = url
+        that.setState({certification: newCertification});
+        that.props.handleCertificationUpdate(this.state.certification)
+      }.bind(this),
+      fail: function(e, data) {
+        console.log('fail')
+        progressBar.
+          css("background", "red").
+          text("Failed");
+      }
+    });
+  },
+  handleFileChange(e) {
+    target = $(e.target)
+    this.getSignature(e, this.uploadFile)
+  },
+  hasFile(type) {
+    if (this.state.certification[type]) {
+      var file = <div id={type} className="file-uploaded"><button onClick={this.clearFile}>Replace</button> {this.state.certification[type]}</div>
+    } else {
+      var file = <div id={type} className="directUpload">
+        <input
+          value=""
+          type="file"
+          id={type}
+          onChange={this.handleFileChange} />
+        <div className='progress'><div className='bar'></div></div>
+        </div>
+    }
+    return file
+  },
+  render() {
+    return (
+      <div>{this.hasFile('qb_pl')}</div>
+    )
+  }
+});
