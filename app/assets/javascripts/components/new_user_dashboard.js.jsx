@@ -34,7 +34,7 @@ var NewUserDashboard = React.createClass({
       success: function(res) {
         certifications = that.state.certifications
         certifications.push(res)
-        that.setState({certification: res})
+        that.setState({certification: res, certifications: certifications})
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors})
@@ -170,9 +170,11 @@ var NewUserDashboard = React.createClass({
       } else {
         var button
       }
+      var d = new Date();
+      var current_year = d.getFullYear();
       var greeting =
       <div className="greeting">
-        <h4>Get Certified</h4>
+        <h4>Get Certified: FY {current_year}</h4>
         <h6 data-state={this.state.application_progress} className={"status col-xs-12 col-sm-9 col-md-7 " + STATUS[this.state.certification_progress]}>
           <span onClick={this.setProgress}>1. Guildelines</span>
           <span onClick={this.setProgress}>2. Contact</span>

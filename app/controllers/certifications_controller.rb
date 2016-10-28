@@ -9,7 +9,7 @@ class CertificationsController < ApplicationController
     @user = User.find(@certification.user_id)
     @certifications = Certification.where(user_id: User.first.id)
     @fee_categories = fee_categories_list
-    @artist_payments = @certification.artist_payments
+    @artist_payments = @certification.artist_payments || []
     if @certification.status < 2
       render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
     else

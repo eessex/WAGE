@@ -85,7 +85,7 @@ var NewUserContact = React.createClass({
           disabled: true,
           errors: {}
         });
-        that.props.refreshUser(that.state.user)
+        // that.props.refreshUser(that.state.user)
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
@@ -96,8 +96,8 @@ var NewUserContact = React.createClass({
     var contactForm =
     <div className="form">
       <div className="field-group">
-        <h4 className="col-xs-3">Your Name</h4>
-        <div className="col-xs-9">
+        <h4 className="col col-xs-3">Your Name</h4>
+        <div className="col col-xs-9">
           <input
             type="text"
             placeholder="First Last"
@@ -109,8 +109,8 @@ var NewUserContact = React.createClass({
         </div>
       </div>
       <div className="field-group">
-        <h4 className="col-xs-3">Your Title</h4>
-        <div className="col-xs-9">
+        <h4 className="col col-xs-3">Your Title</h4>
+        <div className="col col-xs-9">
           <input
             type="text"
             placeholder="Development Director"
@@ -122,21 +122,8 @@ var NewUserContact = React.createClass({
         </div>
       </div>
       <div className="field-group">
-      <h4 className="col-xs-3">Email</h4>
-      <div className="col-xs-9">
-          <input
-            type="email"
-            placeholder="email"
-            name="email"
-            className="form-control"
-            value={this.state.user.email}
-            onChange={this.handleEmailChange} />
-          <span style={{color: 'red'}}>{this.state.errors.email}</span>
-        </div>
-      </div>
-      <div className="field-group">
-        <h4 className="col-xs-3">Phone</h4>
-        <div className="col-xs-9">
+        <h4 className="col col-xs-3">Phone</h4>
+        <div className="col col-xs-9">
           <input
             type="phone"
             placeholder="phone"
@@ -148,8 +135,8 @@ var NewUserContact = React.createClass({
         </div>
       </div>
       <div className="field-group">
-        <h4 className="col-xs-3">Website</h4>
-        <div className="col-xs-9">
+        <h4 className="col col-xs-3">Website</h4>
+        <div className="col col-xs-9">
           <input
             type="url"
             placeholder="http://example.org"
@@ -169,9 +156,9 @@ var NewUserContact = React.createClass({
     });
     var addressForm = <div key="contact">
       <div className="form">
-        <h4 className="col-xs-12">Mailing Address</h4>
+        <h4 className="col col-xs-12">Mailing Address</h4>
         <div className="field-group">
-          <div className="col-sm-8">
+          <div className="col col-sm-8">
             <input
               type="text"
               placeholder="Street Address"
@@ -193,7 +180,7 @@ var NewUserContact = React.createClass({
           </div>
         </div>
         <div className="field-group">
-          <div className="col-sm-6">
+          <div className="col col-sm-6">
             <input
               type="text"
               name="address_city"
@@ -231,10 +218,23 @@ var NewUserContact = React.createClass({
     var displayStreet = <span>{this.state.user.address_st2 ? ", " + this.state.user.address_st2 : ""}</span>;
     return (
       <div id="contact" className="contact">
-        <h1 className="title"><span>Contact Information</span></h1>
         {this.contactForm()}
         {this.addressForm()}
       </div>
     );
   }
 });
+
+// <div className="field-group">
+// <h4 className="col col-xs-3">Email</h4>
+// <div className="col col-xs-9">
+//     <input
+//       type="email"
+//       placeholder="email"
+//       name="email"
+//       className="form-control"
+//       value={this.state.user.email}
+//       onChange={this.handleEmailChange} />
+//     <span style={{color: 'red'}}>{this.state.errors.email}</span>
+//   </div>
+// </div>

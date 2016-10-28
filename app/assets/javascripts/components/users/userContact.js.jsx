@@ -74,22 +74,11 @@ var UserContact = React.createClass({
         that.setState({
           errors: {}
         });
-        that.props.onNext()
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
       }
     });
-  },
-  handleUserDelete() {
-    var that = this;
-    $.ajax({
-      method: 'DELETE',
-      url: '/users/' + that.state.user.id + '.json',
-      success: function(res) {
-        that.props.onDeleteUser(that.state.user);
-      }
-    })
   },
   contactForm() {
     var contactForm =
@@ -229,18 +218,16 @@ var UserContact = React.createClass({
   render() {
     var displayStreet = <span>{this.state.user.address_st2 ? ", " + this.state.user.address_st2 : ""}</span>;
     return (
-      <div className="contact  col-xs-12 col-sm-9 col-md-7">
-        <h2><span>1. Contact Information</span></h2>
+      <div className="contact">
         {this.contactForm()}
         {this.addressForm()}
-        <div className="actions rep">
-          <button className="btn btn-lg" onClick={this.handleUserUpdate}>Save</button>
-        </div>
       </div>
     );
   }
 });
-
+// <div className="actions rep">
+//   <button className="btn btn-lg" onClick={this.handleUserUpdate}>Save</button>
+// </div>
     //
 
     //

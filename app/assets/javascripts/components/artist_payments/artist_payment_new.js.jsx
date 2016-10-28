@@ -75,7 +75,7 @@ var ArtistPaymentNew = React.createClass({
     var qb_pl = <QbPl certification={this.props.certification} handleCertificationUpdate={this.props.handleCertificationUpdate} />
     return qb_pl
   },
-  render() {
+  newForm() {
     var that = this
     var options = this.props.fee_categories.map( function(fee_category, i) {
       var index = i + 1
@@ -85,86 +85,97 @@ var ArtistPaymentNew = React.createClass({
         </option>
       )
     })
+    if (this.props.isFuture) {
+      var form = <div className="new-payment">
+        <div className="form">
+          <div className="col col-xs-12 col-md-6">
+          <div className="form-group">
+            <label>Date</label>
+            <input
+              value={this.state.artist_payment.date}
+              type="date"
+              className="form-control"
+              onChange={this.handleDateChange}  />
+            <span style={{color: 'red'}}>{this.state.errors.date}</span>
+          </div>
+            <div className="form-group">
+            <label>Artist Name</label>
+              <input
+                value={this.state.artist_payment.artist_name}
+                type="text"
+                placeholder="Artist Name"
+                onChange={this.handleArtistNameChange}
+                className="form-control" />
+              <span style={{color: 'red'}}>{this.state.errors.artist_name}</span>
+            </div>
+            <div className="form-group">
+            <label>Program Name</label>
+              <input
+                type="text"
+                value={this.state.artist_payment.name}
+                placeholder="Program Name"
+                onChange={this.handleNameChange}
+                className="form-control"/>
+              <span style={{color: 'red'}}>{this.state.errors.name}</span>
+            </div>
+          </div>
+
+
+        <div className="col col-xs-12 col-md-6">
+          <div className="form-group">
+            <label>Fee Category</label>
+            <select
+              type='text'
+              className='form-control'
+              value={this.optionState}
+              onChange={this.handleFeeCategoryChange}
+              >
+              {options}
+            </select>
+          </div>
+          <div className="form-group">
+          <label>Amount</label>
+            <input
+              type="text"
+              placeholder="Amount"
+              value={this.state.artist_payment.amount}
+              onChange={this.handleAmountChange}
+              className="form-control"/>
+            <span style={{color: 'red'}}>{this.state.errors.amount}</span>
+          </div>
+          <div className="form-group">
+          <label>Check No.</label>
+            <input
+              type="text"
+              placeholder="Check No."
+              value={this.state.artist_payment.check_no}
+              onChange={this.handleCheckNoChange}
+              className="form-control" />
+            <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
+          </div>
+        </div>
+        <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg"><i className="fa fa-plus" aria-hidden="true"></i> Create New Payment</button></div>
+      </div>
+    </div>
+    } else {
+      var form
+    }
+    return form
+  },
+  render() {
     return (
       <div id="artist_payments" className="artist_payments new container">
         <div className="intro">
+          <div className="title">
             <h1><span>Artist Payments</span></h1>
-            <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
-            <h4>Create an entry for each fee payment to an artist between {this.props.formatted_dates()}. </h4>
-            <h5>Alternatively, you may submit a Quickbooks P&L: {this.formQbPl()}</h5>
-        </div>
-        <div className="new-payment">
-          <div className="form">
-            <div className="col col-xs-12 col-md-6">
-            <div className="form-group">
-              <label>Date</label>
-              <input
-                value={this.state.artist_payment.date}
-                type="date"
-                className="form-control"
-                onChange={this.handleDateChange}  />
-              <span style={{color: 'red'}}>{this.state.errors.date}</span>
-            </div>
-              <div className="form-group">
-              <label>Artist Name</label>
-                <input
-                  value={this.state.artist_payment.artist_name}
-                  type="text"
-                  placeholder="Artist Name"
-                  onChange={this.handleArtistNameChange}
-                  className="form-control" />
-                <span style={{color: 'red'}}>{this.state.errors.artist_name}</span>
-              </div>
-              <div className="form-group">
-              <label>Program Name</label>
-                <input
-                  type="text"
-                  value={this.state.artist_payment.name}
-                  placeholder="Program Name"
-                  onChange={this.handleNameChange}
-                  className="form-control"/>
-                <span style={{color: 'red'}}>{this.state.errors.name}</span>
-              </div>
-            </div>
-
-
-          <div className="col col-xs-12 col-md-6">
-            <div className="form-group">
-              <label>Fee Category</label>
-              <select
-                type='text'
-                className='form-control'
-                value={this.optionState}
-                onChange={this.handleFeeCategoryChange}
-                >
-                {options}
-              </select>
-            </div>
-            <div className="form-group">
-            <label>Amount</label>
-              <input
-                type="text"
-                placeholder="Amount"
-                value={this.state.artist_payment.amount}
-                onChange={this.handleAmountChange}
-                className="form-control"/>
-              <span style={{color: 'red'}}>{this.state.errors.amount}</span>
-            </div>
-            <div className="form-group">
-            <label>Check No.</label>
-              <input
-                type="text"
-                placeholder="Check No."
-                value={this.state.artist_payment.check_no}
-                onChange={this.handleCheckNoChange}
-                className="form-control" />
-              <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
-            </div>
+            <h4>FY: {this.props.formatted_dates()}</h4>
           </div>
-          <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg"><i className="fa fa-plus" aria-hidden="true"></i> Create New Payment</button></div>
+          <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
+          <h4>Create an entry for each fee payment to an artist between {this.props.formatted_dates()}. </h4>
+          <h5>Alternatively, you may submit a Quickbooks P&L: {this.formQbPl()}</h5>
         </div>
+        {this.newForm()}
       </div>
-            </div>
       );
     }
   });
