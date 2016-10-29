@@ -1,3 +1,16 @@
+.alert, .notice, .notices {
+  position: absolute;
+  left: 1.5em;
+  bottom: .5em;
+  z-index: 1000;
+  margin-bottom: 0;
+  font-size: 1.5em;
+  font-weight: 600;
+  border-bottom: 2px solid lime !important;
+  background-color: white;
+  padding: .25em .5em !important;
+}
+
 .dashboard {
   width: 100%;
 }

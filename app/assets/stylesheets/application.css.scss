@@ -209,13 +209,17 @@ main {
   display: flex;
   align-items: center;
   .notices {
-    position: absolute;
-    top: 4.25em;
-    background-color: $blue;
-    color: yellow;
-    padding: .5em;
-    right: 2em;
-    font-weight: $font-heavy;
+    // position: absolute;
+    // left: 1.5em;
+    // bottom: .5em;
+    // z-index: 1000;
+    // margin-bottom: 0;
+    // padding: 0;
+    // font-size: 1.25em;
+    // font-weight: 600;
+    // border-bottom: 1px solid lime;
+    // background-color: white;
+    // padding: .25em .5em;
   }
   form, .form {
     margin: 2em 0;
@@ -244,14 +248,14 @@ main {
   // }
 }
 
-.alert, .notice {
-  position: absolute;
-  right: 1.5em;
-  top: 4.75em;
-  z-index: 1000;
-  margin-bottom: 0;
-  padding: 0;
-}
+// .alert, .notice {
+//   position: absolute;
+//   right: 1.5em;
+//   top: 4.75em;
+//   z-index: 1000;
+//   margin-bottom: 0;
+//   padding: 0;
+// }
 
 .table {
   td.first,
