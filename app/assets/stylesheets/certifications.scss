@@ -1,35 +1,3 @@
-#certifications {
-  .new {
-    padding-top: 2em;
-    td {
-      padding-right: 2em;
-    }
-  }
-  .certification.teaser {
-    background-color: #eee;
-    display: block;
-    padding: 2em 3em;
-    border: 2px solid;
-    text-decoration: none;
-    &:hover {
-      background-color: #00aeef;
-      border-color: lime;
-      opacity: 1;
-    }
-    h1 {
-      width: 100%;
-      text-align: center;
-      font-size: 5em;
-      margin: 0;
-    }
-    img {
-      margin-top: -2.5em;
-      margin-left: -1em;
-      width: 100%;
-    }
-  }
-}
-
 .certification.show {
   width: 100%;
   .title {
@@ -95,12 +63,12 @@
       background-color: #fff;
       margin: 0;
       padding: 1em;
-      i.collapse {
-        font-size: xx-large;
-        position: absolute;
-        top: -1.75em;
-        left: -1px;
-      }
+      // i.collapse {
+      //   font-size: xx-large;
+      //   position: absolute;
+      //   top: -1.75em;
+      //   left: -1px;
+      // }
       .actions {
         position: absolute;
         right: 2em;
@@ -239,7 +207,9 @@ input[type="file"] {
     }
     #financials {
       padding: 0;
-      margin-top: -.75em;
+      .form {
+        margin-top: -.75em;
+      }
       .form-item {
         margin-bottom: 3em;
         p {
@@ -360,5 +330,16 @@ input[type="file"] {
     margin: 0;
     padding: 0 2em;
     font-weight: 700;
+  }
+}
+#certification.show.finished {
+  .content {
+    position: absolute;
+    left: 0;
+    top: 9em;
+    padding: 0;
+    margin: 0;
+    right: 0;
+    min-width: 100%;
   }
 }
