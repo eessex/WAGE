@@ -1,3 +1,95 @@
+.col {
+  padding-left: 0;
+}
+.greeting {
+  background-color: white;
+  display: flex;
+  border-bottom: 2px solid;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 3.5em;
+  &[data-state='0'] [data-id='0'] {
+    font-weight: 600;
+  }
+  &[data-state='1'] [data-id='1'] {
+    font-weight: 600;
+  }
+  &[data-state='2'] [data-id='2'] {
+    font-weight: 600;
+  }
+  &[data-state='3'] [data-id='3'] {
+    font-weight: 600;
+  }
+  &[data-state='4'] [data-id='4'] {
+    font-weight: 600;
+  }
+  h4 {
+    padding-right: 1.5em;
+    font-size: 1.475em;
+    position: absolute;
+    left: 1em 0;
+    margin-top: 0
+  }
+  h6 {
+    font-size: 14px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    margin-left: 275px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    .item[data-complete=true] {
+      i {
+        color: lime;
+      }
+    }
+    .item[data-complete='progress'] {
+      i {
+        color: gold;
+      }
+    }
+    i {
+      font-size: 12px;
+      margin-right: 5px;
+      color: rgba(0, 0, 0, 0.25);
+      margin-top: -1px;
+    }
+  }
+  .btn {
+    position: fixed;
+    top: 10px;
+    right: 6.5em;
+    z-index: 2000;
+  }
+  .status span {
+    margin-right: 2em;
+    border-bottom: 2px solid #fff;
+    margin-bottom: -2px;
+    &.item {
+      margin-right: 0;
+    }
+  }
+  .status span:hover {
+    border-bottom: 2px solid lime;
+    cursor: pointer;
+  }
+  .status span.review.disabled {
+    color: rgba(0,0,0,.25);
+    cursor: default;
+  }
+  .status span.review.disabled:hover {
+    border: none;
+  }
+  // .guidelines span:nth-child(1),
+  // .contact span:nth-child(2),
+  // .fiscal-details span:nth-child(4),
+  // .statement span:nth-child(3),
+  // .review span:nth-child(5) {
+  //   font-weight: 700;
+  //   border-bottom: 2px solid lime;
+  // }
+}
+
 .new-user-dashboard {
   .title, .actions {
     padding: 0 15px;
@@ -23,12 +115,17 @@
       }
     }
   }
+  #contact {
+    .field-group {
+      align-items: center;
+    }
+  }
   #fiscal-dates {
     margin: 0 auto;
     float: none;
     h4.saved-dates {
       float: right;
-      margin-top: -2.4em;
+      margin-top: -3.5em;
     }
     .form {
       width: 100%;

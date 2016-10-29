@@ -14,7 +14,7 @@ var FiscalDates = React.createClass({
     }
   },
   hasCertifications() {
-    if (this.props.certification) {
+    if (this.props.certification && this.props.certification.fiscal_start) {
       return this.props.certification
     } else {
       return {
@@ -46,6 +46,7 @@ var FiscalDates = React.createClass({
   },
   handleFiscalStartChange(e) {
     var changed = $(e.target).data('id')
+    // var end_date = .add(2, 'hours')
     this.setState({[changed]: e.target.value});
   },
   handleFiscalEndChange(e) {
@@ -159,12 +160,8 @@ var FiscalDates = React.createClass({
             </div>
             {actions}
           </div>
-      if (moment(this.state.user.fiscal_start).format('Y') == moment(this.state.user.fiscal_end).format('Y')) {
-        var format_start = moment(this.state.user.fiscal_start).format('MMM D')
-      } else {
-        var format_start = moment(this.state.user.fiscal_start).format('MMM D, Y')
-      }
-      var fiscal_dates_show = <h4 className="saved-dates"><span>{format_start} - {moment(this.state.user.fiscal_end).format('MMM D, Y')}</span> {actions}</h4>
+
+    var fiscal_dates_show = <h4 className="saved-dates"><span>FY: {this.props.formatDates()}</span> {actions}</h4>
 
     if (this.props.editDates) {
       var fiscal_dates = fiscal_dates_form
@@ -174,10 +171,7 @@ var FiscalDates = React.createClass({
 
     return (
       <div id="fiscal-dates">
-        <div className="col-xs-12">
-          <h1><span>Fiscal Details</span></h1>
-          {fiscal_dates}
-        </div>
+        {fiscal_dates}
      </div>
     );
   }

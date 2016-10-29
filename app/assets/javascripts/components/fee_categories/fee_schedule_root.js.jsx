@@ -1,4 +1,4 @@
-var FeeSchedule = React.createClass({
+var FeeScheduleRoot = React.createClass({
   getInitialState() {
     return {
       fee_categories: this.props.fee_categories,

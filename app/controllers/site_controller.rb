@@ -8,15 +8,23 @@ class SiteController < ApplicationController
     if current_user.certifications.length > 0
       @certifications = current_user.certifications
       @certification = current_user.certifications[0]
+      @artist_payments = []
       if @certification.status > 0
         render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
       else
-        render component: 'NewUserDashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories, newUser: true }, class: 'new-user-dashboard'
+        render component: 'newCertification', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: 'new-user-dashboard'
       end
     else
       @certifications = []
-      render component: 'NewUserDashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'new-user-dashboard'
+      @certification = {status: 0, user_id: @user.id}
+      render component: 'newCertification', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: 'new-user-dashboard'
     end
+  end
+
+  def fee_schedule
+    @user = current_user
+    @fee_categories = FeeCategory.all
+    render component: 'FeeSchedule', props: { certification: @certification, user: @user, fee_categories: @fee_categories, floor_categories: @fee_categories}, class: 'fee_schedule'
   end
 
   # def create

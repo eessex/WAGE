@@ -167,7 +167,7 @@ var CertificationFinancials = React.createClass({
             </div>
             <div className="form-item">
               <h4>Operating Budget</h4>
-              <p>A closed out operating budget for the fiscal year  {moment(this.state.certification.fiscal_start).format('Y')} with ‘Artist Fees’ visible as a distinct line item.</p>
+              <p>A closed out budget for FY {moment(this.state.certification.fiscal_start).format('Y')} with ‘Artist Fees’ as a distinct line item.</p>
               {this.hasFile("file_budget")}
               <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
             </div>

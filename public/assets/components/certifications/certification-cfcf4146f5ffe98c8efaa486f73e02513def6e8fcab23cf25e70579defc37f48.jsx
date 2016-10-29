@@ -80,13 +80,17 @@ var Certification = React.createClass({
   render() {
     var url = "certifications/" + this.state.certification.id
     if (this.state.certification.status == 0 ) {
-      var formatted_status = <span className="in-progress">In Progress</span>
+      var formatted_status = "In Progress"
     } else if (this.state.certification.status == 1 ) {
-      var formatted_status = <span className="submit">Ready To Submit</span>
+      var formatted_status = "Ready To Submit"
     } else if (this.state.certification.status == 2 ) {
-      var formatted_status = <div className="status-img"><img src="https://s3.amazonaws.com/wagency/WAGE-Pending-Logo.png"/></div>
+      var formatted_status = "In Review"
+    } else if (this.state.certification.status == 3 ) {
+      var formatted_status = "Pending Updates"
+    } else if (this.state.certification.status == 4 ) {
+      var formatted_status = "W.A.G.E. Certified"
     } else {
-      var formatted_status = <span className="submit">Certified</span>
+      var formatted_status = "W.A.G.E. Certified Pending"
     }
 
     if ( this.state.submitMode ) {
@@ -97,9 +101,10 @@ var Certification = React.createClass({
     };
 
     var row = (
-        <a href={url} key={this.state.certification.id} className="certification teaser col-xs-1 col-sm-6 col-md-4">
-          <h1>{this.formatFiscalDates()}</h1>
-          {formatted_status}
+        <a href={url} key={this.state.certification.id} className="certification teaser">
+          <h3>{this.formatFiscalDates()}</h3>
+          <span className="status"><i className="fa fa-check"></i>{formatted_status}</span>
+          <span className="status">{moment(this.state.certification.updated_at).fromNow()}</span>
           {submit}
         </a>
       );

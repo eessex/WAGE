@@ -5,7 +5,7 @@ var STATES = [
   'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
 ]
 
-var NewUserContact = React.createClass({
+var UserContact = React.createClass({
   getInitialState() {
     return {
       user: this.props.user,
@@ -15,62 +15,52 @@ var NewUserContact = React.createClass({
   handleRepNameChange(e) {
     var newUser = this.state.user
     newUser.rep_name = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleRepTitleChange(e) {
     var newUser = this.state.user
     newUser.rep_title = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleEmailChange(e) {
     var newUser = this.state.user
     newUser.email = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handlePhoneChange(e) {
     var newUser = this.state.user
     newUser.phone = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleWebsiteChange(e) {
     var newUser = this.state.user
     newUser.website = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleAd1Change(e) {
     var newUser = this.state.user
     newUser.address_st1 = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleAd2Change(e) {
     var newUser = this.state.user
     newUser.address_st2 = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleAdCityChange(e) {
     var newUser = this.state.user
     newUser.address_city = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleAdStateChange(e) {
     var newUser = this.state.user
     newUser.address_state = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleAdZipChange(e) {
     var newUser = this.state.user
     newUser.address_zip = e.target.value
-    this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.setState({user: newUser});
   },
   handleUserUpdate() {
     var that = this;
@@ -82,10 +72,8 @@ var NewUserContact = React.createClass({
       url: '/users' + '.json',
       success: function(res) {
         that.setState({
-          disabled: true,
           errors: {}
         });
-        that.props.refreshUser(that.state.user)
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
@@ -200,7 +188,7 @@ var NewUserContact = React.createClass({
               placeholder="City"
               className="form-control"
               value={this.state.user.address_city}
-              onChange={this.handleAdCityChange} />
+              onChange={this.handleCityChange} />
             <span style={{color: 'red'}}>{this.state.errors.address_city}</span>
           </div>
           <div className="col-sm-2">
@@ -230,11 +218,31 @@ var NewUserContact = React.createClass({
   render() {
     var displayStreet = <span>{this.state.user.address_st2 ? ", " + this.state.user.address_st2 : ""}</span>;
     return (
-      <div id="contact" className="contact">
-        <h1 className="title"><span>Contact Information</span></h1>
+      <div className="contact">
         {this.contactForm()}
         {this.addressForm()}
       </div>
     );
   }
 });
+// <div className="actions rep">
+//   <button className="btn btn-lg" onClick={this.handleUserUpdate}>Save</button>
+// </div>
+    //
+
+    //
+    // var markup = <div id="contact" className="edit">
+    //       <div className="rep">
+    //         <div className="header">
+    //           <h4>Account Administrator</h4>
+    //         </div>
+    //         {contact_form}
+    //       </div>
+    //       <div className="address">
+    //         <div className="header">
+    //           <h4>Mailing Address</h4>
+    //         </div>
+    //
+    //       </div>
+
+    //     </div>;
