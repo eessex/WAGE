@@ -86,15 +86,7 @@ var UserStatement = React.createClass({
 
     return (
     <div id="statement">
-      <div className="title">
-        <h1><span>Statement of Intent</span></h1>
-      </div>
-      <div id="statement" className="col-xs-12">
-        <div className="header">
-          <h4>A letter detailing your organization's interest in W.A.G.E. Certification.</h4>
-      </div>
       {markup}
-      </div>
     </div>
     )
   }

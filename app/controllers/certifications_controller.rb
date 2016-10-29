@@ -13,7 +13,7 @@ class CertificationsController < ApplicationController
     if @certification.status < 2
       render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
     else
-      render component: 'CertificationShowFinished', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
+      render component: 'CertificationIsSubmitted', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
     end
   end
 

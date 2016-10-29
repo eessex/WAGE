@@ -46,8 +46,8 @@
     }
     .collapse-content {
       max-width: 850px;
-      margin: 0 auto;
-
+      margin: 2em auto;
+      padding-bottom: 4em;
       h4.th {
         font-size: 1em;
         text-transform: uppercase;
@@ -92,9 +92,5 @@
   }
   #fee-schedule {
     clear: both;
-    margin-top: 5em;
-    // h1 {
-    //   display: none;
-    // }
   }
 }
