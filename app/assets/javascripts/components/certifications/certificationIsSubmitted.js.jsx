@@ -1,4 +1,4 @@
-var CertificationShowFinished = React.createClass({
+var CertificationIsSubmitted = React.createClass({
   getInitialState() {
     return {
       certification: this.props.certification,
