@@ -5,6 +5,7 @@ class CreateFeeCategories < ActiveRecord::Migration
       t.text :description
       t.float :floor_fee
       t.string :fee_subtitle
+      t.string :over500K
 
       t.timestamps
     end

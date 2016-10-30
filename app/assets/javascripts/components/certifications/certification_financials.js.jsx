@@ -78,7 +78,7 @@ var CertificationFinancials = React.createClass({
           that.setState({user: newUser});
           that.props.handleUserUpdate(this.state.user)
         }
-        that.canSubmit()
+        that.props.canSubmit()
       }.bind(this),
       fail: function(e, data) {
         console.log('fail')

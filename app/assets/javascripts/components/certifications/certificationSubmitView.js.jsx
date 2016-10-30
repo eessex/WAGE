@@ -8,6 +8,7 @@ var CertificationSubmitView = React.createClass({
     }
   },
   handleSubmit() {
+    debugger
     this.props.handleSubmit(this.props.certification)
   },
   showStatement() {

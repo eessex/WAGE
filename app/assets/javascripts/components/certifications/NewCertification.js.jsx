@@ -100,6 +100,7 @@ var newCertification = React.createClass({
     }
   },
   onCertificationSubmit() {
+    debugger
     var certification = this.state.certification
     certification.status = 2
     this.handleCertificationUpdate(certification)
@@ -217,7 +218,7 @@ var newCertification = React.createClass({
         var content= <FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} formatDates={this.formatDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
       } else if (this.state.certification && this.state.certification.fiscal_start) {
         var content = <div><FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} formatDates={this.formatDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
-        <CertificationFinancials certification={this.state.certification} user={this.state.user} newUser={this.props.newUser} certifications={this.state.certifications.length} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} />
+        <CertificationFinancials certification={this.state.certification} user={this.state.user} newUser={this.props.newUser} certifications={this.state.certifications.length} canSubmit={this.canSubmit} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} />
         </div>
       }
       var d = new Date();
@@ -291,7 +292,7 @@ var newCertification = React.createClass({
       <div className="content" data-content-state={this.state.contentState}>
         {this.contentState()}
       </div>
-        
+
       </div>
     )
   // } else {

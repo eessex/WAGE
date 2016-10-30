@@ -246,7 +246,7 @@ var CertificationShow = React.createClass({
           </div>
           </h6>
         </div>
-      <div className="content" id={MENU[this.state.contentState]} data-content-state={this.state.contentState}>
+      <div id={MENU[this.state.contentState]} className={"content " + MENU[this.state.contentState]} data-content-state={this.state.contentState}>
         {this.contentState()}
       </div>
         <div className="status-img"><img src="https://s3.amazonaws.com/wagency/WAGE-Pending-Logo.png"/></div>

@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20161025042107) do
     t.text     "description"
     t.float    "floor_fee"
     t.string   "fee_subtitle"
+    t.string   "over500K"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
