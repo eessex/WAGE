@@ -1,8 +1,46 @@
+.user.login {
+    .login {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1.5em;
+      align-items: center;
+      .actions {
+        width: 100%;
+        order: 1;
+        .btn {
+          width: 100%;
+        }
+      }
+      .remember {
+        order: 2;
+        font-size: small;
+        margin-left: 3em;
+        input[type='checkbox'] {
+          margin-right: .5em;
+        }
+      }
+    }
+}
+
 #user.new {
   margin: 0 auto;
   .helper {
     float: right;
     font-size: smaller;
+  }
+  #error_explanation {
+    h2 {
+      display: none;
+    }
+    ul {
+      padding-left: 1em;
+      margin-bottom: 2em;
+    }
+  }
+  .actions {
+    input {
+      width: 70%;
+    }
   }
 }
 #statement {

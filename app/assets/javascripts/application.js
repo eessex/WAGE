@@ -22,5 +22,7 @@
 
 
 $(function() {
-    // console.log($('.fee-category'))
+    $('.notice').delay(3500).fadeOut();
+    $('.notices').delay(3500).fadeOut();
+    $('.alert').delay(3500).fadeOut();
 });

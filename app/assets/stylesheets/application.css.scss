@@ -98,10 +98,11 @@ nav {
     top: 0;
     .btn {
       text-decoration: none;
-      padding: .65em .95em;
-      margin-right: 2em;
-      margin-top: .85em;
+      padding: .5em .95em;
+      margin-right: .5em;
+      margin-top: .45em;
       line-height: 1em;
+      font-size: 1.25em;
       &:hover {
         background-color: yellow;
         border-color: $lime;

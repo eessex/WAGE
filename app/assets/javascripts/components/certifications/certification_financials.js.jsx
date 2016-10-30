@@ -141,14 +141,18 @@ var CertificationFinancials = React.createClass({
             <div className="form-item">
                 <h4 className="col">Operating Expenses</h4>
                 <p>{operating_caption} annual expenses for fiscal year {moment(this.state.certification.fiscal_start).format('Y')}.</p>
+                  <div className="input-group">
+                  <div className="input-group-addon">$</div>
                   <input
                     value={this.hasOperatingExpenses()}
                     type="text"
                     className="form-control"
                     onChange={this.handleOperatingExpensesChange} />
-                <div className="helper">
-                <span style={{color: 'red'}}>{this.state.errors.operating_expenses}</span>
+                  <div className="input-group-addon">.00</div>
                 </div>
+              <div className="helper">
+                <span style={{color: 'red'}}>{this.state.errors.operating_expenses}</span>
+              </div>
             </div>
             <div className="form-item">
                 <h4>Form 990{file_990_caption}</h4>

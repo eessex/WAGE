@@ -58,6 +58,9 @@
         font-size: 1em;
         text-transform: uppercase;
       }
+      &:hover {
+        background: none transparent;
+      }
     }
     .description {
       height: 0;

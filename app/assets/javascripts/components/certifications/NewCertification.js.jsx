@@ -291,7 +291,7 @@ var newCertification = React.createClass({
       <div className="content" data-content-state={this.state.contentState}>
         {this.contentState()}
       </div>
-        <div className="status-img"><img src="https://s3.amazonaws.com/wagency/WAGE-Pending-Logo.png"/></div>
+        
       </div>
     )
   // } else {
