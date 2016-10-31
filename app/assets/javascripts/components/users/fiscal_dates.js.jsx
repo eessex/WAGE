@@ -8,8 +8,10 @@ var FiscalDates = React.createClass({
       certification: this.hasCertifications(),
       s_m: this.getEditDates().s_m,
       s_d: this.getEditDates().s_d,
+      s_y: YEAR.toString(),
       e_m: this.getEditDates().e_m,
       e_d: this.getEditDates().e_d,
+      e_y: YEAR.toString(),
       errors: {}
     }
   },
@@ -26,54 +28,103 @@ var FiscalDates = React.createClass({
     }
   },
   getEditDates() {
-    if (this.props.certification) {
-      if (this.props.certification.fiscal_start != "" ) {
-        return {
-          s_m: moment(this.props.certification.fiscal_start).format('M'),
-          s_d: moment(this.props.certification.fiscal_start).format('D'),
-          e_m: moment(this.props.certification.fiscal_end).format('M'),
-          e_d: moment(this.props.certification.fiscal_end).format('D')
-        }
+    if ((this.props.certification.fiscal_start != "") &&  (this.props.certification.fiscal_start != null) ) {
+      return {
+        s_m: moment(this.props.certification.fiscal_start).format('M'),
+        s_d: moment(this.props.certification.fiscal_start).format('D'),
+        s_y: moment(this.props.certification.fiscal_start).format('Y'),
+        e_m: moment(this.props.certification.fiscal_end).format('M'),
+        e_d: moment(this.props.certification.fiscal_end).format('D'),
+        e_y: moment(this.props.certification.fiscal_end).format('Y')
       }
     } else {
       return {
         s_m: '1',
         s_d: '1',
+        s_y: YEAR.toString(),
         e_m: '12',
-        e_d: '31'
+        e_d: '31',
+        e_y: YEAR.toString()
       }
     }
   },
   handleFiscalStartChange(e) {
     var changed = $(e.target).data('id')
-    // var end_date = .add(2, 'hours')
     this.setState({[changed]: e.target.value});
+    var newState = this.state
+    newState[changed] = e.target.value
+    this.autoSetEnd(newState)
   },
   handleFiscalEndChange(e) {
     var changed = $(e.target).data('id')
     this.setState({[changed]: e.target.value});
+    var newState = this.state
+    newState[changed] = e.target.value
+    this.autoSetStart(newState)
+  },
+  autoSetEnd(newState){
+    var plusYear = moment(YEAR + "-" + newState.s_m + "-" + newState.s_d)
+    plusYear.add(1, 'year')
+    plusYear.subtract(1, 'day')
+    this.setState({e_m: plusYear.format('M'),
+     e_d: plusYear.format('D'), e_y: plusYear.format('Y')})
+  },
+  autoSetStart(newState){
+    var plusYear = moment(YEAR + "-" + newState.e_m + "-" + newState.e_d)
+    plusYear.subtract(1, 'year')
+    plusYear.add(1, 'day')
+    this.setState({s_m: plusYear.format('M'),
+     s_d: plusYear.format('D')})
+  },
+  FormatDates() {
+    var newStartDate = this.state.s_y + "-" + this.state.s_m + "-" + this.state.s_d
+    var newEndDate = this.state.e_y + "-" + this.state.e_m + "-" + this.state.e_d
+    return {
+      fiscal_start: newStartDate,
+      fiscal_end: newEndDate
+    }
   },
   handleFormatDates() {
-    var newStartDate = YEAR + "-" + this.state.s_m + "-" + this.state.s_d
-    var newEndDate = YEAR + "-" + this.state.e_m + "-" + this.state.e_d
+    var newStartDate = this.FormatDates().fiscal_start
+    var newEndDate = this.FormatDates().fiscal_end
     var newCertification = this.state.certification
     var newUser = this.state.user
     newUser.fiscal_start = newStartDate
     newUser.fiscal_end = newEndDate
     newCertification.fiscal_start = newStartDate
     newCertification.fiscal_end = newEndDate
-    this.setState({certification: newCertification, user: newUser});
+    this.setState({certification: newCertification, user: newUser})
+    return {certification: newCertification, user: newUser}
   },
   handleUserUpdate() {
-    this.handleFormatDates()
-    this.props.handleUserUpdate(this.state.user)
+    var user = this.handleFormatDates().user
+    this.props.handleUserUpdate(user)
     this.setState({ errors: {} });
     if (this.state.certification.id != null) {
-      this.props.handleCertificationUpdate(this.state.certification)
+      this.props.handleCertificationUpdate(this.handleFormatDates().certification)
       this.props.toggleEditDates()
     } else {
-      this.props.handleAddCertification(this.state.certification)
+      this.props.handleAddCertification(this.handleFormatDates().certification)
     }
+  },
+  getDays() {
+    var has31 = [1, 3, 5, 7, 8, 10, 12]
+    var has30 = [4, 6, 9, 11]
+    if ( has31.includes(parseInt(this.state.s_m)) ) {
+      var s_days = 31
+    } else if ( has30.includes(parseInt(this.state.s_m)) ) {
+      var s_days = 30
+    } else {
+      var s_days = 28
+    }
+    if ( has31.includes(parseInt(this.state.e_m)) ) {
+      var e_days = 31
+    } else if ( has30.includes(parseInt(this.state.e_m)) ) {
+      var e_days = 30
+    } else {
+      var e_days = 28
+    }
+    return { s_d: s_days, e_d: e_days }
   },
   render() {
     var options_months = MONTHS.map( function(month, i) {
@@ -84,8 +135,17 @@ var FiscalDates = React.createClass({
         </option>
       )
     });
-    var DAYS = [...Array(31).keys()]
-    var options_days = DAYS.map( function(i) {
+    var S_DAYS = [...Array(this.getDays().s_d).keys()]
+    var E_DAYS = [...Array(this.getDays().e_d).keys()]
+    var options_start_days = S_DAYS.map( function(i) {
+      var day = i + 1
+      return (
+        <option key={day} value={day}>
+          {day}
+        </option>
+      )
+    });
+    var options_end_days = E_DAYS.map( function(i) {
       var day = i + 1
       return (
         <option key={day} value={day}>
@@ -131,7 +191,7 @@ var FiscalDates = React.createClass({
                   value={this.state.s_d}
                   onChange={this.handleFiscalStartChange}
                   >
-                  {options_days}
+                  {options_start_days}
                 </select>
               </div>
             </div>
@@ -154,7 +214,7 @@ var FiscalDates = React.createClass({
                     value={this.state.e_d}
                     onChange={this.handleFiscalEndChange}
                     >
-                    {options_days}
+                    {options_end_days}
                   </select>
                 </div>
             </div>

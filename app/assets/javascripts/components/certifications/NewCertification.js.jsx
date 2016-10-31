@@ -100,7 +100,6 @@ var newCertification = React.createClass({
     }
   },
   onCertificationSubmit() {
-    debugger
     var certification = this.state.certification
     certification.status = 2
     this.handleCertificationUpdate(certification)
@@ -160,13 +159,13 @@ var newCertification = React.createClass({
   },
   formatDates() {
     if (this.state.certification.fiscal_start) {
-      if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_start).format('Y') ) {
+      if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y') ) {
         var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
       } else {
         var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D, YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
       }
     } else {
-      var formatted_date
+      var formatted_date = moment(new Date).format('Y')
     }
     return formatted_date
   },
@@ -249,19 +248,15 @@ var newCertification = React.createClass({
     }
   },
   render() {
-    if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('YYYY')
+    if (this.state.certification.fiscal_start != null) {
+      if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
+        var formatted_date = moment(this.state.certification.fiscal_start).format('YYYY')
+      } else {
+        var formatted_date = moment(this.state.certification.fiscal_start).format('YY') + "-" + moment(this.state.certification.fiscal_end).format('YY')
+      }
     } else {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('YY') + "-" + moment(this.state.certification.fiscal_end).format('YY')
+      var formatted_date = moment(new Date).format('Y')
     }
-    // if (this.state.isFuture) {
-    //   var payments
-    // } else {
-    //   var payments = <div className="item" data-id="2" data-complete={this.hasPayments()}>
-    //               <i className="fa fa-check" aria-hidden="true"></i>
-    //               <span onClick={this.setContentState}>Artist Payments</span>
-    //             </div>
-    // }
     return (
       <div id="certification" className="show">
         <div className="greeting" data-state={this.state.contentState}>
@@ -295,16 +290,5 @@ var newCertification = React.createClass({
 
       </div>
     )
-  // } else {
-  //   return (
-  //     <div id="certification" className="show">
-  //       <h3><span className="title">New Certification: FY  {moment(this.state.certification.fiscal_start).format('YYYY')}</span></h3>
-  //       <div className="new col-xs-12 col-sm-9 col-md-7">
-  //       <CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} canSubmit={this.state.canSubmit} handleUserUpdate={this.handleUserUpdate} isFuture={this.state.isFuture} />
-  //       {this.actions()}
-  //       </div>
-  //     </div>
-  //   )
-  // }
   }
 });

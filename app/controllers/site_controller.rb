@@ -16,7 +16,7 @@ class SiteController < ApplicationController
       end
     else
       @certifications = []
-      @certification = {status: 0, user_id: @user.id}
+      @certification = {status: 0, user_id: @user.id, fiscal_start: nil, fiscal_end: nil}
       render component: 'newCertification', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: 'new-user-dashboard'
     end
   end
