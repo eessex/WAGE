@@ -1,6 +1,10 @@
 <nav class="navbar navbar-fixed-top">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">W.A.G.E.</a>
+      <% if !user_signed_in? %>
+        <a href="http://wageforwork.com"><img class="logo" src="https://s3.amazonaws.com/wagency/WAGE+logo_black.png"></a>
+      <% else %>
+        <a class="navbar-brand" href="/">W.A.G.E.</a>
+      <% end %>
     </div>
     <% if user_signed_in? %>
     <div class="dropdown navbar-right">

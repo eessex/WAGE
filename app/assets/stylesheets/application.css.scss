@@ -76,14 +76,20 @@ h3 span {
   border-bottom: 2px solid $lime;
   padding-bottom: 3px;
 }
-
+#registrations-new nav {
+  border: none;
+  background: none transparent;
+  img {
+    max-width: 280px;
+  }
+  .btn {
+    z-index: 3000;
+  }
+}
 nav {
   background-color: $blue;
   height: 4em;
   border-bottom: 2px solid $primary-color;
-  &#registrations-new {
-    border: none;
-  }
   a.navbar-brand {
     font-weight: 800;
     font-size: 3.5em;
