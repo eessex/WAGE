@@ -7,9 +7,9 @@ class SiteController < ApplicationController
     @fee_categories = FeeCategory.all
     if current_user.certifications.length > 0
       @certifications = current_user.certifications
-      @certification = current_user.certifications[0]
+      @certification = current_user.certifications.first
       @artist_payments = []
-      if @certification.status > 0
+      if has_submitted(@certifications)
         render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
       else
         render component: 'newCertification', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: 'new-user-dashboard'
@@ -27,42 +27,13 @@ class SiteController < ApplicationController
     render component: 'FeeSchedule', props: { certification: @certification, user: @user, fee_categories: @fee_categories, floor_categories: @fee_categories}, class: 'fee_schedule'
   end
 
-  # def create
-  #   @certification = Certification.new(certification_params)
-  #   respond_to do |format|
-  #     format.json do
-  #       if @certification.save
-  #         render :json => @certification
-  #       else
-  #         render :json => { :errors => @certification.errors.messages }, :status => 422
-  #       end
-  #     end
-  #   end
-  # end
-  #
-  # def update
-  #   @certification = Certification.find(params[:id])
-  #   respond_to do |format|
-  #     format.json do
-  #       if @certification.update(certification_params)
-  #         render :json => @certification
-  #       else
-  #         render :json => { :errors => @certification.errors.messages }, :status => 422
-  #       end
-  #     end
-  #   end
-  # end
+  def has_submitted(certifications)
+    certifications.each do |certification|
+      if certification.status >= 2
+        return true
+      end
+    end
+    return false
+  end
 
-#   def destroy
-#     Certification.find(params[:id]).destroy
-#     respond_to do |format|
-#       format.json { render :json => {}, :status => :no_content }
-#     end
-#   end
-#
-#   private
-#
-#   def certification_params
-#     params.require(:certification).permit(:fiscal_start, :fiscal_end, :status)
-#   end
 end

@@ -1,3 +1,10 @@
+#certifications-show {
+  .content {
+    margin-top: 10em;
+  }
+}
+
+
 .certification.show {
   width: 100%;
   .title {
@@ -169,12 +176,12 @@ input[type="file"] {
   }
 }
 #certification.show {
-  padding-bottom: 2.5em;
-  align-self: flex-start;
-  min-height: 90vh;
   .content[data-content-state="2"].artist_payments {
     margin-left: 0 !important;
     min-width: 100%;
+    .table {
+      margin-bottom: 4em;
+    }
   }
   .content {
     margin-left: 310px;
@@ -199,8 +206,7 @@ input[type="file"] {
         }
       }
     }
-    .financials .intro,
-    .review .intro, {
+    .intro {
         display: flex;
         justify-content: space-between;
       }
@@ -258,8 +264,9 @@ input[type="file"] {
         }
       }
       .intro {
-        padding-left: 275px;
+        padding-left: 300px;
         max-width: 1075px;
+        display: block;
         .title {
           display: flex;
           justify-content: space-between;
@@ -283,6 +290,10 @@ input[type="file"] {
     position: absolute;
     top: 9em;
     left: .5em;
+    display: none;
+    &[data-state='2'] {
+      display: block;
+    }
     img {
       width: 200px;
       margin-left: -5px;
@@ -323,7 +334,7 @@ input[type="file"] {
     align-items: center;
     justify-content: flex-end;
     padding-right: 1em;
-    min-width: 200px;
+    min-width: 210px;
   }
   p {
     z-index: 300;

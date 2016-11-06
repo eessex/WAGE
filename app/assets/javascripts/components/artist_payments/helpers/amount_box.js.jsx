@@ -1,5 +1,5 @@
 var AmountBox = React.createClass({
-  totals: function(artist_payments) {
+  totals(artist_payments) {
     var total_payments = artist_payments.reduce(function(a, b) {
       return a + parseInt(b.amount);
     }, 0);
@@ -26,9 +26,9 @@ var AmountBox = React.createClass({
   },
   percentDiff(amount, fees) {
     var percent = (amount / fees) * 100
-    return percent.toFixed(0) + "%"
+    return percent.toFixed(1) + "%"
   },
-  render: function() {
+  render() {
    var total_payments = this.totals(this.props.artist_payments).total_payments;
    var total_artists = this.totals(this.props.artist_payments).total_artists;
    var total_programs = this.totals(this.props.artist_payments).total_programs;

@@ -8,7 +8,6 @@ var CertificationSubmitView = React.createClass({
     }
   },
   handleSubmit() {
-    debugger
     this.props.handleSubmit(this.props.certification)
   },
   showStatement() {
@@ -35,7 +34,7 @@ var CertificationSubmitView = React.createClass({
     }
     var fiscal_dates_show = <span>{format_start}{moment(this.props.user.fiscal_end).format('MMM D, Y')}</span>
     var formatted_operating = '$' + Number(this.props.certification.operating_expenses).toLocaleString()
-    if (this.props.isFuture) {
+    if (!this.props.isFuture) {
       var artist_payments
     } else {
       var artist_payments =

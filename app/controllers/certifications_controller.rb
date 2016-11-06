@@ -7,12 +7,12 @@ class CertificationsController < ApplicationController
   def show
     @certification = Certification.find(params[:id])
     @user = User.find(@certification.user_id)
-    @certifications = Certification.where(user_id: User.first.id)
-    @fee_categories = fee_categories_list
+    @certifications = Certification.where(user_id: @user.id)
+    @fee_categories = FeeCategory.all
     @artist_payments = @certification.artist_payments || []
-    if @certification.status < 2
+    if @certification.status < 1
       render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
-    else
+    elsif @certification.status <= 2
       render component: 'CertificationIsSubmitted', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
     end
   end
@@ -33,14 +33,17 @@ class CertificationsController < ApplicationController
   def update
     @certification = Certification.find(params[:id])
     @user = @certification.user
+    submit = isSubmit(params, @certification)
     respond_to do |format|
       certification_params[:operating_expenses] = certification_params[:operating_expenses].gsub(",","")
       format.json do
         if @certification.update(certification_params)
-          if @certification.status == 2
+          if submit == true
             WageMailer.submit_confirmation(@user, @certification).deliver_now
+            render :json =>  { certification: @certification, notice: 'Your application has been successfully submitted, thank you.' }
+          else
+            render :json => @certification
           end
-          render :json => @certification
         else
           render :json => { :errors => @certification.errors.messages }, :status => 422
         end
@@ -56,6 +59,12 @@ class CertificationsController < ApplicationController
   end
 
   private
+
+  def isSubmit(params, certification)
+    if params[:certification][:status] == "1" && certification.status < 1
+      return true
+    end
+  end
 
   def certification_params
     params.require(:certification).permit(:id, :fiscal_start, :fiscal_end, :user_id, :status, :operating_expenses, :file_contract, :file_990, :qb_pl, :file_budget, :statement)

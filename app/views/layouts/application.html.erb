@@ -6,12 +6,14 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-  <body>
+  <body id="<%= controller.controller_name + "-" + controller.action_name  %>">
     <%= render '/site/nav' %>
     <main>
+      <% if current_page?(new_user_registration_path) %>
+      <%= render '/site/intro' %>
+      <% end %>
       <% if notice %>
         <p class="notice">* <%= notice %></p>
-        <!-- <div class="notices">* <span><%= notice %></span><span><%= alert %></span></div> -->
       <% elsif alert %>
         <p class="alert">* <%= alert %></p>
       <% end %>

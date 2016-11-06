@@ -1,4 +1,63 @@
-.user.login {
+@import "variables";
+
+#registrations-new {
+  flex-direction: column;
+  .intro {
+    background-color: $blue;
+    width: 100%;
+    padding: 4em 2.75em;
+    margin-bottom: 5em;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .text {
+      color: yellow;
+      max-width: 850px;
+      margin: 0 auto;
+      h2 {
+        font-size: xx-large;
+        line-height: 1.35em;
+      }
+    }
+  }
+  #user.new {
+    margin: 0 auto;
+    max-width: 550px;
+    padding: 0 2.5em 5em 2.5em;
+    .helper {
+      float: right;
+      font-size: smaller;
+      opacity: .8;
+    }
+    #error_explanation {
+      h2 {
+        display: none;
+      }
+      ul {
+        padding-left: 1em;
+        margin-bottom: 2em;
+      }
+    }
+    .actions {
+      margin-bottom: 2em;
+      input {
+        width: 70%;
+      }
+    }
+  }
+}
+
+
+
+#user.login {
+  max-width: 550px;
+  padding: 0em 2.5em 8em 2.5em;
+  margin: 0 auto;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
     .login {
       display: flex;
       justify-content: space-between;
@@ -7,6 +66,7 @@
       .actions {
         width: 100%;
         order: 1;
+        margin-bottom: 2em;
         .btn {
           width: 100%;
         }
@@ -15,33 +75,12 @@
         order: 2;
         font-size: small;
         margin-left: 3em;
+        min-width: 115px;
         input[type='checkbox'] {
           margin-right: .5em;
         }
       }
     }
-}
-
-#user.new {
-  margin: 0 auto;
-  .helper {
-    float: right;
-    font-size: smaller;
-  }
-  #error_explanation {
-    h2 {
-      display: none;
-    }
-    ul {
-      padding-left: 1em;
-      margin-bottom: 2em;
-    }
-  }
-  .actions {
-    input {
-      width: 70%;
-    }
-  }
 }
 #statement {
   .edit {

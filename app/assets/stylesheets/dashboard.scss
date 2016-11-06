@@ -1,5 +1,5 @@
 .alert, .notice, .notices {
-  position: absolute;
+  position: fixed;
   left: 1.5em;
   bottom: .5em;
   z-index: 1000;
@@ -10,7 +10,21 @@
   background-color: white;
   padding: .25em .5em !important;
 }
-
+.submit.notice {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  display: flex;
+  align-items: center;
+  p {
+    position: relative;
+    font-size: xx-large;
+    border-bottom: 2px solid lime;
+    padding: 0em;
+    margin: .75em;
+  }
+}
 .dashboard {
   width: 100%;
 }
@@ -75,8 +89,8 @@
   #certifications {
     .new {
       position: absolute;
-      right: 0;
-      top: -4.5em;
+      top: 1.75em;
+      right: 285px;
       select {
         float: left;
         font-size: 1.5em;

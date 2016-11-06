@@ -52,7 +52,7 @@ var ArtistPaymentNew = React.createClass({
       },
       url: '/artist_payments.json',
       success: function(res) {
-        that.props.handleAddArtistPayment(that.state.artist_payment);
+        that.props.handleAddArtistPayment(res);
         that.setState({
           artist_payment: {
             date: '',
@@ -72,7 +72,7 @@ var ArtistPaymentNew = React.createClass({
     });
   },
   formQbPl() {
-    var qb_pl = <QbPl certification={this.props.certification} handleCertificationUpdate={this.props.handleCertificationUpdate} />
+    var qb_pl = <QbPl certification={this.props.certification} handleCertificationUpdate={this.props.handleCertificationUpdate} getYearStatus={this.props.getYearStatus} />
     return qb_pl
   },
   newForm() {
@@ -85,13 +85,19 @@ var ArtistPaymentNew = React.createClass({
         </option>
       )
     })
-    if (this.props.isFuture) {
+    var status = this.props.getYearStatus()
+    if (status.future || status.progress || status.past ) {
+      var disabled
+      if (status.future) {
+        disabled = true
+      }
       var form = <div className="new-payment">
         <div className="form">
           <div className="col col-xs-12 col-md-6">
           <div className="form-group">
             <label>Date</label>
             <input
+              disabled={disabled}
               value={this.state.artist_payment.date}
               type="date"
               className="form-control"
@@ -101,6 +107,7 @@ var ArtistPaymentNew = React.createClass({
             <div className="form-group">
             <label>Artist Name</label>
               <input
+                disabled={disabled}
                 value={this.state.artist_payment.artist_name}
                 type="text"
                 placeholder="Artist Name"
@@ -111,6 +118,7 @@ var ArtistPaymentNew = React.createClass({
             <div className="form-group">
             <label>Program Name</label>
               <input
+                disabled={disabled}
                 type="text"
                 value={this.state.artist_payment.name}
                 placeholder="Program Name"
@@ -119,12 +127,11 @@ var ArtistPaymentNew = React.createClass({
               <span style={{color: 'red'}}>{this.state.errors.name}</span>
             </div>
           </div>
-
-
         <div className="col col-xs-12 col-md-6">
           <div className="form-group">
             <label>Fee Category</label>
             <select
+              disabled={disabled}
               type='text'
               className='form-control'
               value={this.optionState}
@@ -136,6 +143,7 @@ var ArtistPaymentNew = React.createClass({
           <div className="form-group">
           <label>Amount</label>
             <input
+              disabled={disabled}
               type="text"
               placeholder="Amount"
               value={this.state.artist_payment.amount}
@@ -146,6 +154,7 @@ var ArtistPaymentNew = React.createClass({
           <div className="form-group">
           <label>Check No.</label>
             <input
+              disabled={disabled}
               type="text"
               placeholder="Check No."
               value={this.state.artist_payment.check_no}
@@ -154,15 +163,21 @@ var ArtistPaymentNew = React.createClass({
             <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
           </div>
         </div>
-        <div id="actions" className="field-group"><button onClick={this.addArtistPayment} className="btn btn-lg"><i className="fa fa-plus" aria-hidden="true"></i> Create New Payment</button></div>
+        <div id="actions" className="field-group"><button onClick={this.addArtistPayment} disabled={disabled} className="btn btn-lg"><i className="fa fa-plus" aria-hidden="true"></i> Create New Payment</button></div>
       </div>
     </div>
     } else {
       var form
     }
+    console.log(this.props.getYearStatus().past)
     return form
   },
   render() {
+    if (this.props.getYearStatus().future) {
+      var isStarted = "Once your fiscal year has started, c"
+    } else {
+      var isStarted = "C"
+    }
     return (
       <div id="artist_payments" className="artist_payments new container">
         <div className="intro">
@@ -171,7 +186,7 @@ var ArtistPaymentNew = React.createClass({
             <h4>FY: {this.props.formatted_dates()}</h4>
           </div>
           <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
-          <h4>Create an entry for each fee payment to an artist between {this.props.formatted_dates()}. </h4>
+          <h4>{isStarted}reate an entry for each fee payment to an artist between {this.props.formatted_dates()}. </h4>
           <h5>Alternatively, you may submit a Quickbooks P&L: {this.formQbPl()}</h5>
         </div>
         {this.newForm()}
@@ -251,11 +266,16 @@ var QbPl = React.createClass({
     this.getSignature(e, this.uploadFile)
   },
   hasFile(type) {
+    var disabled
+    if (this.props.getYearStatus().future) {
+      disabled = true
+    }
     if (this.state.certification[type]) {
       var file = <div id={type} className="file-uploaded"><button onClick={this.clearFile}>Replace</button> {this.state.certification[type]}</div>
     } else {
       var file = <div id={type} className="directUpload">
         <input
+          disabled={disabled}
           value=""
           type="file"
           id={type}

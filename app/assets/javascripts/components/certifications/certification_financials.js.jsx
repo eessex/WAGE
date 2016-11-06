@@ -5,7 +5,21 @@ var CertificationFinancials = React.createClass({
       user: this.props.user,
       certifications: this.props.certifications,
       signature: null,
+      isFuture: true,
+      isPast: false,
+      isProgress: false,
       errors: {}
+    }
+  },
+  componentDidMount() {
+    if (this.props.getYearStatus().future != null) {
+      this.setState({isFuture: this.props.getYearStatus().future})
+    }
+    if (this.props.getYearStatus().past != null) {
+      this.setState({isPast: this.props.getYearStatus().past})
+    }
+    if (this.props.getYearStatus().progress != null) {
+      this.setState({isProgress: this.props.getYearStatus().progress})
     }
   },
   hasOperatingExpenses() {
@@ -109,15 +123,16 @@ var CertificationFinancials = React.createClass({
     return file
   },
   hasFile_501c3() {
-    if ( (this.props.newUser == true && this.state.user.file_501c3) || this.state.user.file_501c3 ) {
-        var _501c3 =  <div className="form-item">
+    var _501c3
+    if (this.props.newUser && this.state.user.file_501c3) {
+        _501c3 =  <div className="form-item">
                       <h4>501c3</h4>
                       <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
                       <p className="form-control"><button onClick={this.clearFile_501c3}>Replace</button> {this.state.user.file_501c3}</p>
                       <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
                     </div>
-      } else {
-        var _501c3 = <div className="form-item">
+      } else if (this.props.newUser) {
+        _501c3 = <div className="form-item">
                       <h4>501c3</h4>
                       <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
                       {this.hasFile("file_501c3")}
@@ -125,6 +140,19 @@ var CertificationFinancials = React.createClass({
                     </div>
       }
     return _501c3
+  },
+  hasFile_990() {
+    var file_990
+    if (this.props.newUser) {
+        file_990 = <div className="form-item">
+            <h4>Form 990{file_990_caption}</h4>
+            {this.hasFile("file_990")}
+            <div className="helper">
+              <span style={{color: 'red'}}>{this.state.errors.file_990}</span>
+            </div>
+          </div>
+      }
+    return file_990
   },
   render() {
     var file_990_caption
@@ -155,25 +183,19 @@ var CertificationFinancials = React.createClass({
               </div>
             </div>
             <div className="form-item">
-                <h4>Form 990{file_990_caption}</h4>
-                {this.hasFile("file_990")}
-              <div className="helper">
-                <span style={{color: 'red'}}>{this.state.errors.file_990}</span>
-              </div>
-            </div>
-            <div className="form-item">
-                <h4>Sample Contracts</h4>
-                <p>A PDF of templates for any contracts used with artists.</p>
-                {this.hasFile("file_contract")}
-              <div className="helper">
-                <span style={{color: 'red'}}>{this.state.errors.file_contract}</span>
-              </div>
-            </div>
-            <div className="form-item">
               <h4>Operating Budget</h4>
               <p>A closed out budget for FY {moment(this.state.certification.fiscal_start).format('Y')} with ‘Artist Fees’ as a distinct line item.</p>
               {this.hasFile("file_budget")}
               <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
+            </div>
+            {this.hasFile_990()}
+            <div className="form-item">
+                <h4>Sample Contracts</h4>
+                <p>Optional: A PDF of templates for any contracts used with artists.</p>
+                {this.hasFile("file_contract")}
+              <div className="helper">
+                <span style={{color: 'red'}}>{this.state.errors.file_contract}</span>
+              </div>
             </div>
             {this.hasFile_501c3()}
           </form>

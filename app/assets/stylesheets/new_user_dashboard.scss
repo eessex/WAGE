@@ -8,21 +8,6 @@
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 3.5em;
-  &[data-state='0'] [data-id='0'] {
-    font-weight: 600;
-  }
-  &[data-state='1'] [data-id='1'] {
-    font-weight: 600;
-  }
-  &[data-state='2'] [data-id='2'] {
-    font-weight: 600;
-  }
-  &[data-state='3'] [data-id='3'] {
-    font-weight: 600;
-  }
-  &[data-state='4'] [data-id='4'] {
-    font-weight: 600;
-  }
   h4 {
     padding-right: 1.5em;
     font-size: 1.475em;
@@ -38,7 +23,7 @@
     padding: 0;
     display: flex;
     align-items: center;
-    .item[data-complete=true] {
+    .item[data-complete='true'] {
       i {
         color: lime;
       }
@@ -69,25 +54,23 @@
       margin-right: 0;
     }
   }
-  .status span:hover {
+  .status span:hover,
+  .status .active span {
     border-bottom: 2px solid lime;
     cursor: pointer;
   }
-  .status span.review.disabled {
+  .status .active span {
+    font-weight: 600;
+  }
+  .status span.review.disabled,
+  .status span[data-disabled="true"] {
     color: rgba(0,0,0,.25);
     cursor: default;
   }
-  .status span.review.disabled:hover {
+  .status span.review.disabled:hover,
+  .status span[data-disabled="true"]:hover {
     border: none;
   }
-  // .guidelines span:nth-child(1),
-  // .contact span:nth-child(2),
-  // .fiscal-details span:nth-child(4),
-  // .statement span:nth-child(3),
-  // .review span:nth-child(5) {
-  //   font-weight: 700;
-  //   border-bottom: 2px solid lime;
-  // }
 }
 
 .new-user-dashboard {

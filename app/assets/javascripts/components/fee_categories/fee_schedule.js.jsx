@@ -53,15 +53,25 @@ var FeeSchedule = React.createClass({
           </div>
         )
       }, this);
+      var operating_expenses
+      if (this.props.certification.operating_expenses) {
+        operating_expenses = 'TOAE: $' + Number(this.props.certification.operating_expenses).toLocaleString()
+        if (this.props.certification.operating_expenses < 500000) {
+          var fee_title = "Wage Floor"
+        } else{
+          var fee_title = "Wage Minimum"
+        }
+
+      }
     return (
       <div id="fee-schedule">
         <div>
           <div className="fee-category header">
             <h4>
               <span>Fee Category</span>
+              <span>{operating_expenses}</span>
               <span>
-                <span>Minimum Fee: </span>
-                <span>Wage Floor</span>
+                <span>{fee_title}</span>
               </span>
             </h4>
           </div>
