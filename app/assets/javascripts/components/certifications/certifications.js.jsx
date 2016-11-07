@@ -15,6 +15,7 @@ var Certifications = React.createClass({
       },
       url: '/certifications.json',
       success: function(res) {
+        debugger
         window.location.pathname = "/certifications/" + res.id
       },
       error: function(res) {
@@ -66,6 +67,7 @@ var CertificationNew = React.createClass({
       s_y: moment(this.props.user.fiscal_start).format('Y'),
       e_m: moment(this.props.user.fiscal_end).format('M'),
       e_d: moment(this.props.user.fiscal_end).format('D'),
+      e_y: moment(this.props.user.fiscal_end).format('Y'),
       disabled: true,
       canDisplay: canDisplay,
       errors: {}
@@ -85,17 +87,20 @@ var CertificationNew = React.createClass({
   },
   handleYearChange(e) {
     if (e.target.value != "default") {
-      var year = e.target.value
+      var e_y = moment(this.state.certification.fiscal_end).format('Y')
+      var s_y = moment(this.state.certification.fiscal_start).format('Y')
       var newCertification = this.state.certification
-      this.state.e_y = year
-      var remove = moment(newCertification.fiscal_end).format('Y')
-      if (moment(this.state.certification.fiscal_end).format('Y') == moment(this.state.certification.fiscal_end).format('Y')) {
-        newCertification.fiscal_end = newCertification.fiscal_end.replace(remove, year)
-      } else {
-        removePlus = parseInt(remove) + 1
-        newCertification.fiscal_end = newCertification.fiscal_end.replace(removePlus, year)
+      if (parseInt(e_y) > parseInt(e.target.value)) {
+        var diff = parseInt(e_y) - parseInt(e.target.value)
+        var newDate = parseInt(e_y) - diff
       }
-      newCertification.fiscal_start = newCertification.fiscal_start.replace(remove, year)
+      if (moment(newCertification.fiscal_start).format('Y') == moment(newCertification.fiscal_end).format('Y')) {
+        newCertification.fiscal_start = newCertification.fiscal_start.replace(e_y, newDate)
+      } else {
+        var newSdate = parseInt(s_y) - diff
+        newCertification.fiscal_start = newCertification.fiscal_start.replace(s_y, newSdate)
+      }
+      newCertification.fiscal_end = newCertification.fiscal_end.replace(e_y, newDate)
       this.setState({certification: newCertification, disabled: !this.state.disabled});
     }
   },
@@ -119,13 +124,14 @@ var CertificationNew = React.createClass({
           <select
             type='text'
             className="form-control"
-            value={this.state.s_y}
+            value={this.state.e_y}
             onChange={this.handleYearChange}
             defaultValue="default"
             >
+            <option className="default" value="default">Choose Year</option>
             {options}
             </select>
-            <button className="btn" disabled={!this.state.disabled} onClick={this.handleAddCertification}><i className="fa fa-plus"></i> New</button>
+            <button className="btn" disabled={this.state.disabled} onClick={this.handleAddCertification}><i className="fa fa-plus"></i> New</button>
           </div>
         </div>
       )
