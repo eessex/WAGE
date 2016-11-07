@@ -164,7 +164,6 @@ var NewUserDashboard = React.createClass({
     } else {
       var review = <span className="review disabled">5. Review</span>
     }
-    if (this.state.application_progress == 1) {
       if (this.props.certifications[0] && this.props.certifications[0].operating_expenses) {
         var button = <button className="btn" onClick={this.getFeeCategories}>My Fee Schedule</button>
       } else {
@@ -174,7 +173,7 @@ var NewUserDashboard = React.createClass({
       var current_year = d.getFullYear();
       var greeting =
       <div className="greeting">
-        <h4>Get Certified: FY {current_year}</h4>
+        <h4>Get Certified: </h4>
         <h6 data-state={this.state.application_progress} className={"status col-xs-12 col-sm-9 col-md-7 " + STATUS[this.state.certification_progress]}>
           <span onClick={this.setProgress}>1. Guildelines</span>
           <span onClick={this.setProgress}>2. Contact</span>
@@ -184,9 +183,6 @@ var NewUserDashboard = React.createClass({
         </h6>
         {button}
       </div>
-    } else {
-      var greeting = <div className="greeting"><h4>NewUserDashboard: {this.state.user.institution_name}</h4></div>
-    }
     return greeting
   },
   render() {

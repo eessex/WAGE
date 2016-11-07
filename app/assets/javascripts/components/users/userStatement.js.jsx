@@ -1,93 +1,132 @@
 var UserStatement = React.createClass({
   getInitialState() {
-    var status = this.setStatus(this.props.user)
-    var progress = this.setProgress(status)
     return {
       user: this.props.user,
-      status: status,
-      progress: progress,
-      editMode: this.isNew(),
       errors: {}
     }
   },
-  isNew() {
-    if (this.props.user.statement && this.props.user.statement != "") {
-      return true
-    } else {
-      return true
-    }
-  },
-  setEditMode() {
-    this.setState({editMode: true});
-  },
-  setStatus(user) {
-    status = 0
-    if (user.statement && user.statement.length > 300 ) {
-      status += 1
-    }
-    return status
-  },
-  setProgress(status) {
-    if (status == 0) {
-      var progress = "empty"
-    } else if (status == 2 ) {
-      var progress = "complete"
-    } else {
-      var progress = "pending"
-    }
-    return progress
-  },
-  handleStatementChange(e) {
-    var newUser = this.state.user
-    newUser.statement = e.target.value
-    this.setState({user: newUser});
-    this.handleUserUpdate()
-  },
-  toggleStatus: function () {
-    var newUser = this.state.user
-    this.handleUserUpdate();
-  },
-  handleUserUpdate() {
+  handleUserUpdate(user) {
     var that = this;
+    debugger
     $.ajax({
       method: 'PUT',
       data: {
-        user: that.state.user,
+        user: user,
       },
       url: '/users' + '.json',
       success: function(res) {
         that.setState({
+          user: res,
           errors: {}
         });
       },
       error: function(res) {
+        debugger
         that.setState({errors: res.responseJSON.errors});
       }
     });
   },
-
+  formStatement() {
+    var statement = <StatementFile user={this.props.user} handleUserUpdate={this.handleUserUpdate} />
+    return statement
+  },
   render() {
-    var form = <div className="form">
-      <div className="field-group">
-        <textarea
-          placeholder="statement"
-          name="statement"
-          className="form-control"
-          value={this.state.user.statement}
-          onChange={this.handleStatementChange} />
-        <span style={{color: 'red'}}>{this.state.errors.statement}</span>
-      </div>
-    </div>
-      var markup = (
-        <div className="edit">
-            {form}
-        </div>
-      );
-
     return (
-    <div id="statement">
-      {markup}
+    <div className="statement">
+      {this.formStatement()}
     </div>
+    )
+  }
+});
+
+var StatementFile = React.createClass({
+  getInitialState() {
+    return {
+      user: this.props.user
+    }
+  },
+  clearFile(e) {
+    var newUser = this.state.user
+    newUser[e.target.id] = null
+    debugger
+    this.setState({user: newUser })
+    this.props.handleUserUpdate(newUser)
+  },
+  getSignature(theUpload, cb) {
+    $.when( ajaxSign() ).done(function(res){
+      cb(theUpload, res.data);
+    }.bind(this));
+    function ajaxSign() {
+      return $.ajax({
+        url: '/upload.json',
+        dataType: 'json'
+      })
+    }
+  },
+  uploadFile(theUpload, signature) {
+    var that = this
+    var fileInput = $(theUpload.target)
+    var progressBar  = $('#' + theUpload.target.id + ' .bar');
+    fileInput.fileupload({
+      fileInput:       fileInput,
+      url:             signature['url'],
+      type:            'POST',
+      autoUpload:       true,
+      formData:         signature['form-data'],
+      paramName:        'file',
+      dataType:         'XML',
+      replaceFileInput: false,
+      progressall: function (e, data) {
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        progressBar.css('width', progress + '%')
+      },
+      start: function (e) {
+        progressBar.
+          css('background', 'lime').
+          css('display', 'block').
+          css('width', '1%').
+          text("Loading...");
+      },
+      done: function(e, data) {
+        progressBar.text("Upload complete");
+        var key   = $(data.jqXHR.responseXML).find("Key").text();
+        var url = $(data.jqXHR.responseXML).find("Location").text()
+        var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
+        var newUser = that.state.user
+        newUser[e.target.id] = url
+        that.setState({user: newUser});
+        that.props.handleUserUpdate(this.state.user)
+      }.bind(this),
+      fail: function(e, data) {
+        console.log('fail')
+        progressBar.
+          css("background", "red").
+          text("Failed");
+      }
+    });
+  },
+  handleFileChange(e) {
+    target = $(e.target)
+    this.getSignature(e, this.uploadFile)
+  },
+  hasFile(type) {
+    if (this.state.user[type]) {
+      var file = <div id={type} className="file-uploaded"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.user[type]}</div>
+    } else {
+      var file = <div id={type} className="directUpload">
+        <input
+          value=""
+          type="file"
+          id={type}
+          onChange={this.handleFileChange} />
+        <div className='progress'><div className='bar'></div></div>
+        </div>
+    }
+    return file
+  },
+  render() {
+    return (
+      <div>{this.hasFile('statement')}</div>
     )
   }
 });

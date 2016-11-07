@@ -8,7 +8,7 @@ var Certification = React.createClass({
     }
   },
   setSubmitMode() {
-    if (this.props.certification.status == 1) {
+    if (this.props.certification.status == 2) {
       return true
     } else {
       return false
@@ -70,11 +70,7 @@ var Certification = React.createClass({
     })
   },
   formatFiscalDates() {
-    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y') ) {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('Y')
-    } else {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('Y') + " - " + moment(this.state.certification.fiscal_end).format('Y');
-    };
+    var formatted_date = moment(this.state.certification.fiscal_end).format('Y')
     return formatted_date
   },
   render() {
@@ -82,9 +78,9 @@ var Certification = React.createClass({
     if (this.state.certification.status == 0 ) {
       var formatted_status = "In Progress"
     } else if (this.state.certification.status == 1 ) {
-      var formatted_status = "Ready To Submit"
-    } else if (this.state.certification.status == 2 ) {
       var formatted_status = "In Review"
+    } else if (this.state.certification.status == 2 ) {
+      var formatted_status = "W.A.G.E. Certified Pending"
     } else if (this.state.certification.status == 3 ) {
       var formatted_status = "Pending Updates"
     } else if (this.state.certification.status == 4 ) {
@@ -104,12 +100,10 @@ var Certification = React.createClass({
         <a href={url} key={this.state.certification.id} className="certification teaser">
           <h3>{this.formatFiscalDates()}</h3>
           <span className="status"><i className="fa fa-check"></i>{formatted_status}</span>
-          <span className="status">{moment(this.state.certification.updated_at).fromNow()}</span>
+          <span className="updated">{moment(this.state.certification.updated_at).fromNow()}</span>
           {submit}
         </a>
       );
     return row;
   }
 });
-
-          // <h5 className="status">{formatted_status}</h5>

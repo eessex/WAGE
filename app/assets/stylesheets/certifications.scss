@@ -1,4 +1,7 @@
-#certifications-show {
+ @import "variables";
+
+#certifications-show,
+#site-index #certification.show {
   .content {
     margin-top: 10em;
   }
@@ -8,13 +11,6 @@
 .certification.show {
   width: 100%;
   .title {
-    // display: flex;
-    // justify-content: space-between;
-    // align-items: center;
-    // width: 100%;
-    // border-bottom: 2px solid;
-    // padding: 1.35em 2em;
-    // clear: both;
     .page-header {
       margin: 0;
       padding: 0;
@@ -190,6 +186,8 @@ input[type="file"] {
     @media screen and (max-width: 1150px) {
       margin-left: auto;
       margin-right: auto;
+      padding-right: 1.5em;
+      padding-left: 2em;
     }
     h1 {
       margin-top: 0;
@@ -201,12 +199,17 @@ input[type="file"] {
     #guidelines {
       ul {
         margin-left: 0;
-        padding-left: 1em;
-        margin: 1.5em 0;
+        padding-left: 2.5em;
+        margin: 1em 0;
         li {
-          margin: 1em 0;
+          margin: .5em 0;
           font-size: initial;
           line-height: 1.35em;
+          small {
+            font-size: small;
+            color: $primary-color;
+            font-weight: 600;
+          }
         }
       }
     }

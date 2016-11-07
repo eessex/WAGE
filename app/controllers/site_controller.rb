@@ -29,7 +29,7 @@ class SiteController < ApplicationController
 
   def has_submitted(certifications)
     certifications.each do |certification|
-      if certification.status >= 2
+      if certification.status >= 1
         return true
       end
     end

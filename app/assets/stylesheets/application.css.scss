@@ -76,7 +76,10 @@ h3 span {
   border-bottom: 2px solid $lime;
   padding-bottom: 3px;
 }
-#registrations-new nav {
+#registrations-new nav,
+#sessions-new nav,
+#passwords-new nav,
+#confirmations-new nav {
   border: none;
   background: none transparent;
   img {
@@ -90,6 +93,7 @@ nav {
   background-color: $blue;
   height: 4em;
   border-bottom: 2px solid $primary-color;
+  z-index: 100 !important;
   a.navbar-brand {
     font-weight: 800;
     font-size: 3.5em;
@@ -157,6 +161,9 @@ main {
     width: 100%;
     top: 4em;
     z-index: 1000;
+    h6 {
+      min-width: 550px;
+    }
   }
 }
 .new-user-dashboard {

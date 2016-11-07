@@ -8,6 +8,7 @@ var CertificationFinancials = React.createClass({
       isFuture: true,
       isPast: false,
       isProgress: false,
+      newUser: false,
       errors: {}
     }
   },
@@ -20,6 +21,9 @@ var CertificationFinancials = React.createClass({
     }
     if (this.props.getYearStatus().progress != null) {
       this.setState({isProgress: this.props.getYearStatus().progress})
+    }
+    if (this.props.getYearStatus().newUser != null) {
+      this.setState({newUser: this.props.getYearStatus().newUser})
     }
   },
   hasOperatingExpenses() {
@@ -124,14 +128,14 @@ var CertificationFinancials = React.createClass({
   },
   hasFile_501c3() {
     var _501c3
-    if (this.props.newUser && this.state.user.file_501c3) {
+    if (this.state.newUser && this.state.user.file_501c3) {
         _501c3 =  <div className="form-item">
                       <h4>501c3</h4>
                       <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
                       <p className="form-control"><button onClick={this.clearFile_501c3}>Replace</button> {this.state.user.file_501c3}</p>
                       <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
                     </div>
-      } else if (this.props.newUser) {
+      } else if (this.state.newUser) {
         _501c3 = <div className="form-item">
                       <h4>501c3</h4>
                       <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
@@ -143,7 +147,11 @@ var CertificationFinancials = React.createClass({
   },
   hasFile_990() {
     var file_990
-    if (this.props.newUser) {
+    var file_990_caption
+    if (this.state.newUser) {
+      file_990_caption = <small> * Most recent</small>
+    }
+    if (this.state.newUser || this.state.isPast ) {
         file_990 = <div className="form-item">
             <h4>Form 990{file_990_caption}</h4>
             {this.hasFile("file_990")}
@@ -156,11 +164,8 @@ var CertificationFinancials = React.createClass({
   },
   render() {
     var file_990_caption
-    if ( this.props.isFuture ) {
+    if ( this.state.isFuture ) {
       var operating_caption = "Anticipated total"
-      if (this.props.newUser) {
-        var file_990_caption = <small> * Most recent</small>
-      }
     } else {
       var operating_caption = "Total"
     }

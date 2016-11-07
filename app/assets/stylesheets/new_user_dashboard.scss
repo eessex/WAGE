@@ -42,8 +42,8 @@
   }
   .btn {
     position: fixed;
-    top: 10px;
-    right: 6.5em;
+    top: .65em;
+    right: 5.5em;
     z-index: 2000;
   }
   .status span {
@@ -89,6 +89,13 @@
     float: none;
   }
   #guidelines {
+    section {
+      margin-bottom: 6em;
+      div {
+        margin-bottom: 3em;
+      }
+    }
+
     ul {
       padding-left: .5em;
       margin: 1em 0;
@@ -122,9 +129,18 @@
       margin: 3em 0;
     }
   }
-  #statement {
-    margin: 0 auto;
-    float: none;
+  #fee-schedule {
+    clear: both;
+  }
+  .statement {
+    .intro {
+      flex-direction: column;
+      margin: 0 auto;
+      float: none;
+    }
+    #statement {
+      margin: 1em 0;
+    }
   }
   #review {
     .section {

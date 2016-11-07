@@ -77,18 +77,14 @@ var newCertification = React.createClass({
     }
   },
   hasStatement() {
-    if ( this.state.user.statement && (this.state.user.statement.length > 300) ) {
+    if ( this.state.user.statement && (this.state.user.statement.length > 3) ) {
       return true
     }
   },
   hasStatementProgress() {
     if ( this.state.user.statement ) {
-      if ( this.state.user.statement.length > 300 ) {
         return "true"
       } else {
-        return "progress"
-      }
-    } else {
       return "false"
     }
   },
@@ -101,7 +97,7 @@ var newCertification = React.createClass({
   },
   onCertificationSubmit() {
     var certification = this.state.certification
-    certification.status = 2
+    certification.status = 1
     this.handleCertificationUpdate(certification)
   },
   handleCertificationUpdate(certification) {
@@ -114,6 +110,12 @@ var newCertification = React.createClass({
       url: '/certifications/' + certification.id + '.json',
       success: function(res) {
         that.setState({certification: res, canSubmit: that.canSubmit()})
+        if (res.notice) {
+          $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
+          setTimeout(function () {
+            window.location = "http://localhost:3000";
+          },2000);
+        }
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
@@ -181,6 +183,16 @@ var newCertification = React.createClass({
     var actions = <div id="actions" className="col-xs-12"><button disabled={disabled} className="btn btn-lg save" onClick={this.onCertificationSubmit}>Submit</button></div>
     return actions
   },
+  viewFeeSchedule() {
+    this.setState({contentState: 5})
+    $('.status .item').removeClass('active')
+  },
+  feeSchedule() {
+    if (this.state.certification.operating_expenses != null) {
+      var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>My Fee Schedule</button>
+    }
+    return btn
+  },
   setEditDates() {
     if (this.props.user.fiscal_start) {
       return false
@@ -188,13 +200,20 @@ var newCertification = React.createClass({
       return true
     }
   },
+  getYearStatus() {
+    return { future: false, past: false, progress: false, newUser: true }
+  },
   toggleEditDates() {
     this.setState({editDates: !this.state.editDates})
   },
   contentState() {
     if (this.state.contentState == 0) {
-    var contentState = <Guidelines key="guidelines"/>
-
+    var contentState = <div className="guidelines">
+                <div className="intro">
+                  <h1><span>Application Guidelines</span></h1>
+                </div>
+                <Guidelines key="guidelines" getYearStatus={this.getYearStatus}/>
+              </div>
     } else if (this.state.contentState == 1) {
       var contentState =  <div className="contact">
       <div className="intro">
@@ -207,17 +226,17 @@ var newCertification = React.createClass({
         <div className="statement">
           <div className="intro">
             <h1><span>Statement of Intent</span></h1>
-            <h4>A letter detailing your organization's interest in W.A.G.E. Certification.</h4>
+            <h4>Upload a letter on {this.state.user.institution_name}'s letterhead detailing your organization’s interest in W.A.G.E. Certification. Please tell us why getting certified is relevant to your organization and its mission.</h4>
           </div>
           <UserStatement user={this.state.user}/>
         </div>
 
     } else if (this.state.contentState == 3) {
       if (this.state.editDates || (this.state.certification && !this.state.certification.fiscal_start) ) {
-        var content= <FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} formatDates={this.formatDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
+        var content= <FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} formatDates={this.formatDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification} getYearStatus={this.getYearStatus}/>
       } else if (this.state.certification && this.state.certification.fiscal_start) {
         var content = <div><FiscalDates user={this.state.user} certification={this.state.certification} editDates={this.state.editDates} toggleEditDates={this.toggleEditDates} formatDates={this.formatDates} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} handleAddCertification={this.handleAddCertification}/>
-        <CertificationFinancials certification={this.state.certification} user={this.state.user} newUser={this.props.newUser} certifications={this.state.certifications.length} canSubmit={this.canSubmit} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} />
+        <CertificationFinancials certification={this.state.certification} user={this.state.user} newUser={this.props.newUser} certifications={this.state.certifications.length} canSubmit={this.canSubmit} handleCertificationUpdate={this.handleCertificationUpdate} handleUserUpdate={this.handleUserUpdate} getYearStatus={this.getYearStatus}/>
         </div>
       }
       var d = new Date();
@@ -225,7 +244,7 @@ var newCertification = React.createClass({
       var contentState =
       <div className="financials">
         <div className="intro">
-          <h1><span>Fiscal Details: {current_year}</span></h1>
+          <h1><span>Fiscal Details</span></h1>
         </div>
         {content}
       </div>
@@ -237,6 +256,14 @@ var newCertification = React.createClass({
               </div>
               <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit}/>
             </div>
+      } else if (this.state.contentState == 5) {
+          contentState = <div className="review">
+                <div className="intro">
+                  <h1><span>Fee Schedule</span></h1>
+                  <h4>FY: {this.formatDates()}</h4>
+                </div>
+                <FeeSchedule user={this.state.user} certification={this.state.certification} fee_categories={this.props.fee_categories} />
+              </div>
       }
     return contentState
   },
@@ -248,19 +275,14 @@ var newCertification = React.createClass({
     }
   },
   render() {
-    if (this.state.certification.fiscal_start != null) {
-      if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
-        var formatted_date = moment(this.state.certification.fiscal_start).format('YYYY')
-      } else {
-        var formatted_date = moment(this.state.certification.fiscal_start).format('YY') + "-" + moment(this.state.certification.fiscal_end).format('YY')
-      }
-    } else {
-      var formatted_date = moment(new Date).format('Y')
+    var formatted_date
+    if (this.state.certification.fiscal_start != null && this.state.certification.fiscal_end != null) {
+      formatted_date = ": FY  " + moment(this.state.certification.fiscal_end).format('YYYY')
     }
     return (
       <div id="certification" className="show">
         <div className="greeting" data-state={this.state.contentState}>
-          <h4><span>Get Certified: FY  {formatted_date}</span></h4>
+          <h4><span>Get Certified{formatted_date}</span></h4>
           <h6 className="status col-xs-12 col-sm-9 col-md-7 ">
           <div className="item" data-id="0">
             <i className="fa" aria-hidden="true"></i>
@@ -283,6 +305,7 @@ var newCertification = React.createClass({
             <span onClick={this.setContentState} data-disabled={!this.state.canSubmit}>Review</span>
           </div>
           </h6>
+          {this.feeSchedule()}
         </div>
       <div className="content" data-content-state={this.state.contentState}>
         {this.contentState()}

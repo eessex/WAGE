@@ -78,7 +78,7 @@ var CertificationNew = React.createClass({
       years.push(i)
     }
     this.props.certifications.map( function(certification) {
-      var remove = parseInt(moment(certification.fiscal_start).format('Y'))
+      var remove = parseInt(moment(certification.fiscal_end).format('Y'))
       years = years.filter(item => item !== remove);
     })
     return years.sort(function(a, b){return b-a});
@@ -87,9 +87,9 @@ var CertificationNew = React.createClass({
     if (e.target.value != "default") {
       var year = e.target.value
       var newCertification = this.state.certification
-      this.state.s_y = year
-      var remove = moment(newCertification.fiscal_start).format('Y')
-      if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y')) {
+      this.state.e_y = year
+      var remove = moment(newCertification.fiscal_end).format('Y')
+      if (moment(this.state.certification.fiscal_end).format('Y') == moment(this.state.certification.fiscal_end).format('Y')) {
         newCertification.fiscal_end = newCertification.fiscal_end.replace(remove, year)
       } else {
         removePlus = parseInt(remove) + 1
@@ -123,10 +123,9 @@ var CertificationNew = React.createClass({
             onChange={this.handleYearChange}
             defaultValue="default"
             >
-            <option className="default" value="default">Choose Year</option>
             {options}
             </select>
-            <button className="btn" disabled={this.state.disabled} onClick={this.handleAddCertification}><i className="fa fa-plus"></i> New</button>
+            <button className="btn" disabled={!this.state.disabled} onClick={this.handleAddCertification}><i className="fa fa-plus"></i> New</button>
           </div>
         </div>
       )

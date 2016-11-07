@@ -75,6 +75,12 @@
       max-width: 850px;
       margin: 2em auto;
       padding-bottom: 4em;
+      .status {
+        min-width: 125px;
+        i {
+          margin-right: .5em;
+        }
+      }
       h4.th {
         font-size: 1em;
         text-transform: uppercase;
@@ -90,7 +96,14 @@
     .new {
       position: absolute;
       top: 1.75em;
-      right: 285px;
+      right: 0;
+      left: 0;
+      .field-group {
+        max-width: 850px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: flex-end;
+      }
       select {
         float: left;
         font-size: 1.5em;

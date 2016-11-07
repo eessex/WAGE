@@ -83,8 +83,9 @@ ActiveRecord::Schema.define(version: 20161025042107) do
     t.string   "address_city"
     t.string   "address_state"
     t.string   "address_zip"
-    t.text     "statement"
+    t.string   "statement"
     t.boolean  "certified",              default: false
+    t.boolean  "is_sponsored",           default: false
     t.boolean  "admin",                  default: false
     t.string   "phone"
     t.date     "fiscal_start"
