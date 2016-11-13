@@ -1,4 +1,4 @@
-var ArtistPaymentNew = React.createClass({
+ var ArtistPaymentNew = React.createClass({
   getInitialState() {
     return {
       artist_payment: {

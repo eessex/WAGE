@@ -1,6 +1,7 @@
 @import "variables";
 
-#registrations-new {
+#registrations-new,
+#site-guidelines {
   flex-direction: column;
   .intro {
     width: 100%;
@@ -9,9 +10,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    h4, h3 {
-      line-height: 1.35em;
-    }
+    line-height: 1.35em;
     .scroll-down {
       width: 100%;
       text-align: center;
@@ -30,11 +29,10 @@
       background-color: $blue;
       color: yellow;
       margin-top: -4em;
-      h1 {
+/*      h2 {
         margin-top: 2em;
-        text-align: center;
       }
-    }
+*/    }
     &.two {
       background-color: lime;
       z-index: 2000;

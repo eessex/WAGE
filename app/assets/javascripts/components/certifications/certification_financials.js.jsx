@@ -149,7 +149,7 @@ var CertificationFinancials = React.createClass({
     var file_990
     var file_990_caption
     if (this.state.newUser) {
-      file_990_caption = <small> * Most recent</small>
+      file_990_caption = <small> * Most recent if available</small>
     }
     if (this.state.newUser || this.state.isPast ) {
         file_990 = <div className="form-item">

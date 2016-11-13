@@ -86,7 +86,7 @@ var CertificationShow = React.createClass({
   },
   hasPayments() {
     if ( this.state.artist_payments) {
-      if (this.state.artist_payments.length > 8) {
+      if (this.state.artist_payments.length > 1) {
         return 'true'
       } else if (this.state.artist_payments.length > 0) {
         return "progress"
