@@ -21,6 +21,10 @@ class SiteController < ApplicationController
     end
   end
 
+  def guidelines
+    render :template => 'site/_guidelines'
+  end
+
   def fee_schedule
     @user = current_user
     @fee_categories = FeeCategory.all
@@ -35,5 +39,18 @@ class SiteController < ApplicationController
     end
     return false
   end
+  
+  helper_method :resource_name, :resource, :devise_mapping
 
+  def resource_name
+    :user
+  end
+ 
+  def resource
+    @resource ||= User.new
+  end
+ 
+  def devise_mapping
+    @devise_mapping ||= Devise.mappings[:user]
+  end
 end

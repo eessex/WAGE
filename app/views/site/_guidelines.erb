@@ -1,6 +1,6 @@
 <div class="intro one">
   <div class="text">
-    <h1>If your organization is applying to be W.A.G.E. Certified, you are voluntarily making a commitment to pay artists according to W.A.G.E.’s minimum standards of compensation.</h1>
+    <h2>If your organization is applying to be W.A.G.E. Certified, you are voluntarily making a commitment to pay artists according to W.A.G.E.’s minimum standards of compensation.</h2>
     <div class="scroll-down"><a href="#"><i class="fa fa-angle-down"></i></a></div>
   </div>
 </div>
@@ -8,7 +8,7 @@
 <div class="intro two">
   <div class="text">
     <h2>W.A.G.E. Certification is intended as an ongoing commitment to equity.</h2>
-    <h3>You can apply to be certified for previous, current or upcoming fiscal years but they must be consecutive:</h3>
+    <h2>You can apply to be certified for previous, current or upcoming fiscal years but they must be consecutive:</h2>
   </div>
   <div class="columns">
     <div class="col col-lg-4">
@@ -43,15 +43,20 @@
 </div>
   <div class="intro three">
     <div class="text">
-      <h2>Any new application must include:</h2>
-      <h3>
+      <h3>Any new application must include:</h3>
+      <h4>
         <ul>
-        <li>Templates of contracts used with artists</li>
-        <li>Your most recent form 990</li>
         <li>Your 501c3 determination letter <small><em>or documentation of fiscal sponsorship</em></small></li>
+        <li>Most recent 990, if available</li>
+        <li>Templates of contracts used with artists</li>
       </ul>
       </h3>
-      <h3>These documents only need to be submitted once.</h3>
+      <h4>These documents only need to be submitted once.</h4>
+      <h4>You must also submit your organization’s total operating budget with “Artist Fees” included as a distinct and visible line item. </h4>
+      <h4>If your application is for the current or upcoming fiscal year, this will be a projected budget. If you are applying for a prior fiscal year, it will be a closed out budget.</h4>
     </div>
   </div>
 </div>
+<% if !current_user %>
+  <%= render "devise/registrations/new" %>
+<% end %>

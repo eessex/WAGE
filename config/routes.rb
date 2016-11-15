@@ -3,11 +3,13 @@ Rails.application.routes.draw do
     root to: 'site#index', as: :authenticated_root
     get "/upload.json" => "file#show"
     get "/fee-schedule" => "site#fee_schedule"
+    get "guidelines" => 'site#guidelines'
     resources :certifications, :except => [:new, :edit]
     resources :fee_categories, :except => [:new, :edit]
     resources :artist_payments, :except => [:new, :edit, :show]
   end
-  root to: redirect('/users/sign_up')
+  # root to: redirect('/users/sign_up')
+  root to: 'site#guidelines'
 
 
   devise_for :users, controllers: {registrations: 'registrations'}
