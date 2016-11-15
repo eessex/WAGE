@@ -190,11 +190,10 @@ input[type="file"] {
       padding-left: 2em;
     }
     h1 {
-      margin-top: 0;
-      margin-bottom: .8em;
+      margin: 0;
     }
     h4 {
-      line-height: 1.35em;
+      // line-height: 1.35em;
     }
     #guidelines {
       ul {
@@ -216,13 +215,19 @@ input[type="file"] {
     .intro {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 2em;
+      }
+    }
+    .financials .intro {
+      h5 {
+        align-self: center;
+        margin-right: 4em;
       }
     }
     #financials {
       padding: 0;
-      .form {
-        margin-top: -.75em;
-      }
+      margin-top: 0;
+      margin-bottom: 0;
       .form-item {
         margin-bottom: 3em;
         p {
@@ -313,18 +318,6 @@ input[type="file"] {
       margin-top: -5px;
     }
   }
-  // .new {
-  //   margin: 0;
-  //   padding-bottom: 3em;
-  //   float: none;
-  //   .form-item {
-  //     margin-bottom: 3em;
-  //     &:nth-last-child(1) {
-  //       margin-bottom: 0;
-  //     }
-  //   }
-//   }
-// }
 .amount-box {
   border-top: 2px solid;
   background-color: #fff;

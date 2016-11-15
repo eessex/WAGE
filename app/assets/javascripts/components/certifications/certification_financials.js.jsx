@@ -150,6 +150,8 @@ var CertificationFinancials = React.createClass({
     var file_990_caption
     if (this.state.newUser) {
       file_990_caption = <small> * Most recent if available</small>
+    } else {
+      <small> * if available</small>
     }
     if (this.state.newUser || this.state.isPast ) {
         file_990 = <div className="form-item">
@@ -173,7 +175,7 @@ var CertificationFinancials = React.createClass({
       <form id="financials" className="form col-xs-12">
             <div className="form-item">
                 <h4 className="col">Operating Expenses</h4>
-                <p>{operating_caption} annual expenses for fiscal year {moment(this.state.certification.fiscal_start).format('Y')}.</p>
+                <p>{operating_caption} annual expenses for fiscal year {moment(this.state.certification.fiscal_end).format('Y')}.</p>
                   <div className="input-group">
                   <div className="input-group-addon">$</div>
                   <input
@@ -189,7 +191,7 @@ var CertificationFinancials = React.createClass({
             </div>
             <div className="form-item">
               <h4>Operating Budget</h4>
-              <p>A closed out budget for FY {moment(this.state.certification.fiscal_start).format('Y')} with ‘Artist Fees’ as a distinct line item.</p>
+              <p>A closed out budget for fiscal year {moment(this.state.certification.fiscal_end).format('Y')} with ‘Artist Fees’ as a distinct line item.</p>
               {this.hasFile("file_budget")}
               <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
             </div>

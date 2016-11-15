@@ -113,7 +113,7 @@ var StatementFile = React.createClass({
     if (this.state.user[type]) {
       var file = <div id={type} className="file-uploaded"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.user[type]}</div>
     } else {
-      var file = <div id={type} className="directUpload">
+      var file = <div id={type} className="directUpload form-control">
         <input
           value=""
           type="file"
@@ -126,7 +126,11 @@ var StatementFile = React.createClass({
   },
   render() {
     return (
-      <div>{this.hasFile('statement')}</div>
+      <div>
+        <h4>Upload a letter on {this.state.user.institution_name}'s letterhead detailing your interest in W.A.G.E. Certification.</h4>
+        <h4>Please tell us how getting certified relates to your organization’s mission and why you have chosen to pursue it.</h4>
+        {this.hasFile('statement')}
+      </div>
     )
   }
 });

@@ -104,7 +104,9 @@ var FiscalDates = React.createClass({
       this.props.handleCertificationUpdate(this.handleFormatDates().certification)
       this.props.toggleEditDates()
     } else {
-      this.props.handleAddCertification(this.handleFormatDates().certification)
+      if (this.props.handleFirstCertification) {
+        this.props.handleFirstCertification()
+      }
     }
   },
   getDays() {
@@ -221,7 +223,7 @@ var FiscalDates = React.createClass({
             {actions}
           </div>
 
-    var fiscal_dates_show = <h4 className="saved-dates"><span>FY: {this.props.formatDates()}</span> {actions}</h4>
+    var fiscal_dates_show = <h4 className="saved-dates">{actions}</h4>
 
     if (this.props.editDates) {
       var fiscal_dates = fiscal_dates_form
