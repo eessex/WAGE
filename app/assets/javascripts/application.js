@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require underscore
 //= require react
 //= require react_ujs
 //= require ./vendor/jquery.ui.widget

@@ -190,6 +190,7 @@ main {
     z-index: 1000;
     h6 {
       min-width: 550px;
+      width: 750px;
     }
   }
 }
@@ -235,5 +236,22 @@ main {
   }
   .btn-danger {
     margin-left: 1em;
+  }
+}
+
+.is-saved {
+  position: absolute;
+  right: 1.5em;
+  transition: all .35s;
+  &.saving {
+    color: $red;
+    i {
+      color: $red;
+    }
+  }
+  i {
+    color: lime;
+    margin-right: 5px;
+    transition: all .35s;
   }
 }

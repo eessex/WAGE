@@ -180,12 +180,12 @@ input[type="file"] {
     }
   }
   .content {
-    margin-left: 310px;
-    margin-right: 10%;
-    max-width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    // margin-left: 310px;
+    // margin-right: 10%;
+    max-width: 750px;
     @media screen and (max-width: 1150px) {
-      margin-left: auto;
-      margin-right: auto;
       padding-right: 1.5em;
       padding-left: 2em;
     }

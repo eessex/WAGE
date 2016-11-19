@@ -101,7 +101,6 @@ var newCertification = React.createClass({
     this.handleCertificationUpdate(certification)
   },
   handleCertificationUpdate(certification) {
-    this.isSaved()
     var that = this;
     $.ajax({
       method: 'PUT',
@@ -111,9 +110,6 @@ var newCertification = React.createClass({
       url: '/certifications/' + certification.id + '.json',
       success: function(res) {
         that.setState({certification: res, canSubmit: that.canSubmit()})
-        setTimeout(function(){
-          that.isSaved()
-        }, 150)
         if (res.notice) {
           $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
           setTimeout(function () {
@@ -125,9 +121,9 @@ var newCertification = React.createClass({
         that.setState({errors: res.responseJSON.errors});
       }
     });
+    _.debounce(function(){ this.isSaved() }, 300)
   },
   handleUserUpdate(user) {
-    this.isSaved()
     var that = this;
     $.ajax({
       method: 'PATCH',
@@ -137,14 +133,12 @@ var newCertification = React.createClass({
       url: '/users' + '.json',
       success: function(res) {
         that.setState({user: user, canSubmit: that.canSubmit()})
-        setTimeout(function(){
-          that.isSaved()
-        }, 150)
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
       }
     });
+    this.isSaved()
   },
   paymentsSorted(artist_payments) {
     this.setState({artist_payments: artist_payments});
@@ -165,7 +159,6 @@ var newCertification = React.createClass({
     this.handleAddCertification(newCertification)
   },
   handleAddCertification(certification) {
-    this.isSaved()
     var that = this;
     $.ajax({
       method: 'POST',
@@ -174,9 +167,7 @@ var newCertification = React.createClass({
       },
       url: '/certifications.json',
       success: function(res) {
-        setTimeout(function(){
-          that.isSaved()
-        }, 150)
+        debugger
         certifications = that.state.certifications
         certifications.push(res)
         that.setState({certifications: certifications, certification: certifications[0], editDates: false})
@@ -185,6 +176,7 @@ var newCertification = React.createClass({
         that.setState({errors: res.responseJSON.errors})
       }
     });
+    this.isSaved()
   },
   formatDates() {
     if (this.state.certification.fiscal_start) {
@@ -245,13 +237,15 @@ var newCertification = React.createClass({
     $('.status .item[data-id="' + contentState + '"]').addClass('active')
   },
   isSaved() {
-    $('.is-saved').toggleClass('saving')
-    if ($('.is-saved span').text() == 'Saving') {
-      $('.is-saved span').text('Saved')
-    } else {
-      $('.is-saved span').text('Saving')
-    }
+    debugger
+    $('.is-saved').addClass('saving')
+    $('.is-saved span').text('Saving')
     $('.is-saved i').toggleClass('fa-check fa-spinner fa-spin')
+    setTimeout(function(){
+      $('.is-saved').removeClass('saving')
+      $('.is-saved span').text('Saved')
+      $('.is-saved i').toggleClass('fa-check fa-spinner fa-spin')
+     }, 300)
   },
   contentState() {
     if (this.state.contentState == 3 && !this.state.canSubmit) {
@@ -272,7 +266,7 @@ var newCertification = React.createClass({
       <div className="intro">
       <h1><span>Contact Information</span></h1>
       </div>
-      <UserContact key="contact" user={this.state.user} handleUserUpdate={this.handleUserUpdate} />{next}</div>
+      <NewUserContact key="contact" user={this.state.user} handleUserUpdate={this.handleUserUpdate} />{next}</div>
 
     } else if (this.state.contentState == 3) {
       var contentState =
@@ -286,7 +280,7 @@ var newCertification = React.createClass({
 
     } else if (this.state.contentState == 2) {
       if (this.state.editDates || (this.state.certification && !this.state.certification.fiscal_start) ) {
-        if (this.state.user.fiscal_start && this.state.user.fiscal_end && !this.state.certification.fiscal_start && !this.state.certification.fiscal_end) {
+        if (!this.state.certification.fiscal_start && !this.state.certification.fiscal_end) {
           var today = new Date
           var years = []
           var plusYear = ""
@@ -411,7 +405,8 @@ var newCertification = React.createClass({
       <div className="content" data-content-state={this.state.contentState}>
         {this.contentState()}
       </div>
-    </div>
+
+      </div>
     )
   }
 });

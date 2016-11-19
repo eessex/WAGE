@@ -16,7 +16,7 @@ var NewUserContact = React.createClass({
     var newUser = this.state.user
     newUser.rep_name = e.target.value
     this.setState({user: newUser})
-    this.handleUserUpdate()
+    this.props.handleUserUpdate(newUser)
   },
   handleRepTitleChange(e) {
     var newUser = this.state.user
@@ -73,6 +73,7 @@ var NewUserContact = React.createClass({
     this.handleUserUpdate()
   },
   handleUserUpdate() {
+    debugger
     var that = this;
     $.ajax({
       method: 'PUT',
@@ -85,7 +86,6 @@ var NewUserContact = React.createClass({
           disabled: true,
           errors: {}
         });
-        // that.props.refreshUser(that.state.user)
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});

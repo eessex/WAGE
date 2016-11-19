@@ -49,7 +49,7 @@ var CertificationSubmitView = React.createClass({
     } else {
       var actions
     }
-
+    var displayStreet = <span>{this.props.user.address_st2 ? ", " + this.props.user.address_st2 : ""}</span>;
     return (
       <div id="review" className="certification">
         <div className="section contact clearfix">
@@ -61,7 +61,7 @@ var CertificationSubmitView = React.createClass({
             <p>{this.props.user.phone}</p>
           </div>
           <div className="col col-lg-6">
-            <p>{this.props.user.address_st1}, {this.props.user.address_st2}</p>
+            <p>{this.props.user.address_st1}{displayStreet}}</p>
             <p>{this.props.user.address_city}, {this.props.user.address_state} {this.props.user.address_zip}</p>
             <p><a href={this.props.user.website} target="_blank">{this.props.user.website}</a></p>
           </div>
