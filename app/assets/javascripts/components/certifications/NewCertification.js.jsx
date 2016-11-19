@@ -34,7 +34,6 @@ var newCertification = React.createClass({
   },
   hasFinancials() {
     if ( this.state.certification.operating_expenses &&
-        this.state.certification.file_990 &&
         this.state.certification.file_budget &&
         this.state.user.file_501c3 ) {
       return true

@@ -223,7 +223,6 @@ var CertificationShow = React.createClass({
     var contentState = <div className="guidelines">
             <div className="intro">
               <h1><span>Application Guidelines</span></h1>
-              <h4>FY: {this.formatDates()}</h4>
             </div>
             <Guidelines getYearStatus={this.getYearStatus}/>
             {next}
@@ -232,7 +231,7 @@ var CertificationShow = React.createClass({
     var contentState = <div className="fee-schedule">
       <div className="intro">
         <h1><span>My Fee Schedule</span></h1>
-        <h4>FY: {this.formatDates()}</h4>
+        <h5>Fiscal Year: {this.formatDates()}</h5>
       </div>
       <FeeSchedule fee_categories={this.props.fee_categories} floor_categories={this.props.fee_categories} user={this.state.user} certification={this.state.certification}/>
     </div>
@@ -240,7 +239,7 @@ var CertificationShow = React.createClass({
     var contentState =  <div className="financials">
     <div className="intro">
       <h1><span>Fiscal Details</span></h1>
-      <h4>FY: {this.formatDates()}</h4>
+      <h5>Fiscal Year: {this.formatDates()}</h5>
     </div>
     <CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} canSubmit={this.state.canSubmit} handleUserUpdate={this.handleUserUpdate} newUser={false} getYearStatus={this.getYearStatus} />{next}</div>
   } else if (this.state.contentState == 2) {
@@ -259,7 +258,7 @@ var CertificationShow = React.createClass({
     var contentState =  <div className="review">
           <div className="intro">
             <h1><span>Review</span></h1>
-            <h4>FY: {this.formatDates()}</h4>
+            <h5>Fiscal Year: {this.formatDates()}</h5>
           </div>
           <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit} />
         </div>
