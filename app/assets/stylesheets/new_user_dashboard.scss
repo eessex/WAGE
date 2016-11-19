@@ -46,6 +46,10 @@
     top: .65em;
     right: 5.5em;
     z-index: 2000;
+    &:hover {
+      border: 2px solid lime;
+      background-color: yellow;
+    }
   }
   .status span {
     margin-right: 2em;
