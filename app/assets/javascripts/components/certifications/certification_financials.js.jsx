@@ -120,6 +120,8 @@ var CertificationFinancials = React.createClass({
           type="file"
           className="form-control"
           id={type}
+          accept="application/pdf,application/msword,
+  application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel"
           onChange={this.handleFileChange} />
         <div id={type} className='progress'><div className='bar'></div></div>
         </div>
@@ -153,7 +155,7 @@ var CertificationFinancials = React.createClass({
     } else {
       <small> * if available</small>
     }
-    if (this.state.newUser || this.state.isPast ) {
+    if (this.state.newUser || !this.state.isFuture ) {
         file_990 = <div className="form-item">
             <h4>Form 990{file_990_caption}</h4>
             {this.hasFile("file_990")}

@@ -6,25 +6,7 @@ var UserStatement = React.createClass({
     }
   },
   handleUserUpdate(user) {
-    var that = this;
-    debugger
-    $.ajax({
-      method: 'PUT',
-      data: {
-        user: user,
-      },
-      url: '/users' + '.json',
-      success: function(res) {
-        that.setState({
-          user: res,
-          errors: {}
-        });
-      },
-      error: function(res) {
-        debugger
-        that.setState({errors: res.responseJSON.errors});
-      }
-    });
+    this.props.handleUserUpdate(newUser)
   },
   formStatement() {
     var statement = <StatementFile user={this.props.user} handleUserUpdate={this.handleUserUpdate} />
@@ -111,13 +93,15 @@ var StatementFile = React.createClass({
   },
   hasFile(type) {
     if (this.state.user[type]) {
-      var file = <div id={type} className="file-uploaded"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.user[type]}</div>
+      var file = <p id={type} className="file-uploaded form-control"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.user[type]}</p>
     } else {
       var file = <div id={type} className="directUpload form-control">
         <input
           value=""
           type="file"
           id={type}
+          accept="image/*,application/pdf,application/msword,
+  application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           onChange={this.handleFileChange} />
         <div className='progress'><div className='bar'></div></div>
         </div>

@@ -31,7 +31,7 @@ var UserContact = React.createClass({
             className="form-control"
             value={this.state.user.rep_name}
             onChange={this.handleInputChange} />
-          <span style={{color: 'red'}}>{this.state.errors.rep_name}</span>
+          <span style={{color: 'red'}}>{this.props.errors.rep_name}</span>
         </div>
       </div>
       <div className="field-group">
@@ -44,12 +44,12 @@ var UserContact = React.createClass({
             className="form-control"
             value={this.state.user.rep_title}
             onChange={this.handleInputChange} />
-          <span style={{color: 'red'}}>{this.state.errors.rep_name}</span>
+          <span style={{color: 'red'}}>{this.props.errors.rep_name}</span>
         </div>
       </div>
       <div className="field-group">
         <h4 className="col col-xs-3">Phone</h4>
-        <div className="col col-xs-9">
+        <div className="col col-xs-9 validated">
           <input
             type="phone"
             placeholder="phone"
@@ -57,12 +57,12 @@ var UserContact = React.createClass({
             className="form-control"
             value={this.state.user.phone}
             onChange={this.handleInputChange} />
-          <span style={{color: 'red'}}>{this.state.errors.phone}</span>
+          <span className="error">{this.props.errors.phone}</span>
         </div>
       </div>
       <div className="field-group">
         <h4 className="col col-xs-3">Website</h4>
-        <div className="col col-xs-9">
+        <div className="col col-xs-9 validated">
           <input
             type="url"
             placeholder="http://example.org"
@@ -70,7 +70,7 @@ var UserContact = React.createClass({
             className="form-control"
             value={this.state.user.website}
             onChange={this.handleInputChange} />
-          <span style={{color: 'red'}}>{this.state.errors.website}</span>
+          <span className="error">{this.props.errors.website}</span>
         </div>
       </div>
     </div>;
@@ -92,9 +92,9 @@ var UserContact = React.createClass({
               className="form-control"
               value={this.state.user.address_st1}
               onChange={this.handleInputChange} />
-            <span style={{color: 'red'}}>{this.state.errors.address_st1}</span>
+            <span style={{color: 'red'}}>{this.props.errors.address_st1}</span>
           </div>
-          <div className="col-sm-4">
+          <div className="col-sm-4 col">
             <input
               type="text"
               name="address_st2"
@@ -102,7 +102,7 @@ var UserContact = React.createClass({
               className="form-control"
               value={this.state.user.address_st2}
               onChange={this.handleInputChange} />
-            <span style={{color: 'red'}}>{this.state.errors.address_st2}</span>
+            <span style={{color: 'red'}}>{this.props.errors.address_st2}</span>
           </div>
         </div>
         <div className="field-group">
@@ -114,9 +114,9 @@ var UserContact = React.createClass({
               className="form-control"
               value={this.state.user.address_city}
               onChange={this.handleInputChange} />
-            <span style={{color: 'red'}}>{this.state.errors.address_city}</span>
+            <span style={{color: 'red'}}>{this.props.errors.address_city}</span>
           </div>
-          <div className="col-sm-2">
+          <div className="col col-sm-2">
             <select
               className="form-control"
               name="address_state"
@@ -125,7 +125,7 @@ var UserContact = React.createClass({
               {options}
             </select>
           </div>
-          <div className="col-sm-4">
+          <div className="col-sm-4 col validated">
             <input
               type="text"
               name="address_zip"
@@ -133,7 +133,7 @@ var UserContact = React.createClass({
               className="form-control"
               value={this.state.user.address_zip}
               onChange={this.handleInputChange} />
-            <span style={{color: 'red'}}>{this.state.errors.address_zip}</span>
+            <span className="error">{this.props.errors.address_zip}</span>
           </div>
         </div>
       </div>

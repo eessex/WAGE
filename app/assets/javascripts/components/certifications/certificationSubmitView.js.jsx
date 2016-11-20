@@ -13,8 +13,9 @@ var CertificationSubmitView = React.createClass({
   showStatement() {
     if (this.props.certifications.length < 2) {
       var statement = <div className="section statement clearfix">
-              <h3>Statement of Intent</h3>
-              <p>{this.state.user.statement}</p>
+            <h4>Statement of Intent </h4>
+              <h5><a href={this.props.user.statement} target="_blank">{this.state.user.statement}</a>
+            </h5>
             </div>
     } else {
       var statement
@@ -53,27 +54,30 @@ var CertificationSubmitView = React.createClass({
     return (
       <div id="review" className="certification">
         <div className="section contact clearfix">
-          <h3>Contact Information</h3>
           <h4>{this.props.user.institution_name}</h4>
           <div className="col col-lg-6">
-            <p>{this.props.user.rep_name}, {this.props.user.rep_title}</p>
-            <p>{this.props.user.email}</p>
-            <p>{this.props.user.phone}</p>
+            <h5>{this.props.user.rep_name}, {this.props.user.rep_title}</h5>
+            <h5>{this.props.user.email}</h5>
+            <h5>{this.props.user.phone}</h5>
           </div>
           <div className="col col-lg-6">
-            <p>{this.props.user.address_st1}{displayStreet}}</p>
-            <p>{this.props.user.address_city}, {this.props.user.address_state} {this.props.user.address_zip}</p>
-            <p><a href={this.props.user.website} target="_blank">{this.props.user.website}</a></p>
+            <h5>{this.props.user.address_st1}{displayStreet}</h5>
+            <h5>{this.props.user.address_city}, {this.props.user.address_state} {this.props.user.address_zip}</h5>
+            <h5><a href={this.props.user.website} target="_blank">{this.props.user.website}</a></h5>
           </div>
         </div>
         {this.showStatement()}
         <div className="section financials clearfix">
           <h3>Financial Details</h3>
           <h4>TAOE: {formatted_operating}</h4>
-          <p><strong>Operating Budget:</strong> <a href={this.props.certification.file_budget} target="_blank">{this.props.certification.file_budget}</a></p>
-          <p><strong>Form 990:</strong> <a href={this.props.certification.file_990} target="_blank">{this.props.certification.file_990}</a></p>
-          <p><strong>501c3:</strong> <a href={this.props.user.file_501c3} target="_blank">{this.props.user.file_501c3}</a></p>
-          <p><strong>Contract Template:</strong> <a href={this.props.user.file_contract} target="_blank">{this.props.certification.file_contract}</a></p>
+          <h4>Operating Budget:</h4>
+          <h5><a href={this.props.certification.file_budget} target="_blank">{this.props.certification.file_budget}</a></h5>
+          <h4>Form 990:</h4>
+          <h5><a href={this.props.certification.file_990} target="_blank">{this.props.certification.file_990}</a></h5>
+          <h4>501c3:</h4>
+          <h5><a href={this.props.certification.file_501c3} target="_blank">{this.props.certification.file_501c3}</a></h5>
+          <h4>Contract Templates:</h4>
+          <h5><a href={this.props.certification.file_contract} target="_blank">{this.props.certification.file_contract}</a></h5>
         </div>
         {artist_payments}
         {actions}

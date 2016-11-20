@@ -12,7 +12,8 @@ var newCertification = React.createClass({
       contentState: 0,
       editDates: this.setEditDates(),
       applicationStatus: this.applicationStatus(),
-      sortDir: 'ASC'
+      sortDir: 'ASC',
+      errors: {}
     }
   },
   componentDidMount() {
@@ -109,7 +110,7 @@ var newCertification = React.createClass({
       },
       url: '/certifications/' + certification.id + '.json',
       success: function(res) {
-        that.setState({certification: res, canSubmit: that.canSubmit()})
+        that.setState({certification: res, canSubmit: that.canSubmit(), errors: {}})
         setTimeout(function(){
           that.isSaved()
         }, 150)
@@ -122,6 +123,9 @@ var newCertification = React.createClass({
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
+        setTimeout(function(){
+          that.isSaved()
+        }, 150)
       }
     });
   },
@@ -136,13 +140,16 @@ var newCertification = React.createClass({
       url: '/users' + '.json',
       success: function(res) {
                 // if user has dates and certification doesnt have dates
-        that.setState({user: user, canSubmit: that.canSubmit()})
+        that.setState({user: user, canSubmit: that.canSubmit(), errors: {}})
         setTimeout(function(){
           that.isSaved()
         }, 150)
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
+        setTimeout(function(){
+          that.isSaved()
+        }, 150)
       }
     });
   },
@@ -179,7 +186,7 @@ var newCertification = React.createClass({
         }, 150)
         certifications = that.state.certifications
         certifications.push(res)
-        that.setState({certifications: certifications, certification: res, contentState: 6})
+        that.setState({certifications: certifications, certification: res, contentState: 6, errors: {}})
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors})
@@ -289,7 +296,7 @@ var newCertification = React.createClass({
       <div className="intro">
       <h1><span>Contact Information</span></h1>
       </div>
-      <UserContact key="contact" user={this.state.user} handleUserUpdate={this.handleUserUpdate} />{next}</div>
+      <UserContact key="contact" user={this.state.user} handleUserUpdate={this.handleUserUpdate} errors={this.state.errors}/>{next}</div>
 
     } else if (this.state.contentState == 3) {
       var contentState =
@@ -297,7 +304,7 @@ var newCertification = React.createClass({
           <div className="intro">
             <h1><span>Statement of Intent</span></h1>
           </div>
-          <UserStatement user={this.state.user}/>
+          <UserStatement user={this.state.user} handleUserUpdate={this.handleUserUpdate} />
           {next}
         </div>
 

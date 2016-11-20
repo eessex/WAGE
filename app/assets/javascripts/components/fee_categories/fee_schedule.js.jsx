@@ -33,7 +33,7 @@ var FeeSchedule = React.createClass({
     } else if (status == "min") {
       fee_header = <span className="wide"><span className="left">Floor Wage</span><span>Minimum Wage</span></span>
     } else if (status == "over5m") {
-      fee_header = <span className="wide"><span className="left">Minimum Wage</span><span>Recommended Wage</span></span>
+      fee_header = <span className="wide"><span className="left">Minimum Wage</span><span>Recommended</span></span>
     }
     return fee_header
   },
