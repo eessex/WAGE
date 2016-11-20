@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(version: 20161025042107) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.string   "qb_pl"
-    t.string   "statement"
   end
 
   create_table "fee_categories", force: :cascade do |t|
@@ -85,7 +84,6 @@ ActiveRecord::Schema.define(version: 20161025042107) do
     t.string   "address_zip"
     t.string   "statement"
     t.boolean  "certified",              default: false
-    t.boolean  "is_sponsored",           default: false
     t.boolean  "admin",                  default: false
     t.string   "phone"
     t.date     "fiscal_start"

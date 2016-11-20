@@ -166,6 +166,20 @@ var CertificationFinancials = React.createClass({
       }
     return file_990
   },
+  hasFileContract() {
+    var file_contract
+    if (this.state.newUser) {
+      file_contract =   <div className="form-item">
+            <h4>Sample Contracts</h4>
+            <p>Optional: A PDF of templates for any contracts used with artists.</p>
+            {this.hasFile("file_contract")}
+          <div className="helper">
+            <span style={{color: 'red'}}>{this.state.errors.file_contract}</span>
+          </div>
+        </div>
+    }
+    return file_contract
+  },
   render() {
     var file_990_caption
     if ( this.state.isFuture ) {
@@ -198,15 +212,8 @@ var CertificationFinancials = React.createClass({
               <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
             </div>
             {this.hasFile_990()}
-            <div className="form-item">
-                <h4>Sample Contracts</h4>
-                <p>Optional: A PDF of templates for any contracts used with artists.</p>
-                {this.hasFile("file_contract")}
-              <div className="helper">
-                <span style={{color: 'red'}}>{this.state.errors.file_contract}</span>
-              </div>
-            </div>
             {this.hasFile_501c3()}
+            {this.hasFileContract()}
           </form>
     );
   }

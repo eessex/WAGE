@@ -16,12 +16,12 @@ fee_cat_8 = FeeCategory.create(name: "Solo Screening", description: "The screeni
 fee_cat_9 = FeeCategory.create(name: "Event with Multiple Participants", description: "A single event with three or more artists. This may take the form of a presentation of discrete works including but not limited to performance, screening, or reading, or it may be a panel discussion.", floor_fee: 100, fee_subtitle: "", over500K: ".0002")
 fee_cat_10 = FeeCategory.create(name: "Artist Talk or Reading", description: "The delivery by a single participant of an existing lecture or visual presentation of works, or the reading of a text to an audience.", floor_fee: 150, fee_subtitle: "", over500K: ".0003")
 fee_cat_11 = FeeCategory.create(name: "Lecture/Seminar/Workshop", description: "The delivery of a new keynote presentation, new lecture or a new interactive seminar or workshop by an artist.", floor_fee: 250, fee_subtitle: "", over500K: ".0005")
-fee_cat_12 = FeeCategory.create(name: "Existing Text for Publication", description: "The reprinting of an existing text in a publication issued by an organization.", floor_fee: 50, fee_subtitle: " or $0.25/word", over500K:"")
-fee_cat_13 = FeeCategory.create(name: "Commissioned Text for Publication", description: "A new essay or text commissioned for publication by an organization. (Copyright remains with the artist/author: payment of a fee does not render the commission 'work for hire.')", floor_fee: 0.25, fee_subtitle: "/word", over500K:"")
-fee_cat_14 = FeeCategory.create(name: "Day Rate for Performers", description: "Fees paid to performers participating in commissioned and existing performances created by the Contracted Artist. Fees are paid to performers directly by the organization.", floor_fee: 20, fee_subtitle: "/hour", over500K:"")
+fee_cat_12 = FeeCategory.create(name: "Existing Text for Publication", description: "The reprinting of an existing text in a publication issued by an organization.", floor_fee: 50, fee_subtitle: " or $0.25/word", over500K:"0.075")
+fee_cat_13 = FeeCategory.create(name: "Commissioned Text for Publication", description: "A new essay or text commissioned for publication by an organization. (Copyright remains with the artist/author: payment of a fee does not render the commission 'work for hire.')", floor_fee: 0.25, fee_subtitle: "/word", over500K:"0.75")
+fee_cat_14 = FeeCategory.create(name: "Day Rate for Performers", description: "Fees paid to performers participating in commissioned and existing performances created by the Contracted Artist. Fees are paid to performers directly by the organization.", floor_fee: 20, fee_subtitle: "/hour or $100/day", over500K:"200")
 
-org_1 = User.new(institution_name: "Test Organization One", email: "eve.essex+test1@gmail.com", password: "password", password_confirmation: "password")
-org_2 = User.new(institution_name: "Test Organization One", email: "eve.essex+test2@gmail.com", password: "password", password_confirmation: "password")
+org_1 = User.new(institution_name: "Test Organization One", email: "eve.essex+test1@gmail.com",  website: "http://example.org", phone: "555-555-5555", address_zip: "11111", password: "password", password_confirmation: "password")
+org_2 = User.new(institution_name: "Test Organization One", email: "eve.essex+test2@gmail.com", website: "http://example.org", phone: "555-555-5555", address_zip: "11111", password: "password", password_confirmation: "password")
 
 org_1.skip_confirmation!
 org_2.skip_confirmation!

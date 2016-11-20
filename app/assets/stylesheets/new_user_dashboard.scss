@@ -180,10 +180,16 @@
     }
     .form-control {
       display: flex;
-      justify-content: flex-start;
       justify-content: space-between;
       margin: 1em 0;
       font-size: smaller;
+      line-height: 1.45em;
+      overflow: hidden;
+      align-items: flex-start;
+      span {
+        line-height: 1.85em;
+        padding-left: .35em;
+      }
       .progress {
         margin-top: 0;
       }

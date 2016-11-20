@@ -10,11 +10,11 @@ class CertificationsController < ApplicationController
     @certifications = Certification.where(user_id: @user.id)
     @fee_categories = FeeCategory.all
     @artist_payments = @certification.artist_payments || []
-    # if @certification.status < 1
+    if @certification.status < 1
       render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
-    # elsif @certification.status <= 2
-    #   render component: 'CertificationIsSubmitted', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
-    # end
+    elsif @certification.status <= 2
+      render component: 'CertificationIsSubmitted', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
+    end
   end
 
   def create
