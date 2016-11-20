@@ -172,7 +172,7 @@ input[type="file"] {
   }
 }
 #certification.show {
-  .content[data-content-state="2"].artist_payments {
+  .content[data-content-state="0"].artist_payments {
     margin-left: 0 !important;
     min-width: 100%;
     .table {
@@ -231,6 +231,11 @@ input[type="file"] {
         margin-bottom: 3em;
         p {
           margin-top: -.5em;
+          overflow: hidden;
+          line-height: 1.45em;
+          span {
+            line-height: 1.75em;
+          }
         }
       }
       .form-item:nth-child(1) {
@@ -275,14 +280,14 @@ input[type="file"] {
         }
       }
       .intro {
-        padding-left: 300px;
-        max-width: 1075px;
+        margin: 0 auto;
+        max-width: 750px;
         display: block;
         @media screen and (max-width: 1150px) {
-          margin-left: auto;
-          margin-right: auto;
-          padding-left: 0;
-          max-width: 850px;
+          // margin-left: auto;
+          // margin-right: auto;
+          // padding-left: 0;
+          // max-width: 850px;
         }
         .title {
           display: flex;

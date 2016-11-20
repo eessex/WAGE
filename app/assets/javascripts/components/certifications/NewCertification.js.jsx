@@ -36,6 +36,7 @@ var newCertification = React.createClass({
   hasFinancials() {
     if ( this.state.certification.operating_expenses &&
         this.state.certification.file_budget &&
+        this.state.certification.file_contract &&
         this.state.user.file_501c3 ) {
       return true
     }
@@ -238,7 +239,6 @@ var newCertification = React.createClass({
     return { future: false, past: false, progress: false, newUser: true }
   },
   toggleEditDates() {
-    debugger
     if (this.state.contentState != 2) {
       this.setState({editDates: !this.state.editDates, contentState: 2})
     } else {

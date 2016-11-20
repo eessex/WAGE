@@ -33,7 +33,7 @@ var FeeSchedule = React.createClass({
     } else if (status == "min") {
       fee_header = <span className="wide"><span className="left">Floor Wage</span><span>Minimum Wage</span></span>
     } else if (status == "over5m") {
-      fee_header = <span className="wide"><span className="left">Minimum Wage</span><span>Recommended</span></span>
+      fee_header = <span className="wide"><span className="left">Recommended</span><span>Minimum Wage</span></span>
     }
     return fee_header
   },
@@ -44,13 +44,28 @@ var FeeSchedule = React.createClass({
     var floor_fee = Number(fee_category.floor_fee).toLocaleString()
     var min_fee = Number(this.state.certification.operating_expenses * Number(fee_category.over500K)).toLocaleString()
     var over5m = Number(5000000 * Number(fee_category.over500K)).toLocaleString()
+    var existing_text = Number(((this.state.certification.operating_expenses/5000000) * Number(fee_category.over500K)) + .25 )
+    //(($r.state.certification.operating_expenses/5000000) * .75) + .25
     var format_fee
     if (status == "floor") {
       format_fee = <span className="wide"><span>${floor_fee}{subtitle}</span></span>
     } else if (status == "min") {
-      format_fee = <span className="wide"><span className="left">${floor_fee}</span><span className="right">${min_fee} {subtitle}</span></span>
+      if (i == 11 || i == 12) {
+        format_fee = <span className="wide"><span className="left">${floor_fee}{subtitle}</span><span className="right">${existing_text.toLocaleString()}/word</span></span>
+      } else if (i == 13) {
+       format_fee = <span className="wide"><span className="left">${floor_fee}{subtitle}</span><span className="right">${floor_fee}{subtitle}</span></span>
+     } else {
+      format_fee = <span className="wide"><span className="left">${floor_fee}{subtitle}</span><span className="right">${min_fee}{subtitle}</span></span>
+      }
     } else if (status == "over5m") {
-      format_fee = <span className="wide"><span className="left">${over5m}</span><span className="right">${min_fee} {subtitle}</span></span>
+      if (i == 11 || i == 12) {
+       floor_fee = (Number(fee_category.over500K)) + .25
+       format_fee = <span className="wide"><span className="left">${existing_text.toLocaleString()}/word</span><span className="right">${floor_fee}/word</span></span>
+     } else if (i == 13) {
+      format_fee = <span className="wide"><span className="left">${fee_category.over500K}/day</span><span className="right">${floor_fee}{subtitle}</span></span>
+    } else {
+      format_fee = <span className="wide"><span className="left">${min_fee}{subtitle}</span><span className="right">${min_fee}{subtitle}</span></span>
+      }
     }
     return (
       <div key={fee_category.id} className="fee-category">
@@ -84,3 +99,11 @@ var FeeSchedule = React.createClass({
     )
   }
 });
+
+// Existing Text for Publication
+// ((operating_expenses/5000000)*0.075)+0.025
+
+// Commissioned Text for Publication
+// ((operating_expenses/5000000)*0.75)+0.25
+
+// Day Rate for Performers

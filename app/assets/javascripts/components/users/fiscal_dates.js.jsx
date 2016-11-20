@@ -8,10 +8,10 @@ var FiscalDates = React.createClass({
       certification: this.hasCertifications(),
       s_m: this.getEditDates().s_m,
       s_d: this.getEditDates().s_d,
-      s_y: YEAR.toString(),
+      s_y: this.getEditDates().s_y,
       e_m: this.getEditDates().e_m,
       e_d: this.getEditDates().e_d,
-      e_y: YEAR.toString(),
+      e_y: this.getEditDates().e_y,
       errors: {}
     }
   },

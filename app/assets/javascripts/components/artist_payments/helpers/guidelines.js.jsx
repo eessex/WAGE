@@ -58,7 +58,7 @@ var Guidelines = React.createClass({
           <li>Total operating expenses</li>
           <li>A history of fee payment</li>
           <li>A closed-out operating budget</li>
-          <li>If available, form 990 for {this.printYearStatus().year}</li>
+          <li>If available, form 990 for the year.</li>
         </ul></h4>
         <h4>Once you enter your total operating expenses, a customized fee schedule will be generated listing the minimum fees required for certification. The final step is to imput your history of fee payment under 'Artist Payments'.</h4>
       </div>
@@ -71,7 +71,7 @@ var Guidelines = React.createClass({
         <h4><ul>
             <li>Templates of contracts used with artists</li>
             <li>Your most recent 990</li>
-            <li>Your 501c3 determination letter <small><em>or documentation of fiscal sponsorship</em></small></li>
+            <li>Your 501c3 determination letter or documentation of fiscal sponsorship</li>
           </ul></h4>
         <h4>These documents only need to be submitted once.</h4>
 
