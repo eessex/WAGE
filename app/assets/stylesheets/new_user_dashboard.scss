@@ -24,6 +24,9 @@
     padding: 0;
     display: flex;
     align-items: center;
+    .item:first-child {
+      margin-left: -5px;
+    }
     .item[data-complete='true'] {
       i {
         color: lime;
@@ -132,6 +135,7 @@
     }
   }
   #financials {
+    margin-top: -.5em;
     .form-item {
       margin: 3em 0;
     }

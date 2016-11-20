@@ -34,7 +34,6 @@ var newCertification = React.createClass({
   },
   hasFinancials() {
     if ( this.state.certification.operating_expenses &&
-        this.state.certification.file_990 &&
         this.state.certification.file_budget &&
         this.state.user.file_501c3 ) {
       return true
@@ -250,6 +249,14 @@ var newCertification = React.createClass({
     $('.status .item').removeClass('active')
     $('.status .item[data-id="' + contentState + '"]').addClass('active')
   },
+  formatDates() {
+    var formatted_date
+    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y') ) {
+      formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
+    } else {
+      formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D, YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
+    } return formatted_date
+  },
   isSaved() {
     $('.is-saved').toggleClass('saving')
     if ($('.is-saved span').text() == 'Saving') {
@@ -260,6 +267,10 @@ var newCertification = React.createClass({
     $('.is-saved i').toggleClass('fa-check fa-spinner fa-spin')
   },
   contentState() {
+    var formatDates
+    if (this.state.certification.fiscal_start != null) {
+      formatDates = <h5>Fiscal Year: {this.formatDates()}</h5>
+    }
     if (this.state.contentState == 3 && !this.state.canSubmit) {
       var next = <button className="btn next" disabled="true" onClick={this.getNext}>Next <i className="fa fa-chevron-right"></i></button>
     } else {
@@ -301,12 +312,6 @@ var newCertification = React.createClass({
         {next}
         </div>
       }
-      var d = new Date();
-      var current_year = d.getFullYear();
-      var formatDates
-      if (this.state.certification.fiscal_start != null && !this.state.editDates) {
-        formatDates = <h5>Fiscal Year: {this.formatDates()}</h5>
-      }
       var contentState =
       <div className="financials">
         <div className="intro">
@@ -326,10 +331,15 @@ var newCertification = React.createClass({
               <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit}/>
             </div>
       } else if (this.state.contentState == 5) {
+        var operating_expenses
+        if (this.state.certification.operating_expenses) {
+          operating_expenses = <h5>{'TAOE: $' + Number(this.state.certification.operating_expenses).toLocaleString()}</h5>
+        }
           contentState = <div className="review">
                 <div className="intro">
                   <h1><span>Fee Schedule</span></h1>
-                  {formatDates}
+                  <span>{formatDates}
+                  {operating_expenses}</span>
                 </div>
                 <FeeSchedule user={this.state.user} certification={this.state.certification} fee_categories={this.props.fee_categories} />
               </div>
