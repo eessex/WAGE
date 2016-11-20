@@ -5,9 +5,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable
 
-  validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "555-555-5555" }
-  validates :website, format: { with: URI::regexp(%w(http https)), message: "http://example.org"}
-  validates_numericality_of :address_zip
+  validates :phone, format: { with: /\d{3}-\d{3}-\d{4}/, message: "555-555-5555" }, allow_blank: true
+  validates :website, format: { with: URI::regexp(%w(http https)), message: "http://example.org"}, allow_blank: true
+  validates_numericality_of :address_zip, allow_blank: true
 
   has_many :certifications
   has_many :artist_payments, through: :certifications

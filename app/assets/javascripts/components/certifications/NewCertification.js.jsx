@@ -126,7 +126,7 @@ var newCertification = React.createClass({
         that.setState({errors: res.responseJSON.errors});
         setTimeout(function(){
           that.isSaved()
-        }, 150)
+        }, 450)
       }
     });
   },
