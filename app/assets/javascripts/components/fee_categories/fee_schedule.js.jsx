@@ -64,7 +64,7 @@ var FeeSchedule = React.createClass({
      } else if (i == 13) {
       format_fee = <span className="wide"><span className="left">${fee_category.over500K}/day</span><span className="right">${floor_fee}{subtitle}</span></span>
     } else {
-      format_fee = <span className="wide"><span className="left">${min_fee}{subtitle}</span><span className="right">${min_fee}{subtitle}</span></span>
+      format_fee = <span className="wide"><span className="left">${min_fee}{subtitle}</span><span className="right">${over5m}{subtitle}</span></span>
       }
     }
     return (
