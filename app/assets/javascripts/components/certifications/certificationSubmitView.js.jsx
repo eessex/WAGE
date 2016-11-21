@@ -10,17 +10,15 @@ var CertificationSubmitView = React.createClass({
   handleSubmit() {
     this.props.handleSubmit(this.props.certification)
   },
-  showStatement() {
-    if (this.props.certifications.length < 2) {
-      var statement = <div className="section statement clearfix">
-            <h4>Statement of Intent </h4>
-              <h5><a href={this.props.user.statement} target="_blank">{this.state.user.statement}</a>
+  showFile(type, model, title) {
+    if (this.props[model][type] && this.props[model][type].length > 2) {
+      var file =
+              <h5><a href={this.props[model][type]} target="_blank"><i className="fa fa-file" aria-hidden="true"></i> {title}</a>
             </h5>
-            </div>
     } else {
-      var statement
+      var file
     }
-    return statement
+    return file
   },
   render() {
     if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
@@ -40,9 +38,10 @@ var CertificationSubmitView = React.createClass({
     } else {
       var artist_payments =
       <div className="section artist-payments clearfix">
-        <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_start).format('YYYY')}.</h4>
-        <h4>Organizations are expected to pay artist fees according to W.A.G.E.’s <a href="/fee-schedule">minimum standards</a> of compensation.</h4>
-        <h4>At the close of this fiscal period your organization must provide documentation of payments using this application's fee tracker, or by uploading a Quickbooks P&L.</h4>
+        <h4>Artist Payments</h4>
+        <h5>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_start).format('YYYY')}.</h5>
+        <h5>Organizations are expected to pay artist fees according to W.A.G.E.’s <a href="/fee-schedule">minimum standards</a> of compensation.</h5>
+        <h5>At the close of this fiscal period your organization must provide documentation of payments using this application's fee tracker, or by uploading a Quickbooks P&L.</h5>
       </div>
     }
     if (this.props.certification.status < 2) {
@@ -53,8 +52,12 @@ var CertificationSubmitView = React.createClass({
     var displayStreet = <span>{this.props.user.address_st2 ? ", " + this.props.user.address_st2 : ""}</span>;
     return (
       <div id="review" className="certification">
-        <div className="section contact clearfix">
+        <div className="section certification-year clearfix">
           <h4>{this.props.user.institution_name}</h4>
+          <h5>Fiscal Year: {this.props.formatDates()}</h5>
+          <h5>Total Operating Expenses: {formatted_operating}</h5>
+        </div>
+        <div className="section contact clearfix">
           <div className="col col-lg-6">
             <h5>{this.props.user.rep_name}, {this.props.user.rep_title}</h5>
             <h5>{this.props.user.email}</h5>
@@ -66,18 +69,12 @@ var CertificationSubmitView = React.createClass({
             <h5><a href={this.props.user.website} target="_blank">{this.props.user.website}</a></h5>
           </div>
         </div>
-        {this.showStatement()}
         <div className="section financials clearfix">
-          <h3>Financial Details</h3>
-          <h4>TAOE: {formatted_operating}</h4>
-          <h4>Operating Budget:</h4>
-          <h5><a href={this.props.certification.file_budget} target="_blank">{this.props.certification.file_budget}</a></h5>
-          <h4>Form 990:</h4>
-          <h5><a href={this.props.certification.file_990} target="_blank">{this.props.certification.file_990}</a></h5>
-          <h4>501c3:</h4>
-          <h5><a href={this.props.certification.file_501c3} target="_blank">{this.props.certification.file_501c3}</a></h5>
-          <h4>Contract Templates:</h4>
-          <h5><a href={this.props.certification.file_contract} target="_blank">{this.props.certification.file_contract}</a></h5>
+          {this.showFile('statement', 'user', "Statement of Intent")}
+          {this.showFile('file_budget', 'certification', "Operating Budget")}
+          {this.showFile('file_990', 'certification', "Form 990")}
+          {this.showFile('file_501c3', 'certification', "501c3")}
+          {this.showFile('file_contract', 'certification', "Contract Templates")}
         </div>
         {artist_payments}
         {actions}

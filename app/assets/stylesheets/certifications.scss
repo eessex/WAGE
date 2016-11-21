@@ -242,6 +242,9 @@ input[type="file"] {
         margin-top: 0;
       }
     }
+    .review {
+      position: relative;
+    }
     #review {
       // padding-left: 0;
       // margin-top: -5.75em;
@@ -251,7 +254,11 @@ input[type="file"] {
       .section {
         clear: both;
         margin: 0em 0 1em 0;
-        padding: 0em 0 3em 0;
+        padding: 1em 0 2em 0;
+        border-bottom: 2px solid #ddd;
+        &:last-child {
+          border-bottom: none;
+        }
         .col {
           padding-left: 0;
         }
@@ -260,6 +267,14 @@ input[type="file"] {
           padding-bottom: 5px;
           margin-top: 0;
         }
+      }
+      .save {
+        position: absolute;
+        right: 0;
+        top: 0;
+        left: 0;
+        width: 11em;
+        margin-left: auto;
       }
     }
     #artist_payments.new {

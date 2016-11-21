@@ -247,7 +247,7 @@ var CertificationIsSubmitted = React.createClass({
           </div>
           <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit} />
         </div>
-  } else if (this.state.contentState == 3) {
+  } else if (this.state.contentState == 5) {
     var contentState = <div className="fee-schedule">
       <div className="intro">
         <h1><span>My Fee Schedule</span></h1>
@@ -262,6 +262,16 @@ var CertificationIsSubmitted = React.createClass({
     this.setState({contentState: $(e.target).parent().data('id'), canSubmit: this.canSubmit()})
     $('.status .item').removeClass('active')
     $(e.target).parent().addClass('active')
+  },
+  viewFeeSchedule() {
+    this.setState({contentState: 5})
+    $('.status .item').removeClass('active')
+  },
+  feeSchedule() {
+    if (this.state.certification.operating_expenses != null) {
+      var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>My Fee Schedule</button>
+    }
+    return btn
   },
   render() {
     if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
@@ -290,12 +300,13 @@ var CertificationIsSubmitted = React.createClass({
                   <i className="fa" aria-hidden="true"></i>
                   <span onClick={this.setContentState}>Guidelines</span>
                 </div>
-    } else if ((this.state.certification.status == 1 || this.state.certification.status == 2) && (this.getYearStatus().future || this.getYearStatus().progress)) {
-      guidelines = <div className="item" data-id="0">
-                  <i className="fa" aria-hidden="true"></i>
-                  <span onClick={this.setContentState}>Fee Schedule</span>
-                </div>
-  }
+    }
+  //   else if ((this.state.certification.status == 1 || this.state.certification.status == 2) && (this.getYearStatus().future || this.getYearStatus().progress)) {
+  //     guidelines = <div className="item" data-id="0">
+  //                 <i className="fa" aria-hidden="true"></i>
+  //                 <span onClick={this.setContentState}>Fee Schedule</span>
+  //               </div>
+  // }
 
     return (
       <div id="certification" className="show">
@@ -313,6 +324,8 @@ var CertificationIsSubmitted = React.createClass({
             {review}
           </div>
           </h6>
+          <div className="is-saved"><i className="fa fa-check"></i><span>Saved</span></div>
+          {this.feeSchedule()}
         </div>
       <div id={MENU[this.state.contentState]} className={"content " + MENU[this.state.contentState]} data-content-state={this.state.contentState}>
         {this.contentState()}

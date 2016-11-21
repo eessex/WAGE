@@ -333,9 +333,8 @@ var newCertification = React.createClass({
         var contentState =  <div className="review">
               <div className="intro">
                 <h1><span>Review</span></h1>
-                {formatDates}
               </div>
-              <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit}/>
+              <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit} formatDates={this.formatDates}/>
             </div>
       } else if (this.state.contentState == 5) {
         var operating_expenses
