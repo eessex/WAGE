@@ -10,7 +10,7 @@ var CertificationIsSubmitted = React.createClass({
       hasFinancials: false,
       hasPayments: 'false',
       pendingPayments: false,
-      contentState: 1,
+      contentState: 0,
       applicationStatus: this.applicationStatus(),
       sortDir: 'ASC'
     }
@@ -21,9 +21,9 @@ var CertificationIsSubmitted = React.createClass({
   },
   getContentState() {
     if (this.canSubmit()) {
-      return 3
+      return 2
     } else if (this.state.certification.status < 2 && this.getYearStatus().future && this.hasFinancials() == "progress") {
-      return 1
+      return 0
     } else if (this.state.certification.status < 2 && this.getYearStatus().progress && this.hasFinancials() == "true") {
       return 2
     } else {
@@ -42,12 +42,7 @@ var CertificationIsSubmitted = React.createClass({
     }
   },
   getNext() {
-    var contentState
-    if (this.state.contentState == 1 && this.getYearStatus().future) {
-      contentState = 3
-    } else {
-      contentState = this.state.contentState + 1
-    }
+    var contentState = this.state.contentState + 1
     this.setState({contentState: contentState })
     $('.status .item').removeClass('active')
     $('.status .item[data-id="' + contentState + '"]').addClass('active')
@@ -218,15 +213,23 @@ var CertificationIsSubmitted = React.createClass({
   },
   contentState() {
   var next = <button className="btn next" onClick={this.getNext}>Next</button>
-   if (this.state.contentState == 0 && (this.state.certification.status == 1 || this.state.certification.status == 2)) {
+   if (this.state.contentState == 0) {
      if (this.props.artist_payments.length > 0) {
-       var contentState =  <div>
+       var contentState =  <div className="fee-tracker">
+       <div className="intro">
+         <h1><span>Fee Tracker</span></h1>
+         <h5>Fiscal Year: {this.formatDates()}</h5>
+       </div>
            <AmountBox artist_payments={this.state.artist_payments} certification={this.state.certification} />
            <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates} getYearStatus={this.getYearStatus}  handleCertificationUpdate={this.handleCertificationUpdate}  />
            {this.getArtistPayments()}
          </div>
      } else {
-       var contentState = <div>
+       var contentState = <div className="fee-tracker">
+       <div className="intro">
+         <h1><span>Fee Tracker</span></h1>
+         <h5>Fiscal Year: {this.formatDates()}</h5>
+       </div>
            <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates} getYearStatus={this.getYearStatus}  handleCertificationUpdate={this.handleCertificationUpdate} />
            </div>
      }
@@ -241,11 +244,10 @@ var CertificationIsSubmitted = React.createClass({
     var contentState =  <div className="review">
           <div className="intro">
             <h1><span>Review</span></h1>
-            <h5>Fiscal Year: {this.formatDates()}</h5>
           </div>
-          <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} formatted_dates={this.formatDates} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit} />
+          <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} formatDates={this.formatDates} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit} />
         </div>
-  } else if (this.state.contentState == 5) {
+  } else if (this.state.contentState == 3) {
     var contentState = <div className="fee-schedule">
       <div className="intro">
         <h1><span>My Fee Schedule</span></h1>
@@ -262,7 +264,7 @@ var CertificationIsSubmitted = React.createClass({
     $(e.target).parent().addClass('active')
   },
   viewFeeSchedule() {
-    this.setState({contentState: 5})
+    this.setState({contentState: 4})
     $('.status .item').removeClass('active')
   },
   feeSchedule() {
@@ -278,13 +280,13 @@ var CertificationIsSubmitted = React.createClass({
       var formatted_date = moment(this.state.certification.fiscal_end).format('YYYY')
     }
     if (this.getYearStatus().future && this.state.certification.status < 2) {
-      var MENU = ['artist_payments', 'financials', 'artist_payments', 'review']
+      var MENU = ['artist_payments', 'financials', 'review']
       var payments
     } else {
-      var MENU = ['artist_payments', 'financials', 'artist_payments', 'review']
+      var MENU = ['artist_payments', 'financials', 'review']
       var payments = <div className="item" data-id="0" data-complete={this.hasPayments()}>
                   <i className="fa fa-check" aria-hidden="true"></i>
-                  <span onClick={this.setContentState}>Artist Payments</span>
+                  <span onClick={this.setContentState}>Fee Tracker</span>
                 </div>
     }
     if (this.canSubmit()) {
@@ -294,7 +296,7 @@ var CertificationIsSubmitted = React.createClass({
     }
 
     return (
-      <div id="certification" className="show">
+      <div id="certification" className="show is-pending">
         <div className="greeting" data-state={this.state.contentState} data-future={this.getYearStatus().future} data-progress={this.getYearStatus().progress}>
           <h4><span>Get Certified</span></h4>
           <h6 className="status col-xs-12 col-sm-9 col-md-7">
@@ -303,7 +305,7 @@ var CertificationIsSubmitted = React.createClass({
             <i className="fa fa-check" aria-hidden="true"></i>
             <span onClick={this.setContentState}>Fiscal Details</span>
           </div>
-          <div className="item" data-id="3">
+          <div className="item" data-id="2">
             <i className="fa fa-check" aria-hidden="true"></i>
             {review}
           </div>

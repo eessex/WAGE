@@ -218,6 +218,12 @@ input[type="file"] {
         margin-bottom: 2em;
       }
     }
+    &.is-pending .financials .intro {
+      h5 {
+        align-self: center;
+        margin-right: 0;
+      }
+    }
     .financials .intro {
       h5 {
         align-self: center;
@@ -276,6 +282,16 @@ input[type="file"] {
         width: 11em;
         margin-left: auto;
       }
+    }
+    .fee-tracker #artist_payments.new .intro .title {
+      display: none;
+    }
+    .fee-tracker .intro {
+      margin: 0 auto;
+      max-width: 750px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 2em;
     }
     #artist_payments.new {
       min-width: 100%;
