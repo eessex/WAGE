@@ -6,7 +6,7 @@ var UserStatement = React.createClass({
     }
   },
   handleUserUpdate(user) {
-    this.props.handleUserUpdate(newUser)
+    this.props.handleUserUpdate(user)
   },
   formStatement() {
     var statement = <StatementFile user={this.props.user} handleUserUpdate={this.handleUserUpdate} />
@@ -30,7 +30,6 @@ var StatementFile = React.createClass({
   clearFile(e) {
     var newUser = this.state.user
     newUser[e.target.id] = null
-    debugger
     this.setState({user: newUser })
     this.props.handleUserUpdate(newUser)
   },

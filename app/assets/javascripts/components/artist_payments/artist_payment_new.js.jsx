@@ -169,7 +169,6 @@
     } else {
       var form
     }
-    console.log(this.props.getYearStatus().past)
     return form
   },
   render() {
@@ -271,16 +270,17 @@ var QbPl = React.createClass({
       disabled = true
     }
     if (this.state.certification[type]) {
-      var file = <div id={type} className="file-uploaded"><button onClick={this.clearFile}>Replace</button> {this.state.certification[type]}</div>
+      var file = <div id={type} className="file-uploaded"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.certification[type]}</div>
     } else {
       var file = <div id={type} className="directUpload">
         <input
           disabled={disabled}
           value=""
+          accept="application/pdf"
           type="file"
           id={type}
           onChange={this.handleFileChange} />
-        <div className='progress'><div className='bar'></div></div>
+        <div className='progress'><div className='bar'>.pdf</div></div>
         </div>
     }
     return file

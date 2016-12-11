@@ -20,7 +20,7 @@ en:
       confirmation_instructions:
         subject: "W.A.G.E. Account Confirmation instructions"
       reset_password_instructions:
-        subject: "Reset your W.A.G.E. password instructions"
+        subject: "Reset your password instructions"
       unlock_instructions:
         subject: "Unlock instructions"
       password_change:

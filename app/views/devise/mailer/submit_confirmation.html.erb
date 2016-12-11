@@ -1,11 +1,23 @@
 <p>Dear <%= @user.rep_name %>,</p>
 
-<p>Thank you, we have received your application for W.A.G.E. certification during <%= @user.institution_name %>'s fiscal year XXXX.</p>
+<p>Thank you for submitting your application to be W.A.G.E. Certified for fiscal year <%= @certification.fiscal_end.strftime("%Y") %>.</p>
 
-<p>If your application is in the future year...</p>
+<% if @certification.is_current? %>
+<p>Since your application is for a current fiscal year, your status is now 'W.A.G.E. Certified Pending'.</p>
 
-<p>If your application is in the current year...</p>
+<p>Your status will change to W.A.G.E. Certified once you have completed the fiscal year and demonstrated having paid fees according to W.A.G.E. standards: please track and upload your fee payments using the <a href="<%= @url + '/certifications/' + @certification.id.to_s %>">Fee Tracker</a>.</p>
 
-<p>If your application is in a past year...</p>
+<p>Once you have become W.A.G.E. Certified you can begin a new application for the following year.</p>
+<% end %>
 
-<p><a href="<%= @url + '/certifications/' + @certification.id.to_s %>"> MY APPLICATION LINK</a></p>
+<% if @certification.is_future? %>
+<p>Applying for an upcoming fiscal year means that you have committed to pay artist fees that meet W.A.G.E. standards and are now 'W.A.G.E. Certified Pending'.</p>
+
+<p>Once the fiscal year has begun, please track and upload your fee payments using the <a href="<%= @url + '/certifications/' + @certification.id.to_s %>">Fee Tracker</a>. At the close of the fiscal year, if you have paid fees according to W.A.G.E. standards, you will become W.A.G.E. Certified and can open a new application for the following year.</p>
+<% end %>
+
+<% if @certification.is_past? %>
+<p>Your application is for a previous fiscal year and will be reviewed over the coming weeks. We will respond by email to confirm that your organization met W.A.G.E. standards, at which point you will become W.A.G.E. Certified. We may also follow up with questions.</p>
+<% end %>
+
+<p><a href="<%= @url + '/certifications/' + @certification.id.to_s %>">My Account</a></p>

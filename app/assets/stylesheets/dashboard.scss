@@ -43,6 +43,11 @@
 }
 #qb_pl {
   display: flex;
+  font-weight: 400;
+  &.file-uploaded {
+    min-width: 100%;
+    font-size: 11px;  
+  }
   .progress {
     margin-top: -.25em;
     font-size: smaller;

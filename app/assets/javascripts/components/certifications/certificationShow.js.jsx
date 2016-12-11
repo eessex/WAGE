@@ -200,6 +200,16 @@ var CertificationShow = React.createClass({
   formatOperatingExpenses() {
     return this.state.certification.operating_expenses.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
   },
+  feeSchedule() {
+    if (this.state.certification.operating_expenses != null) {
+      var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>My Fee Schedule</button>
+    }
+    return btn
+  },
+  viewFeeSchedule() {
+    this.setState({contentState: 0})
+    $('.status .item').removeClass('active')
+  },
   getArtistPayments() {
     if (this.hasPayments() == 'progress' || this.hasPayments() == 'true') {
       var payments = <ArtistPaymentsTable artist_payments={this.state.artist_payments} _sortRowsBy={this._sortRowsBy} paymentsSorted={this.paymentsSorted} handleDeleteArtistPayment={this.handleDeleteArtistPayment} fee_categories={this.props.fee_categories}/>
@@ -287,6 +297,7 @@ var CertificationShow = React.createClass({
                 </div>
     }
     if (this.canSubmit()) {
+      debugger
       var review = <span onClick={this.setContentState} data-disabled={!this.state.canSubmit}>Review</span>
     } else {
       var review = <span data-disabled={!this.state.canSubmit}>Review</span>
@@ -307,7 +318,7 @@ var CertificationShow = React.createClass({
     return (
       <div id="certification" className="show">
         <div className="greeting" data-state={this.state.contentState} data-future={this.getYearStatus().future} data-progress={this.getYearStatus().progress}>
-          <h4><span>Get Certified<span className="date">: FY  {formatted_date}</span></span></h4>
+          <h4><span>Get Certified</span></h4>
           <h6 className="status col-xs-12 col-sm-9 col-md-7">
           {guidelines}
           <div className="item" data-complete={this.hasFinancials()} data-id="1">
@@ -320,6 +331,8 @@ var CertificationShow = React.createClass({
             {review}
           </div>
           </h6>
+          <div className="is-saved"><i className="fa fa-check"></i><span>Saved</span></div>
+          {this.feeSchedule()}
         </div>
       <div id={MENU[this.state.contentState]} className={"content " + MENU[this.state.contentState]} data-content-state={this.state.contentState}>
         {this.contentState()}

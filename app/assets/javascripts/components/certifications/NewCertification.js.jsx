@@ -154,9 +154,6 @@ var newCertification = React.createClass({
       }
     });
   },
-  paymentsSorted(artist_payments) {
-    this.setState({artist_payments: artist_payments});
-  },
   handleNewCertification(e) {
     var year = $(e.target).parent().find('select').val()
     var newCertification = this.state.certification

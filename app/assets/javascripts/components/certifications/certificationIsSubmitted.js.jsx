@@ -74,19 +74,17 @@ var CertificationIsSubmitted = React.createClass({
     }
   },
   hasFinancials() {
-    if (this.getYearStatus().future || this.getYearStatus().past) {
       if ( this.state.certification.operating_expenses && this.state.certification.file_budget ) {
         return "true"
-      } else if ( this.state.certification.operating_expenses || this.state.certification.file_contract || this.state.certification.file_budget ) {
+      } else if ( this.state.certification.operating_expenses || this.state.certification.file_budget ) {
         return "progress"
       } else {
         return "false"
       }
-    }
   },
   hasPayments() {
-    if ( this.state.artist_payments) {
-      if (this.state.artist_payments.length > 1) {
+    if ( this.state.artist_payments || this.state.certification.qb_pl) {
+      if (this.state.artist_payments.length > 1 || this.state.certification.qb_pl) {
         return 'true'
       } else if (this.state.artist_payments.length > 0) {
         return "progress"
@@ -158,12 +156,12 @@ var CertificationIsSubmitted = React.createClass({
         if (res.notice) {
           $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
           pendingPayments = true
-          that.setState({certification: res.certification, canSubmit: that.canSubmit(), pendingPayments: pendingPayments})
+          that.setState({certification: res, canSubmit: that.canSubmit(), pendingPayments: pendingPayments})
           setTimeout(function () {
             window.location = "http://localhost:3000";
           },2000);
         } else {
-        that.setState({certification: res.certification, canSubmit: that.canSubmit(), pendingPayments: pendingPayments})
+        that.setState({certification: res, canSubmit: that.canSubmit(), pendingPayments: pendingPayments})
         }
       },
       error: function(res) {
@@ -219,7 +217,7 @@ var CertificationIsSubmitted = React.createClass({
     return actions
   },
   contentState() {
-    var next = <button className="btn next" onClick={this.getNext}>Next</button>
+  var next = <button className="btn next" onClick={this.getNext}>Next</button>
    if (this.state.contentState == 0 && (this.state.certification.status == 1 || this.state.certification.status == 2)) {
      if (this.props.artist_payments.length > 0) {
        var contentState =  <div>
@@ -238,14 +236,14 @@ var CertificationIsSubmitted = React.createClass({
       <h1><span>Fiscal Details</span></h1>
       <h5>Fiscal Year: {this.formatDates()}</h5>
     </div>
-    <CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} canSubmit={this.state.canSubmit} handleUserUpdate={this.handleUserUpdate} newUser={false} getYearStatus={this.getYearStatus} />{next}</div>
+    <CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} canSubmit={this.canSubmit} handleUserUpdate={this.handleUserUpdate} newUser={false} formatted_dates={this.formatDates} getYearStatus={this.getYearStatus} />{next}</div>
   } else if (this.state.contentState == 2) {
     var contentState =  <div className="review">
           <div className="intro">
             <h1><span>Review</span></h1>
             <h5>Fiscal Year: {this.formatDates()}</h5>
           </div>
-          <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit} />
+          <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} formatted_dates={this.formatDates} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit} />
         </div>
   } else if (this.state.contentState == 5) {
     var contentState = <div className="fee-schedule">
@@ -294,26 +292,12 @@ var CertificationIsSubmitted = React.createClass({
     } else {
       var review = <span data-disabled={!this.state.canSubmit}>Review</span>
     }
-    var guidelines
-    if (this.state.certification.status < 1) {
-      guidelines = <div className="item" data-id="0">
-                  <i className="fa" aria-hidden="true"></i>
-                  <span onClick={this.setContentState}>Guidelines</span>
-                </div>
-    }
-  //   else if ((this.state.certification.status == 1 || this.state.certification.status == 2) && (this.getYearStatus().future || this.getYearStatus().progress)) {
-  //     guidelines = <div className="item" data-id="0">
-  //                 <i className="fa" aria-hidden="true"></i>
-  //                 <span onClick={this.setContentState}>Fee Schedule</span>
-  //               </div>
-  // }
 
     return (
       <div id="certification" className="show">
         <div className="greeting" data-state={this.state.contentState} data-future={this.getYearStatus().future} data-progress={this.getYearStatus().progress}>
-          <h4><span>Get Certified<span className="date">: FY  {formatted_date}</span></span></h4>
+          <h4><span>Get Certified</span></h4>
           <h6 className="status col-xs-12 col-sm-9 col-md-7">
-          {guidelines}
           {payments}
           <div className="item" data-complete={this.hasFinancials()} data-id="1">
             <i className="fa fa-check" aria-hidden="true"></i>

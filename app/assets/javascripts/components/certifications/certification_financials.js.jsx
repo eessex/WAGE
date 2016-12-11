@@ -96,6 +96,7 @@ var CertificationFinancials = React.createClass({
           that.setState({user: newUser});
           that.props.handleUserUpdate(this.state.user)
         }
+        debugger
         that.props.canSubmit()
       }.bind(this),
       fail: function(e, data) {
@@ -123,7 +124,7 @@ var CertificationFinancials = React.createClass({
           accept="application/pdf,application/msword,
   application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel"
           onChange={this.handleFileChange} />
-        <div id={type} className='progress'><div className='bar'></div></div>
+        <div id={type} className='progress'><div className='bar'>.pdf, .xls, .doc, .docx</div></div>
         </div>
     }
     return file

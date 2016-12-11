@@ -6,6 +6,24 @@ class Certification < ActiveRecord::Base
   # validates :operating_expenses, :numericality => {:float => true}
   # validate :start_is_before_end
 
+
+  def is_current?
+    if self.fiscal_end > Date.today && self.fiscal_start < Date.today
+      return true
+    end
+  end
+
+  def is_future?
+    if self.fiscal_start > Date.today
+      return true
+    end
+  end
+
+  def is_past?
+    if self.fiscal_end < Date.today
+      return true
+    end
+  end
   # def formatted_date_month
   #   if self.fiscal_start && self.fiscal_start.to_date.year == self.fiscal_end.to_date.year
   #     self.fiscal_start.to_date.strftime("%B") + " - " + self.fiscal_end.to_date.strftime("%B %Y")

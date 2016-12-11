@@ -1,7 +1,5 @@
 <p>Dear <%= @resource.institution_name %>,</p>
 
-<p>Thank you for registering for W.A.G.E.</p>
-
-<p>To confirm your account as <%= @email %>, please following the link below:</p>
+<p>Thank you for registering your organization. Before you can submit an application to be W.A.G.E. Certified you must first confirm your account as <%= @email %>. Please following the link below:
 
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
