@@ -191,7 +191,7 @@ var CertificationShow = React.createClass({
     this.setState({artist_payments: artist_payments});
   },
   formatDates() {
-    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_start).format('Y') ) {
+    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y') ) {
       var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
     } else {
       var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D, YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
@@ -207,12 +207,12 @@ var CertificationShow = React.createClass({
     return btn
   },
   viewFeeSchedule() {
-    this.setState({contentState: 0})
+    this.setState({contentState: 4})
     $('.status .item').removeClass('active')
   },
   getArtistPayments() {
     if (this.hasPayments() == 'progress' || this.hasPayments() == 'true') {
-      var payments = <ArtistPaymentsTable artist_payments={this.state.artist_payments} _sortRowsBy={this._sortRowsBy} paymentsSorted={this.paymentsSorted} handleDeleteArtistPayment={this.handleDeleteArtistPayment} fee_categories={this.props.fee_categories}/>
+      var payments = <ArtistPaymentsTable artist_payments={this.state.artist_payments} _sortRowsBy={this._sortRowsBy} paymentsSorted={this.paymentsSorted} isEdit="true" handleDeleteArtistPayment={this.handleDeleteArtistPayment} fee_categories={this.props.fee_categories}/>
     } else {
       var payments
     }
@@ -229,7 +229,7 @@ var CertificationShow = React.createClass({
   },
   contentState() {
     var next = <button className="btn next" onClick={this.getNext}>Next</button>
-    if (this.state.contentState == 0 && this.state.certification.status < 1) {
+    if (this.state.contentState == 0) {
     var contentState = <div className="guidelines">
             <div className="intro">
               <h1><span>Application Guidelines</span></h1>
@@ -237,14 +237,6 @@ var CertificationShow = React.createClass({
             <Guidelines getYearStatus={this.getYearStatus}/>
             {next}
           </div>
-  } else if (this.state.contentState == 0 && (this.state.certification.status == 1 || this.state.certification.status == 2)) {
-    var contentState = <div className="fee-schedule">
-      <div className="intro">
-        <h1><span>My Fee Schedule</span></h1>
-        <h5>Fiscal Year: {this.formatDates()}</h5>
-      </div>
-      <FeeSchedule fee_categories={this.props.fee_categories} floor_categories={this.props.fee_categories} user={this.state.user} certification={this.state.certification}/>
-    </div>
   } else if (this.state.contentState == 1) {
     var contentState =  <div className="financials">
     <div className="intro">
@@ -254,13 +246,21 @@ var CertificationShow = React.createClass({
     <CertificationFinancials certification={this.state.certification} user={this.state.user} certifications={this.props.certifications} handleCertificationUpdate={this.handleCertificationUpdate} canSubmit={this.state.canSubmit} handleUserUpdate={this.handleUserUpdate} newUser={false} getYearStatus={this.getYearStatus} />{next}</div>
   } else if (this.state.contentState == 2) {
     if (this.props.artist_payments.length > 0) {
-      var contentState =  <div>
+      var contentState =  <div><div className="fee-tracker">
+      <div className="intro">
+        <h1><span>Fee Tracker</span></h1>
+        <h5>Fiscal Year: {this.formatDates()}</h5>
+      </div></div>
           <AmountBox artist_payments={this.state.artist_payments} certification={this.state.certification} />
           <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates} getYearStatus={this.getYearStatus}  handleCertificationUpdate={this.handleCertificationUpdate}  />
           {this.getArtistPayments()}
         </div>
     } else {
-      var contentState = <div>
+      var contentState = <div><div className="fee-tracker">
+      <div className="intro">
+        <h1><span>Fee Tracker</span></h1>
+        <h5>Fiscal Year: {this.formatDates()}</h5>
+      </div></div>
           <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates} getYearStatus={this.getYearStatus}  handleCertificationUpdate={this.handleCertificationUpdate} />
           </div>
     }
@@ -272,6 +272,14 @@ var CertificationShow = React.createClass({
           </div>
           <CertificationSubmitView user={this.state.user} certification={this.state.certification} certifications={this.props.certifications} artist_payment={this.state.artist_payments} isFuture={this.state.isFuture} handleSubmit={this.onCertificationSubmit} />
         </div>
+  } else if (this.state.contentState == 4) {
+    var contentState = <div className="fee-schedule">
+      <div className="intro">
+        <h1><span>My Fee Schedule</span></h1>
+        <h5>Fiscal Year: {this.formatDates()}</h5>
+      </div>
+      <FeeSchedule fee_categories={this.props.fee_categories} floor_categories={this.props.fee_categories} user={this.state.user} certification={this.state.certification}/>
+    </div>
   }
     return contentState
   },
@@ -293,7 +301,7 @@ var CertificationShow = React.createClass({
       var MENU = ['fee schedule', 'financials', 'artist_payments', 'review']
       var payments = <div className="item" data-id="2" data-complete={this.hasPayments()}>
                   <i className="fa fa-check" aria-hidden="true"></i>
-                  <span onClick={this.setContentState}>Artist Payments</span>
+                  <span onClick={this.setContentState}>Fee Tracker</span>
                 </div>
     }
     if (this.canSubmit()) {

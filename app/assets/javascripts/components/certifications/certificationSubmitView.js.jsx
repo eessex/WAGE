@@ -11,14 +11,77 @@ var CertificationSubmitView = React.createClass({
     this.props.handleSubmit(this.props.certification)
   },
   showFile(type, model, title) {
+    var file
     if (this.props[model][type] && this.props[model][type].length > 2) {
-      var file =
-              <h5><a href={this.props[model][type]} target="_blank"><i className="fa fa-file" aria-hidden="true"></i> {title}</a>
+      if (this.state.certification.status < 1 || (this.state.certification.status == 1 && type != 'statement' && type != 'file_contract')) {
+        file = <h5><a href={this.props[model][type]} target="_blank"><i className="fa fa-file" aria-hidden="true"></i> {title}</a>
             </h5>
-    } else {
-      var file
+      }
     }
     return file
+  },
+  paymentsTable() {
+    var payments
+    if (this.props.artist_payments.length > 0) {
+      payments = <div className="section artist-payments clearfix">
+        <h4>Artist Payments</h4><ArtistPaymentsTable artist_payments={this.props.artist_payments} _sortRowsBy={this.props._sortRowsBy} paymentsSorted={this.props.paymentsSorted} isEdit="false" fee_categories={this.props.fee_categories} /></div>
+    }
+    return payments
+  },
+  userContact() {
+    var userContact
+    if (this.props.newUser == "true") {
+      userContact = <div className="section contact clearfix"><ReviewUserContact user={this.props.state} /></div>
+    }
+    return userContact
+  },
+  formattedOperating() {
+    var formatted_operating = '$' + Number(this.props.certification.operating_expenses).toLocaleString()
+    return formatted_operating
+  },
+  institutionInfo() {
+    if (this.props.newUser == 'true') {
+      return ( <div className="section certification-year clearfix">
+          <h4>{this.props.user.institution_name}</h4>
+          <h5>Fiscal Year: {this.props.formatDates()}</h5>
+          <h5>Total Operating Expenses: {this.formattedOperating()}</h5>
+        </div>
+      )
+    } else {
+      return ( <div className="section certification-year clearfix">
+        <h4>{this.props.user.institution_name}</h4>
+        <div className="col col-lg-6">
+          <h5>Fiscal Year: {this.props.formatDates()}</h5>
+          <h5>Total Operating Expenses: {this.formattedOperating()}</h5>
+        </div>
+        {this.fileShortlist()}
+      </div>
+      )
+    }
+  },
+  fileShortlist() {
+    if (this.props.newUser != 'true') {
+      return ( <div className="col col-lg-6">
+        {this.showFile('file_budget', 'certification', "Operating Budget")}
+        {this.showFile('qb_pl', 'certification', "Quickbooks P&L")}
+        {this.showFile('file_990', 'certification', "Form 990")}
+      </div>
+      )
+    }
+  },
+  fileNewList() {
+    if (this.props.newUser == 'true') {
+      return (
+        <div className="section financials clearfix">
+          {this.showFile('statement', 'user', "Statement of Intent")}
+          {this.showFile('file_budget', 'certification', "Operating Budget")}
+          {this.showFile('qb_pl', 'certification', "Quickbooks P&L")}
+          {this.showFile('file_990', 'certification', "Form 990")}
+          {this.showFile('file_501c3', 'certification', "501c3")}
+          {this.showFile('file_contract', 'certification', "Contract Templates")}
+        </div>
+      )
+    }
   },
   render() {
     if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
@@ -32,51 +95,34 @@ var CertificationSubmitView = React.createClass({
       var format_start = moment(this.props.user.fiscal_start).format('MMM D, ')
     }
     var fiscal_dates_show = <span>{format_start}{moment(this.props.user.fiscal_end).format('MMM D, Y')}</span>
-    var formatted_operating = '$' + Number(this.props.certification.operating_expenses).toLocaleString()
-    if (this.props.isFuture) {
-      var artist_payments
-    } else {
-      var artist_payments =
-      <div className="section artist-payments clearfix">
-        <h4>Artist Payments</h4>
-        <h5>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_start).format('YYYY')}.</h5>
+    var artist_payments_info
+    if (!this.props.isFuture && this.state.certification.status < 1) {
+      artist_payments_info =
+      <div className="section artist-payments-info clearfix">
+        <h5>* Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_start).format('YYYY')}.</h5>
         <h5>Organizations are expected to pay artist fees according to W.A.G.E.’s <a href="/fee-schedule">minimum standards</a> of compensation.</h5>
-        <h5>At the close of this fiscal period your organization must provide documentation of payments using this application's fee tracker, or by uploading a Quickbooks P&L.</h5>
+        <h5>* At the close of this fiscal period your organization must provide documentation of payments using this application's fee tracker, or by uploading a Quickbooks P&L.</h5>
+      </div>
+    } else if (this.props.certification.status < 2 && (new Date() < Date.parse(this.props.certification.fiscal_end) ) ) {
+      artist_payments_info =
+      <div className="section artist-payments-info clearfix">
+        <h5>* Your application is ready to submit on or after {moment(this.props.user.fiscal_end).format('MMM D, Y')}.</h5>
       </div>
     }
-    if (this.props.certification.status < 2) {
+    if (this.props.certification.status < 2 && (new Date() > Date.parse(this.props.certification.fiscal_end))) {
       var actions =  <button className="btn btn-lg save" onClick={this.handleSubmit}>Submit</button>
+    } else if (this.props.certification.status < 2) {
+      var actions = <button className="btn btn-lg save" disabled="true">Submit</button>
     } else {
       var actions
     }
-    var displayStreet = <span>{this.props.user.address_st2 ? ", " + this.props.user.address_st2 : ""}</span>;
     return (
       <div id="review" className="certification">
-        <div className="section certification-year clearfix">
-          <h4>{this.props.user.institution_name}</h4>
-          <h5>Fiscal Year: {this.props.formatDates()}</h5>
-          <h5>Total Operating Expenses: {formatted_operating}</h5>
-        </div>
-        <div className="section contact clearfix">
-          <div className="col col-lg-6">
-            <h5>{this.props.user.rep_name}, {this.props.user.rep_title}</h5>
-            <h5>{this.props.user.email}</h5>
-            <h5>{this.props.user.phone}</h5>
-          </div>
-          <div className="col col-lg-6">
-            <h5>{this.props.user.address_st1}{displayStreet}</h5>
-            <h5>{this.props.user.address_city}, {this.props.user.address_state} {this.props.user.address_zip}</h5>
-            <h5><a href={this.props.user.website} target="_blank">{this.props.user.website}</a></h5>
-          </div>
-        </div>
-        <div className="section financials clearfix">
-          {this.showFile('statement', 'user', "Statement of Intent")}
-          {this.showFile('file_budget', 'certification', "Operating Budget")}
-          {this.showFile('file_990', 'certification', "Form 990")}
-          {this.showFile('file_501c3', 'certification', "501c3")}
-          {this.showFile('file_contract', 'certification', "Contract Templates")}
-        </div>
-        {artist_payments}
+        {artist_payments_info}
+        {this.institutionInfo()}
+        {this.userContact()}
+        {this.fileNewList()}
+        {this.paymentsTable()}
         {actions}
       </div>
     );

@@ -180,10 +180,6 @@
     return (
       <div id="artist_payments" className="artist_payments new container">
         <div className="intro">
-          <div className="title">
-            <h1><span>Artist Payments</span></h1>
-            <h5>Fiscal Year: {this.props.formatted_dates()}</h5>
-          </div>
           <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
           <h4>{isStarted}reate an entry for each fee payment to an artist between {this.props.formatted_dates()}. </h4>
           <h5>Alternatively, you may submit a Quickbooks P&L: {this.formQbPl()}</h5>

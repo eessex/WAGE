@@ -227,12 +227,15 @@ input[type="file"] {
     .financials .intro {
       h5 {
         align-self: center;
-        margin-right: 4em;
+        // margin-right: 4em;
       }
     }
     #financials {
       padding: 0;
       margin-bottom: 0;
+      &.form {
+        margin-top: 0;
+      }
       .form-item {
         margin-bottom: 3em;
         p {
@@ -252,17 +255,16 @@ input[type="file"] {
       position: relative;
     }
     #review {
-      // padding-left: 0;
-      // margin-top: -5.75em;
-      // h1 {
-      //   display: none;
-      // }
+      #artist_payments {
+        margin-left: -2em;
+        min-width: calc(100% + 4em);
+      }
       .section {
         clear: both;
         margin: 0em 0 1em 0;
         padding: 1em 0 2em 0;
         border-bottom: 2px solid #ddd;
-        &:last-child {
+        &.artist-payments {
           border-bottom: none;
         }
         .col {
@@ -283,17 +285,15 @@ input[type="file"] {
         margin-left: auto;
       }
     }
-    .fee-tracker #artist_payments.new .intro .title {
-      display: none;
-    }
     .fee-tracker .intro {
       margin: 0 auto;
       max-width: 750px;
-      display: flex;
+      display: flex !important;
       align-items: center;
-      margin-bottom: 2em;
+      margin-bottom: 2em !important;
     }
-    #artist_payments.new {
+    #artist_payments.new,
+    #artist_payments.content {
       min-width: 100%;
       padding: 0em;
       float: none;
@@ -325,7 +325,7 @@ input[type="file"] {
           justify-content: space-between;
         }
         h5 {
-          margin: 2em 0;
+          // margin: 2em 0;
           span {
             float: left;
             margin-right: 1em;
