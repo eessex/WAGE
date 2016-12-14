@@ -3,6 +3,7 @@
   font-size: smaller;
   position: absolute;
   right: 25px;
+  background-color: white;
 }
 .col.validated {
   display: flex;
@@ -182,16 +183,20 @@
       display: flex;
       justify-content: space-between;
       margin: 1em 0;
-      font-size: smaller;
       line-height: 1.45em;
       overflow: hidden;
       align-items: flex-start;
+      position: relative;
       span {
         line-height: 1.85em;
         padding-left: .35em;
       }
+      .req {
+        right: 25px;
+      }
       .progress {
         margin-top: 0;
+        margin-right: 0;
       }
     }
   }

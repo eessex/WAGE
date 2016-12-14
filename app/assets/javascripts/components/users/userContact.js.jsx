@@ -31,6 +31,7 @@ var UserContact = React.createClass({
             className="form-control"
             value={this.state.user.rep_name}
             onChange={this.handleInputChange} />
+          <span className="req">*</span>
           <span style={{color: 'red'}}>{this.props.errors.rep_name}</span>
         </div>
       </div>
@@ -44,6 +45,7 @@ var UserContact = React.createClass({
             className="form-control"
             value={this.state.user.rep_title}
             onChange={this.handleInputChange} />
+          <span className="req">*</span>
           <span style={{color: 'red'}}>{this.props.errors.rep_name}</span>
         </div>
       </div>
@@ -57,6 +59,7 @@ var UserContact = React.createClass({
             className="form-control"
             value={this.state.user.phone}
             onChange={this.handleInputChange} />
+          <span className="req">*</span>
           <span className="error">{this.props.errors.phone}</span>
         </div>
       </div>
@@ -70,6 +73,7 @@ var UserContact = React.createClass({
             className="form-control"
             value={this.state.user.website}
             onChange={this.handleInputChange} />
+          <span className="req">*</span>
           <span className="error">{this.props.errors.website}</span>
         </div>
       </div>
@@ -92,6 +96,7 @@ var UserContact = React.createClass({
               className="form-control"
               value={this.state.user.address_st1}
               onChange={this.handleInputChange} />
+            <span className="req">*</span>
             <span style={{color: 'red'}}>{this.props.errors.address_st1}</span>
           </div>
           <div className="col-sm-4 col">
@@ -114,6 +119,7 @@ var UserContact = React.createClass({
               className="form-control"
               value={this.state.user.address_city}
               onChange={this.handleInputChange} />
+            <span className="req">*</span>
             <span style={{color: 'red'}}>{this.props.errors.address_city}</span>
           </div>
           <div className="col col-sm-2">
@@ -124,6 +130,7 @@ var UserContact = React.createClass({
               onChange={this.handleInputChange} >
               {options}
             </select>
+            <span className="req">* &nbsp;</span>  
           </div>
           <div className="col-sm-4 col validated">
             <input
@@ -133,6 +140,7 @@ var UserContact = React.createClass({
               className="form-control"
               value={this.state.user.address_zip}
               onChange={this.handleInputChange} />
+              <span className="req">*</span>
             <span className="error">{this.props.errors.address_zip}</span>
           </div>
         </div>

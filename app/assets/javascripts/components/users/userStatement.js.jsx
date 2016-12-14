@@ -99,10 +99,11 @@ var StatementFile = React.createClass({
           value=""
           type="file"
           id={type}
-          accept="image/*,application/pdf,application/msword,
+          accept="application/pdf,application/msword,
   application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           onChange={this.handleFileChange} />
-        <div className='progress'><div className='bar'></div></div>
+          <span className="req">*</span>
+        <div className='progress'><div className='bar'><div className='bar'>.pdf, .doc, .docx</div></div></div>
         </div>
     }
     return file

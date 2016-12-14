@@ -139,10 +139,11 @@ var CertificationFinancials = React.createClass({
                       <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
                     </div>
       } else if (this.state.newUser) {
-        _501c3 = <div className="form-item">
+        _501c3 = <div className="form-item required">
                       <h4>501c3</h4>
                       <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
                       {this.hasFile("file_501c3")}
+                      <span className="req">*</span>
                       <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
                     </div>
       }
@@ -170,10 +171,11 @@ var CertificationFinancials = React.createClass({
   hasFileContract() {
     var file_contract
     if (this.state.newUser) {
-      file_contract =   <div className="form-item">
+      file_contract =   <div className="form-item required">
             <h4>Sample Contracts</h4>
             <p>Optional: A PDF of templates for any contracts used with artists.</p>
             {this.hasFile("file_contract")}
+            <span className="req">*</span>
           <div className="helper">
             <span style={{color: 'red'}}>{this.state.errors.file_contract}</span>
           </div>
@@ -190,7 +192,7 @@ var CertificationFinancials = React.createClass({
     }
     return (
       <form id="financials" className="form col-xs-12">
-            <div className="form-item">
+            <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
                 <p>{operating_caption} annual expenses for fiscal year {moment(this.state.certification.fiscal_end).format('Y')}.</p>
                   <div className="input-group">
@@ -200,16 +202,18 @@ var CertificationFinancials = React.createClass({
                     type="text"
                     className="form-control"
                     onChange={this.handleOperatingExpensesChange} />
+                  <span className="req">*</span>
                   <div className="input-group-addon">.00</div>
                 </div>
               <div className="helper">
                 <span style={{color: 'red'}}>{this.state.errors.operating_expenses}</span>
               </div>
             </div>
-            <div className="form-item">
+            <div className="form-item required">
               <h4>Operating Budget</h4>
               <p>A closed out budget for fiscal year {moment(this.state.certification.fiscal_end).format('Y')} with ‘Artist Fees’ as a distinct line item.</p>
               {this.hasFile("file_budget")}
+              <span className="req">*</span>
               <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
             </div>
             {this.hasFile_990()}
