@@ -66,16 +66,17 @@ var Guidelines = React.createClass({
   } else {
     section = <div className="guidelines-new">
       <section>
-        <h4>Your first application must include:</h4>
-
-        <h4><ul>
-            <li>Templates of contracts used with artists</li>
+        <h4>Your first application must be for a current or upcoming fiscal year and must include:</h4>
+        <h4>
+          <ul>
             <li>Your most recent 990</li>
             <li>Your 501c3 determination letter or documentation of fiscal sponsorship</li>
-          </ul></h4>
+            <li>Templates of contracts used with artists</li>
+          </ul>
+        </h4>
         <h4>These documents only need to be submitted once.</h4>
 
-        <h4>Your first application is for the current or upcoming fiscal year, and must also include a projected operating budget for the current year with "Artist Fees" as a distinct and visible line item.</h4>
+        <h4>Your application must also include a projected operating budget for the current year with "Artist Fees" as a distinct and visible line item.</h4>
       </section>
     </div>
   }
