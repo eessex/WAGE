@@ -220,8 +220,10 @@ var newCertification = React.createClass({
     $('.status .item').removeClass('active')
   },
   feeSchedule() {
-    if (this.state.certification.operating_expenses != null) {
+    if (this.state.certification.operating_expenses != null && this.state.certification.operating_expenses != '') {
       var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>My Fee Schedule</button>
+    } else {
+      <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>Fee Schedule</button>
     }
     return btn
   },

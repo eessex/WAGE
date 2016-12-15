@@ -12,11 +12,44 @@ var UserContact = React.createClass({
       errors: {}
     }
   },
+  componentDidMount() {
+    this.findRequired()
+  },
   handleInputChange(e) {
     var newUser = this.state.user
     newUser[e.target.name] = e.target.value
     this.setState({user: newUser})
     this.props.handleUserUpdate(newUser)
+    this.fulfilsRequired(e)
+  },
+  fulfilsRequired(e) {
+      if (e.target) {
+        e = e.target
+      }
+      if ($(e).attr('name') == 'address_state' && this.props.user.address_state != "" && this.props.user.address_state != null) {
+        $(e).siblings('.req').addClass('green')
+      } else if ($(e).attr('name') == 'phone') {
+        if ( $(e).attr('value').match(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/) ) {
+          $(e).siblings('.req').addClass('green')
+        } else {
+          $(e).siblings('.req').removeClass('green')
+        }
+      } else if ($(e).attr('name') == 'address_zip' && $(e).attr('value').length == 5) {
+        $(e).siblings('.req').addClass('green')
+      } else if ($(e).attr('value')) {
+        if ($(e).attr('value').length > 3) {
+          $(e).siblings('.req').addClass('green')
+        } else {
+          $(e).siblings('.req').removeClass('green')
+        }
+      }
+  },
+  findRequired() {
+    var required = $('body input.req, body select.req')
+    var that = this
+    required.each( function(i, input) {
+      that.fulfilsRequired(input)
+    })
   },
   contactForm() {
     var contactForm =
@@ -28,7 +61,7 @@ var UserContact = React.createClass({
             type="text"
             placeholder="First Last"
             name="rep_name"
-            className="form-control"
+            className="form-control req"
             value={this.state.user.rep_name}
             onChange={this.handleInputChange} />
           <span className="req">*</span>
@@ -42,7 +75,7 @@ var UserContact = React.createClass({
             type="text"
             placeholder="Development Director"
             name="rep_title"
-            className="form-control"
+            className="form-control req"
             value={this.state.user.rep_title}
             onChange={this.handleInputChange} />
           <span className="req">*</span>
@@ -56,7 +89,7 @@ var UserContact = React.createClass({
             type="phone"
             placeholder="phone"
             name="phone"
-            className="form-control"
+            className="form-control req"
             value={this.state.user.phone}
             onChange={this.handleInputChange} />
           <span className="req">*</span>
@@ -65,12 +98,12 @@ var UserContact = React.createClass({
       </div>
       <div className="field-group">
         <h4 className="col col-xs-3">Website</h4>
-        <div className="col col-xs-9 validated">
+        <div className="col col-xs-9 validated req">
           <input
             type="url"
             placeholder="http://example.org"
             name="website"
-            className="form-control"
+            className="form-control req"
             value={this.state.user.website}
             onChange={this.handleInputChange} />
           <span className="req">*</span>
@@ -93,7 +126,7 @@ var UserContact = React.createClass({
               type="text"
               placeholder="Street Address"
               name="address_st1"
-              className="form-control"
+              className="form-control req"
               value={this.state.user.address_st1}
               onChange={this.handleInputChange} />
             <span className="req">*</span>
@@ -116,7 +149,7 @@ var UserContact = React.createClass({
               type="text"
               name="address_city"
               placeholder="City"
-              className="form-control"
+              className="form-control req"
               value={this.state.user.address_city}
               onChange={this.handleInputChange} />
             <span className="req">*</span>
@@ -124,20 +157,20 @@ var UserContact = React.createClass({
           </div>
           <div className="col col-sm-2">
             <select
-              className="form-control"
+              className="form-control req"
               name="address_state"
               value={this.state.user.address_state}
               onChange={this.handleInputChange} >
               {options}
             </select>
-            <span className="req">* &nbsp;</span>  
+            <span className="req">* &nbsp;</span>
           </div>
-          <div className="col-sm-4 col validated">
+          <div className="col-sm-4 col validated req">
             <input
               type="text"
               name="address_zip"
               placeholder="Zip"
-              className="form-control"
+              className="form-control req"
               value={this.state.user.address_zip}
               onChange={this.handleInputChange} />
               <span className="req">*</span>
