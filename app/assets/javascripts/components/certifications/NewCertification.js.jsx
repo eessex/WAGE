@@ -223,7 +223,7 @@ var newCertification = React.createClass({
     if (this.state.certification.operating_expenses != null && this.state.certification.operating_expenses != '') {
       var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>My Fee Schedule</button>
     } else {
-      <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>Fee Schedule</button>
+      var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>Fee Schedule</button>
     }
     return btn
   },
