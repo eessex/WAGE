@@ -24,7 +24,7 @@ var CertificationIsSubmitted = React.createClass({
       return 2
     } else if (this.state.certification.status < 2 && this.getYearStatus().future && this.hasFinancials() == "progress") {
       return 0
-    } else if (this.state.certification.status < 2 && this.getYearStatus().progress && this.hasFinancials() == "true") {
+    } else if (this.state.certification.status < 2 && this.getYearStatus().progress && this.hasFinancials() == "true" && this.hasPayments() == "true") {
       return 2
     } else {
       return 0
@@ -34,12 +34,12 @@ var CertificationIsSubmitted = React.createClass({
     if (this.state.certification.status <= 2 && this.hasFinancials() == "true") {
       if (this.getYearStatus().past && this.hasPayments() == "true") {
         return true
-      } else if ((this.getYearStatus().future || this.getYearStatus().progress) && (this.hasFinancials() == "true") ) {
+      } else if ((this.getYearStatus().future && !this.getYearStatus().progress) ||
+                 (this.getYearStatus().progress && this.hasPayments() == "true") ) {
         return true
       }
-    } else {
-      return false
     }
+    return false
   },
   getNext() {
     var contentState = this.state.contentState + 1
