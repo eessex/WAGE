@@ -42,14 +42,16 @@ var newCertification = React.createClass({
     }
   },
   hasContact() {
-    if ( this.state.user.rep_name &&
-        this.state.user.rep_title &&
-        this.state.user.phone &&
+    if (
+      ( this.state.user.rep_name && this.state.user.rep_name.length > 3 ) &&
+        ( this.state.user.rep_title && this.state.user.rep_title.length > 3 ) &&
+        ( this.state.user.phone && this.state.user.phone.length == 12 ) &&
         this.state.user.website &&
-        this.state.user.address_st1 &&
-        this.state.user.address_city &&
+        ( this.state.user.address_st1 && this.state.user.address_st1.length > 3 ) &&
+        ( this.state.user.address_city && this.state.user.address_city.length > 3 ) &&
         this.state.user.address_state &&
-        this.state.user.address_zip ) {
+        ( this.state.user.address_zip && this.state.user.address_zip.length == 5)
+      ) {
       return true
     }
   },
@@ -116,7 +118,7 @@ var newCertification = React.createClass({
           that.isSaved()
         }, 150)
         if (res.notice) {
-          $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
+          $('main').append('<div className="submit notice"><p>' + res.notice + '</p></div>')
           setTimeout(function () {
             window.location = "http://localhost:3000";
           },2000);
@@ -220,8 +222,10 @@ var newCertification = React.createClass({
     $('.status .item').removeClass('active')
   },
   feeSchedule() {
-    if (this.state.certification.operating_expenses != null) {
+    if (this.state.certification.operating_expenses != null && this.state.certification.operating_expenses != '') {
       var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>My Fee Schedule</button>
+    } else {
+      var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>Fee Schedule</button>
     }
     return btn
   },
@@ -293,7 +297,7 @@ var newCertification = React.createClass({
       <div className="intro">
       <h1><span>Contact Information</span></h1>
       </div>
-      <UserContact key="contact" user={this.state.user} handleUserUpdate={this.handleUserUpdate} errors={this.state.errors}/>{next}</div>
+      <UserContact key="contact" user={this.state.user} handleUserUpdate={this.handleUserUpdate} errors={this.state.errors} />{next}</div>
 
     } else if (this.state.contentState == 3) {
       var contentState =

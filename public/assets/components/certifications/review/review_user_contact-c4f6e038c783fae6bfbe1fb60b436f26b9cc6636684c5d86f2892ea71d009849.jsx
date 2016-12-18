@@ -2,7 +2,7 @@ var ReviewUserContact = React.createClass({
   render() {
     var displayStreet = <span>{this.props.user.address_st2 ? ", " + this.props.user.address_st2 : ""}</span>;
     return (
-      <div id="review--user-contact" class="review--user-contact">
+      <div id="review--user-contact" className="review--user-contact">
         <div className="col col-lg-6">
           <h5>{this.props.user.rep_name}, {this.props.user.rep_title}</h5>
           <h5>{this.props.user.email}</h5>

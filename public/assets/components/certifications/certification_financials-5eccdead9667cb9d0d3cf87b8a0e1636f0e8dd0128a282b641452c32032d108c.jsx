@@ -13,6 +13,7 @@ var CertificationFinancials = React.createClass({
     }
   },
   componentDidMount() {
+    this.findRequired()
     if (this.props.getYearStatus().future != null) {
       this.setState({isFuture: this.props.getYearStatus().future})
     }
@@ -34,16 +35,25 @@ var CertificationFinancials = React.createClass({
     }
   },
   clearFile(e) {
-    var newCertification = this.state.certification
-    newCertification[e.target.id] = null
-    this.setState({certification: newCertification })
-    this.props.handleCertificationUpdate(this.state.certification)
+    if (this.state.certification[e.target.id] != undefined) {
+      var newCertification = this.state.certification
+      newCertification[e.target.id] = ""
+      this.setState({certification: newCertification })
+      this.props.handleCertificationUpdate(this.state.certification)
+    } else {
+      var newUser = this.state.user
+      newUser[e.target.id] = ""
+      this.setState({user: newUser })
+      this.props.handleUserUpdate(this.state.user)
+    }
+    this.fulfilsRequired(e)
   },
   handleOperatingExpensesChange(e) {
     var newCertification = this.state.certification
     newCertification.operating_expenses = e.target.value
     this.setState({certification: newCertification})
     this.props.handleCertificationUpdate(this.state.certification)
+    this.fulfilsRequired(e)
   },
   getSignature(theUpload, cb) {
     $.when( ajaxSign() ).done(function(res){
@@ -96,7 +106,7 @@ var CertificationFinancials = React.createClass({
           that.setState({user: newUser});
           that.props.handleUserUpdate(this.state.user)
         }
-        debugger
+        this.fulfilsRequired(e)
         that.props.canSubmit()
       }.bind(this),
       fail: function(e, data) {
@@ -111,11 +121,21 @@ var CertificationFinancials = React.createClass({
     target = $(e.target)
     this.getSignature(e, this.uploadFile)
   },
-  hasFile(type) {
-    if (this.state.certification[type]) {
-      var file = <p className="form-control"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.certification[type]}</p>
+  hasFile(type, required="false") {
+    var req
+    if (required == "true") {
+      if ( (this.state.certification[type] && this.state.certification[type] != "") || (this.state.user[type] && this.state.user[type] != "" )) {
+        req = <span className="req green">*</span>
+      } else {
+        req = <span className="req">*</span>
+      }
+    }
+    if (type != "file_501c3" && this.state.certification[type] != "") {
+      var file = <div><p className="form-control"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.certification[type]}</p>{req}</div>
+    } else if (type == "file_501c3" && this.state.user[type] != "") {
+        var file = <div><p className="form-control"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.user[type]}</p>{req}</div>
     } else {
-      var file = <div className="directUpload">
+      var file = <div><div className="directUpload">
         <input
           value=""
           type="file"
@@ -125,61 +145,81 @@ var CertificationFinancials = React.createClass({
   application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel"
           onChange={this.handleFileChange} />
         <div id={type} className='progress'><div className='bar'>.pdf, .xls, .doc, .docx</div></div>
-        </div>
+        </div>{req}</div>
     }
     return file
   },
   hasFile_501c3() {
     var _501c3
-    if (this.state.newUser && this.state.user.file_501c3) {
-        _501c3 =  <div className="form-item">
-                      <h4>501c3</h4>
-                      <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
-                      <p className="form-control"><button onClick={this.clearFile_501c3}>Replace</button> {this.state.user.file_501c3}</p>
-                      <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
-                    </div>
-      } else if (this.state.newUser) {
-        _501c3 = <div className="form-item">
-                      <h4>501c3</h4>
-                      <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
-                      {this.hasFile("file_501c3")}
-                      <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
-                    </div>
-      }
+    debugger
+    if (this.props.getYearStatus().newUser == true) {
+      _501c3 = <UploadFile
+                model={this.props.user}
+                required='true'
+                type='file_501c3'
+                handleFileUpdate={this.props.handleUserUpdate}
+                accept='application/pdf,application/msword,
+                application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel'
+                label="501c3"
+                subtitle="Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship."
+              />
+    }
     return _501c3
   },
   hasFile_990() {
     var file_990
     var file_990_caption
     if (this.state.newUser) {
-      file_990_caption = <small> * Most recent if available</small>
+      file_990_caption = "* Most recent if available"
     } else {
-      <small> * if available</small>
+      file_990_caption = "* if available"
     }
     if (this.state.newUser || !this.state.isFuture ) {
-        file_990 = <div className="form-item">
-            <h4>Form 990{file_990_caption}</h4>
-            {this.hasFile("file_990")}
-            <div className="helper">
-              <span style={{color: 'red'}}>{this.state.errors.file_990}</span>
-            </div>
-          </div>
+        file_990 =
+          <UploadFile
+            model={this.props.certification}
+            type='file_990'
+            handleFileUpdate={this.props.handleCertificationUpdate}
+            accept='application/pdf'
+            label="Form 990"
+            subtitle={file_990_caption}
+          />
       }
     return file_990
   },
   hasFileContract() {
     var file_contract
     if (this.state.newUser) {
-      file_contract =   <div className="form-item">
-            <h4>Sample Contracts</h4>
-            <p>Optional: A PDF of templates for any contracts used with artists.</p>
-            {this.hasFile("file_contract")}
-          <div className="helper">
-            <span style={{color: 'red'}}>{this.state.errors.file_contract}</span>
-          </div>
-        </div>
+      file_contract = <UploadFile
+              model={this.props.certification}
+              required='true'
+              type='file_contract'
+              handleFileUpdate={this.props.handleCertificationUpdate}
+              accept='application/pdf'
+              label="Sample Contracts"
+              subtitle="A PDF of templates for any contracts used with artists."
+            />
     }
     return file_contract
+  },
+  fulfilsRequired(e) {
+    if (e.target) {
+      e = e.target
+    }
+    if ($(e).find('input').attr('id') == 'operating_expenses' && $(e).find('input').val().length > 3) {
+      $(e).find('.req').addClass('green')
+    } else if ($(e).find('input').val() != "" && $(e).find('p.form-control') ) {
+      $(e).find('.req').addClass('green')
+    } else {
+      $(e).find('.req').removeClass('green')
+    }
+  },
+  findRequired() {
+    var required = $('.form-item.required')
+    var that = this
+    required.each( function(i, input) {
+      that.fulfilsRequired(input)
+    })
   },
   render() {
     var file_990_caption
@@ -188,9 +228,11 @@ var CertificationFinancials = React.createClass({
     } else {
       var operating_caption = "Total"
     }
+    var file_budget_caption = 'A closed out budget for fiscal year ' + moment(this.state.certification.fiscal_end).format('Y') + ' with ‘Artist Fees’ as a distinct line item.'
     return (
       <form id="financials" className="form col-xs-12">
-            <div className="form-item">
+      
+            <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
                 <p>{operating_caption} annual expenses for fiscal year {moment(this.state.certification.fiscal_end).format('Y')}.</p>
                   <div className="input-group">
@@ -198,20 +240,28 @@ var CertificationFinancials = React.createClass({
                   <input
                     value={this.hasOperatingExpenses()}
                     type="text"
+                    id="operating_expenses"
                     className="form-control"
                     onChange={this.handleOperatingExpensesChange} />
+                  <span className="req">*</span>
                   <div className="input-group-addon">.00</div>
                 </div>
               <div className="helper">
                 <span style={{color: 'red'}}>{this.state.errors.operating_expenses}</span>
               </div>
             </div>
-            <div className="form-item">
-              <h4>Operating Budget</h4>
-              <p>A closed out budget for fiscal year {moment(this.state.certification.fiscal_end).format('Y')} with ‘Artist Fees’ as a distinct line item.</p>
-              {this.hasFile("file_budget")}
-              <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
-            </div>
+
+            <UploadFile
+              model={this.props.certification}
+              required='true'
+              type='file_budget'
+              handleFileUpdate={this.props.handleCertificationUpdate}
+              accept='application/pdf,application/msword,
+      application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel'
+              label="Operating Budget"
+              subtitle={file_budget_caption}
+            />
+
             {this.hasFile_990()}
             {this.hasFile_501c3()}
             {this.hasFileContract()}
