@@ -5,7 +5,6 @@ var UserStatement = React.createClass({
 
     return (
       <div className="statement">
-        <h4></h4>
         <UploadFile
           model={this.props.user}
           required='true'

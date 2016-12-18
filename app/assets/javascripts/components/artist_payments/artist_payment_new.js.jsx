@@ -182,7 +182,14 @@
         <div className="intro">
           <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
           <h4>{isStarted}reate an entry for each fee payment to an artist between {this.props.formatted_dates()}. </h4>
-          <h5>Alternatively, you may submit a Quickbooks P&L: {this.formQbPl()}</h5>
+          <UploadFile
+            model={this.props.certification}
+            required='true'
+            type='qb_pl'
+            handleFileUpdate={this.props.handleCertificationUpdate}
+            accept='application/pdf'
+            label="Alternatively, you may submit a Quickbooks P&L:"
+          />
         </div>
         {this.newForm()}
       </div>

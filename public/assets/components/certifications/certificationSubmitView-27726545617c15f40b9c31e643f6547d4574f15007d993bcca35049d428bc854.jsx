@@ -103,9 +103,9 @@ var CertificationSubmitView = React.createClass({
     if (!this.props.isFuture && this.state.certification.status < 1) {
       artist_payments_info =
       <div className="section artist-payments-info clearfix">
-        <h5>* Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_start).format('YYYY')}.</h5>
-        <h5>Organizations are expected to pay artist fees according to W.A.G.E.’s <a href="/fee-schedule">minimum standards</a> of compensation.</h5>
-        <h5>* At the close of this fiscal period your organization must provide documentation of payments using this application's fee tracker, or by uploading a Quickbooks P&L.</h5>
+        <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_end).format('YYYY')}.</h4>
+        <h4>Organizations are expected to pay artist fees according to W.A.G.E.’s <a href="/fee-schedule">minimum standards</a> of compensation.</h4>
+        <h4>At the close of this fiscal period your organization must provide documentation of payments using this application's fee tracker, or by uploading a Quickbooks P&L.</h4>
       </div>
     } else if (this.props.certification.status < 2 && (new Date() < Date.parse(this.props.certification.fiscal_end) ) ) {
       artist_payments_info =
@@ -113,7 +113,7 @@ var CertificationSubmitView = React.createClass({
         <h5>* Your application is ready to submit on or after {moment(this.props.user.fiscal_end).format('MMM D, Y')}.</h5>
       </div>
     }
-    if (this.props.certification.status < 2 && (new Date() > Date.parse(this.props.certification.fiscal_end))) {
+    if ( (this.props.certification.status < 2 && new Date() > Date.parse(this.props.certification.fiscal_end)) || (this.props.certification.status == 0 && this.props.newUser == "true") ) {
       var actions =  <button className="btn btn-lg save" onClick={this.handleSubmit}>Submit</button>
     } else if (this.props.certification.status < 2) {
       var actions = <button className="btn btn-lg save" disabled="true">Submit</button>
