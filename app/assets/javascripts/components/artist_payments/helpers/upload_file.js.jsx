@@ -6,6 +6,7 @@ var UploadFile = React.createClass({
     this.props.handleFileUpdate(model)
   },
   clearFile(e) {
+    e.preventDefault()
     var newModel = this.props.model
     newModel[e.target.id] = null
     this.props.handleFileUpdate(newModel)
@@ -16,10 +17,10 @@ var UploadFile = React.createClass({
       url: '/upload.json',
       dataType: 'json',
       success: function(res) {
-        var progressBar  = $('.bar');
-        var fileInput = $('input:file')
+        var progressBar = $('.' + this.props.type + '.bar')
+        var fileInput = $('#' + this.props.type + ' input')
         var signature = res.data
-        $('input:file').fileupload({
+        fileInput.fileupload({
           fileInput:       fileInput,
           url:             signature['url'],
           type:            'POST',
@@ -72,6 +73,9 @@ var UploadFile = React.createClass({
     if ( this.props.accept.includes('openxmlformats-officedocument') ) {
       accepted.push('.docx')
     }
+    if ( this.props.accept.includes('ms-excel') ) {
+      accepted.push('.xls')
+    }
     return accepted.join(", ")
   },
   isRequired() {
@@ -85,14 +89,33 @@ var UploadFile = React.createClass({
     }
     return required
   },
+  hasLabel() {
+    var label
+    var subtitle
+    if (this.props.label && this.props.label.length) {
+      if (this.props.subtitle) {
+        subtitle = <p>{this.props.subtitle}</p>
+      }
+      if (this.props.label == 'true') {
+        label = <label className="directUpload__label"><h4>{this.props.type}</h4>{subtitle}</label>
+      } else {
+        label = <label className="directUpload__label"><h4>{this.props.label}</h4>{subtitle}</label>
+      }
+    }
+    return label
+  },
   hasFile() {
     var type = this.props.type
     var accepted = this.getAcceptedFileTypes()
     var file
     if (this.props.model[type]) {
-      file = <p id={type} className="form-control"><button id={type} onClick={this.clearFile}>Replace</button> {this.props.model[type]}</p>
+      file = <p id={type} className="directUpload__has_file form-control">
+              <button id={type} onClick={this.clearFile}>Replace</button>
+              <span className="filename">{this.props.model[type]}</span>
+              {this.isRequired()}
+            </p>
     } else {
-      file = <div>
+      file = <div className="directUpload__input">
         <input
           value=""
           type="file"
@@ -100,7 +123,8 @@ var UploadFile = React.createClass({
           id={type}
           accept={this.props.accept}
           />
-        <div className='progress'><div className='bar'><div className='bar'>{accepted}</div></div></div>
+        <div className='progress'><div className={type + ' bar'}><div className='bar'>{accepted}</div></div></div>
+        {this.isRequired()}
         </div>
     }
     return file
@@ -108,9 +132,9 @@ var UploadFile = React.createClass({
   render() {
     var type = this.props.type
     return (
-      <div id={type} className="directUpload">
+      <div id={type} className="form directUpload">
+        {this.hasLabel()}
         {this.hasFile()}
-        {this.isRequired()}
       </div>
     )
   }
