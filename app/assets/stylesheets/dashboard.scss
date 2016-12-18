@@ -28,22 +28,7 @@
 .dashboard {
   width: 100%;
 }
-.directUpload {
-  position: relative;
-}
-.progress {
-  width: 50%;
-  position: absolute;
-  top: 7px;
-  margin-right: 8px;
-  right: 0;
-  .bar {
-    padding-left: 10px;
-    font-size: 11px;
-    height: 100%;
-    padding-top: 1px;
-  }
-}
+
 #qb_pl {
   display: flex;
   font-weight: 400;

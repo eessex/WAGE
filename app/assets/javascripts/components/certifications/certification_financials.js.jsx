@@ -151,24 +151,18 @@ var CertificationFinancials = React.createClass({
   },
   hasFile_501c3() {
     var _501c3
+    debugger
     if (this.props.getYearStatus().newUser == true) {
-      if (this.state.user.file_501c3 != "" && this.state.user.file_501c3 != undefined ) {
-          _501c3 =  <div className="form-item required">
-                        <h4>501c3</h4>
-                        <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
-                        <p className="form-control"><button id="file_501c3" onClick={this.clearFile}>Replace</button> {this.state.user.file_501c3}</p>
-                        <span className="req green">*</span>
-                        <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
-                      </div>
-        } else {
-          _501c3 = <div className="form-item required">
-                        <h4>501c3</h4>
-                        <p>Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship.</p>
-                        {this.hasFile("file_501c3", "true")}
-                        <span className="req">*</span>
-                        <span style={{color: 'red'}}>{this.state.errors.file_501c3}</span>
-                      </div>
-      }
+      _501c3 = <UploadFile
+                model={this.props.user}
+                required='true'
+                type='file_501c3'
+                handleFileUpdate={this.props.handleUserUpdate}
+                accept='application/pdf,application/msword,
+                application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel'
+                label="501c3"
+                subtitle="Your 501c3 letter of determination or, if you are fiscally sponsored, documentation of sponsorship."
+              />
     }
     return _501c3
   },
@@ -176,32 +170,35 @@ var CertificationFinancials = React.createClass({
     var file_990
     var file_990_caption
     if (this.state.newUser) {
-      file_990_caption = <small> * Most recent if available</small>
+      file_990_caption = "* Most recent if available"
     } else {
-      <small> * if available</small>
+      file_990_caption = "* if available"
     }
     if (this.state.newUser || !this.state.isFuture ) {
-        file_990 = <div className="form-item">
-            <h4>Form 990{file_990_caption}</h4>
-            {this.hasFile("file_990")}
-            <div className="helper">
-              <span style={{color: 'red'}}>{this.state.errors.file_990}</span>
-            </div>
-          </div>
+        file_990 =
+          <UploadFile
+            model={this.props.certification}
+            type='file_990'
+            handleFileUpdate={this.props.handleCertificationUpdate}
+            accept='application/pdf'
+            label="Form 990"
+            subtitle={file_990_caption}
+          />
       }
     return file_990
   },
   hasFileContract() {
     var file_contract
     if (this.state.newUser) {
-      file_contract =   <div className="form-item required">
-            <h4>Sample Contracts</h4>
-            <p>Optional: A PDF of templates for any contracts used with artists.</p>
-            {this.hasFile("file_contract", "true")}
-          <div className="helper">
-            <span style={{color: 'red'}}>{this.state.errors.file_contract}</span>
-          </div>
-        </div>
+      file_contract = <UploadFile
+              model={this.props.certification}
+              required='true'
+              type='file_contract'
+              handleFileUpdate={this.props.handleCertificationUpdate}
+              accept='application/pdf'
+              label="Sample Contracts"
+              subtitle="A PDF of templates for any contracts used with artists."
+            />
     }
     return file_contract
   },
@@ -209,7 +206,6 @@ var CertificationFinancials = React.createClass({
     if (e.target) {
       e = e.target
     }
-    debugger
     if ($(e).find('input').attr('id') == 'operating_expenses' && $(e).find('input').val().length > 3) {
       $(e).find('.req').addClass('green')
     } else if ($(e).find('input').val() != "" && $(e).find('p.form-control') ) {
@@ -232,8 +228,10 @@ var CertificationFinancials = React.createClass({
     } else {
       var operating_caption = "Total"
     }
+    var file_budget_caption = 'A closed out budget for fiscal year ' + moment(this.state.certification.fiscal_end).format('Y') + ' with ‘Artist Fees’ as a distinct line item.'
     return (
       <form id="financials" className="form col-xs-12">
+      
             <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
                 <p>{operating_caption} annual expenses for fiscal year {moment(this.state.certification.fiscal_end).format('Y')}.</p>
@@ -252,12 +250,18 @@ var CertificationFinancials = React.createClass({
                 <span style={{color: 'red'}}>{this.state.errors.operating_expenses}</span>
               </div>
             </div>
-            <div className="form-item required">
-              <h4>Operating Budget</h4>
-              <p>A closed out budget for fiscal year {moment(this.state.certification.fiscal_end).format('Y')} with ‘Artist Fees’ as a distinct line item.</p>
-              {this.hasFile("file_budget", "true")}
-              <span style={{color: 'red'}}>{this.state.errors.file_budget}</span>
-            </div>
+
+            <UploadFile
+              model={this.props.certification}
+              required='true'
+              type='file_budget'
+              handleFileUpdate={this.props.handleCertificationUpdate}
+              accept='application/pdf,application/msword,
+      application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel'
+              label="Operating Budget"
+              subtitle={file_budget_caption}
+            />
+
             {this.hasFile_990()}
             {this.hasFile_501c3()}
             {this.hasFileContract()}

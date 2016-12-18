@@ -1,9 +1,13 @@
 var CertificationSubmitView = React.createClass({
   getInitialState() {
+    var payments
+    if (this.props.artist_payments) {
+      payments = this.props.artist_payments
+    }
     return {
       certification: this.props.certification,
       user: this.props.user,
-      artist_payments: this.props.artist_payments,
+      artist_payments: payments,
       certifications: this.props.certifications
     }
   },
@@ -22,7 +26,7 @@ var CertificationSubmitView = React.createClass({
   },
   paymentsTable() {
     var payments
-    if (this.props.artist_payments.length > 0) {
+    if (this.props.artist_payments && this.props.artist_payments.length > 0) {
       payments = <div className="section artist-payments clearfix">
         <h4>Artist Payments</h4><ArtistPaymentsTable artist_payments={this.props.artist_payments} _sortRowsBy={this.props._sortRowsBy} paymentsSorted={this.props.paymentsSorted} isEdit="false" fee_categories={this.props.fee_categories} /></div>
     }
@@ -31,7 +35,7 @@ var CertificationSubmitView = React.createClass({
   userContact() {
     var userContact
     if (this.props.newUser == "true") {
-      userContact = <div className="section contact clearfix"><ReviewUserContact user={this.props.state} /></div>
+      userContact = <div className="section contact clearfix"><ReviewUserContact user={this.props.user} /></div>
     }
     return userContact
   },
