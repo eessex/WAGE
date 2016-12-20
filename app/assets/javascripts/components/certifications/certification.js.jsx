@@ -76,9 +76,9 @@ var Certification = React.createClass({
   render() {
     var url = "certifications/" + this.state.certification.id
     if (this.state.certification.status == 0 ) {
-      var formatted_status = "In Progress"
+      var formatted_status = "Application In Progress"
     } else if (this.state.certification.status == 1 ) {
-      var formatted_status = "In Review"
+      var formatted_status = "W.A.G.E. Certified Pending" //"In Review"
     } else if (this.state.certification.status == 2 ) {
       var formatted_status = "W.A.G.E. Certified Pending"
     } else if (this.state.certification.status == 3 ) {

@@ -74,7 +74,8 @@ var CertificationShow = React.createClass({
     }
   },
   hasFinancials() {
-    if (this.getYearStatus().future || this.getYearStatus().past) {
+    var status = this.getYearStatus()
+    if (status.future || status.past) {
       if ( this.state.certification.operating_expenses && this.state.certification.file_budget ) {
         return "true"
       } else if ( this.state.certification.operating_expenses || this.state.certification.file_contract || this.state.certification.file_budget ) {
@@ -158,12 +159,12 @@ var CertificationShow = React.createClass({
         if (res.notice) {
           $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
           pendingPayments = true
-          that.setState({certification: res.certification, canSubmit: that.canSubmit(), pendingPayments: pendingPayments})
+          that.setState({certification: res, canSubmit: that.canSubmit(), pendingPayments: pendingPayments})
           setTimeout(function () {
             window.location = "http://localhost:3000";
           },2000);
         } else {
-        that.setState({certification: res.certification, canSubmit: that.canSubmit(), pendingPayments: pendingPayments})
+          that.setState({certification: res, canSubmit: that.canSubmit(), pendingPayments: pendingPayments})
         }
       },
       error: function(res) {
@@ -191,11 +192,13 @@ var CertificationShow = React.createClass({
     this.setState({artist_payments: artist_payments});
   },
   formatDates() {
+    var formatted_date
     if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y') ) {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
+      formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
     } else {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D, YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
-    } return formatted_date
+      formatted_date = moment(this.state.certification.fiscal_start).format('MMMM D, YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMMM D, YYYY');
+    }
+    return formatted_date
   },
   formatOperatingExpenses() {
     return this.state.certification.operating_expenses.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
@@ -203,12 +206,19 @@ var CertificationShow = React.createClass({
   feeSchedule() {
     if (this.state.certification.operating_expenses != null) {
       var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>My Fee Schedule</button>
+    } else {
+      var btn = <button className="btn fee-schedule" onClick={this.viewFeeSchedule}>Fee Schedule</button>
     }
     return btn
   },
   viewFeeSchedule() {
     this.setState({contentState: 4})
     $('.status .item').removeClass('active')
+  },
+  viewFeeTracker() {
+    this.setState({contentState: 2})
+    $('.status .item').removeClass('active')
+    $('.status .item[data-id="2"]').addClass('active')
   },
   getArtistPayments() {
     if (this.hasPayments() == 'progress' || this.hasPayments() == 'true') {
@@ -234,7 +244,7 @@ var CertificationShow = React.createClass({
             <div className="intro">
               <h1><span>Application Guidelines</span></h1>
             </div>
-            <Guidelines getYearStatus={this.getYearStatus}/>
+            <Guidelines getYearStatus={this.getYearStatus} viewFeeTracker={this.viewFeeTracker}/>
             {next}
           </div>
   } else if (this.state.contentState == 1) {
@@ -278,7 +288,7 @@ var CertificationShow = React.createClass({
         <h1><span>My Fee Schedule</span></h1>
         <h5>Fiscal Year: {this.formatDates()}</h5>
       </div>
-      <FeeSchedule fee_categories={this.props.fee_categories} floor_categories={this.props.fee_categories} user={this.state.user} certification={this.state.certification}/>
+      <FeeSchedule fee_categories={this.props.fee_categories} floor_categories={this.props.fee_categories} user={this.state.user} certification={this.state.certification} />
     </div>
   }
     return contentState
@@ -289,12 +299,13 @@ var CertificationShow = React.createClass({
     $(e.target).parent().addClass('active')
   },
   render() {
+    var status = this.getYearStatus()
     if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
       var formatted_date = moment(this.state.certification.fiscal_start).format('YYYY')
     } else {
       var formatted_date = moment(this.state.certification.fiscal_end).format('YYYY')
     }
-    if (this.getYearStatus().future && this.state.certification.status < 2) {
+    if (status.future && this.state.certification.status < 2) {
       var MENU = ['guidelines', 'financials', 'artist_payments', 'review']
       var payments
     } else {
@@ -305,7 +316,6 @@ var CertificationShow = React.createClass({
                 </div>
     }
     if (this.canSubmit()) {
-      debugger
       var review = <span onClick={this.setContentState} data-disabled={!this.state.canSubmit}>Review</span>
     } else {
       var review = <span data-disabled={!this.state.canSubmit}>Review</span>
@@ -316,7 +326,7 @@ var CertificationShow = React.createClass({
                   <i className="fa" aria-hidden="true"></i>
                   <span onClick={this.setContentState}>Guidelines</span>
                 </div>
-    } else if ((this.state.certification.status == 1 || this.state.certification.status == 2) && (this.getYearStatus().future || this.getYearStatus().progress)) {
+    } else if ((this.state.certification.status == 1 || this.state.certification.status == 2) && (status.future || status.progress)) {
       guidelines = <div className="item" data-id="0">
                   <i className="fa" aria-hidden="true"></i>
                   <span onClick={this.setContentState}>Fee Schedule</span>
@@ -325,7 +335,7 @@ var CertificationShow = React.createClass({
 
     return (
       <div id="certification" className="show">
-        <div className="greeting" data-state={this.state.contentState} data-future={this.getYearStatus().future} data-progress={this.getYearStatus().progress}>
+        <div className="greeting" data-state={this.state.contentState} data-future={status.future} data-progress={status.progress}>
           <h4><span>Get Certified</span></h4>
           <h6 className="status col-xs-12 col-sm-9 col-md-7">
           {guidelines}

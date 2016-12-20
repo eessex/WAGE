@@ -60,7 +60,7 @@ var Guidelines = React.createClass({
           <li>A closed-out operating budget</li>
           <li>If available, form 990 for the year.</li>
         </ul></h4>
-        <h4>Once you enter your total operating expenses, a customized fee schedule will be generated listing the minimum fees required for certification. The final step is to imput your history of fee payment under 'Artist Payments'.</h4>
+        <h4>Once you enter your total operating expenses, a customized fee schedule will be generated listing the minimum fees required for certification. The final step is to input your history of fee payment using the <a onClick={this.props.viewFeeTracker}>Fee Tracker</a>.</h4>
       </div>
     }
   } else {

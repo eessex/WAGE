@@ -149,7 +149,6 @@ h5 {
     }
   }
   span.req {
-    color: red;
     position: absolute;
     top: .45em;
     font-size: 20px;
@@ -158,6 +157,10 @@ h5 {
   span.req.green {
     color: lime;
   }
+}
+
+.req {
+  color: red;
 }
 
 .field-group .req {

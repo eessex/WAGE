@@ -28,25 +28,11 @@ var CertificationFinancials = React.createClass({
     }
   },
   hasOperatingExpenses() {
-    if (this.props.certification) {
-      return this.props.certification.operating_expenses
+    if (this.state.certification) {
+      return this.state.certification.operating_expenses
     } else {
       return ""
     }
-  },
-  clearFile(e) {
-    if (this.state.certification[e.target.id] != undefined) {
-      var newCertification = this.state.certification
-      newCertification[e.target.id] = ""
-      this.setState({certification: newCertification })
-      this.props.handleCertificationUpdate(this.state.certification)
-    } else {
-      var newUser = this.state.user
-      newUser[e.target.id] = ""
-      this.setState({user: newUser })
-      this.props.handleUserUpdate(this.state.user)
-    }
-    this.fulfilsRequired(e)
   },
   handleOperatingExpensesChange(e) {
     var newCertification = this.state.certification
@@ -55,103 +41,8 @@ var CertificationFinancials = React.createClass({
     this.props.handleCertificationUpdate(this.state.certification)
     this.fulfilsRequired(e)
   },
-  getSignature(theUpload, cb) {
-    $.when( ajaxSign() ).done(function(res){
-      cb(theUpload, res.data);
-    }.bind(this));
-    function ajaxSign() {
-      return $.ajax({
-        url: '/upload.json',
-        dataType: 'json'
-      })
-    }
-  },
-  uploadFile(theUpload, signature) {
-    var that = this
-    var fileInput = $(theUpload.target)
-    var progressBar  = $('#' + theUpload.target.id + ' .bar');
-    fileInput.fileupload({
-      fileInput:       fileInput,
-      url:             signature['url'],
-      type:            'POST',
-      autoUpload:       true,
-      formData:         signature['form-data'],
-      paramName:        'file',
-      dataType:         'XML',
-      replaceFileInput: false,
-      progressall: function (e, data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
-        progressBar.css('width', progress + '%')
-      },
-      start: function (e) {
-        progressBar.
-          css('background', 'lime').
-          css('display', 'block').
-          css('width', '1%').
-          text("Loading...");
-      },
-      done: function(e, data) {
-        progressBar.text("Upload complete");
-        var key   = $(data.jqXHR.responseXML).find("Key").text();
-        var url = $(data.jqXHR.responseXML).find("Location").text()
-        var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
-        if (e.target.id != "file_501c3") {
-          var newCertification = that.state.certification
-          newCertification[e.target.id] = url
-          that.setState({certification: newCertification});
-          that.props.handleCertificationUpdate(this.state.certification)
-        } else {
-          var newUser = that.state.user
-          newUser[e.target.id] = url
-          that.setState({user: newUser});
-          that.props.handleUserUpdate(this.state.user)
-        }
-        this.fulfilsRequired(e)
-        that.props.canSubmit()
-      }.bind(this),
-      fail: function(e, data) {
-        console.log('fail')
-        progressBar.
-          css("background", "red").
-          text("Failed");
-      }
-    });
-  },
-  handleFileChange(e) {
-    target = $(e.target)
-    this.getSignature(e, this.uploadFile)
-  },
-  hasFile(type, required="false") {
-    var req
-    if (required == "true") {
-      if ( (this.state.certification[type] && this.state.certification[type] != "") || (this.state.user[type] && this.state.user[type] != "" )) {
-        req = <span className="req green">*</span>
-      } else {
-        req = <span className="req">*</span>
-      }
-    }
-    if (type != "file_501c3" && this.state.certification[type] != "") {
-      var file = <div><p className="form-control"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.certification[type]}</p>{req}</div>
-    } else if (type == "file_501c3" && this.state.user[type] != "") {
-        var file = <div><p className="form-control"><button id={type} onClick={this.clearFile}>Replace</button> {this.state.user[type]}</p>{req}</div>
-    } else {
-      var file = <div><div className="directUpload">
-        <input
-          value=""
-          type="file"
-          className="form-control"
-          id={type}
-          accept="application/pdf,application/msword,
-  application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel"
-          onChange={this.handleFileChange} />
-        <div id={type} className='progress'><div className='bar'>.pdf, .xls, .doc, .docx</div></div>
-        </div>{req}</div>
-    }
-    return file
-  },
   hasFile_501c3() {
     var _501c3
-    debugger
     if (this.props.getYearStatus().newUser == true) {
       _501c3 = <UploadFile
                 model={this.props.user}
@@ -228,13 +119,13 @@ var CertificationFinancials = React.createClass({
     } else {
       var operating_caption = "Total"
     }
-    var file_budget_caption = 'A closed out budget for fiscal year ' + moment(this.state.certification.fiscal_end).format('Y') + ' with ‘Artist Fees’ as a distinct line item.'
+    var file_budget_caption = 'A closed out budget for fiscal year ' + moment(this.props.certification.fiscal_end).format('Y') + ' with ‘Artist Fees’ as a distinct line item.'
     return (
       <form id="financials" className="form col-xs-12">
-      
+
             <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
-                <p>{operating_caption} annual expenses for fiscal year {moment(this.state.certification.fiscal_end).format('Y')}.</p>
+                <p>{operating_caption} annual expenses for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</p>
                   <div className="input-group">
                   <div className="input-group-addon">$</div>
                   <input
