@@ -28,12 +28,15 @@ var FeeSchedule = React.createClass({
   feeHeader() {
     var status = this.feeStatus()
     var fee_header
+    var floor_info = <div className="info info--floor">Required for institutions with operating expenses $500K or less</div>
+    var minimum_info = <div className="info info--minimum">Required for institutions with operating expenses $500K or more</div>
+    var recommended_info = <div className="info info--recommended">Recommended miminum for institutions with operating expenses $5M or more</div>
     if (status == "floor") {
-      fee_header = <span>Floor Wage</span>
+      fee_header = <span>Floor Wage{floor_info}</span>
     } else if (status == "min") {
-      fee_header = <span className="wide"><span className="left">Floor Wage</span><span>Minimum Wage</span></span>
+      fee_header = <span className="wide"><span className="left">Floor Wage{floor_info}</span><span>Minimum Wage{minimum_info}</span></span>
     } else if (status == "over5m") {
-      fee_header = <span className="wide"><span className="left">Recommended</span><span>Minimum Wage</span></span>
+      fee_header = <span className="wide"><span className="left">Recommended{recommended_info}</span><span>Minimum Wage{minimum_info}</span></span>
     }
     return fee_header
   },
