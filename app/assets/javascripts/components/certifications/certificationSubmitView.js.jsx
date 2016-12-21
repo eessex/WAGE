@@ -110,7 +110,7 @@ var CertificationSubmitView = React.createClass({
     } else if (this.props.certification.status < 2 && (new Date() < Date.parse(this.props.certification.fiscal_end) ) ) {
       artist_payments_info =
       <div className="section artist-payments-info clearfix">
-        <h5>* Your application is ready to submit on or after {moment(this.props.user.fiscal_end).format('MMM D, Y')}.</h5>
+        <h4>Your application is ready to submit on or after {moment(this.props.user.fiscal_end).format('MMM D, Y')}.</h4>
       </div>
     }
     if ( (this.props.certification.status < 2 && new Date() > Date.parse(this.props.certification.fiscal_end)) || (this.props.certification.status == 0 && this.props.newUser == "true") ) {

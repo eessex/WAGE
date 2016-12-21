@@ -28,6 +28,16 @@ var FeeSchedule = React.createClass({
     }
     return feeStatus
   },
+  isMax() {
+    var message
+    if (this.feeStatus() == 'max') {
+      message = <div className="message">
+        <h4>If your operating budget is over $15,000,000 you are required to pay artist fees meeting Minimum W.A.G.E. standards but must also not exceed a Maximum W.A.G.E.</h4>
+        <h4>To determine the Maximum W.A.G.E. please contact us directly: <a href="mailto: certification@wageforwork.com">certification@wageforwork.com</a>.</h4>
+      </div>
+    }
+    return message
+  },
   revealFeeInfo() {
     $('.wide .info--title').mouseover(function(e) {
       $(this).addClass('active')
@@ -41,9 +51,10 @@ var FeeSchedule = React.createClass({
   feeHeader() {
     var status = this.feeStatus()
     var fee_header
-    var floor_info = <div className="info info--floor">Required for institutions with operating expenses $500K or less</div>
-    var minimum_info = <div className="info info--minimum">Required for institutions with operating expenses $500K or more</div>
-    var recommended_info = <div className="info info--recommended">Recommended miminum for institutions with operating expenses $5M or more</div>
+    var floor_info = <div className="info info--floor">Required for institutions with operating expenses under $500K</div>
+    var minimum_info = <div className="info info--minimum">Required for institutions with operating expenses over $500K</div>
+    var recommended_info = <div className="info info--recommended">Recommended miminum for institutions with operating expenses over $5M</div>
+    var max_info = <div className="info info--minimum">Required for institutions with operating expenses over $15M</div>
     if (status == "floor") {
       fee_header = <span className="wide single">
                      <span className="info--title">Floor Wage</span>
@@ -71,6 +82,11 @@ var FeeSchedule = React.createClass({
                       {minimum_info}
                     </span>
                   </span>
+    } else if (status == "max") {
+      fee_header = <span className="wide single">
+                     <span className="info--title">Minimum Wage</span>
+                     {max_info}
+                   </span>
     }
     return fee_header
   },
@@ -102,6 +118,15 @@ var FeeSchedule = React.createClass({
     } else {
       format_fee = <span className="wide"><span className="left">${min_fee}{subtitle}</span><span className="right">${over5m}{subtitle}</span></span>
       }
+    } else if (status == "max") {
+      if (i == 11 || i == 12) {
+       floor_fee = (Number(fee_category.over500K)) + .25
+       format_fee = <span className="wide"><span className="right">${existing_text.toLocaleString()}/word</span></span>
+     } else if (i == 13) {
+      format_fee = <span className="wide"><span className="right">${fee_category.over500K}/day</span></span>
+    } else {
+      format_fee = <span className="wide"><span className="right">${min_fee}{subtitle}</span></span>
+      }
     }
     return (
       <div key={fee_category.id} className="fee-category">
@@ -118,12 +143,13 @@ var FeeSchedule = React.createClass({
   render() {
     return (
       <div id="fee-schedule">
+      {this.isMax()}
       <div id="schedule-table">
         <div>
           <div className="fee-category header">
             <h5>
               <div className="title">
-              <span>Fee Category</span>
+                <span>Fee Category</span>
               </div>
               {this.feeHeader()}
             </h5>
