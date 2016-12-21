@@ -12,6 +12,9 @@ var FeeSchedule = React.createClass({
       this.setState({certification: { operating_expenses: 500000 }})
     }
   },
+  componentDidMount() {
+    this.revealFeeInfo()
+  },
   feeStatus() {
     var feeStatus
     if (this.props.certification.operating_expenses >= 15000000) {
@@ -25,6 +28,16 @@ var FeeSchedule = React.createClass({
     }
     return feeStatus
   },
+  revealFeeInfo() {
+    $('.wide .info--title').mouseover(function(e) {
+      $(this).addClass('active')
+      $(this).siblings('.info').fadeIn()
+    })
+    $('.wide .info--title').mouseout(function(e) {
+      $(this).removeClass('active')
+      $(this).siblings('.info').fadeOut()
+    })
+  },
   feeHeader() {
     var status = this.feeStatus()
     var fee_header
@@ -32,11 +45,32 @@ var FeeSchedule = React.createClass({
     var minimum_info = <div className="info info--minimum">Required for institutions with operating expenses $500K or more</div>
     var recommended_info = <div className="info info--recommended">Recommended miminum for institutions with operating expenses $5M or more</div>
     if (status == "floor") {
-      fee_header = <span>Floor Wage{floor_info}</span>
+      fee_header = <span className="wide single">
+                     <span className="info--title">Floor Wage</span>
+                     {floor_info}
+                   </span>
     } else if (status == "min") {
-      fee_header = <span className="wide"><span className="left">Floor Wage{floor_info}</span><span>Minimum Wage{minimum_info}</span></span>
+      fee_header = <span className="wide">
+                    <span className="left">
+                      <span className="info--title">Floor Wage</span>
+                      {floor_info}
+                    </span>
+                    <span>
+                      <span className="info--title">Minimum Wage</span>
+                      {minimum_info}
+                    </span>
+                  </span>
     } else if (status == "over5m") {
-      fee_header = <span className="wide"><span className="left">Recommended{recommended_info}</span><span>Minimum Wage{minimum_info}</span></span>
+      fee_header = <span className="wide">
+                    <span className="left">
+                      <span className="info--title">Recommended</span>
+                      {recommended_info}
+                    </span>
+                    <span>
+                      <span className="info--title">Minimum Wage</span>
+                      {minimum_info}
+                    </span>
+                  </span>
     }
     return fee_header
   },
