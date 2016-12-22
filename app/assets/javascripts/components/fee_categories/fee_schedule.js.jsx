@@ -193,7 +193,7 @@ var FeeSchedule = React.createClass({
     } else {
       format_fee = <span className="wide">
                       <span className="right">
-                        <span className="amount">${min_fee}</span>
+                        <span className="amount">${over5m}</span>
                         {subtitle}
                       </span>
                     </span>
