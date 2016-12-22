@@ -18,6 +18,12 @@
       }
     }
     .wide.single {
+      .info--title {
+        i {
+          margin-left: 5px;
+          margin-right: -10px;
+        }
+      }
       .info--title.active {
         color: #222;
       }
@@ -26,6 +32,28 @@
         left: auto;
         width: 120px;
       }
+    }
+  }
+  .fee-category.header {
+    color: #222;
+  }
+  .fee-category h5 {
+    align-items: center;
+  }
+  .title {
+    flex-direction: column;
+    .category {
+      font-size: 18px;
+      margin-bottom: -3px;
+    }
+    .percent {
+      font-size: 10.5px;
+    }
+  }
+  .amount {
+    font-size: 24px;
+    .subtitle {
+      font-size: smaller;
     }
   }
 }
