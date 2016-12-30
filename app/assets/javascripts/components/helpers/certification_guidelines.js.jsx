@@ -1,34 +1,21 @@
-var Guidelines = React.createClass({
+var CertificationGuidelines = React.createClass({
   getInitialState() {
     return {
-      isFuture: true,
-      isPast: false,
-      isProgress: false,
-      newUser: false,
-    }
-  },
-  componentDidMount() {
-    if (this.props.getYearStatus().future != null) {
-      this.setState({isFuture: this.props.getYearStatus().future, newUser: this.props.getYearStatus().newUser})
-    }
-    if (this.props.getYearStatus().past != null) {
-      this.setState({isPast: this.props.getYearStatus().past, newUser: false})
-    }
-    if (this.props.getYearStatus().progress != null) {
-      this.setState({isProgress: this.props.getYearStatus().progress, newUser: this.props.getYearStatus().newUser})
+      yearStatus: this.props.yearStatus,
     }
   },
   printYearStatus() {
     var year
-    var prefix = "a "
-    if (this.state.isFuture && (this.state.isPast == null)) {
-      var prefix = "an "
+    var prefix
+    if (this.props.yearStatus == 'future') {
+      prefix = "an "
       year = "upcoming"
-    } else if (this.state.isPast) {
+    } else if (this.props.yearStatus == 'past') {
+      prefix = "a "
       year = "prior"
-    } else if (this.state.isPast) {
+    } else if (this.props.yearStatus == 'progress') {
+      prefix = "the "
       year = "current"
-      var prefix = "the "
     }
     return {
       year: year,
@@ -37,10 +24,12 @@ var Guidelines = React.createClass({
   },
   getSections() {
     var section
-    if (this.state.newUser == false) {
-      if ((this.state.isFuture || this.state.isProgress) && (this.state.isPast == null)) {
+    var printYearStatus = this.printYearStatus()
+
+    if (this.props.newUser == false) {
+      if (this.props.yearStatus != 'past') {
       section = <div>
-      <h4>Your organization is applying for W.A.G.E. Certification in {this.printYearStatus().prefix + this.printYearStatus().year} fiscal year.</h4>
+      <h4>Your organization is applying for W.A.G.E. Certification in {printYearStatus.prefix + printYearStatus.year} fiscal year.</h4>
         <h4>To process your application we will need the following documentation:</h4>
         <ul>
           <li>Total operating expenses for the year</li>
@@ -49,9 +38,10 @@ var Guidelines = React.createClass({
         <h4>Your application is effectively a commitment to paying fees according to W.A.G.E. standards. Your status will be listed as W.A.G.E. Certified Pending until the close of the fiscal period, at which time a history of fee payments is required. Once you have demonstrated your organization’s compliance you will be listed and may list yourself as W.A.G.E. Certified.
         </h4>
       </div>
+
     } else {
       section = <div>
-      <h4>Your organization is applying for W.A.G.E. Certification in {this.printYearStatus().prefix + this.printYearStatus().year} fiscal year.</h4>
+      <h4>Your organization is applying for W.A.G.E. Certification in {printYearStatus.prefix + printYearStatus.year} fiscal year.</h4>
         <h4>To process your application we will need the following documentation in order to establish that fees were paid according to W.A.G.E. standards:</h4>
         <h4>
         <ul>
@@ -63,6 +53,7 @@ var Guidelines = React.createClass({
         <h4>Once you enter your total operating expenses, a customized fee schedule will be generated listing the minimum fees required for certification. The final step is to input your history of fee payment using the <a onClick={this.props.viewFeeTracker}>Fee Tracker</a>.</h4>
       </div>
     }
+
   } else {
     section = <div className="guidelines-new">
       <section>

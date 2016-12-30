@@ -311,19 +311,3 @@ main {
   }
 }
 
-.is-saved {
-  position: absolute;
-  right: 1.5em;
-  transition: all .35s;
-  &.saving {
-    color: $red;
-    i {
-      color: $red;
-    }
-  }
-  i {
-    color: lime;
-    margin-right: 5px;
-    transition: all .35s;
-  }
-}

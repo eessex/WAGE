@@ -56,6 +56,7 @@ var CertificationMenu = React.createClass({
     return (
       <div className="certification-menu">
         {this.printMenuItems()}
+        <div className="is-saved"><i className="fa fa-check"></i><span>Saved</span></div>
       </div>
     );
   }

@@ -1,4 +1,4 @@
-var menu = ['guidelines', 'contact', 'fiscal-details', 'fee-tracker', 'review', 'fee-schedule']
+var menu = ['guidelines', 'contact', 'fiscal-details', 'statement', 'fee-tracker', 'review', 'fee-schedule']
 
 var CertificationView = React.createClass({
   getInitialState() {
@@ -6,17 +6,23 @@ var CertificationView = React.createClass({
       navPosition: 0,
       certification: this.props.certification,
       user: this.props.user,
+      newUser: this.props.newUser,
       yearStatus: 'future',
       hasFiscalDetails: null,
       hasPayments: null,
-      hasContact: null
+      hasContact: null,
+      canSubmit: null,
+      formattedDate: null,
+      errors: {}
     }
   },
   componentDidMount() {
     this.setState({
       hasFiscalDetails: this.hasFiscalDetails(),
       hasPayments: this.hasPayments(),
-      hasContact: this.hasContact()
+      hasContact: this.hasContact(),
+      canSubmit: this.canSubmit(),
+      formattedDate: this.formatDates()
     })
   },
   // NAVIGATION
@@ -25,10 +31,13 @@ var CertificationView = React.createClass({
   },
   // CERTIFICATION STATUS
   canSubmit() {
-    if (this.state.certification.status <= 2 && this.hasFinancials() == "true") {
-      if (this.getYearStatus().past && this.hasPayments() == "true") {
+    if (this.state.certification.status <= 2 && this.hasFiscalDetails() == 'true') {
+      if (this.state.yearStatus == 'past' && this.hasPayments() == 'true') {
         return true
-      } else if ((this.getYearStatus().future || this.getYearStatus().progress) && (this.hasFinancials() == "true") ) {
+      } else if (
+        (this.state.yearStatus == 'future' || this.state.yearStatus == 'progress') &&
+        (this.hasFiscalDetails() == 'true')
+        ) {
         return true
       }
     } else {
@@ -51,7 +60,17 @@ var CertificationView = React.createClass({
     }
   },
   hasPayments() {
-    return false
+    if ( this.state.artist_payments ) {
+      if (this.state.artist_payments.length > 1) {
+        return 'true'
+      } else if (this.state.artist_payments.length > 0) {
+        return "progress"
+      }
+    } else if ( this.state.certification.qb_pl ) {
+      return 'true'
+    } else {
+      return false
+    }
   },
   hasContact() {
     if (
@@ -85,29 +104,153 @@ var CertificationView = React.createClass({
       hasContact: this.state.hasContact
     }
   },
+  isSaved() {
+    $('.is-saved').toggleClass('saving')
+    if ($('.is-saved span').text() == 'Saving') {
+      $('.is-saved span').text('Saved')
+    } else {
+      $('.is-saved span').text('Saving')
+    }
+    $('.is-saved i').toggleClass('fa-check fa-spinner fa-spin')
+  },
+  // SAVE & UPDATE
+  handleUserUpdate(user) {
+    this.isSaved()
+    var that = this;
+    $.ajax({
+      method: 'PATCH',
+      data: {
+        user: user,
+      },
+      url: '/users' + '.json',
+      success: function(res) {
+        that.setState({user: user, canSubmit: that.canSubmit(), errors: {}})
+        setTimeout(function(){
+          that.isSaved()
+        }, 150)
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors});
+        setTimeout(function(){
+          that.isSaved()
+        }, 150)
+      }
+    });
+  },
+  handleCertificationUpdate(certification) {
+    var that = this;
+    $.ajax({
+      method: 'PUT',
+      data: {
+        certification: certification,
+      },
+      url: '/certifications/' + certification.id + '.json',
+      success: function(res) {
+        if (res.notice) {
+          $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
+          that.setState({certification: res, canSubmit: that.canSubmit()})
+          setTimeout(function () {
+            window.location = "http://localhost:3000";
+          },2000);
+        } else {
+          that.setState({certification: res, canSubmit: that.canSubmit()})
+        }
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors});
+      }
+    });
+  },
+  handleAddCertification(certification) {
+    this.isSaved()
+    var that = this;
+    $.ajax({
+      method: 'POST',
+      data: {
+        certification: certification,
+      },
+      url: '/certifications.json',
+      success: function(res) {
+        setTimeout(function(){
+          that.isSaved()
+        }, 150)
+        certifications = that.state.certifications
+        certifications.push(res)
+        that.setState({certifications: certifications, certification: res, errors: {}})
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors})
+      }
+    });
+  },
+  onCertificationSubmit() {
+    var certification = this.state.certification
+    certification.status = 2
+    this.handleCertificationUpdate(certification)
+  },
+  // FORMAT HELPERS
+  formatDates() {
+    var formatted_date
+    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y') ) {
+      formatted_date = moment(this.state.certification.fiscal_start).format('MMM D') + " - " + moment(this.state.certification.fiscal_end).format('MMM D, YYYY');
+    } else {
+      formatted_date = moment(this.state.certification.fiscal_start).format('MMM D, YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMM D, YYYY');
+    }
+    return formatted_date
+  },
   // CONTENT OPTIONS
   printContent() {
-    var content
+    var title
+    var subtitle
+    var body
     var position = this.state.navPosition
     if (menu[position] == 'guidelines') {
-      content = <h1>guidelines</h1>
+      title = <h1>Application Guidelines</h1>
+      body = <CertificationGuidelines
+              yearStatus={this.state.yearStatus}/>
     }
     if (menu[position] == 'contact') {
-      content = <h1>contact</h1>
+      title = <h1>Contact Information</h1>
+      body = <UserContact
+              user={this.state.user}
+              errors={this.state.errors}
+              handleUserUpdate={this.handleUserUpdate} />
     }
     if (menu[position] == 'fiscal-details') {
-      content = <h1>fiscal-details</h1>
+      title = <div className='title'>
+                <h1>Fiscal Details</h1>
+                <h5>Fiscal Year: {this.state.formattedDate}</h5>
+              </div>
+      body = <FiscalDetails
+              certification={this.state.certification}
+              user={this.state.user}
+              certifications={this.props.certifications}
+              handleCertificationUpdate={this.handleCertificationUpdate}
+              canSubmit={this.state.canSubmit}
+              handleUserUpdate={this.handleUserUpdate}
+              newUser={this.state.newUser}
+              yearStatus={this.state.yearStatus} />
+    }
+    if (menu[position] == 'statement') {
+      title = <h1>Statement of Intent</h1>
+      body = <UserStatement
+              user={this.state.user}
+              handleUserUpdate={this.handleUserUpdate} />
     }
     if (menu[position] == 'fee-tracker') {
-      content = <h1>fee-tracker</h1>
+      title = <h1>Fee Tracker</h1>
     }
     if (menu[position] == 'review') {
-      content = <h1>review</h1>
+      title = <h1>Review</h1>
     }
     if (menu[position] == 'fee-schedule') {
-      content = <h1>fee-schedule</h1>
+      title = <h1>Fee Schedule</h1>
     }
-    return content
+    return (
+        <div className={'certification-view__content certification-view--' + menu[position]}>
+          {title}{body}
+        </div>
+      )
   },
   render() {
     var progress = this.getProgress()

@@ -9,17 +9,33 @@ class SiteController < ApplicationController
       @certifications = current_user.certifications
       @certification = current_user.certifications.first
       @artist_payments = []
+      @newUser = false
       if has_submitted(@certifications)
         render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
       else
-        render component: 'CertificationView', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification certification--show"
+        render component: 'CertificationView', props: {
+            certification: @certification,
+            certifications: @certifications,
+            artist_payments: @artist_payments,
+            user: @user,
+            newUser: @newUser,
+            fee_categories: @fee_categories
+          }, class: "certification certification--view"
         # render component: 'newCertification', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: 'new-user-dashboard'
       end
     else
+      @newUser = true
       @certifications = []
       @certification = {status: 0, user_id: @user.id, fiscal_start: nil, fiscal_end: nil}
       # render component: 'newCertification', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: 'new-user-dashboard'
-      render component: 'CertificationView', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification certification--show"
+      render component: 'CertificationView', props: {
+          certification: @certification,
+          certifications: @certifications,
+          artist_payments: @artist_payments,
+          user: @user,
+          newUser: @newUser,
+          fee_categories: @fee_categories
+        }, class: "certification certification--view"
     end
   end
 
