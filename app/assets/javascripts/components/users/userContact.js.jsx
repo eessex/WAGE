@@ -83,7 +83,7 @@ var UserContact = React.createClass({
             value={this.state.user.rep_title}
             onChange={this.handleInputChange} />
           <span className="req">*</span>
-          <span style={{color: 'red'}}>{this.props.errors.rep_name}</span>
+          <span className="error">{this.props.errors.rep_name}</span>
         </div>
       </div>
       <div className="field-group">

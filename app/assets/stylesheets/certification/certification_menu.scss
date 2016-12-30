@@ -1,0 +1,46 @@
+@import "variables";
+
+.certification-menu {
+	display: flex;
+	background: white;
+	border-top: 2px solid;
+	border-bottom: 2px solid;
+	padding: .65em 2em;
+	&__item {
+		text-transform: capitalize;
+		margin-right: 1.5em;
+		cursor: pointer;
+		&[data-active] {
+			font-weight: 600;
+			span {
+				border-bottom: 2px solid $lime;
+			}
+		}
+		&[name='fee-schedule'] {
+		  position: fixed;
+		  top: .7em;
+		  right: 4.5em;
+		  z-index: 1000;
+		  @include btn-green;
+		  &:hover {
+		  	@include btn-black;
+		  	border-color: $lime;
+		  }
+		}
+		&[disabled] {
+			opacity: .25;
+		}
+		i {
+			margin-right: .2em;
+			opacity: .25;
+		}
+		&[data-progress='true'] i {
+			color: $lime;
+			opacity: 1;
+		}
+		&[data-progress='progress'] i {
+			color: $dark-yellow;
+			opacity: 1;
+		}
+	}
+}

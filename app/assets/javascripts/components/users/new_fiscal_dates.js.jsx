@@ -39,6 +39,7 @@ var NewFiscalDates = React.createClass({
         e_y: moment(this.props.certification.fiscal_end).format('Y')
       }
     } else {
+      debugger
       return {
         s_m: '1',
         s_d: '1',
@@ -48,8 +49,6 @@ var NewFiscalDates = React.createClass({
         e_y: moment(new Date).format('Y')
       }
     }
-  },
-  getYears() {
   },
   handleFiscalStartChange(e) {
     var changed = $(e.target).data('id')

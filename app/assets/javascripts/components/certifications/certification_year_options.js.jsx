@@ -41,7 +41,6 @@ var CertificationYearOptions = React.createClass({
       }
     }
     var unique = years.filter( this.getUnique )
-    console.log(unique)
     var options = unique.map( function(year) {
      return (
         <option key={year} value={year}>

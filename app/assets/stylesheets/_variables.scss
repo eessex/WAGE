@@ -11,4 +11,23 @@ $blue: #00aeef;
 $lime: #05fb1a;
 $light-gray: #f7f7f9;
 $med-gray: #eee;
-$yellow: darkorange;
+$yellow: yellow;
+$dark-yellow: gold;
+
+
+@mixin btn-black {
+  background-color: white;
+  font-weight: $font-med;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+@mixin btn-green {
+  background-color: $yellow;
+  font-weight: $font-med;
+  border: 2px solid $lime;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
