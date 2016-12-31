@@ -103,8 +103,7 @@ var FiscalDetails = React.createClass({
     }
     var file_budget_caption = 'A closed out budget for fiscal year ' + moment(this.props.certification.fiscal_end).format('Y') + ' with ‘Artist Fees’ as a distinct line item.'
     return (
-      <form id="financials" className="form col-xs-12">
-
+      <form id="fiscal-details" className="form col-xs-12">
             <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
                 <p>{operating_caption} annual expenses for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</p>

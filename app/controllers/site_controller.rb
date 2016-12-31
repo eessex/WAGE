@@ -5,15 +5,10 @@ class SiteController < ApplicationController
   def index
     @user = current_user
     @fee_categories = FeeCategory.all
-    if current_user.certifications.length > 0
-      @certifications = current_user.certifications
-      @certification = current_user.certifications.first
-      @artist_payments = []
-      @newUser = false
-      if has_submitted(@certifications)
-        render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
-      else
-        render component: 'CertificationView', props: {
+    @newUser = true
+    @certifications = current_user.certifications
+    @certification = current_user.certifications.first || {status: 0, user_id: @user.id, fiscal_start: nil, fiscal_end: nil}
+    @view = render component: 'CertificationView', props: {
             certification: @certification,
             certifications: @certifications,
             artist_payments: @artist_payments,
@@ -21,21 +16,18 @@ class SiteController < ApplicationController
             newUser: @newUser,
             fee_categories: @fee_categories
           }, class: "certification certification--view"
-        # render component: 'newCertification', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: 'new-user-dashboard'
+    if current_user.certifications.length > 0
+      @artist_payments = []
+      if has_submitted(@certifications)
+        @newUser = false
+        render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
+      else
+        @view
       end
     else
-      @newUser = true
       @certifications = []
       @certification = {status: 0, user_id: @user.id, fiscal_start: nil, fiscal_end: nil}
-      # render component: 'newCertification', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: 'new-user-dashboard'
-      render component: 'CertificationView', props: {
-          certification: @certification,
-          certifications: @certifications,
-          artist_payments: @artist_payments,
-          user: @user,
-          newUser: @newUser,
-          fee_categories: @fee_categories
-        }, class: "certification certification--view"
+      @view
     end
   end
 

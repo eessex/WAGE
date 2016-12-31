@@ -7,12 +7,14 @@ var CertificationView = React.createClass({
       certification: this.props.certification,
       user: this.props.user,
       newUser: this.props.newUser,
+      artist_payments: this.props.artist_payments,
       yearStatus: 'future',
       hasFiscalDetails: null,
       hasPayments: null,
       hasContact: null,
       canSubmit: null,
       formattedDate: null,
+      editDates: true,
       errors: {}
     }
   },
@@ -115,6 +117,7 @@ var CertificationView = React.createClass({
   },
   // SAVE & UPDATE
   handleUserUpdate(user) {
+    debugger
     this.isSaved()
     var that = this;
     $.ajax({
@@ -124,12 +127,14 @@ var CertificationView = React.createClass({
       },
       url: '/users' + '.json',
       success: function(res) {
+        debugger
         that.setState({user: user, canSubmit: that.canSubmit(), errors: {}})
         setTimeout(function(){
           that.isSaved()
         }, 150)
       },
       error: function(res) {
+        debugger
         that.setState({errors: res.responseJSON.errors});
         setTimeout(function(){
           that.isSaved()
@@ -162,6 +167,7 @@ var CertificationView = React.createClass({
     });
   },
   handleAddCertification(certification) {
+    debugger
     this.isSaved()
     var that = this;
     $.ajax({
@@ -171,6 +177,7 @@ var CertificationView = React.createClass({
       },
       url: '/certifications.json',
       success: function(res) {
+        debugger
         setTimeout(function(){
           that.isSaved()
         }, 150)
@@ -179,6 +186,7 @@ var CertificationView = React.createClass({
         that.setState({certifications: certifications, certification: res, errors: {}})
       },
       error: function(res) {
+        debugger
         that.setState({errors: res.responseJSON.errors})
       }
     });
@@ -187,6 +195,11 @@ var CertificationView = React.createClass({
     var certification = this.state.certification
     certification.status = 2
     this.handleCertificationUpdate(certification)
+  },
+  handleAddArtistPayment(artist_payment) {
+    var artist_payments = this.state.artist_payments
+    artist_payments.push(artist_payment)
+    this.setState({artist_payments: artist_payments})
   },
   // FORMAT HELPERS
   formatDates() {
@@ -199,15 +212,21 @@ var CertificationView = React.createClass({
     return formatted_date
   },
   // CONTENT OPTIONS
+  toggleEditDates() {
+
+  },
   printContent() {
     var title
     var subtitle
     var body
     var position = this.state.navPosition
+    if (this.state.certification.fiscal_start) {
+      var fiscalYear = <h5>Fiscal Year: {this.state.formattedDate}</h5>
+    }
     if (menu[position] == 'guidelines') {
       title = <h1>Application Guidelines</h1>
       body = <CertificationGuidelines
-              yearStatus={this.state.yearStatus}/>
+              yearStatus={this.state.yearStatus} />
     }
     if (menu[position] == 'contact') {
       title = <h1>Contact Information</h1>
@@ -219,17 +238,28 @@ var CertificationView = React.createClass({
     if (menu[position] == 'fiscal-details') {
       title = <div className='title'>
                 <h1>Fiscal Details</h1>
-                <h5>Fiscal Year: {this.state.formattedDate}</h5>
+                {fiscalYear}
               </div>
-      body = <FiscalDetails
-              certification={this.state.certification}
-              user={this.state.user}
-              certifications={this.props.certifications}
-              handleCertificationUpdate={this.handleCertificationUpdate}
-              canSubmit={this.state.canSubmit}
-              handleUserUpdate={this.handleUserUpdate}
-              newUser={this.state.newUser}
-              yearStatus={this.state.yearStatus} />
+      body = <div>
+              <FiscalDates
+                user={this.state.user}
+                certification={this.state.certification}
+                editDates={this.state.editDates}
+                toggleEditDates={this.toggleEditDates}
+                formatDates={this.formatDates}
+                handleCertificationUpdate={this.handleCertificationUpdate}
+                handleUserUpdate={this.handleUserUpdate}
+                handleAddCertification={this.handleAddCertification}/>
+              <FiscalDetails
+                certification={this.state.certification}
+                user={this.state.user}
+                certifications={this.props.certifications}
+                handleCertificationUpdate={this.handleCertificationUpdate}
+                canSubmit={this.state.canSubmit}
+                handleUserUpdate={this.handleUserUpdate}
+                newUser={this.state.newUser}
+                yearStatus={this.state.yearStatus} />
+              </div>
     }
     if (menu[position] == 'statement') {
       title = <h1>Statement of Intent</h1>
@@ -239,12 +269,33 @@ var CertificationView = React.createClass({
     }
     if (menu[position] == 'fee-tracker') {
       title = <h1>Fee Tracker</h1>
+      body = <ArtistPaymentNew
+              certification={this.props.certification}
+              fee_categories={this.props.fee_categories}
+              formatted_dates={this.state.formattedDate}
+              newUser={this.state.newUser}
+              yearStatus={this.state.yearStatus}
+              handleCertificationUpdate={this.handleCertificationUpdate} />
     }
     if (menu[position] == 'review') {
       title = <h1>Review</h1>
     }
     if (menu[position] == 'fee-schedule') {
-      title = <h1>Fee Schedule</h1>
+      var operating_expenses
+      if (this.state.certification.operating_expenses) {
+        operating_expenses = <h5>{'TAOE: $' + Number(this.state.certification.operating_expenses).toLocaleString()}</h5>
+      } else {
+        operating_expenses = <h5>* estimated for operating expenses $500K and under</h5>
+      }
+      title = <div className='title'>
+          <h1>Fee Schedule</h1>
+          {fiscalYear}
+        </div>
+      body = <FeeSchedule
+              user={this.state.user}
+              certification={this.state.certification}
+              fee_categories={this.props.fee_categories} />
+
     }
     return (
         <div className={'certification-view__content certification-view--' + menu[position]}>

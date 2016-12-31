@@ -48,33 +48,36 @@ var FiscalDates = React.createClass({
       }
     }
   },
-  handleFiscalStartChange(e) {
+  handleInputChange(e) {
     var changed = $(e.target).data('id')
-    this.setState({[changed]: e.target.value});
     var newState = this.state
     newState[changed] = e.target.value
-    this.autoSetEnd(newState)
-  },
-  handleFiscalEndChange(e) {
-    var changed = $(e.target).data('id')
-    this.setState({[changed]: e.target.value});
-    var newState = this.state
-    newState[changed] = e.target.value
-    this.autoSetStart(newState)
+    if (changed == 's_m' || changed == 's_d') {
+      this.autoSetEnd(newState)
+    } else {
+      this.autoSetStart(newState)
+    }
+    this.handleUserUpdate(newState)
   },
   autoSetEnd(newState){
-    var plusYear = moment(YEAR + "-" + newState.s_m + "-" + newState.s_d)
-    plusYear.add(1, 'year')
-    plusYear.subtract(1, 'day')
-    this.setState({e_m: plusYear.format('M'),
-     e_d: plusYear.format('D'), e_y: plusYear.format('Y')})
+    var plusYear = moment(newState.s_y + "-" + newState.s_m + "-" + newState.s_d).format()
+    plusYear = moment(plusYear).add(1, 'year')
+    plusYear = moment(plusYear).subtract(1, 'day')
+    newState.e_m = plusYear.format('M')
+    newState.e_d = plusYear.format('D')
+    newState.e_y = plusYear.format('Y')
+    this.setState(newState)
+    this.handleUserUpdate(newState)
   },
   autoSetStart(newState){
     var plusYear = moment(YEAR + "-" + newState.e_m + "-" + newState.e_d)
-    plusYear.subtract(1, 'year')
-    plusYear.add(1, 'day')
-    this.setState({s_m: plusYear.format('M'),
-     s_d: plusYear.format('D')})
+    plusYear = moment(plusYear).subtract(1, 'year')
+    plusYear = moment(plusYear).add(1, 'day')
+    newState.s_m = plusYear.format('M')
+    newState.s_d = plusYear.format('D')
+    newState.s_y = plusYear.format('Y')
+    this.setState(newState)
+    this.handleUserUpdate(newState)
   },
   FormatDates() {
     var newStartDate = this.state.s_y + "-" + this.state.s_m + "-" + this.state.s_d
@@ -96,7 +99,7 @@ var FiscalDates = React.createClass({
     this.setState({certification: newCertification, user: newUser})
     return {certification: newCertification, user: newUser}
   },
-  handleUserUpdate() {
+  handleUserUpdate(user) {
     var user = this.handleFormatDates().user
     this.props.handleUserUpdate(user)
     this.setState({ errors: {} });
@@ -126,6 +129,33 @@ var FiscalDates = React.createClass({
     }
     return { s_d: s_days, e_d: e_days }
   },
+  setYears() {
+    var today = new Date
+    var years = []
+    var plusYear = ""
+    var currentYear = ""
+    // current year is valid
+    if ( (moment(this.props.user.fiscal_start) < moment(today).add(90, 'days')) && (moment(today) < moment(this.props.user.fiscal_end)) ) {
+      currentYear = moment(this.props.user.fiscal_end).format('Y')
+      years.push( parseInt(currentYear) )
+    }
+    // if upcoming year is valid
+    if (moment(this.props.user.fiscal_start).add(1, 'year') < moment(today).add(90, 'days')) {
+      if (moment(this.props.user.fiscal_start).add(2, 'years').subtract(1,'days').format('Y') != currentYear) {
+        plusYear = moment(this.props.user.fiscal_start).add(2, 'years').subtract(1,'days').format('Y')
+        years.push( parseInt(plusYear) )
+      }
+    }
+    var unique = years.filter( this.getUnique )
+    var options = unique.map( function(year) {
+     return (
+        <option key={year} value={year}>
+          {year}
+        </option>
+      )
+    })
+    return options
+  },
   render() {
     var options_months = MONTHS.map( function(month, i) {
       var index = i + 1
@@ -153,24 +183,34 @@ var FiscalDates = React.createClass({
         </option>
       )
     });
-    var date_save = <div id="actions">
-            <button
-              className="btn btn-lg save"
-              onClick={this.handleUserUpdate}>
-              Save
-            </button>
-          </div>
-    var date_edit = <button
-                  className="btn btn-sm edit"
-                  onClick={this.props.toggleEditDates}>
-                  Edit
-                </button>
+    var options_end_years = []
+    options_end_years.push(this.state.e_y)
+    options_end_years = options_end_years.map( function(i) {
+      var day = i
+      return (
+        <option key={day} value={day}>
+          {day}
+        </option>
+      )
+    });
+    // var date_save = <div id="actions">
+    //         <button
+    //           className="btn btn-lg save"
+    //           onClick={this.handleUserUpdate}>
+    //           Save
+    //         </button>
+    //       </div>
+    // var date_edit = <button
+    //               className="btn btn-sm edit"
+    //               onClick={this.props.toggleEditDates}>
+    //               Edit
+    //             </button>
 
-    if (this.props.editDates) {
-      var actions = date_save
-    } else {
-      var actions = date_edit
-    }
+    // if (this.props.editDates) {
+    //   var actions = date_save
+    // } else {
+    //   var actions = date_edit
+    // }
     var fiscal_dates_form = <div className="form">
             <div className="col col-sm-6">
               <h4>Fiscal Period Start</h4>
@@ -180,7 +220,7 @@ var FiscalDates = React.createClass({
                 data-id="s_m"
                 className="form-control"
                 value={this.state.s_m}
-                onChange={this.handleFiscalStartChange}
+                onChange={this.handleInputChange}
                 >
                   {options_months}
                 </select>
@@ -189,7 +229,7 @@ var FiscalDates = React.createClass({
                   data-id="s_d"
                   className="form-control"
                   value={this.state.s_d}
-                  onChange={this.handleFiscalStartChange}
+                  onChange={this.handleInputChange}
                   >
                   {options_start_days}
                 </select>
@@ -203,7 +243,7 @@ var FiscalDates = React.createClass({
                   data-id="e_m"
                   className="form-control"
                   value={this.state.e_m}
-                  onChange={this.handleFiscalEndChange}
+                  onChange={this.handleInputChange}
                   >
                   {options_months}
                   </select>
@@ -212,16 +252,24 @@ var FiscalDates = React.createClass({
                     data-id="e_d"
                     className="form-control"
                     value={this.state.e_d}
-                    onChange={this.handleFiscalEndChange}
+                    onChange={this.handleInputChange}
                     >
                     {options_end_days}
                   </select>
+                <select
+                  type='text'
+                  data-id="e_y"
+                  className="form-control"
+                  value={this.state.e_y}
+                  onChange={this.handleInputChange}
+                  >
+                  {options_end_years}
+                </select>
                 </div>
             </div>
-            {actions}
           </div>
 
-    var fiscal_dates_show = <h4 className="saved-dates">{actions}</h4>
+    var fiscal_dates_show = <h4 className="saved-dates"></h4>
 
     if (this.props.editDates) {
       var fiscal_dates = fiscal_dates_form
