@@ -1,10 +1,11 @@
-var menu = ['guidelines', 'contact', 'fiscal-details', 'statement', 'fee-tracker', 'review', 'fee-schedule']
+var menu = ['guidelines', 'contact', 'fiscal-details', 'materials', 'fee-tracker', 'review', 'fee-schedule']
 
 var CertificationView = React.createClass({
   getInitialState() {
     return {
       navPosition: 0,
       certification: this.props.certification,
+      certifications: this.props.certifications,
       user: this.props.user,
       newUser: this.props.newUser,
       artist_payments: this.props.artist_payments,
@@ -30,6 +31,9 @@ var CertificationView = React.createClass({
   // NAVIGATION
   navigateMenu(item) {
     this.setState({navPosition: item})
+  },
+  goNext(e) {
+    this.setState({navPosition: this.state.navPosition + 1})
   },
   // CERTIFICATION STATUS
   canSubmit() {
@@ -117,7 +121,6 @@ var CertificationView = React.createClass({
   },
   // SAVE & UPDATE
   handleUserUpdate(user) {
-    debugger
     this.isSaved()
     var that = this;
     $.ajax({
@@ -127,14 +130,12 @@ var CertificationView = React.createClass({
       },
       url: '/users' + '.json',
       success: function(res) {
-        debugger
         that.setState({user: user, canSubmit: that.canSubmit(), errors: {}})
         setTimeout(function(){
           that.isSaved()
         }, 150)
       },
       error: function(res) {
-        debugger
         that.setState({errors: res.responseJSON.errors});
         setTimeout(function(){
           that.isSaved()
@@ -167,7 +168,6 @@ var CertificationView = React.createClass({
     });
   },
   handleAddCertification(certification) {
-    debugger
     this.isSaved()
     var that = this;
     $.ajax({
@@ -177,7 +177,6 @@ var CertificationView = React.createClass({
       },
       url: '/certifications.json',
       success: function(res) {
-        debugger
         setTimeout(function(){
           that.isSaved()
         }, 150)
@@ -186,14 +185,13 @@ var CertificationView = React.createClass({
         that.setState({certifications: certifications, certification: res, errors: {}})
       },
       error: function(res) {
-        debugger
         that.setState({errors: res.responseJSON.errors})
       }
     });
   },
   onCertificationSubmit() {
     var certification = this.state.certification
-    certification.status = 2
+    certification.status = 1
     this.handleCertificationUpdate(certification)
   },
   handleAddArtistPayment(artist_payment) {
@@ -212,45 +210,50 @@ var CertificationView = React.createClass({
     return formatted_date
   },
   // CONTENT OPTIONS
-  toggleEditDates() {
-
+  showNext() {
+    var position = this.state.navPosition
+    var next
+    if (menu[position] != 'fee-schedule' &&
+        menu[position] != 'review') {
+      next = <button className='btn btn-lg' onClick={this.goNext}>Next <i className='fa fa-long-arrow-right'></i></button>
+    }
+    return next
   },
   printContent() {
     var title
     var subtitle
     var body
+    var next = this.showNext()
     var position = this.state.navPosition
     if (this.state.certification.fiscal_start) {
       var fiscalYear = <h5>Fiscal Year: {this.state.formattedDate}</h5>
     }
     if (menu[position] == 'guidelines') {
-      title = <h1>Application Guidelines</h1>
+      title = 'Application Guidelines'
       body = <CertificationGuidelines
               yearStatus={this.state.yearStatus} />
     }
     if (menu[position] == 'contact') {
-      title = <h1>Contact Information</h1>
+      title = 'Contact Information'
       body = <UserContact
               user={this.state.user}
               errors={this.state.errors}
               handleUserUpdate={this.handleUserUpdate} />
     }
     if (menu[position] == 'fiscal-details') {
-      title = <div className='title'>
-                <h1>Fiscal Details</h1>
-                {fiscalYear}
-              </div>
+      title = 'Fiscal Details'
       body = <div>
               <FiscalDates
                 user={this.state.user}
                 certification={this.state.certification}
+                newUser={this.state.newUser}
                 editDates={this.state.editDates}
                 toggleEditDates={this.toggleEditDates}
                 formatDates={this.formatDates}
                 handleCertificationUpdate={this.handleCertificationUpdate}
                 handleUserUpdate={this.handleUserUpdate}
                 handleAddCertification={this.handleAddCertification}/>
-              <FiscalDetails
+              <FinancialDetails
                 certification={this.state.certification}
                 user={this.state.user}
                 certifications={this.props.certifications}
@@ -261,15 +264,17 @@ var CertificationView = React.createClass({
                 yearStatus={this.state.yearStatus} />
               </div>
     }
-    if (menu[position] == 'statement') {
-      title = <h1>Statement of Intent</h1>
-      body = <UserStatement
+    if (menu[position] == 'materials') {
+      title = 'Supplemental Materials'
+      body = <CertificationMaterials
               user={this.state.user}
-              handleUserUpdate={this.handleUserUpdate} />
+              certification={this.props.certification}
+              handleUserUpdate={this.handleUserUpdate}
+              handleCertificationUpdate={this.handleCertificationUpdate} />
     }
     if (menu[position] == 'fee-tracker') {
-      title = <h1>Fee Tracker</h1>
-      body = <ArtistPaymentNew
+      title = 'Fee Tracker'
+      body = <FeeTrackerNew
               certification={this.props.certification}
               fee_categories={this.props.fee_categories}
               formatted_dates={this.state.formattedDate}
@@ -278,19 +283,32 @@ var CertificationView = React.createClass({
               handleCertificationUpdate={this.handleCertificationUpdate} />
     }
     if (menu[position] == 'review') {
-      title = <h1>Review</h1>
+      title = 'Review'
+      body = <Review
+          user={this.state.user}
+          certification={this.props.certification}
+          certifications={this.props.certifications}
+          formatted_dates={this.state.formattedDate}
+          artist_payments={this.props.artist_payments}
+          yearStatus={this.state.yearStatus}
+          handleSubmit={this.onCertificationSubmit}
+          // _sortRowsBy={this._sortRowsBy}
+          // paymentsSorted={this.paymentsSorted}
+          // isEdit="false"
+          fee_categories={this.props.fee_categories} />
     }
     if (menu[position] == 'fee-schedule') {
       var operating_expenses
       if (this.state.certification.operating_expenses) {
-        operating_expenses = <h5>{'TAOE: $' + Number(this.state.certification.operating_expenses).toLocaleString()}</h5>
+        operating_expenses = <h5>{'TAOE: $' + Number(this.props.certification.operating_expenses).toLocaleString()}</h5>
       } else {
-        operating_expenses = <h5>* estimated for operating expenses $500K and under</h5>
+        operating_expenses = <h5>* estimated for operating expenses at or under $500K</h5>
       }
-      title = <div className='title'>
-          <h1>Fee Schedule</h1>
-          {fiscalYear}
-        </div>
+      title = 'Fee Schedule'
+      subtitle = <div>
+                  {fiscalYear}
+                  {operating_expenses}
+                </div>
       body = <FeeSchedule
               user={this.state.user}
               certification={this.state.certification}
@@ -299,7 +317,12 @@ var CertificationView = React.createClass({
     }
     return (
         <div className={'certification-view__content certification-view--' + menu[position]}>
-          {title}{body}
+          <div className='certification-view__header'>
+            <h1>{title}</h1>
+            <div className='certification-view__subtitle'>{subtitle}</div>
+          </div>
+          <div className='certification-view__body'>{body}</div>
+          <div className='certification-view__next'>{next}</div>
         </div>
       )
   },

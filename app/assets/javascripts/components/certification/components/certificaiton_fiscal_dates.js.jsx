@@ -16,7 +16,7 @@ var FiscalDates = React.createClass({
     }
   },
   hasCertifications() {
-    if (this.props.certification && this.props.certification.fiscal_start) {
+    if (this.props.certification && this.props.certification.fiscal_start && this.props.certification.fiscal_end) {
       return this.props.certification
     } else {
       return {
@@ -103,10 +103,12 @@ var FiscalDates = React.createClass({
     var user = this.handleFormatDates().user
     this.props.handleUserUpdate(user)
     this.setState({ errors: {} });
-    if (this.state.certification.id != null) {
+    if (this.props.certification.id != null) {
+      debugger
       this.props.handleCertificationUpdate(this.handleFormatDates().certification)
-      this.props.toggleEditDates()
+      // this.props.toggleEditDates()
     } else {
+      debugger
       this.props.handleAddCertification(this.handleFormatDates().certification)
     }
   },
@@ -129,32 +131,56 @@ var FiscalDates = React.createClass({
     }
     return { s_d: s_days, e_d: e_days }
   },
-  setYears() {
+  getUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  },
+  isFirstYear() {
+    if (this.props.newUser == true) {
+      return this.getEndYears().end_years
+    } else {
+      debugger
+    }
+  },
+  getEndYears() {
     var today = new Date
-    var years = []
+    var start_years = []
+    var end_years = []
     var plusYear = ""
     var currentYear = ""
     // current year is valid
-    if ( (moment(this.props.user.fiscal_start) < moment(today).add(90, 'days')) && (moment(today) < moment(this.props.user.fiscal_end)) ) {
-      currentYear = moment(this.props.user.fiscal_end).format('Y')
-      years.push( parseInt(currentYear) )
+    if ( (moment(this.props.certification.fiscal_start) < moment(today).add(90, 'days')) && (moment(today) < moment(this.props.certification.fiscal_end)) ) {
+      currentYear = moment(this.props.certification.fiscal_end).format('Y')
+      end_years.push( parseInt(currentYear) )
+    }
+    if ( (moment(this.props.certification.fiscal_start) < moment(today).add(90, 'days')) && (moment(today) < moment(this.props.certification.fiscal_end)) ) {
+      currentYear = moment(this.props.certification.fiscal_end).format('Y')
+      end_years.push( parseInt(currentYear) )
     }
     // if upcoming year is valid
-    if (moment(this.props.user.fiscal_start).add(1, 'year') < moment(today).add(90, 'days')) {
-      if (moment(this.props.user.fiscal_start).add(2, 'years').subtract(1,'days').format('Y') != currentYear) {
-        plusYear = moment(this.props.user.fiscal_start).add(2, 'years').subtract(1,'days').format('Y')
-        years.push( parseInt(plusYear) )
+    if (moment(this.props.certification.fiscal_start).add(1, 'year') < moment(today).add(90, 'days')) {
+      if (moment(this.props.certification.fiscal_start).add(2, 'years').subtract(1,'days').format('Y') != currentYear) {
+        plusYear = moment(this.props.certification.fiscal_start).add(2, 'years').subtract(1,'days').format('Y')
+        end_years.push( parseInt(plusYear) )
       }
     }
-    var unique = years.filter( this.getUnique )
-    var options = unique.map( function(year) {
+
+    if (moment(this.props.certification.fiscal_start) > moment(today).add(90, 'days')) {
+      // end_years.push( moment(this.props.certification.fiscal_start).subtract(1, 'year').format('Y') )
+    } else if (!this.props.certification.fiscal_start) {
+      end_years.push( parseInt(moment(today).format('Y')) )
+    }
+    var unique_start
+    var unique_end = end_years.filter( this.getUnique )
+    // debugger
+    var options_start
+    var options_end = unique_end.map( function(year) {
      return (
         <option key={year} value={year}>
           {year}
         </option>
       )
     })
-    return options
+    return { end_years: options_end, start_years: options_start }
   },
   render() {
     var options_months = MONTHS.map( function(month, i) {
@@ -193,27 +219,19 @@ var FiscalDates = React.createClass({
         </option>
       )
     });
-    // var date_save = <div id="actions">
-    //         <button
-    //           className="btn btn-lg save"
-    //           onClick={this.handleUserUpdate}>
-    //           Save
-    //         </button>
-    //       </div>
-    // var date_edit = <button
-    //               className="btn btn-sm edit"
-    //               onClick={this.props.toggleEditDates}>
-    //               Edit
-    //             </button>
-
-    // if (this.props.editDates) {
-    //   var actions = date_save
-    // } else {
-    //   var actions = date_edit
-    // }
-    var fiscal_dates_form = <div className="form">
+    var options_start_years = []
+    options_start_years.push(this.state.s_y)
+    options_start_years = options_start_years.map( function(i) {
+      var day = i
+      return (
+        <option key={day} value={day}>
+          {day}
+        </option>
+      )
+    });
+    var fiscal_dates_form = <div className="financials financials--fiscal_dates">
             <div className="col col-sm-6">
-              <h4>Fiscal Period Start</h4>
+              <h6>Start Date</h6>
               <div className="field-group">
               <select
                 type='text'
@@ -233,10 +251,19 @@ var FiscalDates = React.createClass({
                   >
                   {options_start_days}
                 </select>
+                <select
+                  type='text'
+                  data-id="s_y"
+                  className="form-control"
+                  value={this.state.s_y}
+                  onChange={this.handleInputChange}
+                  >
+                  {options_start_years}
+                </select>
               </div>
             </div>
             <div className="col col-sm-6">
-              <h4>Fiscal Period End</h4>
+              <h6>End Date</h6>
               <div className="field-group">
                 <select
                   type='text'
@@ -263,7 +290,7 @@ var FiscalDates = React.createClass({
                   value={this.state.e_y}
                   onChange={this.handleInputChange}
                   >
-                  {options_end_years}
+                  {this.isFirstYear()}
                 </select>
                 </div>
             </div>
@@ -279,6 +306,8 @@ var FiscalDates = React.createClass({
 
     return (
       <div id="fiscal-dates">
+        <h4>Fiscal Period</h4>
+        <p>Your first application must be for a current or upcoming fiscal year.</p>
         {fiscal_dates}
      </div>
     );

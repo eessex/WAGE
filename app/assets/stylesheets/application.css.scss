@@ -20,12 +20,13 @@
 
  @import "variables";
  @import "./users";
- @import "./certifications";
- @import "./new_user_dashboard";
  @import "./artist_payments";
  @import "./fee_schedule";
- @import "./user_statement";
+ @import "./financials";
+ @import "./direct_upload";
  @import "./certification/certification_menu";
+ @import "./certification/certification_view";
+
 
 body {
   font-family: $font-stack;
@@ -108,63 +109,24 @@ h4 {
 h5 {
     font-size: 15px;
 }
-.directUpload {
-  position: relative;
-  &__input {
-    position: relative;
-  }
-  label {
-    h4 {
-      margin: .25em 0;
-    }
-    p {
-      margin: 0 0 .5em 0;
-      font-weight: normal;
-    }
-  }
-  p.form-control {
-    // font-size: smaller;
-  }
-  .directUpload__has_file {
-    font-size: 11.75px;
-    position: relative;
-    display: flex;
-    .filename {
-      line-height: 2em;
-      height: 1.5em;
-      overflow: hidden;
-      margin-left: 8px;
-    }
-  }
-  .progress {
-    width: 50%;
-    position: absolute;
-    top: 7px;
-    margin-right: 8px;
-    right: 0;
-    .bar {
-      padding-left: 10px;
-      font-size: 11px;
-      height: 100%;
-      padding-top: 1px;
-    }
-  }
-  span.req {
-    position: absolute;
-    top: .45em;
-    font-size: 20px;
-    right: .65em;
-  }
-  span.req.green {
-    color: lime;
-  }
+h6 {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.col {
+  padding-left: 0;
+}
+.col:last-child {
+  padding-right: 0;
 }
 
 .req {
   color: red;
 }
 
-.field-group .req {
+.field-group .req,
+.input-group .req {
   position: absolute;
   right: 1.5em;
   top: 0.45em;
@@ -175,8 +137,12 @@ h5 {
   }
 }
 
+.input-group.input-group__addon .req {
+  right: 3em;
+  z-index: 100;
+}
 
-#registrations-new nav,
+/*#registrations-new nav,
 #registrations-create nav,
 #site-guidelines nav,
 #sessions-new nav,
@@ -190,7 +156,8 @@ h5 {
   .btn {
     z-index: 3000;
   }
-}
+}*/
+
 nav {
   background-color: $blue;
   height: 4em;
@@ -283,7 +250,6 @@ main {
     left: -1px;
   }
   form, .form {
-    margin: 2em 0;
     clear: both;
     label {
       min-width: 7em;
@@ -293,6 +259,13 @@ main {
       padding-left: 0;
       clear: both;
       display: flex;
+    }
+    .field-group {
+      align-content: center;
+      margin-bottom: 2em;
+      h4 {
+        margin: 0;
+      }
     }
     .helper{
       text-align: right;

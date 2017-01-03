@@ -1,4 +1,4 @@
- var ArtistPaymentNew = React.createClass({
+ var FeeTrackerNew = React.createClass({
   getInitialState() {
     return {
       artist_payment: {
@@ -10,6 +10,7 @@
         check_no: '',
         certification_id: this.props.certification.id,
       },
+      showForm: true,
       errors: {}
     }
   },
@@ -78,8 +79,53 @@
       }
     });
   },
+  toggleQbPl() {
+    this.setState({ showForm: false })
+  },
+  toggleTracker() {
+    this.setState({ showForm: true })
+  },
+  showForms() {
+    var disabled
+    if (this.props.yearStatus == 'future') {
+      disabled = ' disabled'
+    }
+    if (this.state.showForm) {
+      return (
+        <div className={'fee-tracker__payments new-form' + disabled}>
+          <div className='title'>
+            <h3>Create A New Payment</h3>
+            <h6 onClick={this.toggleQbPl}>Upload Quickbooks File</h6>
+          </div>
+          {this.newForm()}
+        </div>
+      )
+    } else {
+      return (
+        <div className={'fee-tracker__payments ql-pl' + disabled}>
+        <div className='title'>
+          <h3>Upload Quickbooks File</h3>
+          <h6 onClick={this.toggleTracker}>Create A New Payment</h6>
+        </div>
+         {this.formQbPl()}
+        </div>
+      )
+    }
+  },
   formQbPl() {
-    var qb_pl = <QbPl certification={this.props.certification} handleCertificationUpdate={this.props.handleCertificationUpdate} yearStatus={this.props.yearStatus} />
+    var disabled
+    if (this.props.yearStatus == 'future') {
+      disabled = true
+    } else {
+      disabled = false
+    }
+    var qb_pl = <UploadFile
+        model={this.props.certification}
+        required='true'
+        type='qb_pl'
+        disabled={disabled}
+        handleFileUpdate={this.props.handleCertificationUpdate}
+        accept='application/pdf' />
     return qb_pl
   },
   newForm() {
@@ -98,13 +144,7 @@
       disabled = true
     }
     var form
-    form = <div className="new-payment">
-      <UploadFile
-        model={this.props.certification}
-        required='true'
-        type='qb_pl'
-        handleFileUpdate={this.props.handleCertificationUpdate}
-        accept='application/pdf' />
+    form = <div className="form">
       <div className="form">
         <div className="col col-xs-12 col-md-6">
           <div className="form-group">
@@ -181,19 +221,38 @@
     </div>
     return form
   },
-  render() {
+  showTrackerLink() {
+    var link
     if (this.props.yearStatus == 'future') {
-      var isStarted = "Once your fiscal year has started, c"
+      if (this.state.showForm) {
+        link = <span>Once your fiscal year has started, you are required to create an entry</span>
+      } else {
+        link = <span>Once your fiscal year has started, you are required to <a onClick={this.toggleTracker}>create an entry</a></span>
+      }
+    } else if (this.state.showForm) {
+      link = <a onClick={this.toggleTracker}>Create an entry</a>
     } else {
-      var isStarted = "C"
+      link = <span>Create an entry</span>
     }
+    return link
+  },
+  showQbPlLink() {
+    var link
+    if (this.state.showForm) {
+      link = <span>Alternatively, you may <a onClick={this.toggleQbPl}>upload a Quickbooks P&L.</a></span>
+    } else {
+      link = <span>Alternatively, you may upload a Quickbooks P&L.</span>
+    }
+    return link
+  },
+  render() {
     return (
-      <div id="artist_payments" className="artist_payments new container">
-        <div className="intro">
+      <div id="fee-tracker" className="fee-tracker fee-tracker--new">
+        <div className="fee-tracker__intro">
           <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
-          <h4>{isStarted}reate an entry for each fee payment to an artist between {this.props.formatted_dates}. Alternatively, you may submit a Quickbooks P&L.</h4>
+          <h4>{this.showTrackerLink()} for each fee payment to an artist between {this.props.formatted_dates}. Alternatively, you may {this.showQbPlLink()}</h4>
         </div>
-        {this.newForm()}
+        {this.showForms()}
       </div>
       );
     }

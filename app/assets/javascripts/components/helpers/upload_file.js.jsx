@@ -121,6 +121,7 @@ var UploadFile = React.createClass({
           type="file"
           className="form-control"
           id={type}
+          disabled={this.props.disabled}
           accept={this.props.accept}
           />
         <div className='progress'><div className={type + ' bar'}><div className='bar'>{accepted}</div></div></div>

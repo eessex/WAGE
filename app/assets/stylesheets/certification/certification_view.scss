@@ -1,0 +1,73 @@
+ @import "variables";
+
+.certification-view {
+	&__content {
+		padding: 2.25em 2em;
+	}
+
+	&__header {
+		margin-top: 0;
+		margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+		h1 {
+	    border-bottom: 2px solid lime;
+	    margin-top: 0;
+  	}
+  }
+
+  &__body {
+  	max-width: 750px;
+  }
+  &__next {
+    position: fixed;
+    bottom: 10px;
+    right: 1.5em;
+  }
+/* end certification-view */
+}
+
+.certification-view--fee-tracker {
+	padding: 2.25em 0 ;
+	.certification-view__header {
+		padding: 0 2em;
+	}
+	.certification-view__body {
+		max-width: 100%;
+	}
+}
+	.fee-tracker__intro {
+		max-width: 750px;
+		padding: 0em 0 4em 2em;
+	}
+	.fee-tracker__payments {
+		background-color: white;
+		padding: 2em;
+		border-top: 2px solid;
+		border-bottom: 2px solid;
+		&.disabled {
+			color: #999;
+			background: none transparent;
+			border-color: #999;
+			.form-control[disabled], fieldset[disabled] .form-control, input:disabled {
+				color: #999;
+			}
+		}
+		.title {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 2em;
+			h3 {
+				margin: 0;
+				padding-top: .25em;
+			}
+			h6 {
+				cursor: pointer;
+				&:hover {
+					background-color: $blue;
+				}
+			}
+		}
+	}

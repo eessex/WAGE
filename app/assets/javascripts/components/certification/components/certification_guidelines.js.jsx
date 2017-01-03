@@ -63,6 +63,7 @@ var CertificationGuidelines = React.createClass({
             <li>Your most recent 990</li>
             <li>Your 501c3 determination letter or documentation of fiscal sponsorship</li>
             <li>Templates of contracts used with artists</li>
+            <li>A statement of intent on your organization’s letterhead</li>
           </ul>
         </h4>
         <h4>These documents only need to be submitted once.</h4>

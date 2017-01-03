@@ -1,3 +1,9 @@
+.certification-view--fee-schedule {
+  .certification-view__body {
+    min-width: 100%;
+  }
+}
+
 [data-react-class='FeeSchedule'] {
   max-width: 850px;
   margin: 2em auto;

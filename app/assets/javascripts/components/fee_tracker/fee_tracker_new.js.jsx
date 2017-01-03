@@ -1,4 +1,4 @@
- var ArtistPaymentNew = React.createClass({
+ var FeeTrackerNew = React.createClass({
   getInitialState() {
     return {
       artist_payment: {
@@ -98,7 +98,7 @@
       disabled = true
     }
     var form
-    form = <div className="new-payment">
+    form = <div className="form">
       <UploadFile
         model={this.props.certification}
         required='true'
@@ -176,7 +176,7 @@
             <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
           </div>
         </div>
-        <div id="actions" className="field-group"><button onClick={this.addArtistPayment} disabled={disabled} className="btn btn-lg">Save <i className="fa fa-plus" aria-hidden="true"></i></button></div>
+        <div id="actions" className="field-group"><button onClick={this.addArtistPayment} disabled={disabled} className="btn btn-lg"><i className="fa fa-plus" aria-hidden="true"></i> Create New Payment</button></div>
       </div>
     </div>
     return form
@@ -188,7 +188,7 @@
       var isStarted = "C"
     }
     return (
-      <div id="artist_payments" className="artist_payments new container">
+      <div id="artist_payments" className="fee-tracker fee-tracker__new-form">
         <div className="intro">
           <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
           <h4>{isStarted}reate an entry for each fee payment to an artist between {this.props.formatted_dates}. Alternatively, you may submit a Quickbooks P&L.</h4>
