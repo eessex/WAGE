@@ -284,8 +284,9 @@ var CertificationView = React.createClass({
     }
     if (menu[position] == 'review') {
       title = 'Review'
-      body = <Review
+      body = <CertificationReview
           user={this.state.user}
+          newUser={this.state.newUser}
           certification={this.props.certification}
           certifications={this.props.certifications}
           formatted_dates={this.state.formattedDate}
