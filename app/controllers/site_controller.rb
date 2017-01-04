@@ -5,29 +5,22 @@ class SiteController < ApplicationController
   def index
     @user = current_user
     @fee_categories = FeeCategory.all
-    @newUser = true
     @certifications = current_user.certifications
-    @certification = current_user.certifications.first || {status: 0, user_id: @user.id, fiscal_start: nil, fiscal_end: nil}
-    @view = render component: 'CertificationView', props: {
-            certification: @certification,
-            certifications: @certifications,
-            artist_payments: @artist_payments,
-            user: @user,
-            newUser: @newUser,
-            fee_categories: @fee_categories
-          }, class: "certification certification--view"
-    if current_user.certifications.length > 0
-      @artist_payments = []
-      if has_submitted(@certifications)
-        @newUser = false
-        render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
-      else
-        @view
-      end
+    @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
+    if has_submitted(@certifications)
+      @newUser = false
+      render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
     else
-      @certifications = []
-      @certification = {status: 0, user_id: @user.id, fiscal_start: nil, fiscal_end: nil}
-      @view
+      @newUser = true
+      @artist_payments = []
+      render component: 'CertificationView', props: {
+          certification: @certification,
+          certifications: @certifications,
+          artist_payments: @artist_payments,
+          user: @user,
+          newUser: @newUser,
+          fee_categories: @fee_categories
+        }, class: "certification certification--view"
     end
   end
 
@@ -48,6 +41,13 @@ class SiteController < ApplicationController
       end
     end
     return false
+  end
+
+  def new_dates
+    y = Date.today.year
+    s_d = Date.new(y, 1, 1)
+    e_d = Date.new(y + 1, 12, 31)
+    return {s_d: s_d, e_d: e_d}
   end
 
   helper_method :resource_name, :resource, :devise_mapping

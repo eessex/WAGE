@@ -23,13 +23,18 @@
 		}
 		&[name='fee-schedule'] {
 		  position: fixed;
-		  top: .7em;
-		  right: 4.5em;
+		  bottom: .5em;
+		  left: 1.5em;
 		  z-index: 1000;
+		  padding: 10px 16px !important;
+  	  font-size: 18px;
 		  @include btn-green;
 		  &:hover {
 		  	@include btn-black;
 		  	border-color: $lime;
+		  }
+		  &[data-active] {
+		  	display: none;
 		  }
 		}
 		&[disabled] {
