@@ -6,6 +6,11 @@
 	border-top: 2px solid;
 	border-bottom: 2px solid;
 	padding: .65em 2em;
+	position: fixed;
+  left: 0;
+  right: 0;
+  top: 4em;
+  z-index: 100;
 	&__item {
 		text-transform: capitalize;
 		margin-right: 1.5em;

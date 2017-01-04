@@ -229,7 +229,7 @@ var FiscalDates = React.createClass({
         </option>
       )
     });
-    var fiscal_dates_form = <div className="financials financials--fiscal_dates">
+    var fiscal_dates_form = <div className="financials financials--fiscal-dates">
             <div className="col col-sm-6">
               <h6>Start Date</h6>
               <div className="field-group">

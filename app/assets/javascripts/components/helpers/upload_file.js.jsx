@@ -97,9 +97,9 @@ var UploadFile = React.createClass({
         subtitle = <p>{this.props.subtitle}</p>
       }
       if (this.props.label == 'true') {
-        label = <label className="directUpload__label"><h4>{this.props.type}</h4>{subtitle}</label>
+        label = <label className="direct-upload__label"><h4>{this.props.type}</h4>{subtitle}</label>
       } else {
-        label = <label className="directUpload__label"><h4>{this.props.label}</h4>{subtitle}</label>
+        label = <label className="direct-upload__label"><h4>{this.props.label}</h4>{subtitle}</label>
       }
     }
     return label
@@ -109,13 +109,13 @@ var UploadFile = React.createClass({
     var accepted = this.getAcceptedFileTypes()
     var file
     if (this.props.model[type]) {
-      file = <p id={type} className="directUpload__has_file form-control">
+      file = <p id={type} className="direct-upload__has-file form-control">
               <button id={type} onClick={this.clearFile}>Replace</button>
               <span className="filename">{this.props.model[type]}</span>
               {this.isRequired()}
             </p>
     } else {
-      file = <div className="directUpload__input">
+      file = <div className="direct-upload__input">
         <input
           value=""
           type="file"
@@ -133,7 +133,7 @@ var UploadFile = React.createClass({
   render() {
     var type = this.props.type
     return (
-      <div id={type} className="form directUpload">
+      <div id={type} className="form direct-upload">
         {this.hasLabel()}
         {this.hasFile()}
       </div>

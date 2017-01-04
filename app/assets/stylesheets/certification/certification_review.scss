@@ -1,0 +1,43 @@
+
+.certification-view--review {
+	padding-left: 0;
+	padding-right: 0;
+	.certification-view__header {
+		padding: 0 2em;
+	}
+	 .certification-view__body {
+		min-width: 100%;
+	}
+	.certification-review__intro {
+		padding: 0 2em;
+		max-width: 750px;
+    margin-bottom: 3em;
+		h4:first-child {
+			margin-top: 0;
+		}
+	}
+	.certification-review__body {
+		background-color: white;
+		padding: 2em;
+		border-top: 2px solid;
+		border-bottom: 2px solid;
+		.section {
+	    max-width: 750px;
+	    margin-bottom: 2em;
+	    border-top: 1px solid #aaa;
+	    padding-top: 1em;
+		}
+		.disabled {
+			color: #aaa;
+		}
+	}
+	.btn[disabled] {
+		opacity: 1;
+  	color: #999;
+	}
+	.suggested {
+    font-size: smaller;
+    font-weight: normal;
+	}
+/* end certification-view--review */
+}

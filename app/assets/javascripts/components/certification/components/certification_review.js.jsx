@@ -59,7 +59,7 @@ var CertificationReview = React.createClass({
       )
     }
   },
-  fileNewList() {
+  showMaterials() {
     var file_contract = <span className='upload disabled'><i className='fa fa-file'></i> Sample Contracts <span className='req'>*</span></span>
     var file_990 = <span className='upload disabled'><i className='fa fa-file'></i> Form 990 <span className='suggested'>* If Available</span></span>
     var file_501c3 = <span className='upload disabled'><i className='fa fa-file'></i> 501c3 <span className='req'>*</span></span>
@@ -67,10 +67,6 @@ var CertificationReview = React.createClass({
 
       return (
         <div className="section financials clearfix">
-          {this.showFile('statement', 'user', "Statement of Intent")}
-          {this.showFile('qb_pl', 'certification', "Quickbooks P&L")}
-          {this.showFile('file_990', 'certification', "Form 990")}
-          {this.showFile('file_501c3', 'certification', "501c3")}
           <h5>{this.props.certification.file_501c3 ? this.showFile('file_501c3', 'certification', "501c3") : file_501c3}</h5>
           <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', "Form 990") : file_990}</h5>
           <h5>{this.props.certification.file_contract ? this.showFile('file_contract', 'certification', "Sample Contracts") : file_contract}</h5>
@@ -118,9 +114,9 @@ var CertificationReview = React.createClass({
         </div>
         <div className="certification-review__body">
           <h3>{this.props.user.institution_name}</h3>
-          {this.institutionInfo()}
           {this.userContact()}
-          {this.fileNewList()}
+          {this.institutionInfo()}
+          {this.showMaterials()}
         </div>
         <div className="certification-review__payments">
           {this.paymentsTable()}

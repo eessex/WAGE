@@ -1,5 +1,5 @@
 
-.directUpload {
+.direct-upload {
   position: relative;
   margin-bottom: 2em;
   &__input {
@@ -17,7 +17,7 @@
       font-weight: normal;
     }
   }
-  .directUpload__has_file {
+  .direct-upload__has-file {
     font-size: 11.75px;
     position: relative;
     display: flex;
@@ -45,7 +45,7 @@
     position: absolute;
     top: .45em;
     font-size: 20px;
-    right: .65em;
+    right: .85em;
   }
   span.req.green {
     color: lime;

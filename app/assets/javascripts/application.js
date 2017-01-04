@@ -26,4 +26,13 @@ $(function() {
     $('.notice').delay(3500).fadeOut();
     $('.notices').delay(3500).fadeOut();
     $('.alert').delay(3500).fadeOut();
+
+    $('.fa-bars, .fa-close').click(function(e){
+    	$(e.target).toggleClass('fa-bars').toggleClass('fa-close')
+    })
+
+		$(document).click(function(e) {
+      $('.dropdown .fa-close').toggleClass('fa-close').toggleClass('fa-bars')
+		})
+
 });

@@ -2,7 +2,7 @@
 
 .certification-view {
 	&__content {
-		padding: 2.25em 2em;
+		padding: 9.5em 2em 5.5em 2em;
 	}
 
 	&__header {
@@ -23,7 +23,7 @@
   &__next {
     position: fixed;
     bottom: 15px;
-    right: 1.5em;
+    right: 1.85em;
     i {
     	margin-left: .25em;
     }
@@ -32,7 +32,8 @@
 }
 
 .certification-view--fee-tracker {
-	padding: 2.25em 0 ;
+	padding-left: 0;
+	padding-right: 0;
 	.certification-view__header {
 		padding: 0 2em;
 	}
@@ -40,10 +41,13 @@
 		max-width: 100%;
 	}
 }
+
+.fee-tracker {
 	.fee-tracker__intro {
 		max-width: 750px;
 		padding: 0em 0 4em 2em;
 	}
+
 	.fee-tracker__payments {
 		background-color: white;
 		padding: 2em;
@@ -52,7 +56,7 @@
 		&.disabled {
 			color: #999;
 			background: none transparent;
-			border-color: #999;
+			border-color: #ccc;
 			.form-control[disabled], fieldset[disabled] .form-control, input:disabled {
 				color: #999;
 			}
@@ -64,7 +68,6 @@
 			margin-bottom: 2em;
 			h3 {
 				margin: 0;
-				padding-top: .25em;
 			}
 			h6 {
 				cursor: pointer;
@@ -73,38 +76,11 @@
 				}
 			}
 		}
-	}
-
-
-.certification-view--review {
-	padding: 2.25em 0;
-	.certification-view__header {
-		padding: 0 2em;
-	}
-	 .certification-view__body {
-		min-width: 100%;
-	}
-	.certification-review__intro {
-		padding: 0 2em;
-		max-width: 750px;
-    margin-bottom: 3em;
-		h4:first-child {
-			margin-top: 0;
+		.col:nth-child(2) {
+			padding-left: 15px;
+			padding-right: 0;
 		}
 	}
-	.certification-review__body {
-		background-color: white;
-		padding: 2em;
-		border-top: 2px solid;
-		border-bottom: 2px solid;
-		.section {
-	    max-width: 750px;
-	    margin-bottom: 2em;
-	    border-top: 1px solid #aaa;
-	    padding-top: 1em;
-		}
-		.disabled {
-			color: #aaa;
-		}
-	}
+/* end fee-tracker */
 }
+
