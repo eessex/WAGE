@@ -44,6 +44,9 @@ var CertificationView = React.createClass({
   goFeeSchedule() {
     this.setState({navPosition: 6})
   },
+  goFeeTracker() {
+    this.setState({navPosition: 4})
+  },
   // CERTIFICATION STATUS
   canSubmit() {
     if (this.state.certification.status <= 2 && this.hasFiscalDetails() == 'true') {
@@ -307,6 +310,7 @@ var CertificationView = React.createClass({
           handleSubmit={this.onCertificationSubmit}
           new_user={this.state.new_user}
           goFeeSchedule={this.goFeeSchedule}
+          goFeeTracker={this.goFeeTracker}
           // _sortRowsBy={this._sortRowsBy}
           // paymentsSorted={this.paymentsSorted}
           // isEdit="false"

@@ -3,69 +3,61 @@ var YEAR = new Date().getFullYear()
 
 var FiscalDates = React.createClass({
   getInitialState() {
+    var dates = this.getEditDates()
+    var start_years
+    var end_years
+    start_years = this.getYears(this.props.certification.fiscal_start).start_years
+    end_years = this.getYears(this.props.certification.fiscal_start).end_years
     return {
       user: this.props.user,
-      certification: this.hasCertifications(),
-      s_m: this.getEditDates().s_m,
-      s_d: this.getEditDates().s_d,
-      s_y: this.getEditDates().s_y,
-      e_m: this.getEditDates().e_m,
-      e_d: this.getEditDates().e_d,
-      e_y: this.getEditDates().e_y,
+      certification: this.props.certification,
+      s_m: dates.s_m,
+      s_d: dates.s_d,
+      s_y: dates.s_y,
+      e_m: dates.e_m,
+      e_d: dates.e_d,
+      e_y: dates.e_y,
+      start_years: start_years,
+      end_years: end_years,
       errors: {}
     }
   },
-  hasCertifications() {
-    if (this.props.certification && this.props.certification.fiscal_start && this.props.certification.fiscal_end) {
-      return this.props.certification
-    } else {
-      return {
-        fiscal_start: '',
-        fiscal_end: '',
-        user_id: this.props.user.id,
-        status: 0
-      }
-    }
-  },
   getEditDates() {
-    if ((this.props.certification.fiscal_start != "") &&  (this.props.certification.fiscal_start != null) ) {
-      return {
-        s_m: moment(this.props.certification.fiscal_start).format('M'),
-        s_d: moment(this.props.certification.fiscal_start).format('D'),
-        s_y: moment(this.props.certification.fiscal_start).format('Y'),
-        e_m: moment(this.props.certification.fiscal_end).format('M'),
-        e_d: moment(this.props.certification.fiscal_end).format('D'),
-        e_y: moment(this.props.certification.fiscal_end).format('Y')
-      }
-    } else {
-      return {
-        s_m: '1',
-        s_d: '1',
-        s_y: YEAR.toString(),
-        e_m: '12',
-        e_d: '31',
-        e_y: YEAR.toString()
-      }
+    return {
+      s_m: moment(this.props.certification.fiscal_start).format('M'),
+      s_d: moment(this.props.certification.fiscal_start).format('D'),
+      s_y: moment(this.props.certification.fiscal_start).format('Y'),
+      e_m: moment(this.props.certification.fiscal_end).format('M'),
+      e_d: moment(this.props.certification.fiscal_end).format('D'),
+      e_y: moment(this.props.certification.fiscal_end).format('Y')
     }
   },
   handleInputChange(e) {
     var changed = $(e.target).data('id')
     var newState = this.state
     newState[changed] = e.target.value
-    if (changed == 's_m' || changed == 's_d') {
+    if (changed == 's_m' || changed == 's_d' || changed == 's_y') {
       this.autoSetEnd(newState)
     } else {
       this.autoSetStart(newState)
     }
     this.handleUserUpdate(newState)
   },
-  autoSetEnd(newState){
+  autoSetEnd(newState) {
     var plusYear = moment(newState.s_y + "-" + newState.s_m + "-" + newState.s_d).format()
+    debugger
     plusYear = moment(plusYear).add(1, 'year')
     plusYear = moment(plusYear).subtract(1, 'day')
+    debugger
     newState.e_m = plusYear.format('M')
     newState.e_d = plusYear.format('D')
     newState.e_y = plusYear.format('Y')
+    var start_years = this.getYears(plusYear).start_years
+    var end_years = this.getYears(plusYear).end_years
+    debugger
+    if (end_years.length < 2) {
+      debugger
+    }
     this.setState(newState)
     this.handleUserUpdate(newState)
   },
@@ -76,6 +68,12 @@ var FiscalDates = React.createClass({
     newState.s_m = plusYear.format('M')
     newState.s_d = plusYear.format('D')
     newState.s_y = plusYear.format('Y')
+    var start_years = this.getYears(plusYear).start_years
+    var end_years = this.getYears(plusYear).end_years
+    debugger
+    if (end_years.length < 2) {
+      debugger
+    }
     this.setState(newState)
     this.handleUserUpdate(newState)
   },
@@ -103,14 +101,7 @@ var FiscalDates = React.createClass({
     var user = this.handleFormatDates().user
     this.props.handleUserUpdate(user)
     this.setState({ errors: {} });
-    if (this.props.certification.id != null) {
-      debugger
-      this.props.handleCertificationUpdate(this.handleFormatDates().certification)
-      // this.props.toggleEditDates()
-    } else {
-      debugger
-      this.props.handleAddCertification(this.handleFormatDates().certification)
-    }
+    this.props.handleCertificationUpdate(this.handleFormatDates().certification)
   },
   getDays() {
     var has31 = [1, 3, 5, 7, 8, 10, 12]
@@ -134,53 +125,45 @@ var FiscalDates = React.createClass({
   getUnique(value, index, self) {
     return self.indexOf(value) === index;
   },
-  isFirstYear() {
-    if (this.props.newUser == true) {
-      return this.getEndYears().end_years
-    } else {
-      debugger
-    }
-  },
-  getEndYears() {
+  getYears(start) {
     var today = new Date
     var start_years = []
     var end_years = []
     var plusYear = ""
     var currentYear = ""
     // current year is valid
-    if ( (moment(this.props.certification.fiscal_start) < moment(today).add(90, 'days')) && (moment(today) < moment(this.props.certification.fiscal_end)) ) {
-      currentYear = moment(this.props.certification.fiscal_end).format('Y')
-      end_years.push( parseInt(currentYear) )
+    var validStart_last = moment(today).add(90, 'days')
+    var validStart_first = moment(today).subtract(90, 'days')
+    if (moment(validStart_last).format() < moment(start).format()) {
+      // // input date is not valid, subtract one year
+      // debugger
+      // var new_start = moment(start).subtract(1, 'year')
+      // var new_end = moment(new_start).add(1, 'year').subtract(1, 'day')
+      // start_years.push(moment(new_start).format('Y'))
+      // end_years.push(moment(new_end).format('Y'))
     }
-    if ( (moment(this.props.certification.fiscal_start) < moment(today).add(90, 'days')) && (moment(today) < moment(this.props.certification.fiscal_end)) ) {
-      currentYear = moment(this.props.certification.fiscal_end).format('Y')
-      end_years.push( parseInt(currentYear) )
-    }
-    // if upcoming year is valid
-    if (moment(this.props.certification.fiscal_start).add(1, 'year') < moment(today).add(90, 'days')) {
-      if (moment(this.props.certification.fiscal_start).add(2, 'years').subtract(1,'days').format('Y') != currentYear) {
-        plusYear = moment(this.props.certification.fiscal_start).add(2, 'years').subtract(1,'days').format('Y')
-        end_years.push( parseInt(plusYear) )
+    if (moment(validStart_last).format() > moment(start).format()) {
+      // input date is is valid
+      debugger
+      start_years.push(moment(start).format('Y'))
+      end_years.push(moment(start).add(1, 'year').subtract(1, 'day').format('Y'))
+      if (moment(validStart_last).format() > moment(start).add(1, 'year').format()) {
+        debugger
+        start_years.push(moment(start).add(1, 'year').format('Y'))
+        end_years.push(moment(start).add(2, 'years').subtract(1, 'day').format('Y'))
       }
+      debugger
+      if (end_years.length == 0) {
+      debugger
+      }
+    } else if (moment(validStart_first).format() < moment(start).format()) {
+      start_years.push(moment(start).format('Y'))
+      end_years.push(moment(start).add(1, 'year').subtract(1, 'day').format('Y'))
+      debugger
+    } else {
+      debugger
     }
-
-    if (moment(this.props.certification.fiscal_start) > moment(today).add(90, 'days')) {
-      // end_years.push( moment(this.props.certification.fiscal_start).subtract(1, 'year').format('Y') )
-    } else if (!this.props.certification.fiscal_start) {
-      end_years.push( parseInt(moment(today).format('Y')) )
-    }
-    var unique_start
-    var unique_end = end_years.filter( this.getUnique )
-    // debugger
-    var options_start
-    var options_end = unique_end.map( function(year) {
-     return (
-        <option key={year} value={year}>
-          {year}
-        </option>
-      )
-    })
-    return { end_years: options_end, start_years: options_start }
+    return {end_years: end_years, start_years: start_years}
   },
   render() {
     var options_months = MONTHS.map( function(month, i) {
@@ -209,9 +192,9 @@ var FiscalDates = React.createClass({
         </option>
       )
     });
-    var options_end_years = []
-    options_end_years.push(this.state.e_y)
-    options_end_years = options_end_years.map( function(i) {
+    var options_start_years // = this.getYears(this.state.certification.fiscal_start).start_years
+    var options_end_years // = this.getYears(this.state.certification.fiscal_start).end_years
+    options_end_years = this.state.end_years.map( function(i) {
       var day = i
       return (
         <option key={day} value={day}>
@@ -219,9 +202,7 @@ var FiscalDates = React.createClass({
         </option>
       )
     });
-    var options_start_years = []
-    options_start_years.push(this.state.s_y)
-    options_start_years = options_start_years.map( function(i) {
+    options_start_years = this.state.start_years.map( function(i) {
       var day = i
       return (
         <option key={day} value={day}>
@@ -290,7 +271,7 @@ var FiscalDates = React.createClass({
                   value={this.state.e_y}
                   onChange={this.handleInputChange}
                   >
-                  {this.isFirstYear()}
+                  {options_end_years}
                 </select>
                 </div>
             </div>

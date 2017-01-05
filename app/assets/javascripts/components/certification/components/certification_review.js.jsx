@@ -30,10 +30,10 @@ var CertificationReview = React.createClass({
   },
   userContact() {
     var userContact
-    // if (this.props.new_user) {
+    if (this.props.new_user) {
       userContact = <div className="section contact clearfix">
         <ReviewUserContact user={this.props.user} /></div>
-    // }
+    }
     return userContact
   },
   formattedOperating() {
@@ -92,7 +92,7 @@ var CertificationReview = React.createClass({
       <div className="section artist-payments-info clearfix">
         <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_end).format('YYYY')}.</h4>
         <h4>Organizations are expected to pay artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>.</h4>
-        <h4>At the close of this fiscal period your organization must provide documentation of payments using this application’s <a href="/#fee-tracker">fee tracker</a>, or by uploading a Quickbooks P&L.</h4>
+        <h4>At the close of this fiscal period your organization must provide documentation of payments using this application’s <a onClick={this.props.goFeeTracker}>fee tracker</a>, or by uploading a Quickbooks P&L.</h4>
       </div>
     } else if (this.props.certification.status < 2 && (new Date() < Date.parse(this.props.certification.fiscal_end) ) ) {
       artist_payments_info =
