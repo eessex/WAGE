@@ -31,6 +31,11 @@ $(function() {
     	$(e.target).toggleClass('fa-bars').toggleClass('fa-close')
     })
 
+    $('.intro.one').click(function(e) {
+    	var height = $(window).height()
+    	 $('html, body').animate({scrollTop: height}, 1000)
+    })
+
 		$(document).click(function(e) {
       $('.dropdown .fa-close').toggleClass('fa-close').toggleClass('fa-bars')
 		})
