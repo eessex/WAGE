@@ -41,6 +41,10 @@ a {
   &:hover {
     background-color: $blue;
   }
+  &:hover, &:focus {
+    color: $primary-color;
+    outline: none;
+  }
 }
 h4 small {
   color: $primary-color;
