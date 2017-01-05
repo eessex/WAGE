@@ -2,14 +2,7 @@ var FeeSchedule = React.createClass({
   getInitialState() {
     return {
       fee_categories: this.props.fee_categories,
-      certification: null
-    }
-  },
-  componentWillMount() {
-    if (this.props.certification) {
-      this.setState({certification: this.props.certification})
-    } else {
-      this.setState({certification: { operating_expenses: 500000 }})
+      certification: this.props.certification
     }
   },
   componentDidMount() {

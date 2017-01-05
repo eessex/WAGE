@@ -20,12 +20,18 @@ var CertificationView = React.createClass({
     }
   },
   componentDidMount() {
+    var path = location.hash.replace('#','')
+    var navPosition = 0
+    if (path) {
+      navPosition = menu.indexOf(path)
+    }
     this.setState({
       hasFiscalDetails: this.hasFiscalDetails(),
       hasPayments: this.hasPayments(),
       hasContact: this.hasContact(),
       canSubmit: this.canSubmit(),
-      formattedDate: this.formatDates()
+      formattedDate: this.formatDates(),
+      navPosition: navPosition
     })
   },
   // NAVIGATION
@@ -34,6 +40,9 @@ var CertificationView = React.createClass({
   },
   goNext(e) {
     this.setState({navPosition: this.state.navPosition + 1})
+  },
+  goFeeSchedule() {
+    this.setState({navPosition: 6})
   },
   // CERTIFICATION STATUS
   canSubmit() {
@@ -275,6 +284,7 @@ var CertificationView = React.createClass({
     if (menu[position] == 'fee-tracker') {
       title = 'Fee Tracker'
       body = <FeeTrackerNew
+              goFeeSchedule={this.goFeeSchedule}
               certification={this.props.certification}
               fee_categories={this.props.fee_categories}
               formatted_dates={this.state.formattedDate}

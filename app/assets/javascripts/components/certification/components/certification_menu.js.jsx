@@ -1,7 +1,7 @@
 var CertificationMenu = React.createClass({
   getInitialState() {
     return {
-      navPosition: 0
+      navPosition: this.props.navPosition || 0
     }
   },
   navigateMenu(e) {
@@ -36,9 +36,11 @@ var CertificationMenu = React.createClass({
   printMenuItems() {
     var that = this
     var menu = this.props.menu.map(function(item, i) {
+      // debugger
       var formattedItem = item.replace('-', ' ')
       return (
-          <div className="certification-menu__item"
+          <a className="certification-menu__item"
+            href={'/#' + item}
             name={item}
             data-id={i}
             key={i}
@@ -47,7 +49,7 @@ var CertificationMenu = React.createClass({
             onClick={that.navigateMenu}>
             {that.hasCheck(item)}
             {formattedItem}
-          </div>
+          </a>
         );
       })
     return menu

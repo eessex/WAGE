@@ -108,7 +108,7 @@ var CertificationReview = React.createClass({
       var actions
     }
     return (
-      <div id="review" className="certification certification-review">
+      <div className="certification certification-review">
         <div className="certification-review__intro">
           {artist_payments_info}
         </div>

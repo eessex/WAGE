@@ -14,14 +14,18 @@
 	&__item {
 		text-transform: capitalize;
 		margin-right: 1.5em;
-		cursor: pointer;
-		&[data-active] {
+		/*cursor: pointer;*/
+		text-decoration: none;
+		&[data-active], &:hover {
 			font-weight: 600;
+			background: none transparent;
+			text-decoration: none;
 			span {
 				border-bottom: 2px solid $lime;
 			}
 		}
 		&[name='fee-schedule'] {
+			display: none;
 		  position: fixed;
 		  bottom: .5em;
 		  left: 1.5em;

@@ -8,30 +8,35 @@ class SiteController < ApplicationController
     @certifications = current_user.certifications
     @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
     if has_submitted(@certifications)
-      @newUser = false
+      @new_user = false
       render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
     else
-      @newUser = true
+      @new_user = true
       @artist_payments = []
       render component: 'CertificationView', props: {
           certification: @certification,
           certifications: @certifications,
           artist_payments: @artist_payments,
           user: @user,
-          newUser: @newUser,
+          new_user: @new_user,
           fee_categories: @fee_categories
         }, class: "certification certification--view"
     end
   end
 
   def guidelines
+    @certifications = current_user.certifications
     render :template => 'site/_guidelines'
   end
 
   def fee_schedule
     @user = current_user
     @fee_categories = FeeCategory.all
-    render component: 'FeeSchedule', props: { certification: @certification, user: @user, fee_categories: @fee_categories, floor_categories: @fee_categories}, class: 'fee_schedule'
+    @certifications = current_user.certifications
+    if !has_submitted(@certifications)
+      @new_user = true
+    end
+    render component: 'FeeScheduleRoot', props: { certifications: @certifications, certification: @certifications.first, user: @user, new_user: @new_user, fee_categories: @fee_categories}, class: 'fee_schedule fee_schedule--full_view'
   end
 
   def has_submitted(certifications)
@@ -50,7 +55,11 @@ class SiteController < ApplicationController
     return {s_d: s_d, e_d: e_d}
   end
 
-  helper_method :resource_name, :resource, :devise_mapping
+  helper_method :resource_name, :resource, :devise_mapping, :new_user, :has_submitted
+
+  def new_user
+    return @new_user
+  end
 
   def resource_name
     :user

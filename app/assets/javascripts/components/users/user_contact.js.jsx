@@ -187,7 +187,7 @@ var UserContact = React.createClass({
   },
   render() {
     return (
-      <div id="contact" className="contact">
+      <div className="contact user-contact__form">
         {this.contactForm()}
         {this.addressForm()}
       </div>
