@@ -30,10 +30,10 @@ var CertificationReview = React.createClass({
   },
   userContact() {
     var userContact
-    if (this.props.newUser) {
+    // if (this.props.new_user) {
       userContact = <div className="section contact clearfix">
         <ReviewUserContact user={this.props.user} /></div>
-    }
+    // }
     return userContact
   },
   formattedOperating() {
@@ -50,7 +50,7 @@ var CertificationReview = React.createClass({
     )
   },
   fileShortlist() {
-    if (this.props.newUser) {
+    if (this.props.new_user) {
       return ( <div className="col col-lg-6">
         {this.showFile('file_budget', 'certification', "Operating Budget")}
         {this.showFile('qb_pl', 'certification', "Quickbooks P&L")}
@@ -91,8 +91,8 @@ var CertificationReview = React.createClass({
       artist_payments_info =
       <div className="section artist-payments-info clearfix">
         <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_end).format('YYYY')}.</h4>
-        <h4>Organizations are expected to pay artist fees according to W.A.G.E.’s <a href="/fee-schedule">minimum standards</a> of compensation.</h4>
-        <h4>At the close of this fiscal period your organization must provide documentation of payments using this application’s fee tracker, or by uploading a Quickbooks P&L.</h4>
+        <h4>Organizations are expected to pay artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>.</h4>
+        <h4>At the close of this fiscal period your organization must provide documentation of payments using this application’s <a href="/#fee-tracker">fee tracker</a>, or by uploading a Quickbooks P&L.</h4>
       </div>
     } else if (this.props.certification.status < 2 && (new Date() < Date.parse(this.props.certification.fiscal_end) ) ) {
       artist_payments_info =
@@ -100,7 +100,7 @@ var CertificationReview = React.createClass({
         <h4>Your application is ready to submit on or after {moment(this.props.user.fiscal_end).format('MMM D, Y')}.</h4>
       </div>
     }
-    if ( (this.props.certification.status < 2 && new Date() > Date.parse(this.props.certification.fiscal_end)) || (this.props.certification.status == 0 && this.props.newUser == "true") ) {
+    if ( (this.props.certification.status < 2 && new Date() > Date.parse(this.props.certification.fiscal_end)) || (this.props.certification.status == 0 && this.props.new_user == "true") ) {
       var actions =  <button className="btn btn-lg save" onClick={this.handleSubmit}>Submit</button>
     } else if (this.props.certification.status < 2) {
       var actions = <button className="btn btn-lg save" disabled="true">Submit</button>
@@ -128,3 +128,5 @@ var CertificationReview = React.createClass({
     );
   }
 });
+
+

@@ -16,18 +16,21 @@
         <% if has_submitted(@certifications) %>
           <div class="dropdown-item"><%= link_to 'Dashboard', root_path, :class => 'navbar-link' %></div>
         <% end %>
-        <% if current_page?(fee_schedule_path) %>
+        <% if current_page?(fee_schedule_path) || current_page?(guidelines_path) %>
           <div class="dropdown-item">
             <%= link_to 'Application', root_path, :class => 'navbar-link' %>
           </div>
-        <% else %>
+        <% end %>
+        <% if !current_page?(fee_schedule_path) %>
           <div class="dropdown-item">
             <%= link_to 'Fee Schedule', fee_schedule_path, :class => 'navbar-link' %>
           </div>
         <% end %>
-        <div class="dropdown-item">
-          <%= link_to 'About', guidelines_path, :class => 'navbar-link' %>
-        </div>
+        <% if !current_page?(guidelines_path) %>
+          <div class="dropdown-item">
+            <%= link_to 'About', guidelines_path, :class => 'navbar-link' %>
+          </div>
+        <% end %>
         <div class="dropdown-item">
           <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
         </div>

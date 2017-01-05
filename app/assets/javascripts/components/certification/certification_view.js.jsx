@@ -7,7 +7,7 @@ var CertificationView = React.createClass({
       certification: this.props.certification,
       certifications: this.props.certifications,
       user: this.props.user,
-      newUser: this.props.newUser,
+      new_user: this.props.new_user,
       artist_payments: this.props.artist_payments,
       yearStatus: 'future',
       hasFiscalDetails: null,
@@ -257,7 +257,7 @@ var CertificationView = React.createClass({
               <FiscalDates
                 user={this.state.user}
                 certification={this.state.certification}
-                newUser={this.state.newUser}
+                new_user={this.state.new_user}
                 editDates={this.state.editDates}
                 // toggleEditDates={this.toggleEditDates}
                 formatDates={this.formatDates}
@@ -271,7 +271,7 @@ var CertificationView = React.createClass({
                 handleCertificationUpdate={this.handleCertificationUpdate}
                 canSubmit={this.state.canSubmit}
                 handleUserUpdate={this.handleUserUpdate}
-                newUser={this.state.newUser}
+                new_user={this.state.new_user}
                 yearStatus={this.state.yearStatus} />
               </div>
     }
@@ -290,7 +290,7 @@ var CertificationView = React.createClass({
               certification={this.props.certification}
               fee_categories={this.props.fee_categories}
               formatted_dates={this.state.formattedDate}
-              newUser={this.state.newUser}
+              new_user={this.state.new_user}
               yearStatus={this.state.yearStatus}
               handleCertificationUpdate={this.handleCertificationUpdate} />
     }
@@ -298,13 +298,15 @@ var CertificationView = React.createClass({
       title = 'Review'
       body = <CertificationReview
           user={this.state.user}
-          newUser={this.state.newUser}
+          new_user={this.state.new_user}
           certification={this.props.certification}
           certifications={this.props.certifications}
           formatted_dates={this.state.formattedDate}
           artist_payments={this.props.artist_payments}
           yearStatus={this.state.yearStatus}
           handleSubmit={this.onCertificationSubmit}
+          new_user={this.state.new_user}
+          goFeeSchedule={this.goFeeSchedule}
           // _sortRowsBy={this._sortRowsBy}
           // paymentsSorted={this.paymentsSorted}
           // isEdit="false"

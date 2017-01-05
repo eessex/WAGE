@@ -249,7 +249,7 @@
     return (
       <div className="fee-tracker fee-tracker--new">
         <div className="fee-tracker__intro">
-          <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to W.A.G.E.’s minimum standards of compensation during the fiscal year in which they apply.</h4>
+          <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a> during the fiscal year in which they apply.</h4>
           <h4>{this.showTrackerLink()} for each fee payment to an artist between {this.props.formatted_dates}. Alternatively, you may {this.showQbPlLink()}</h4>
         </div>
         {this.showForms()}
