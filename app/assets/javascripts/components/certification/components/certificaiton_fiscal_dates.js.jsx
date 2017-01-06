@@ -44,20 +44,17 @@ var FiscalDates = React.createClass({
     this.handleUserUpdate(newState)
   },
   autoSetEnd(newState) {
+    // debugger
     var plusYear = moment(newState.s_y + "-" + newState.s_m + "-" + newState.s_d).format()
-    debugger
     plusYear = moment(plusYear).add(1, 'year')
     plusYear = moment(plusYear).subtract(1, 'day')
-    debugger
     newState.e_m = plusYear.format('M')
     newState.e_d = plusYear.format('D')
     newState.e_y = plusYear.format('Y')
-    var start_years = this.getYears(plusYear).start_years
-    var end_years = this.getYears(plusYear).end_years
+    // debugger
+    newState.start_years = this.getYears(plusYear).start_years
+    newState.end_years = this.getYears(plusYear).end_years
     debugger
-    if (end_years.length < 2) {
-      debugger
-    }
     this.setState(newState)
     this.handleUserUpdate(newState)
   },
@@ -68,12 +65,9 @@ var FiscalDates = React.createClass({
     newState.s_m = plusYear.format('M')
     newState.s_d = plusYear.format('D')
     newState.s_y = plusYear.format('Y')
-    var start_years = this.getYears(plusYear).start_years
-    var end_years = this.getYears(plusYear).end_years
+    newState.start_years = this.getYears(plusYear).start_years
+    newState.end_years = this.getYears(plusYear).end_years
     debugger
-    if (end_years.length < 2) {
-      debugger
-    }
     this.setState(newState)
     this.handleUserUpdate(newState)
   },
@@ -134,35 +128,38 @@ var FiscalDates = React.createClass({
     // current year is valid
     var validStart_last = moment(today).add(90, 'days')
     var validStart_first = moment(today).subtract(90, 'days')
+    // debugger
     if (moment(validStart_last).format() < moment(start).format()) {
-      // // input date is not valid, subtract one year
+      // input date is valid
+      start_years.push(moment(start).format('Y'))
+      end_years.push(moment(start).add(1, 'year').subtract(1, 'day').format('Y'))
+    }
+    if (moment(validStart_last).format() > moment(start).subtract(1, 'year').format()) {
+    // input date not valid
       // debugger
-      // var new_start = moment(start).subtract(1, 'year')
-      // var new_end = moment(new_start).add(1, 'year').subtract(1, 'day')
-      // start_years.push(moment(new_start).format('Y'))
-      // end_years.push(moment(new_end).format('Y'))
+      start_years.push(moment(start).subtract(1, 'year').format('Y'))
+      end_years.push(moment(start).subtract(1, 'day').format('Y'))
     }
-    if (moment(validStart_last).format() > moment(start).format()) {
-      // input date is is valid
-      debugger
-      start_years.push(moment(start).format('Y'))
-      end_years.push(moment(start).add(1, 'year').subtract(1, 'day').format('Y'))
-      if (moment(validStart_last).format() > moment(start).add(1, 'year').format()) {
-        debugger
-        start_years.push(moment(start).add(1, 'year').format('Y'))
-        end_years.push(moment(start).add(2, 'years').subtract(1, 'day').format('Y'))
-      }
-      debugger
-      if (end_years.length == 0) {
-      debugger
-      }
-    } else if (moment(validStart_first).format() < moment(start).format()) {
-      start_years.push(moment(start).format('Y'))
-      end_years.push(moment(start).add(1, 'year').subtract(1, 'day').format('Y'))
-      debugger
-    } else {
-      debugger
-    }
+    // if (moment(validStart_last).format() < moment(start).format()) {
+    //   // // input date is not valid, subtract one year
+    //   // debugger
+    //   // var new_start = moment(start).subtract(1, 'year')
+    //   // var new_end = moment(new_start).add(1, 'year').subtract(1, 'day')
+    //   // start_years.push(moment(new_start).format('Y'))
+    //   // end_years.push(moment(new_end).format('Y'))
+    // }
+    // if (moment(validStart_last).format() > moment(start).format()) {
+    //   // input date is is valid
+    //   // debugger
+    //   start_years.push(moment(start).format('Y'))
+    //   end_years.push(moment(start).add(1, 'year').subtract(1, 'day').format('Y'))
+    // }
+    // if (moment(validStart_last).format() > moment(start).add(1, 'year').format()) {
+    //     // debugger
+    //     start_years.push(moment(start).add(1, 'year').format('Y'))
+    //     end_years.push(moment(start).add(2, 'years').subtract(1, 'day').format('Y'))
+    //   }
+    debugger
     return {end_years: end_years, start_years: start_years}
   },
   render() {

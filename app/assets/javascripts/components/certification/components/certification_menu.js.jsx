@@ -5,6 +5,7 @@ var CertificationMenu = React.createClass({
     }
   },
   navigateMenu(e) {
+    e.preventDefault()
     var item = $(e.target).closest('.certification-menu__item').data('id')
     this.props.navigateMenu(item)
     this.setState({navPosition: item})
@@ -34,6 +35,7 @@ var CertificationMenu = React.createClass({
     }
   },
   printMenuItems() {
+    // var root = location.origin //+ location.pathname
     var that = this
     var menu = this.props.menu.map(function(item, i) {
       // debugger

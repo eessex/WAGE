@@ -1,4 +1,5 @@
 class SiteController < ApplicationController
+  include HasSubmitted
   # before_action :set_user, only: [:show, :edit, :update, :destroy]
   # before_action :set_s3_direct_post, only: [:edit, :update]
 
@@ -25,7 +26,9 @@ class SiteController < ApplicationController
   end
 
   def guidelines
-    @certifications = current_user.certifications
+    if current_user
+      @certifications = current_user.certifications || []
+    end
     render :template => 'site/_guidelines'
   end
 
@@ -37,15 +40,6 @@ class SiteController < ApplicationController
       @new_user = true
     end
     render component: 'FeeScheduleRoot', props: { certifications: @certifications, certification: @certifications.first, user: @user, new_user: @new_user, fee_categories: @fee_categories}, class: 'fee_schedule fee_schedule--full_view'
-  end
-
-  def has_submitted(certifications)
-    certifications.each do |certification|
-      if certification.status >= 1
-        return true
-      end
-    end
-    return false
   end
 
   def new_dates
