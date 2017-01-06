@@ -1,7 +1,8 @@
 var CertificationMenu = React.createClass({
   getInitialState() {
     return {
-      navPosition: this.props.navPosition || 0
+      navPosition: this.props.navPosition || 0,
+      root: this.props.path
     }
   },
   navigateMenu(e) {

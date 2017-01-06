@@ -1,15 +1,18 @@
 var menu = ['guidelines', 'contact', 'fiscal-details', 'materials', 'fee-tracker', 'review', 'fee-schedule']
+// var root = 
 
 var CertificationView = React.createClass({
   getInitialState() {
     return {
+      root: this.props.path,
       navPosition: 0,
       certification: this.props.certification,
       certifications: this.props.certifications,
       user: this.props.user,
       new_user: this.props.new_user,
       artist_payments: this.props.artist_payments,
-      yearStatus: 'future',
+      yearStatus: this.yearStatus(),
+      hasCertifications: this.hasCertifications(),
       hasFiscalDetails: null,
       hasPayments: null,
       hasContact: null,
@@ -39,6 +42,7 @@ var CertificationView = React.createClass({
     this.setState({navPosition: item})
   },
   goNext(e) {
+    window.location.hash = ''
     this.setState({navPosition: this.state.navPosition + 1})
   },
   goFeeSchedule() {
@@ -48,12 +52,32 @@ var CertificationView = React.createClass({
     this.setState({navPosition: 4})
   },
   // CERTIFICATION STATUS
+  hasCertifications() {
+    if (this.props.certification.status > 0) {
+      menu = ['guidelines', 'fiscal-details', 'fee-tracker', 'review', 'fee-schedule']
+      return true
+    } else {
+      return false
+    }
+  },
+  yearStatus() {
+    var today = new Date
+    var status
+    if ( moment(this.props.certification.fiscal_start).format() > moment(today).format() ) {
+      status = 'future'
+    } else if ( (moment(this.props.certification.fiscal_start).format() < moment(today).format() ) && (moment(this.props.certification.fiscal_end).format() > moment(today).format()) ) {
+      status = 'current'
+    } else {
+      status = 'past'
+    }
+    return status
+  },
   canSubmit() {
     if (this.state.certification.status <= 2 && this.hasFiscalDetails() == 'true') {
       if (this.state.yearStatus == 'past' && this.hasPayments() == 'true') {
         return true
       } else if (
-        (this.state.yearStatus == 'future' || this.state.yearStatus == 'progress') &&
+        (this.state.yearStatus == 'future' || this.state.yearStatus == 'current') &&
         (this.hasFiscalDetails() == 'true')
         ) {
         return true
@@ -227,11 +251,25 @@ var CertificationView = React.createClass({
     var next
     if (menu[position] != 'fee-schedule' &&
         menu[position] != 'review') {
-      next = <a href={'/#' + menu[this.state.navPosition]} onClick={this.goNext}>
+      next = <a href={this.state.root + '/#' + menu[this.state.navPosition]} onClick={this.goNext}>
                <button className='btn btn-lg'>Next <i className='fa fa-long-arrow-right'></i></button>
              </a>
     }
     return next
+  },
+  paymentsTable() {
+    var payments
+    if (this.props.artist_payments && this.props.artist_payments.length > 0) {
+      payments = <div className="section artist-payments clearfix">
+        <h3 className="section artist-payments__title">Artist Payments</h3>
+        <ArtistPaymentsTable
+          artist_payments={this.props.artist_payments}
+          // _sortRowsBy={this.props._sortRowsBy}
+          // paymentsSorted={this.props.paymentsSorted}
+          isEdit="false"
+          fee_categories={this.props.fee_categories} /></div>
+    }
+    return payments
   },
   printContent() {
     var title
@@ -288,14 +326,17 @@ var CertificationView = React.createClass({
     }
     if (menu[position] == 'fee-tracker') {
       title = 'Fee Tracker'
-      body = <FeeTrackerNew
+      body = <div>
+            <FeeTrackerNew
               goFeeSchedule={this.goFeeSchedule}
               certification={this.props.certification}
               fee_categories={this.props.fee_categories}
               formatted_dates={this.state.formattedDate}
               new_user={this.state.new_user}
               yearStatus={this.state.yearStatus}
+              artist_payments={this.props.artist_payments}
               handleCertificationUpdate={this.handleCertificationUpdate} />
+              </div>
     }
     if (menu[position] == 'review') {
       title = 'Review'

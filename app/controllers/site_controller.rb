@@ -5,16 +5,18 @@ class SiteController < ApplicationController
 
   def index
     @user = current_user
+    @path = ENV['DEVELOPMENT_HOST']
     @fee_categories = FeeCategory.all
     @certifications = current_user.certifications
     @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
+    @artist_payments = @certification.artist_payments || []
     if has_submitted(@certifications)
       @new_user = false
       render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
     else
       @new_user = true
-      @artist_payments = []
       render component: 'CertificationView', props: {
+          path: @path,
           certification: @certification,
           certifications: @certifications,
           artist_payments: @artist_payments,
@@ -26,6 +28,7 @@ class SiteController < ApplicationController
   end
 
   def guidelines
+    @path = ENV['DEVELOPMENT_HOST'] + '/guidelines'
     if current_user
       @certifications = current_user.certifications || []
     end
@@ -36,10 +39,18 @@ class SiteController < ApplicationController
     @user = current_user
     @fee_categories = FeeCategory.all
     @certifications = current_user.certifications
+    @path = ENV['DEVELOPMENT_HOST'] + '/fee-schedule'
     if !has_submitted(@certifications)
       @new_user = true
     end
-    render component: 'FeeScheduleRoot', props: { certifications: @certifications, certification: @certifications.first, user: @user, new_user: @new_user, fee_categories: @fee_categories}, class: 'fee_schedule fee_schedule--full_view'
+    render component: 'FeeScheduleRoot', props: {
+        path: @path,
+        certifications: @certifications,
+        certification: @certifications.first,
+        new_user: @new_user,
+        user: @user, new_user: @new_user,
+        fee_categories: @fee_categories
+      }, class: 'fee_schedule fee_schedule--full_view'
   end
 
   def new_dates

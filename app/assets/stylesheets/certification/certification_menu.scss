@@ -14,8 +14,7 @@
 	&__item {
 		text-transform: capitalize;
 		margin-right: 1.5em;
-		/*cursor: pointer;*/
-		text-decoration: none;
+		text-decoration: none !important;
 		&[data-active], &:hover {
 			font-weight: 600;
 			background: none transparent;

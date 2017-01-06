@@ -20,14 +20,6 @@ var CertificationReview = React.createClass({
     }
     return file
   },
-  paymentsTable() {
-    var payments
-    if (this.props.artist_payments && this.props.artist_payments.length > 0) {
-      payments = <div className="section artist-payments clearfix">
-        <h4>Artist Payments</h4><ArtistPaymentsTable artist_payments={this.props.artist_payments} _sortRowsBy={this.props._sortRowsBy} paymentsSorted={this.props.paymentsSorted} isEdit="false" fee_categories={this.props.fee_categories} /></div>
-    }
-    return payments
-  },
   userContact() {
     var userContact
     if (this.props.new_user) {
@@ -73,6 +65,20 @@ var CertificationReview = React.createClass({
           <h5>{this.props.certification.statement ? this.showFile('statement', 'certification', "Statement of Intent") : statement}</h5>
         </div>
       )
+  },
+  paymentsTable() {
+    var payments
+    if (this.props.artist_payments && this.props.artist_payments.length > 0) {
+      payments = <div className="section artist-payments clearfix">
+        <h3 className="section artist-payments__title">Artist Payments</h3>
+        <ArtistPaymentsTable
+          artist_payments={this.props.artist_payments}
+          _sortRowsBy={this.props._sortRowsBy}
+          paymentsSorted={this.props.paymentsSorted}
+          isEdit="false"
+          fee_categories={this.props.fee_categories} /></div>
+    }
+    return payments
   },
   render() {
     if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {

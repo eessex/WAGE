@@ -87,10 +87,13 @@
   },
   showForms() {
     var disabled
-    if (this.props.yearStatus == 'future') {
+    if (this.props.yearStatus == 'future' || this.props.yearStatus == 'current') {
       disabled = ' disabled'
     }
     if (this.state.showForm) {
+      if (this.props.yearStatus == 'current' && this.props.new_user == true) {
+        disabled = ''
+      }
       return (
         <div className={'fee-tracker__payments new-form' + disabled}>
           <div className='title'>
@@ -101,10 +104,14 @@
         </div>
       )
     } else {
+      var subtitle
+      if (this.props.yearStatus == 'current') {
+        subtitle = <span className='subtitle'>* at the close of your fiscal year</span>
+      }
       return (
         <div className={'fee-tracker__payments ql-pl' + disabled}>
         <div className='title'>
-          <h3>Upload Quickbooks File</h3>
+          <h3>Upload Quickbooks File{subtitle}</h3>
           <h6 onClick={this.toggleTracker}>Create A New Payment</h6>
         </div>
          {this.formQbPl()}
@@ -114,7 +121,7 @@
   },
   formQbPl() {
     var disabled
-    if (this.props.yearStatus == 'future') {
+    if (this.props.yearStatus == 'future' || this.props.yearStatus == 'current') {
       disabled = true
     } else {
       disabled = false
@@ -245,6 +252,22 @@
     }
     return link
   },
+  paymentsTable() {
+    var payments
+    if (this.state.showForm) {
+      if (this.props.artist_payments && this.props.artist_payments.length > 0) {
+        payments = <div className="section artist-payments clearfix">
+          <h3 className="section artist-payments__title">Artist Payments</h3>
+          <ArtistPaymentsTable
+            artist_payments={this.props.artist_payments}
+            _sortRowsBy={this.props._sortRowsBy}
+            paymentsSorted={this.props.paymentsSorted}
+            isEdit="false"
+            fee_categories={this.props.fee_categories} /></div>
+      }
+    }
+    return payments
+  },
   render() {
     return (
       <div className="fee-tracker fee-tracker--new">
@@ -253,6 +276,7 @@
           <h4>{this.showTrackerLink()} for each fee payment to an artist between {this.props.formatted_dates}. Alternatively, you may {this.showQbPlLink()}</h4>
         </div>
         {this.showForms()}
+        {this.paymentsTable()}
       </div>
       );
     }

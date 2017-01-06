@@ -2,16 +2,26 @@ var menu = ['guidelines', 'contact', 'fiscal-details', 'materials', 'fee-tracker
 
 var FeeScheduleRoot = React.createClass({
 	getInitialState() {
+    this.hasCertifications()
 		return {
       fee_categories: this.props.fee_categories,
       certification: this.props.certification,
       certifications: this.props.certifications,
+      new_user: this.props.new_user,
       user: this.props.user,
       navPosition: menu.length
 		}
 	},
+  hasCertifications() {
+    if (this.props.certification.status > 0) {
+      menu = ['guidelines', 'fiscal-details', 'fee-tracker', 'review', 'fee-schedule']
+      return true
+    } else {
+      return false
+    }
+  },
   navigateMenu(item) {
-    // window.location = "http://localhost:3000#" + menu[item]
+    window.location = "http://localhost:3000/#" + menu[item]
   },
     hasFiscalDetails() {
     if ( this.state.certification.operating_expenses &&

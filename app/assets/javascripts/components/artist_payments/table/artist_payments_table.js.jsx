@@ -33,7 +33,7 @@ var ArtistPaymentsTable = React.createClass({
     return actions
   },
   render() {
-    var payments_table = <table id="artist_payments" className="table table-responsive table-striped table-hover">
+    var payments_table = <table id="artist_payments" className="artist-payments--table table table-responsive table-striped table-hover">
                 <thead>
                   <tr>
                   <th className="date first" onClick={this._sortRowsBy}>Date</th>

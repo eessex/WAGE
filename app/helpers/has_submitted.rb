@@ -7,4 +7,5 @@ module HasSubmitted
     end
     return false
   end
+
 end
