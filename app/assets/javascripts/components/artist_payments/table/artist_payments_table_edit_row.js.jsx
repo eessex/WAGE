@@ -12,36 +12,6 @@ var ArtistPaymentsTableEditRow = React.createClass({
     this.setState({artist_payment: newPayment})
     this.fulfilsRequired(e)
   },
-  // handleNameChange(e) {
-  //   var newArtistPayment = this.state.artist_payment
-  //   newArtistPayment.name = e.target.value
-  //   this.setState({artist_payment: newArtistPayment});
-  // },
-  // handleArtistNameChange(e) {
-  //   var newArtistPayment = this.state.artist_payment
-  //   newArtistPayment.artist_name = e.target.value
-  //   this.setState({artist_payment: newArtistPayment});
-  // },
-  // handleDateChange(e) {
-  //   var newArtistPayment = this.state.artist_payment
-  //   newArtistPayment.date = e.target.value
-  //   this.setState({artist_payment: newArtistPayment});
-  // },
-  // handleAmountChange(e) {
-  //   var newArtistPayment = this.state.artist_payment
-  //   newArtistPayment.amount = e.target.value
-  //   this.setState({artist_payment: newArtistPayment});
-  // },
-  // handleCheckNoChange(e) {
-  //   var newArtistPayment = this.state.artist_payment
-  //   newArtistPayment.check_no = e.target.value
-  //   this.setState({artist_payment: newArtistPayment});
-  // },
-  // handleFeeCategoryChange(e) {
-  //   var newArtistPayment = this.state.artist_payment
-  //   newArtistPayment.fee_category_id = e.target.value
-  //   this.setState({artist_payment: newArtistPayment});
-  // },
   handleArtistPaymentUpdate() {
     var that = this;
     $.ajax({

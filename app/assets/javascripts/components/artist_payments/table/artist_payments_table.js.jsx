@@ -1,13 +1,6 @@
 var ArtistPaymentsTable = React.createClass({
-  getInitialState() {
-    return {
-      artist_payments: this.props.artist_payments,
-      sortBy: 'date',
-      sortDir: 'ASC'
-    }
-  },
-  _sortRowsBy(event) {
-    this.props._sortRowsBy(event)
+  sortRowsBy(event) {
+    this.props.sortRowsBy(event)
   },
   handleDeleteArtistPayment(artist_payment) {
     this.props.handleDeleteArtistPayment(artist_payment);
@@ -17,9 +10,17 @@ var ArtistPaymentsTable = React.createClass({
     var row
     var payment_row = this.props.artist_payments.map( function(artist_payment) {
       if (that.props.isEdit == 'true') {
-        row = <ArtistPaymentsTableEditRow key={artist_payment.id} deleteArtistPayment={that.handleDeleteArtistPayment} artist_payment={artist_payment} fee_categories={that.props.fee_categories} />
+        row = <ArtistPaymentsTableEditRow
+                key={artist_payment.id}
+                deleteArtistPayment={that.props.handleDeleteArtistPayment}
+                artist_payment={artist_payment}
+                fee_categories={that.props.fee_categories} />
       } else {
-        row = <ArtistPaymentsTableRow key={artist_payment.id} deleteArtistPayment={that.handleDeleteArtistPayment} artist_payment={artist_payment} fee_categories={that.props.fee_categories} />
+        row = <ArtistPaymentsTableRow
+                key={artist_payment.id}
+                deleteArtistPayment={that.props.handleDeleteArtistPayment}
+                artist_payment={artist_payment}
+                fee_categories={that.props.fee_categories} />
       }
       return row
     })
@@ -36,12 +37,12 @@ var ArtistPaymentsTable = React.createClass({
     var payments_table = <table id="artist_payments" className="artist-payments--table table table-responsive table-striped table-hover">
                 <thead>
                   <tr>
-                  <th className="date first" onClick={this._sortRowsBy}>Date</th>
-                  <th className="artist_name" onClick={this._sortRowsBy}>Artist Name</th>
-                  <th className="name" onClick={this._sortRowsBy}>Program/Exhibition</th>
-                  <th className="fee_category_id" onClick={this._sortRowsBy}>Fee Category</th>
-                  <th className="amount" onClick={this._sortRowsBy}>Amount</th>
-                  <th className="check_no" onClick={this._sortRowsBy}>Check #</th>
+                  <th className="sortable first" name="date" onClick={this.sortRowsBy}>Date<i className="fa fa-sort"></i></th>
+                  <th className="sortable" name="artist_name" onClick={this.sortRowsBy}>Artist Name<i className="fa fa-sort"></i></th>
+                  <th className="sortable" name="name" onClick={this.sortRowsBy}>Program/Exhibition<i className="fa fa-sort"></i></th>
+                  <th className="sortable" name="fee_category_id" onClick={this.sortRowsBy}>Fee Category<i className="fa fa-sort"></i></th>
+                  <th className="sortable" name="amount" onClick={this.sortRowsBy}>Amount<i className="fa fa-sort"></i></th>
+                  <th className="sortable" name="check_no" onClick={this.sortRowsBy}>Check #<i className="fa fa-sort"></i></th>
                   {this.actions()}
                   </tr>
                 </thead>

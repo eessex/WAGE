@@ -164,6 +164,23 @@
       margin-left: -12px;
     }
   }
+  th {
+    &.sortable {
+      width: 200px;
+      &[name="check_no"] {
+        width: 100px;
+      }
+    }
+    .fa-sort {
+      margin-left: .5em;
+      font-size: 90%;
+      display: none;
+    }
+    &.active .fa-sort,
+    &:hover .fa-sort {
+      display: inline-block;
+    }
+  }
   .diff {
     font-size: smaller;
     padding-left: 1em;

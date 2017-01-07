@@ -237,6 +237,7 @@ var CertificationView = React.createClass({
     this.setState({artist_payments: artist_payments})
   },
   handleDeleteArtistPayment(artist_payment) {
+    debugger
     var artist_payments = this.state.artist_payments.filter(function(item) {
       return artist_payment.id !== item.id;
     });
@@ -254,6 +255,37 @@ var CertificationView = React.createClass({
       formatted_date = moment(this.state.certification.fiscal_start).format('MMM D, YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMM D, YYYY');
     }
     return formatted_date
+  },
+  sortRowsBy(e) {
+    var sortDir = this.state.sortDir;
+    var sortBy = $(e.target).attr('name') || $(e.target).parent().attr('name')
+    if (sortBy === this.state.sortBy) {
+      sortDir = this.state.sortDir == 'ASC' ? 'DESC' : 'ASC';
+    } else {
+     sortDir = 'ASC';
+    }
+    var artist_payments = this.state.artist_payments.slice();
+    artist_payments.sort((a, b) => {
+      var sortVal = 0;
+      if (a[sortBy] > b[sortBy]) {
+        sortVal = 1;
+      }
+      if (a[sortBy] < b[sortBy]) {
+        sortVal = -1;
+      }
+      if (sortDir === 'DESC') {
+        sortVal = sortVal * -1;
+      }
+      return sortVal;
+    });
+    this.setState({sortBy, sortDir});
+    this.setState({artist_payments: artist_payments});
+    $('th').removeClass('active')
+    if ($(e.target).attr('name')) {
+      $(e.target).addClass('active').toggleClass('ASC')
+    } else {
+      $(e.target).parent().addClass('active').toggleClass('ASC')
+    }
   },
   // CONTENT OPTIONS
   showNext() {
@@ -273,8 +305,8 @@ var CertificationView = React.createClass({
       payments = <div className="section artist-payments clearfix">
         <h3 className="section artist-payments__title">Artist Payments</h3>
         <ArtistPaymentsTable
-          artist_payments={this.props.artist_payments}
-          // _sortRowsBy={this.props._sortRowsBy}
+          artist_payments={this.state.artist_payments}
+          sortRowsBy={this.props.sortRowsBy}
           // paymentsSorted={this.props.paymentsSorted}
           isEdit="false"
           fee_categories={this.props.fee_categories} /></div>
@@ -337,19 +369,20 @@ var CertificationView = React.createClass({
     if (menu[position] == 'fee-tracker') {
       title = 'Fee Tracker'
       body = <div>
-            <FeeTrackerNew
+            <FeeTracker
               goFeeSchedule={this.goFeeSchedule}
               certification={this.props.certification}
               fee_categories={this.props.fee_categories}
               formatted_dates={this.state.formattedDate}
               new_user={this.state.new_user}
               yearStatus={this.state.yearStatus}
-              artist_payments={this.props.artist_payments}
+              artist_payments={this.state.artist_payments}
+              sortRowsBy={this.sortRowsBy}
               handleAddArtistPayment={this.handleAddArtistPayment}
               handleDeleteArtistPayment={this.handleDeleteArtistPayment}
               handleSortPayments={this.handleSortPayments}
               handleCertificationUpdate={this.handleCertificationUpdate} />
-              </div>
+            </div>
     }
     if (menu[position] == 'review') {
       title = 'Review'
