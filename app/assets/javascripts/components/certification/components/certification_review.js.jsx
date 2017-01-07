@@ -73,8 +73,8 @@ var CertificationReview = React.createClass({
         <h3 className="section artist-payments__title">Artist Payments</h3>
         <ArtistPaymentsTable
           artist_payments={this.props.artist_payments}
-          _sortRowsBy={this.props._sortRowsBy}
-          paymentsSorted={this.props.paymentsSorted}
+          sortRowsBy={this.props.sortRowsBy}
+          // paymentsSorted={this.props.paymentsSorted}
           isEdit="false"
           fee_categories={this.props.fee_categories} /></div>
     }
