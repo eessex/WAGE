@@ -6,36 +6,42 @@ var ArtistPaymentsTableEditRow = React.createClass({
       errors: {}
     }
   },
-  handleNameChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.name = e.target.value
-    this.setState({artist_payment: newArtistPayment});
+  handleInputChange(e) {
+    var newPayment = this.state.artist_payment
+    newPayment[e.target.name] = e.target.value
+    this.setState({artist_payment: newPayment})
+    this.fulfilsRequired(e)
   },
-  handleArtistNameChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.artist_name = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleDateChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.date = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleAmountChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.amount = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleCheckNoChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.check_no = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleFeeCategoryChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.fee_category_id = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
+  // handleNameChange(e) {
+  //   var newArtistPayment = this.state.artist_payment
+  //   newArtistPayment.name = e.target.value
+  //   this.setState({artist_payment: newArtistPayment});
+  // },
+  // handleArtistNameChange(e) {
+  //   var newArtistPayment = this.state.artist_payment
+  //   newArtistPayment.artist_name = e.target.value
+  //   this.setState({artist_payment: newArtistPayment});
+  // },
+  // handleDateChange(e) {
+  //   var newArtistPayment = this.state.artist_payment
+  //   newArtistPayment.date = e.target.value
+  //   this.setState({artist_payment: newArtistPayment});
+  // },
+  // handleAmountChange(e) {
+  //   var newArtistPayment = this.state.artist_payment
+  //   newArtistPayment.amount = e.target.value
+  //   this.setState({artist_payment: newArtistPayment});
+  // },
+  // handleCheckNoChange(e) {
+  //   var newArtistPayment = this.state.artist_payment
+  //   newArtistPayment.check_no = e.target.value
+  //   this.setState({artist_payment: newArtistPayment});
+  // },
+  // handleFeeCategoryChange(e) {
+  //   var newArtistPayment = this.state.artist_payment
+  //   newArtistPayment.fee_category_id = e.target.value
+  //   this.setState({artist_payment: newArtistPayment});
+  // },
   handleArtistPaymentUpdate() {
     var that = this;
     $.ajax({
@@ -109,56 +115,56 @@ var ArtistPaymentsTableEditRow = React.createClass({
                <input
                  type="date"
                  className="form-control"
+                 name='date'
                  value={this.state.artist_payment.date}
-                 onChange={this.handleDateChange}
-                 />
-               <span style={{color: 'red'}}>{this.state.errors.date}</span>
+                 onChange={this.handleInputChange} />
+               <span className='error'>{this.state.errors.date}</span>
              </td>
              <td className="field-group">
                <input
                  type="text"
                  className="form-control"
+                 name='artist_name'
                  value={this.state.artist_payment.artist_name}
-                 onChange={this.handleArtistNameChange}
-                 />
-               <span style={{color: 'red'}}>{this.state.errors.artist_name}</span>
+                 onChange={this.handleInputChange} />
+               <span className='error'>{this.state.errors.artist_name}</span>
              </td>
              <td className="field-group">
                <input
                  type="text"
                  className="form-control"
+                 name='name'
                  value={this.state.artist_payment.name}
-                 onChange={this.handleNameChange}
-                 />
-               <span style={{color: 'red'}}>{this.state.errors.name}</span>
+                 onChange={this.handleInputChange} />
+               <span className='error'>{this.state.errors.name}</span>
              </td>
              <td className="field-group">
-             <select
-               type='text'
-               className='form-control'
-               value={this.optionState}
-               onChange={this.handleFeeCategoryChange}
-               >
-               {options}
-             </select>
+               <select
+                 type='text'
+                 className='form-control'
+                 name='fee_category'
+                 value={this.optionState}
+                 onChange={this.handleInputChange}>
+                 {options}
+               </select>
              </td>
              <td className="field-group">
                <input
                  type="text"
                  className="form-control"
+                 name='amount'
                  value={this.state.artist_payment.amount}
-                 onChange={this.handleAmountChange}
-                 />
-               <span style={{color: 'red'}}>{this.state.errors.amount}</span>
+                 onChange={this.handleInputChange} />
+               <span className='error'>{this.state.errors.amount}</span>
              </td>
              <td className="field-group">
                <input
                  type="text"
                  className="form-control"
+                 name='check_no'
                  value={this.state.artist_payment.check_no}
-                 onChange={this.handleCheckNoChange}
-                 />
-               <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
+                 onChange={this.handleInputChange} />
+               <span className='error'>{this.state.errors.check_no}</span>
              </td>
              <td className="last">
                <button onClick={this.handleArtistPaymentUpdate} className="btn">Save</button>

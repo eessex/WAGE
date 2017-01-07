@@ -159,7 +159,7 @@ var FiscalDates = React.createClass({
     //     start_years.push(moment(start).add(1, 'year').format('Y'))
     //     end_years.push(moment(start).add(2, 'years').subtract(1, 'day').format('Y'))
     //   }
-    debugger
+    // debugger
     return {end_years: end_years, start_years: start_years}
   },
   render() {

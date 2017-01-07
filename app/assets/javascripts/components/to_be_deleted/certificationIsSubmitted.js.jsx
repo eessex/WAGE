@@ -196,7 +196,11 @@
 //   },
 //   getArtistPayments() {
 //     if (this.hasPayments() == 'progress' || this.hasPayments() == 'true') {
-//       var payments = <ArtistPaymentsTable artist_payments={this.state.artist_payments} _sortRowsBy={this._sortRowsBy} paymentsSorted={this.paymentsSorted} isEdit="true" handleDeleteArtistPayment={this.handleDeleteArtistPayment} fee_categories={this.props.fee_categories}/>
+//       var payments = <ArtistPaymentsTable
+												// artist_payments={this.state.artist_payments}
+												// _sortRowsBy={this._sortRowsBy}
+												// paymentsSorted={this.paymentsSorted}
+												// isEdit="true" handleDeleteArtistPayment={this.handleDeleteArtistPayment} fee_categories={this.props.fee_categories}/>
 //     } else {
 //       var payments
 //     }
@@ -230,7 +234,13 @@
 //          <h1><span>Fee Tracker</span></h1>
 //          <h5>Fiscal Year: {this.formatDates()}</h5>
 //        </div></div>
-//            <ArtistPaymentNew handleAddArtistPayment={this.handleAddArtistPayment} certification={this.state.certification} fee_categories={this.props.fee_categories} formatted_dates={this.formatDates} getYearStatus={this.getYearStatus}  handleCertificationUpdate={this.handleCertificationUpdate} />
+//            <ArtistPaymentNew
+							 // handleAddArtistPayment={this.handleAddArtistPayment}
+							 // certification={this.state.certification}
+							 // fee_categories={this.props.fee_categories}
+							 // formatted_dates={this.formatDates}
+							 // getYearStatus={this.getYearStatus}
+							 // handleCertificationUpdate={this.handleCertificationUpdate} />
 //            </div>
 //      }
 //   } else if (this.state.contentState == 1) {

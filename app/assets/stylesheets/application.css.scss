@@ -20,13 +20,14 @@
 
  @import "variables";
  @import "./users";
- @import "./artist_payments";
  @import "./fee_schedule";
  @import "./financials";
  @import "./direct_upload";
  @import "./certification/certification";
  @import "./certification/certification_menu";
  @import "./certification/certification_review";
+ @import "./fee-tracker/fee-tracker";
+ @import "./fee-tracker/artist-payments";
 
 
 body {

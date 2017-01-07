@@ -46,10 +46,6 @@
   }
 }
 #fee-schedule {
-  // h1 {
-  //   margin-bottom: 1.75em;
-  //   padding-left: .25em;
-  // }
   h4.taoe {
     position: absolute;
     top: 0;
@@ -146,7 +142,28 @@
     }
   }
 }
-#artist_payments.table {
+.artist-payments--table {
+  td, th {
+    vertical-align: center !important;
+    &.last {
+      width: 150px;
+    }
+    &.first {
+      width: 200px;
+    }
+    input, select {
+      margin-left: -12px;
+    }
+    select {
+      width: 200px;
+      margin-right: 10px;
+    }
+    .error {
+      color: red;
+      font-size: 11px;
+      margin-left: -12px;
+    }
+  }
   .diff {
     font-size: smaller;
     padding-left: 1em;

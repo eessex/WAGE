@@ -1,5 +1,4 @@
 var menu = ['guidelines', 'contact', 'fiscal-details', 'materials', 'fee-tracker', 'review', 'fee-schedule']
-// var root = 
 
 var CertificationView = React.createClass({
   getInitialState() {
@@ -19,6 +18,8 @@ var CertificationView = React.createClass({
       canSubmit: null,
       formattedDate: null,
       editDates: true,
+      sortBy: 'date',
+      sortDir: 'ASC',
       errors: {}
     }
   },
@@ -235,6 +236,15 @@ var CertificationView = React.createClass({
     artist_payments.push(artist_payment)
     this.setState({artist_payments: artist_payments})
   },
+  handleDeleteArtistPayment(artist_payment) {
+    var artist_payments = this.state.artist_payments.filter(function(item) {
+      return artist_payment.id !== item.id;
+    });
+    this.setState({artist_payments: artist_payments})
+  },
+  handleSortPayments(artist_payments) {
+    this.setState({artist_payments: artist_payments})
+  },
   // FORMAT HELPERS
   formatDates() {
     var formatted_date
@@ -335,6 +345,9 @@ var CertificationView = React.createClass({
               new_user={this.state.new_user}
               yearStatus={this.state.yearStatus}
               artist_payments={this.props.artist_payments}
+              handleAddArtistPayment={this.handleAddArtistPayment}
+              handleDeleteArtistPayment={this.handleDeleteArtistPayment}
+              handleSortPayments={this.handleSortPayments}
               handleCertificationUpdate={this.handleCertificationUpdate} />
               </div>
     }
@@ -346,7 +359,7 @@ var CertificationView = React.createClass({
           certification={this.props.certification}
           certifications={this.props.certifications}
           formatted_dates={this.state.formattedDate}
-          artist_payments={this.props.artist_payments}
+          artist_payments={this.state.artist_payments}
           yearStatus={this.state.yearStatus}
           handleSubmit={this.onCertificationSubmit}
           new_user={this.state.new_user}

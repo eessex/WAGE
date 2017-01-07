@@ -18,38 +18,17 @@
     var newPayment = this.state.artist_payment
     newPayment[e.target.name] = e.target.value
     this.setState({artist_payment: newPayment})
-    // this.props.handleUserUpdate(newPayment)
-    // this.fulfilsRequired(e)
+    this.fulfilsRequired(e)
   },
-  handleNameChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.name = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleArtistNameChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.artist_name = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleDateChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.date = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleAmountChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.amount = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleCheckNoChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.check_no = e.target.value
-    this.setState({artist_payment: newArtistPayment});
-  },
-  handleFeeCategoryChange(e) {
-    var newArtistPayment = this.state.artist_payment
-    newArtistPayment.fee_category_id = e.target.value
-    this.setState({artist_payment: newArtistPayment});
+  fulfilsRequired(e) {
+    if (e.target) {
+      e = e.target
+    }
+    if ( $(e).find('input').val() != "")  {
+      $(e).next('.req').addClass('green')
+    } else {
+      $(e).next('.req').removeClass('green')
+    }
   },
   addArtistPayment() {
     var that = this;
@@ -152,78 +131,101 @@
     }
     var form
     form = <div className="form">
-      <div className="form">
-        <div className="col col-xs-12 col-md-6">
-          <div className="form-group">
-            <label>Date</label>
+      <div className="form__fields">
+        <div className="form-group">
+          <label>Date</label>
+          <div className="field-group required">
             <input
               disabled={disabled}
               value={this.state.artist_payment.date}
               type="date"
+              name='date'
               className="form-control"
-              onChange={this.handleDateChange}  />
-            <span style={{color: 'red'}}>{this.state.errors.date}</span>
+              onChange={this.handleInputChange}  />
+            <span className="req">*</span>
+            <span className="error">{this.state.errors.date}</span>
           </div>
-            <div className="form-group">
-            <label>Artist Name</label>
-              <input
-                disabled={disabled}
-                value={this.state.artist_payment.artist_name}
-                type="text"
-                placeholder="Artist Name"
-                onChange={this.handleArtistNameChange}
-                className="form-control" />
-              <span style={{color: 'red'}}>{this.state.errors.artist_name}</span>
-            </div>
-            <div className="form-group">
-            <label>Program Name</label>
-              <input
-                disabled={disabled}
-                type="text"
-                value={this.state.artist_payment.name}
-                placeholder="Program Name"
-                onChange={this.handleNameChange}
-                className="form-control"/>
-              <span style={{color: 'red'}}>{this.state.errors.name}</span>
-            </div>
+        </div>
+        <div className="form-group">
+          <label>Artist Name</label>
+          <div className="field-group required">
+            <input
+              disabled={disabled}
+              value={this.state.artist_payment.artist_name}
+              type="text"
+              placeholder="Artist Name"
+              name="artist_name"
+              onChange={this.handleInputChange}
+              className="form-control" />
+            <span className="req">*</span>
+            <span className="error">{this.state.errors.artist_name}</span>
           </div>
-        <div className="col col-xs-12 col-md-6">
-          <div className="form-group">
-            <label>Fee Category</label>
+        </div>
+        <div className="form-group">
+          <label>Program Name</label>
+          <div className="field-group required">
+            <input
+              disabled={disabled}
+              type="text"
+              value={this.state.artist_payment.name}
+              placeholder="Program Name"
+              name="name"
+              onChange={this.handleInputChange}
+              className="form-control"/>
+            <span className="req">*</span>
+            <span className="error">{this.state.errors.name}</span>
+          </div>
+        </div>
+        <div className="form-group">
+          <label>Fee Category</label>
+          <div className="field-group">
             <select
               disabled={disabled}
               type='text'
+              name='fee_category'
               className='form-control'
               value={this.optionState}
-              onChange={this.handleFeeCategoryChange}
-              >
+              onChange={this.handleInputChange}>
               {options}
             </select>
           </div>
-          <div className="form-group">
+        </div>
+        <div className="form-group">
           <label>Amount</label>
+          <div className="field-group required">
             <input
               disabled={disabled}
               type="text"
               placeholder="Amount"
+              name='amount'
               value={this.state.artist_payment.amount}
-              onChange={this.handleAmountChange}
+              onChange={this.handleInputChange}
               className="form-control"/>
-            <span style={{color: 'red'}}>{this.state.errors.amount}</span>
+            <span className="req">*</span>
+            <span className="error">{this.state.errors.amount}</span>
           </div>
-          <div className="form-group">
+        </div>
+        <div className="form-group">
           <label>Check No.</label>
+          <div className="field-group">
             <input
               disabled={disabled}
               type="text"
               placeholder="Check No."
+              name='check_no'
               value={this.state.artist_payment.check_no}
-              onChange={this.handleCheckNoChange}
+              onChange={this.handleInputChange}
               className="form-control" />
-            <span style={{color: 'red'}}>{this.state.errors.check_no}</span>
+            <span className="error">{this.state.errors.check_no}</span>
           </div>
-        </div>
-        <div id="actions" className="field-group"><button onClick={this.addArtistPayment} disabled={disabled} className="btn btn-lg">Save <i className="fa fa-plus" aria-hidden="true"></i></button></div>
+                </div>
+                  </div>
+        <div id="actions" className="field-group">
+          <button
+            onClick={this.addArtistPayment}
+            disabled={disabled}
+            className="btn btn-lg"
+            >Save <i className="fa fa-plus" aria-hidden="true"></i></button>
       </div>
     </div>
     return form
@@ -236,12 +238,19 @@
       } else {
         link = <span>Once your fiscal year has started, you are required to <a onClick={this.toggleTracker}>create an entry</a></span>
       }
-    } else if (this.state.showForm) {
+    } else if (!this.state.showForm) {
       link = <a onClick={this.toggleTracker}>Create an entry</a>
     } else {
       link = <span>Create an entry</span>
     }
     return link
+  },
+  showCurrentNewUser() {
+    var current_message
+    if (this.props.new_user && this.props.yearStatus == 'current') {
+      current_message = <span>You do not need to complete the fee tracker until your fiscal year has ended. </span>
+    }
+    return current_message
   },
   showQbPlLink() {
     var link
@@ -262,7 +271,8 @@
             artist_payments={this.props.artist_payments}
             _sortRowsBy={this.props._sortRowsBy}
             paymentsSorted={this.props.paymentsSorted}
-            isEdit="false"
+            isEdit="true"
+            handleDeleteArtistPayment={this.props.handleDeleteArtistPayment}
             fee_categories={this.props.fee_categories} /></div>
       }
     }
@@ -273,7 +283,7 @@
       <div className="fee-tracker fee-tracker--new">
         <div className="fee-tracker__intro">
           <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a> during the fiscal year in which they apply.</h4>
-          <h4>{this.showTrackerLink()} for each fee payment to an artist between {this.props.formatted_dates}. Alternatively, you may {this.showQbPlLink()}</h4>
+          <h4>{this.showTrackerLink()} for each fee payment to an artist between {this.props.formatted_dates}. {this.showCurrentNewUser()}{this.showQbPlLink()}</h4>
         </div>
         {this.showForms()}
         {this.paymentsTable()}
