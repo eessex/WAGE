@@ -32,6 +32,8 @@ var CertificationMenu = React.createClass({
         return progress.hasFiscalDetails
       } else if (item == 'fee-tracker') {
         return progress.hasPayments
+      } else if (item == 'materials') {
+        return progress.hasMaterials
       }
     }
   },

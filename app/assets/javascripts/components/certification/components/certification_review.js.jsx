@@ -41,30 +41,19 @@ var CertificationReview = React.createClass({
       </div>
     )
   },
-  fileShortlist() {
-    if (this.props.new_user) {
-      return ( <div className="col col-lg-6">
-        {this.showFile('file_budget', 'certification', "Operating Budget")}
-        {this.showFile('qb_pl', 'certification', "Quickbooks P&L")}
-        {this.showFile('file_990', 'certification', "Form 990")}
-      </div>
-      )
-    }
-  },
   showMaterials() {
     var file_contract = <span className='upload disabled'><i className='fa fa-file'></i> Sample Contracts <span className='req'>*</span></span>
     var file_990 = <span className='upload disabled'><i className='fa fa-file'></i> Form 990 <span className='suggested'>* If Available</span></span>
     var file_501c3 = <span className='upload disabled'><i className='fa fa-file'></i> 501c3 <span className='req'>*</span></span>
     var statement = <span className='upload disabled'><i className='fa fa-file'></i> Statement of Intent <span className='req'>*</span></span>
-
-      return (
-        <div className="section financials clearfix">
-          <h5>{this.props.certification.file_501c3 ? this.showFile('file_501c3', 'certification', "501c3") : file_501c3}</h5>
-          <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', "Form 990") : file_990}</h5>
-          <h5>{this.props.certification.file_contract ? this.showFile('file_contract', 'certification', "Sample Contracts") : file_contract}</h5>
-          <h5>{this.props.certification.statement ? this.showFile('statement', 'certification', "Statement of Intent") : statement}</h5>
-        </div>
-      )
+    return (
+      <div className="section financials clearfix">
+        <h5>{this.props.certification.file_501c3 ? this.showFile('file_501c3', 'certification', "501c3") : file_501c3}</h5>
+        <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', "Form 990") : file_990}</h5>
+        <h5>{this.props.certification.file_contract ? this.showFile('file_contract', 'certification', "Sample Contracts") : file_contract}</h5>
+        <h5>{this.props.certification.statement ? this.showFile('statement', 'certification', "Statement of Intent") : statement}</h5>
+      </div>
+    )
   },
   paymentsTable() {
     var payments
@@ -74,12 +63,12 @@ var CertificationReview = React.createClass({
         <ArtistPaymentsTable
           artist_payments={this.props.artist_payments}
           sortRowsBy={this.props.sortRowsBy}
-          // paymentsSorted={this.props.paymentsSorted}
           isEdit="false"
           fee_categories={this.props.fee_categories} /></div>
     }
     return payments
   },
+
   render() {
     if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
       var formatted_date = moment(this.state.certification.fiscal_start).format('YYYY')
@@ -93,6 +82,7 @@ var CertificationReview = React.createClass({
     }
     var fiscal_dates_show = <span>{format_start}{moment(this.props.user.fiscal_end).format('MMM D, Y')}</span>
     var artist_payments_info
+
     if (!this.props.isFuture && this.state.certification.status < 1 && (new Date() < Date.parse(this.props.certification.fiscal_end))) {
       artist_payments_info =
       <div className="section artist-payments-info clearfix">

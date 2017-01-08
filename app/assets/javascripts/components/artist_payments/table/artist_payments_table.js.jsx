@@ -35,21 +35,21 @@ var ArtistPaymentsTable = React.createClass({
   },
   render() {
     var payments_table = <table id="artist_payments" className="artist-payments--table table table-responsive table-striped table-hover">
-                <thead>
-                  <tr>
-                  <th className="sortable first" name="date" onClick={this.sortRowsBy}>Date<i className="fa fa-sort"></i></th>
-                  <th className="sortable" name="artist_name" onClick={this.sortRowsBy}>Artist Name<i className="fa fa-sort"></i></th>
-                  <th className="sortable" name="name" onClick={this.sortRowsBy}>Program/Exhibition<i className="fa fa-sort"></i></th>
-                  <th className="sortable" name="fee_category_id" onClick={this.sortRowsBy}>Fee Category<i className="fa fa-sort"></i></th>
-                  <th className="sortable" name="amount" onClick={this.sortRowsBy}>Amount<i className="fa fa-sort"></i></th>
-                  <th className="sortable" name="check_no" onClick={this.sortRowsBy}>Check #<i className="fa fa-sort"></i></th>
-                  {this.actions()}
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.paymentRow()}
-                </tbody>
-              </table>
+        <thead>
+          <tr>
+          <th className="sortable first" name="date" onClick={this.sortRowsBy}>Date<i className="fa fa-sort"></i></th>
+          <th className="sortable" name="artist_name" onClick={this.sortRowsBy}>Artist Name<i className="fa fa-sort"></i></th>
+          <th className="sortable" name="name" onClick={this.sortRowsBy}>Program/Exhibition<i className="fa fa-sort"></i></th>
+          <th className="sortable" name="fee_category_id" onClick={this.sortRowsBy}>Fee Category<i className="fa fa-sort"></i></th>
+          <th className="sortable" name="amount" onClick={this.sortRowsBy}>Amount<i className="fa fa-sort"></i></th>
+          <th className="sortable" name="check_no" onClick={this.sortRowsBy}>Check #<i className="fa fa-sort"></i></th>
+          {this.actions()}
+          </tr>
+        </thead>
+        <tbody>
+          {this.paymentRow()}
+        </tbody>
+      </table>
     return (
       payments_table
     );

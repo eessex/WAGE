@@ -13,6 +13,7 @@ var CertificationView = React.createClass({
       yearStatus: this.yearStatus(),
       hasCertifications: this.hasCertifications(),
       hasFiscalDetails: null,
+      hasMaterials: null,
       hasPayments: null,
       hasContact: null,
       canSubmit: null,
@@ -33,6 +34,7 @@ var CertificationView = React.createClass({
       hasFiscalDetails: this.hasFiscalDetails(),
       hasPayments: this.hasPayments(),
       hasContact: this.hasContact(),
+      hasMaterials: this.hasMaterials(),
       canSubmit: this.canSubmit(),
       formattedDate: this.formatDates(),
       navPosition: navPosition
@@ -79,7 +81,7 @@ var CertificationView = React.createClass({
         return true
       } else if (
         (this.state.yearStatus == 'future' || this.state.yearStatus == 'current') &&
-        (this.hasFiscalDetails() == 'true')
+        (this.hasFiscalDetails() == 'true' && this.hasContact() == 'true' && this.hasMaterials() == 'true')
         ) {
         return true
       }
@@ -90,13 +92,26 @@ var CertificationView = React.createClass({
   hasFiscalDetails() {
     if ( this.state.certification.operating_expenses &&
       this.state.certification.file_budget &&
-      this.state.certification.file_contract &&
-      this.state.user.file_501c3 ) {
+      this.state.certification.fiscal_start &&
+      this.state.certification.fiscal_end ) {
       return 'true'
     } else if ( this.state.certification.operating_expenses ||
       this.state.certification.file_budget ||
-      this.state.certification.file_contract ||
-      this.state.user.file_501c3 ) {
+      this.state.certification.fiscal_start ||
+      this.state.certification.fiscal_end ) {
+      return 'progress'
+    } else {
+      return false
+    }
+  },
+  hasMaterials() {
+    if ( this.state.user.file_501c3 &&
+          this.state.user.statement &&
+          this.state.certification.file_contract ) {
+      return 'true'
+    } else if ( this.state.user.file_501c3 ||
+          this.state.user.statement ||
+          this.state.certification.file_contract ) {
       return 'progress'
     } else {
       return false
@@ -144,7 +159,8 @@ var CertificationView = React.createClass({
     return {
       hasFiscalDetails: this.state.hasFiscalDetails,
       hasPayments: this.state.hasPayments,
-      hasContact: this.state.hasContact
+      hasContact: this.state.hasContact,
+      hasMaterials: this.state.hasMaterials
     }
   },
   isSaved() {
@@ -237,7 +253,6 @@ var CertificationView = React.createClass({
     this.setState({artist_payments: artist_payments})
   },
   handleDeleteArtistPayment(artist_payment) {
-    debugger
     var artist_payments = this.state.artist_payments.filter(function(item) {
       return artist_payment.id !== item.id;
     });
