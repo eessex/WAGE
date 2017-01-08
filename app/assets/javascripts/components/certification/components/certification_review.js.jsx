@@ -36,7 +36,7 @@ var CertificationReview = React.createClass({
     var file_budget = <span className='upload disabled'><i className='fa fa-file'></i> Operating Budget <span className='req'>*</span></span>
     return ( <div className="section certification-year clearfix">
         <h5>Fiscal Year: {this.props.formatted_dates}</h5>
-        <h5>Total Operating Expenses: {this.props.certification.operating_expenses ? this.props.certification.operating_expenses : this.formattedOperating()}</h5>
+        <h5>Total Annual Operating Expenses: {this.props.certification.operating_expenses ? this.formattedOperating() : this.formattedOperating()}</h5>
         <h5>{this.props.certification.file_budget ? this.showFile('file_budget', 'certification', "Operating Budget") : file_budget}</h5>
       </div>
     )

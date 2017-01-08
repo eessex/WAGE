@@ -80,6 +80,7 @@ var FeeScheduleRoot = React.createClass({
     return {
       hasFiscalDetails: this.hasFiscalDetails(),
       hasPayments: this.hasPayments(),
+      hasMaterials: this.hasMaterials(),
       hasContact: this.hasContact()
     }
   },

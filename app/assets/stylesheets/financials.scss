@@ -25,6 +25,14 @@
 	p {
 		margin: 0 0 .5em 0;
 	}
+	.form-item {
+		position: relative;
+	}
+	.btn.fee-schedule {
+    position: absolute;
+    right: 0;
+    top: 0.25em;
+	}
 	.form-item:first-child {
     margin-bottom: 3em;
     margin-top: 8em;

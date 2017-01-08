@@ -30,12 +30,8 @@ var FinancialDetails = React.createClass({
   hasFile_990() {
     var file_990
     var file_990_caption
-    if (this.props.newUser == true) {
-      file_990_caption = "* Most recent if available"
-    } else {
-      file_990_caption = "* if available"
-    }
-    if (this.state.newUser || this.props.yearStatus != 'future' ) {
+    file_990_caption = "* if available"
+    if (!this.props.new_user && this.props.yearStatus != 'future' ) {
         file_990 =
           <UploadFile
             model={this.props.certification}
@@ -79,6 +75,7 @@ var FinancialDetails = React.createClass({
             <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
                 <p>{operating_caption} annual expenses for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</p>
+                <a href="/#fee-schedule"><button className="btn fee-schedule" >My Fee Schedule</button></a>
                   <div className="input-group input-group__addon">
                   <div className="input-group-addon">$</div>
                   <input
