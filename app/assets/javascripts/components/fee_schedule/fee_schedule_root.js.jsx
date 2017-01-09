@@ -105,7 +105,7 @@ var FeeScheduleRoot = React.createClass({
 		return (
 			<div className='fee-schedule'>
 				{items}
-				<h1>Fee Schedule</h1>
+				<h1><span>Fee Schedule</span></h1>
 				<FeeSchedule certification={this.props.certification} fee_categories={this.props.fee_categories} />
 			</div>
 		)

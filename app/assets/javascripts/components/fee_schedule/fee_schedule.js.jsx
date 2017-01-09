@@ -6,7 +6,7 @@ var FeeSchedule = React.createClass({
     }
   },
   componentDidMount() {
-    this.revealFeeInfo()
+    this.revealDescription()
   },
   feeStatus() {
     var feeStatus
@@ -31,62 +31,70 @@ var FeeSchedule = React.createClass({
     }
     return message
   },
-  revealFeeInfo() {
-    $('.wide .info--title').mouseover(function(e) {
+  revealDescription() {
+    $('#schedule-table .fee-category:not(.header)').mouseover(function(e) {
       $(this).addClass('active')
-      $(this).siblings('.info').fadeIn()
+      $(this).siblings('.description').addClass('active')
     })
-    $('.wide .info--title').mouseout(function(e) {
+    $('#schedule-table .fee-category:not(.header)').mouseout(function(e) {
       $(this).removeClass('active')
-      $(this).siblings('.info').fadeOut()
+      $(this).siblings('.description').removeClass('active')
     })
   },
   feeHeader() {
     var status = this.feeStatus()
     var fee_header
-    var floor_info = <div className="info info--floor">Minimum for instiuttions with TAOE under $500K</div>
-    var minimum_info = <div className="info info--minimum">Minimum required for certification</div>
-    var recommended_info = <div className="info info--recommended">Recommended miminum for institutions with operating expenses over $5M</div>
-    var max_info = <div className="info info--minimum">Required for institutions with operating expenses over $15M</div>
+    var floor_info = <div className="subtitle floor">Minimum required for certification</div>
+    var minimum_info = <div className="subtitle minimum">Minimum required for certification</div>
+    var recommended_info = <div className="subtitle recommended"></div>
+    var max_info = <div className="subtitle maximum">Must not exceed average salary of institution’s full time employees</div>
     if (status == "floor") {
-      fee_header = <span className="wide single">
-                     <span className="info--title">Minimum Wage<i className="fa fa-question-circle" aria-hidden="true"></i></span>
-                     {minimum_info}
-                   </span>
+      fee_header = <div className="info__header">
+                    <div className="info__title minimum">
+                      <span className="category">Minimum Wage</span>
+                      {minimum_info}
+                    </div>
+                   </div>
     } else if (status == "min") {
-      fee_header = <span className="wide">
-                    <span className="left">
-                      <span className="info--title">Floor Wage</span>
+      fee_header = <div className="info__header">
+                    <div className="info__title floor">
+                      <span className="category">Floor Wage</span>
                       {floor_info}
-                    </span>
-                    <span>
-                      <span className="info--title">Minimum Wage</span>
+                    </div>
+                    <div className="info__title minimum">
+                      <span className="category">Minimum Wage</span>
                       {minimum_info}
-                    </span>
-                  </span>
+                    </div>
+                   </div>
     } else if (status == "over5m") {
-      fee_header = <span className="wide">
-                    <span className="left">
-                      <span className="info--title">Recommended</span>
-                      {recommended_info}
-                    </span>
-                    <span>
-                      <span className="info--title">Minimum Wage</span>
+      fee_header = <div className="info__header">
+                    <div className="info__title minimum">
+                      <span className="category">Minimum Wage</span>
                       {minimum_info}
-                    </span>
-                  </span>
+                    </div>
+                    <div className="info__title recommended">
+                      <span className="category">Recommended Wage</span>
+                      {recommended_info}
+                    </div>
+                   </div>
     } else if (status == "max") {
-      fee_header = <span className="wide single">
-                     <span className="info--title">Minimum Wage</span>
-                     {max_info}
-                   </span>
+      fee_header = <div className="info__header">
+                    <div className="info__title minimum">
+                      <span className="category">Minimum Wage</span>
+                      {minimum_info}
+                    </div>
+                    <div className="info__title maximum">
+                      <span className="category">Maximum Wage</span>
+                      {max_info}
+                    </div>
+                   </div>
     }
     return fee_header
   },
   FeeCategoryRows() {
     var fee_categories = this.state.fee_categories.map( function(fee_category, i) {
     var status = this.feeStatus()
-    var subtitle = <span className="subtitle">{fee_category.fee_subtitle}</span>
+    var subtitle = <span className="info__fee-subtitle">{fee_category.fee_subtitle}</span>
 
     var floor_fee = Number(fee_category.floor_fee).toLocaleString()
     var min_fee = Number(this.state.certification.operating_expenses * Number(fee_category.over500K)).toLocaleString()
@@ -98,98 +106,107 @@ var FeeSchedule = React.createClass({
       format_fee = <span className="wide"><span><span className="amount">${floor_fee}</span>{subtitle}</span></span>
     } else if (status == "min") {
       if (i == 11 || i == 12) {
-        format_fee = <span className="wide">
-                      <span className="left">
+        format_fee = <div className="info__fee">
+                      <div className="info__fee-amount floor">
                         <span className="amount">${floor_fee}</span>
                         {subtitle}
-                      </span>
-                      <span className="right">
+                      </div>
+                      <div className="info__fee-amount minimum">
                         <span className="amount">${existing_text.toLocaleString()}</span>
-                        <span className="subtitle">/word</span>
-                      </span>
-                    </span>
+                        <span className="info__fee-subtitle">/word</span>
+                      </div>
+                    </div>
       } else if (i == 13) {
-       format_fee = <span className="wide">
-                     <span className="left">
-                       <span className="amount">${floor_fee}</span>
-                       {subtitle}
-                      </span>
-                      <span className="right">
+       format_fee = <div className="info__fee">
+                      <div className="info__fee-amount floor">
                         <span className="amount">${floor_fee}</span>
                         {subtitle}
-                      </span>
-                    </span>
+                      </div>
+                      <div className="info__fee-amount floor">
+                        <span className="amount">${floor_fee}</span>
+                        {subtitle}
+                      </div>
+                    </div>
      } else {
-      format_fee = <span className="wide">
-                    <span className="left">
+      format_fee = <div className="info__fee">
+                    <div className="info__fee-amount floor">
                       <span className="amount">${floor_fee}</span>
                       {subtitle}
-                    </span>
-                    <span className="right">
+                    </div>
+                      <div className="info__fee-amount minimum">
                       <span className="amount">${min_fee}</span>
                       {subtitle}
-                    </span>
-                  </span>
+                    </div>
+                  </div>
       }
     } else if (status == "over5m") {
       if (i == 11 || i == 12) {
        floor_fee = (Number(fee_category.over500K)) + .25
-       format_fee = <span className="wide">
-                     <span className="left">
+       format_fee = <div className="info__fee">
+                     <div className="info__fee-amount minimum">
                        <span className="amount">${existing_text.toLocaleString()}</span>
                        <span className="subtitle">/word</span>
-                      </span>
-                      <span className="right">
+                      </div>
+                      <div className="info__fee-amount recommended">
                         <span className="amount">${floor_fee}</span>
                         <span className="subtitle">/word</span>
-                      </span>
-                    </span>
+                      </div>
+                    </div>
      } else if (i == 13) {
-      format_fee = <span className="wide">
-                    <span className="left">
+      format_fee = <div className="info__fee">
+                     <div className="info__fee-amount minimum">
                       <span className="amount">${fee_category.over500K}</span>
                       <span className="subtitle">/day</span>
-                     </span>
-                     <span className="right">
+                     </div>
+                      <div className="info__fee-amount recommended">
                        <span className="amount">${floor_fee}</span>
                        {subtitle}
-                     </span>
-                   </span>
+                     </div>
+                   </div>
     } else {
-      format_fee = <span className="wide">
-                    <span className="left">
+      format_fee = <div className="info__fee">
+                     <div className="info__fee-amount minimum">
                       <span className="amount">${min_fee}</span>
                       {subtitle}
-                    </span>
-                    <span className="right">
+                    </div>
+                    <div className="info__fee-amount recommended">
                       <span className="amount">${over5m}</span>
                       {subtitle}
-                    </span>
-                  </span>
+                    </div>
+                  </div>
       }
     } else if (status == "max") {
       if (i == 11 || i == 12) {
        floor_fee = (Number(fee_category.over500K)) + .25
-       format_fee = <span className="wide">
-                      <span className="right">
+       format_fee = <div className="info__fee">
+                     <div className="info__fee-amount minimum">
                         <span className="amount">${existing_text.toLocaleString()}</span>
                         <span className="subtitle">/word</span>
-                      </span>
-                    </span>
+                      </div>
+                      <div className="info__fee-amount maximum">
+                        <span className="amount">TBD</span>
+                      </div>
+                    </div>
      } else if (i == 13) {
-      format_fee = <span className="wide">
-                    <span className="right">
+      format_fee = <div className="info__fee">
+                     <div className="info__fee-amount minimum">
                       <span className="amount">${fee_category.over500K}</span>
                       <span className="subtitle">/day</span>
-                    </span>
-                  </span>
+                      </div>
+                      <div className="info__fee-amount maximum">
+                        <span className="amount">TBD</span>
+                      </div>
+                  </div>
     } else {
-      format_fee = <span className="wide">
-                      <span className="right">
+      format_fee = <div className="info__fee">
+                     <div className="info__fee-amount minimum">
                         <span className="amount">${over5m}</span>
                         {subtitle}
-                      </span>
-                    </span>
+                      </div>
+                      <div className="info__fee-amount maximum">
+                        <span className="amount">TBD</span>
+                      </div>
+                    </div>
       }
     }
     var format_percent
@@ -203,7 +220,7 @@ var FeeSchedule = React.createClass({
           <span className="title"><span className="category">{fee_category.name}</span>{format_percent}</span>
           {format_fee}
         </h5>
-        <div className="description">{fee_category.description}</div>
+        <div className="description"><p>{fee_category.description}</p></div>
       </div>
       )
     }, this);

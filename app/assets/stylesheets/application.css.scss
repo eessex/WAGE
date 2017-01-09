@@ -96,8 +96,9 @@ h1, h2, h3, h4, h5 {
 h1 span,
 h2 span,
 h3 span {
-  border-bottom: 2px solid $lime;
-  padding-bottom: 3px;
+  border-bottom: 1px solid $lime;
+  padding-bottom: 5px;
+  margin-bottom: 1em;
 }
 
 h1 {
