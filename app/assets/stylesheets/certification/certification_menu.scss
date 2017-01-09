@@ -1,0 +1,75 @@
+@import "variables";
+
+.certification-menu {
+	display: flex;
+	background: white;
+	border-top: 2px solid;
+	border-bottom: 2px solid;
+	padding: .65em 2em;
+	position: fixed;
+  left: 0;
+  right: 0;
+  top: 4em;
+  z-index: 100;
+	&__item {
+		text-transform: capitalize;
+		margin-right: 1.5em;
+		text-decoration: none !important;
+		&[data-active], &:hover {
+			font-weight: 600;
+			background: none transparent;
+			text-decoration: none;
+			span {
+				border-bottom: 2px solid $lime;
+			}
+		}
+		&[name='fee-schedule'] {
+			display: none;
+		  position: fixed;
+		  bottom: .5em;
+		  left: 1.5em;
+		  z-index: 1000;
+		  padding: 10px 16px !important;
+  	  font-size: 18px;
+		  @include btn-green;
+		  &:hover {
+		  	@include btn-black;
+		  	border-color: $lime;
+		  }
+		  &[data-active] {
+		  	display: none;
+		  }
+		}
+		&[disabled] {
+			opacity: .25;
+		}
+		i {
+			margin-right: .2em;
+			opacity: .25;
+		}
+		&[data-progress='true'] i {
+			color: $lime;
+			opacity: 1;
+		}
+		&[data-progress='progress'] i {
+			color: $dark-yellow;
+			opacity: 1;
+		}
+	}
+	.is-saved {
+	  position: absolute;
+	  right: 2em;
+	  transition: all .35s;
+	  &.saving {
+	    color: $red;
+	    i {
+	      color: $red;
+	    }
+	  }
+	  i {
+	    color: $lime;
+	    margin-right: .25em;
+	    transition: all .35s;
+	  }
+	}
+}

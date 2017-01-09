@@ -26,4 +26,18 @@ $(function() {
     $('.notice').delay(3500).fadeOut();
     $('.notices').delay(3500).fadeOut();
     $('.alert').delay(3500).fadeOut();
+
+    $('.fa-bars, .fa-close').click(function(e){
+    	$(e.target).toggleClass('fa-bars').toggleClass('fa-close')
+    })
+
+    $('.intro.one').click(function(e) {
+    	var height = $(window).height()
+    	 $('html, body').animate({scrollTop: height}, 1000)
+    })
+
+		$(document).click(function(e) {
+      $('.dropdown .fa-close').toggleClass('fa-close').toggleClass('fa-bars')
+		})
+
 });

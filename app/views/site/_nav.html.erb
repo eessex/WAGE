@@ -1,27 +1,50 @@
 <nav class="navbar navbar-fixed-top">
-    <div class="navbar-header">
-      <% if !user_signed_in? %>
-        <a href="http://wageforwork.com"><img class="logo" src="https://s3.amazonaws.com/wagency/WAGE+logo_black.png"></a>
-      <% else %>
-        <a class="navbar-brand" href="/">W.A.G.E.</a>
-      <% end %>
-    </div>
-    <% if user_signed_in? %>
+
+  <div class="navbar-header">
+    <% if !user_signed_in? %>
+      <a href="http://wageforwork.com"><img class="logo" src="https://s3.amazonaws.com/wagency/WAGE+logo_black.png"></a>
+    <% else %>
+      <a class="navbar-brand" href="/">W.A.G.E.</a>
+    <% end %>
+  </div>
+
+  <% if user_signed_in? %>
     <div class="dropdown navbar-right">
       <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-bars"></i></a>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <div class="dropdown-item"><%= link_to 'Dashboard', root_path, :class => 'navbar-link' %></div>
-        <div class="dropdown-item"><%= link_to 'Guidelines', guidelines_path, :class => 'navbar-link' %></div>
-        <!-- <div class="dropdown-item"><%= link_to 'Fee Schedule', fee_schedule_path, :class => 'navbar-link' %></div> -->
-        <div class="dropdown-divider"></div>
-        <div class="dropdown-item"><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %></div>
+        <% if has_submitted(@certifications) %>
+          <div class="dropdown-item"><%= link_to 'Dashboard', root_path, :class => 'navbar-link' %></div>
+        <% end %>
+        <% if current_page?(fee_schedule_path) || current_page?(guidelines_path) %>
+          <div class="dropdown-item">
+            <%= link_to 'Application', root_path, :class => 'navbar-link' %>
+          </div>
+        <% end %>
+        <% if !current_page?(fee_schedule_path) %>
+          <div class="dropdown-item">
+            <%= link_to 'Fee Schedule', fee_schedule_path, :class => 'navbar-link' %>
+          </div>
+        <% end %>
+        <% if !current_page?(guidelines_path) %>
+          <div class="dropdown-item">
+            <%= link_to 'About', guidelines_path, :class => 'navbar-link' %>
+          </div>
+        <% end %>
+        <div class="dropdown-item">
+          <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+        </div>
+        <div class="dropdown-item">
+          <a href='http://wageforwork.com' target="_blank" class='navbar-link--small'>wageforwork.com</a>
+        </div>
       </div>
     </ul>
+
     <% else %>
+
       <div class="nav navbar-right">
-          <% if current_page?(new_user_session_path) %>
-        <%= link_to "Register", new_user_registration_path, :class => 'btn'  %>
+        <% if current_page?(new_user_session_path) %>
+          <%= link_to "Register", new_user_registration_path, :class => 'btn'  %>
         <% else %>
           <%= link_to "Log In", new_user_session_path, :class => 'btn'  %>
         <% end %>

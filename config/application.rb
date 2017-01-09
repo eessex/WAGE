@@ -26,5 +26,7 @@ module Wage
 
     config.paths['app/views'] << "app/views/devise"
 
+    config.action_controller.include_all_helpers = true
+
   end
 end

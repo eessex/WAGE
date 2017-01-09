@@ -1,0 +1,86 @@
+ @import "variables";
+
+.fee-tracker {
+	.fee-tracker__intro {
+		max-width: 750px;
+		padding: 0em 0 4em 2em;
+	}
+
+	.fee-tracker__payments {
+		background-color: white;
+		padding: 2em;
+		border-top: 2px solid;
+		border-bottom: 2px solid;
+		h3 span {
+			border: none;
+		}
+		&.disabled {
+			color: #999;
+			background: none transparent;
+			border-color: #ccc;
+			.form-control[disabled], fieldset[disabled] .form-control, input:disabled {
+				color: #999;
+			}
+		}
+		&.new-form {
+			.form__fields {
+				display: flex;
+				justify-content: space-between;
+				flex-wrap: wrap;
+				.form-group {
+			    min-width: calc(33% - 15px);
+					.field-group {
+				    margin: 0;
+				    position: relative;
+					}
+		  	}
+			}
+			.error {
+				position: absolute;
+		    right: 1em;
+		    font-size: 11px;
+		    color: red;
+		    background: white;
+		    top: 10px;
+		    span:after {
+			    content: ", ";
+				}
+				span:last-child:after {
+					content: "";
+				}
+				&:first-letter {
+				  text-transform: uppercase;
+				}
+			}
+		}
+		.title {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 2em;
+			h3 {
+				margin: 0;
+				span:nth-child(2) {
+			    font-size: 14px;
+			    font-weight: 400;
+			    border-bottom: 0;
+			    padding-bottom: 0;
+			    margin-left: 1em;
+			    vertical-align: bottom;
+				}
+			}
+			h6 {
+				cursor: pointer;
+				&:hover {
+					background-color: $blue;
+				}
+			}
+		}
+		.col:nth-child(2) {
+			padding-left: 15px;
+			padding-right: 0;
+		}
+	}
+/* end fee-tracker */
+}
+

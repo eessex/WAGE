@@ -1,0 +1,44 @@
+.financials--fiscal-dates {
+	margin-bottom: 2em;
+	.field-group {
+		display: flex;
+	}
+	.col {
+		margin-bottom: 2em;
+		&:nth-child(2) {
+			padding-right: 0;
+		}
+	}
+	select.form-control:last-child {
+    margin: 0;
+	}
+	select.form-control {
+	    margin-right: 15px;
+	}
+	/* end financials--fiscal-dates */
+}
+
+.financials--fiscal-details {
+	h4 {
+		margin: .25em 0;
+	}
+	p {
+		margin: 0 0 .5em 0;
+	}
+	.form-item {
+		position: relative;
+	}
+	.btn.fee-schedule {
+		position: absolute;
+    right: 0;
+    top: 4.35em;
+    padding: 10px 16px;
+	}
+	.form-item:first-child {
+		margin-bottom: 3em;
+    margin-top: 9em;
+    border-top: 1px solid lime;
+    padding-top: 4em;
+	}
+	/* end financials--fiscal-details */
+}

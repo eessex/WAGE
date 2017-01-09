@@ -1,3 +1,14 @@
+.fee_schedule--full_view {
+  margin: 9.5em 2em 5.5em 2em;
+}
+
+
+.certification-view--fee-schedule {
+  .certification-view__body {
+    min-width: 100%;
+  }
+}
+
 [data-react-class='FeeSchedule'] {
   max-width: 850px;
   margin: 2em auto;
@@ -35,7 +46,7 @@
     }
   }
   .fee-category.header {
-    color: #222;
+    color: #222 !important;
   }
   .fee-category h5 {
     align-items: center;

@@ -1,0 +1,60 @@
+ @import "variables";
+
+.certification-view {
+	&__content {
+		padding: 9.5em 2em 5.5em 2em;
+	}
+
+	&__header {
+		margin-top: 0;
+		margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+		h1 {
+	    border-bottom: 1px solid lime;
+	    margin-top: 0;
+	    font-size: 28px;
+	    padding-bottom: 10px;
+  	}
+  }
+
+  &__body {
+  	max-width: 750px;
+		h4 {
+			font-size: 18px;
+		}
+		li {
+			margin-bottom: .5em;
+		}
+		ul {
+			margin-bottom: 1.5em;
+		}
+  }
+  &__next {
+    position: fixed;
+    bottom: 15px;
+    right: 1.85em;
+    i {
+    	margin-left: .25em;
+    }
+  }
+/* end certification-view */
+}
+
+.certification-view--fee-tracker {
+	padding-left: 0;
+	padding-right: 0;
+	.certification-view__header {
+		padding: 0 2em;
+	}
+	.certification-view__body {
+		max-width: 100%;
+		.artist-payments {
+			margin-top: -2px;
+			background-color: white;
+			margin-bottom: 2em;
+			border-bottom: 2px solid;
+		}
+	}
+}
