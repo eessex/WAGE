@@ -144,23 +144,23 @@ var FeeSchedule = React.createClass({
        floor_fee = (Number(fee_category.over500K)) + .25
        format_fee = <div className="info__fee">
                      <div className="info__fee-amount minimum">
-                       <span className="amount">${existing_text.toLocaleString()}</span>
-                       <span className="subtitle">/word</span>
-                      </div>
-                      <div className="info__fee-amount recommended">
                         <span className="amount">${floor_fee}</span>
                         <span className="subtitle">/word</span>
+                      </div>
+                      <div className="info__fee-amount recommended">
+                       <span className="amount">${existing_text.toLocaleString()}</span>
+                       <span className="subtitle">/word</span>
                       </div>
                     </div>
      } else if (i == 13) {
       format_fee = <div className="info__fee">
-                     <div className="info__fee-amount minimum">
-                      <span className="amount">${fee_category.over500K}</span>
-                      <span className="subtitle">/day</span>
-                     </div>
-                      <div className="info__fee-amount recommended">
+                    <div className="info__fee-amount minimum">
                        <span className="amount">${floor_fee}</span>
                        {subtitle}
+                     </div>
+                      <div className="info__fee-amount recommended">
+                        <span className="amount">${fee_category.over500K}</span>
+                        <span className="subtitle">/day</span>
                      </div>
                    </div>
     } else {
