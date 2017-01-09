@@ -29,13 +29,16 @@
 		position: relative;
 	}
 	.btn.fee-schedule {
-    position: absolute;
+		position: absolute;
     right: 0;
-    top: 0.25em;
+    top: 4.35em;
+    padding: 10px 16px;
 	}
 	.form-item:first-child {
-    margin-bottom: 3em;
-    margin-top: 8em;
+		margin-bottom: 3em;
+    margin-top: 9em;
+    border-top: 1px solid lime;
+    padding-top: 4em;
 	}
 	/* end financials--fiscal-details */
 }

@@ -20,19 +20,28 @@ var FeeScheduleRoot = React.createClass({
       return false
     }
   },
+    hasMaterials() {
+    if ( this.state.user.file_501c3 &&
+          this.state.user.statement &&
+          this.state.certification.file_contract ) {
+      return 'true'
+    } else if ( this.state.user.file_501c3 ||
+          this.state.user.statement ||
+          this.state.certification.file_contract ) {
+      return 'progress'
+    } else {
+      return false
+    }
+  },
   navigateMenu(item) {
     window.location = "http://localhost:3000/#" + menu[item]
   },
     hasFiscalDetails() {
     if ( this.state.certification.operating_expenses &&
-      this.state.certification.file_budget &&
-      this.state.certification.file_contract &&
-      this.state.user.file_501c3 ) {
+      this.state.certification.file_budget ) {
       return 'true'
     } else if ( this.state.certification.operating_expenses ||
-      this.state.certification.file_budget ||
-      this.state.certification.file_contract ||
-      this.state.user.file_501c3 ) {
+      this.state.certification.file_budget) {
       return 'progress'
     } else {
       return false

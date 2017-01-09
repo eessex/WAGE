@@ -65,16 +65,16 @@ var FinancialDetails = React.createClass({
   render() {
     var file_990_caption
     if ( this.props.yearStatus == 'future' ) {
-      var operating_caption = "Anticipated total"
+      var operating_caption = "anticipated total"
     } else {
-      var operating_caption = "Total"
+      var operating_caption = "total"
     }
-    var file_budget_caption = 'A closed out budget for fiscal year ' + moment(this.props.certification.fiscal_end).format('Y') + ' with ‘Artist Fees’ as a distinct line item.'
+    var file_budget_caption = 'Upload a closed out budget for fiscal year ' + moment(this.props.certification.fiscal_end).format('Y') + ' with ‘Artist Fees’ as a distinct line item.'
     return (
       <form className="financials financials--fiscal-details form">
             <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
-                <p>{operating_caption} annual expenses for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</p>
+                <p>Enter your {operating_caption} annual expenses to generate a custom fee schedule for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</p>
                 <a href="/#fee-schedule"><button className="btn fee-schedule" >My Fee Schedule</button></a>
                   <div className="input-group input-group__addon">
                   <div className="input-group-addon">$</div>

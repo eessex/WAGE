@@ -48,10 +48,10 @@ var CertificationReview = React.createClass({
     var statement = <span className='upload disabled'><i className='fa fa-file'></i> Statement of Intent <span className='req'>*</span></span>
     return (
       <div className="section financials clearfix">
-        <h5>{this.props.certification.file_501c3 ? this.showFile('file_501c3', 'certification', "501c3") : file_501c3}</h5>
+        <h5>{this.props.user.file_501c3 ? this.showFile('file_501c3', 'user', "501c3") : file_501c3}</h5>
         <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', "Form 990") : file_990}</h5>
-        <h5>{this.props.certification.file_contract ? this.showFile('file_contract', 'certification', "Sample Contracts") : file_contract}</h5>
-        <h5>{this.props.certification.statement ? this.showFile('statement', 'certification', "Statement of Intent") : statement}</h5>
+        <h5>{this.props.user.file_contract ? this.showFile('file_contract', 'user', "Sample Contracts") : file_contract}</h5>
+        <h5>{this.props.user.statement ? this.showFile('statement', 'user', "Statement of Intent") : statement}</h5>
       </div>
     )
   },
@@ -86,7 +86,7 @@ var CertificationReview = React.createClass({
     if (!this.props.isFuture && this.state.certification.status < 1 && (new Date() < Date.parse(this.props.certification.fiscal_end))) {
       artist_payments_info =
       <div className="section artist-payments-info clearfix">
-        <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Pending status for FY {moment(this.state.certification.fiscal_end).format('YYYY')}.</h4>
+        <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Certified Pending status for FY {moment(this.state.certification.fiscal_end).format('YYYY')}.</h4>
         <h4>Organizations are expected to pay artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>.</h4>
         <h4>At the close of this fiscal period your organization must provide documentation of payments using this application’s <a onClick={this.props.goFeeTracker}>fee tracker</a>, or by uploading a Quickbooks P&L.</h4>
       </div>

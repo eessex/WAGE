@@ -12,7 +12,7 @@ var ReviewUserContact = React.createClass({
     var address_zip = <span className='disabled'>Zip <span className='req'>*</span></span>
 
     var website
-    if (this.props.user.website) {
+    if (!this.props.user.website) {
       website = <span className='disabled'>http://example.org <span className='req'>*</span></span>
     } else {
       website = <a href={this.props.user.website} target="_blank">{this.props.user.website}</a>
