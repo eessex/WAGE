@@ -1,4 +1,4 @@
-var menu = ['guidelines', 'contact', 'fiscal-details', 'materials', 'fee-tracker', 'review', 'fee-schedule']
+var menu = ['guidelines', 'contact', 'fiscal-details', 'supplemental-materials', 'fee-tracker', 'review', 'fee-schedule']
 
 var CertificationView = React.createClass({
   getInitialState() {
@@ -392,7 +392,7 @@ var CertificationView = React.createClass({
                 yearStatus={this.state.yearStatus} />
               </div>
     }
-    if (menu[position] == 'materials') {
+    if (menu[position] == 'supplemental-materials') {
       title = 'Supplemental Materials'
       body = <CertificationMaterials
               user={this.state.user}

@@ -1,4 +1,4 @@
-var menu = ['guidelines', 'contact', 'fiscal-details', 'materials', 'fee-tracker', 'review', 'fee-schedule']
+var menu = ['guidelines', 'contact', 'fiscal-details', 'supplemental-materials', 'fee-tracker', 'review', 'fee-schedule']
 
 var FeeScheduleRoot = React.createClass({
 	getInitialState() {

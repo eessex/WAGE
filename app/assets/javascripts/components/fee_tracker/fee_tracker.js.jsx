@@ -115,11 +115,20 @@
     }
     return payments
   },
+  introText() {
+    var intro
+    if (this.props.new_user) {
+      intro = <h4>Using the Fee Tracker you can add documentation of fee payment anytime during the fiscal year, including after the fiscal year has ended.</h4>
+    }
+    return intro
+  },
   render() {
     return (
       <div className="fee-tracker fee-tracker--new">
         <div className="fee-tracker__intro">
-          <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a> during the fiscal year in which they apply.</h4>
+          <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a> at the end of each fiscal year.</h4>
+          <h4>{this.introText()}</h4>
+          <h4>Once you have successfully demonstrated having paid fees, your organization will become W.A.G.E. Certified for that fiscal year.</h4>
           <h4>{this.showTrackerLink()} for each fee payment to an artist between {this.props.formatted_dates}. {this.showCurrentNewUser()}{this.showQbPlLink()}</h4>
         </div>
         {this.showForms()}

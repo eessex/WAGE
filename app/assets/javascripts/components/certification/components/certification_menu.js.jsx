@@ -32,7 +32,7 @@ var CertificationMenu = React.createClass({
         return progress.hasFiscalDetails
       } else if (item == 'fee-tracker') {
         return progress.hasPayments
-      } else if (item == 'materials') {
+      } else if (item == 'supplemental-materials') {
         return progress.hasMaterials
       }
     }

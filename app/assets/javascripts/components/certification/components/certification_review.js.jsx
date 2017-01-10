@@ -50,7 +50,7 @@ var CertificationReview = React.createClass({
       <div className="section financials clearfix">
         <h5>{this.props.user.file_501c3 ? this.showFile('file_501c3', 'user', "501c3") : file_501c3}</h5>
         <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', "Form 990") : file_990}</h5>
-        <h5>{this.props.user.file_contract ? this.showFile('file_contract', 'user', "Sample Contracts") : file_contract}</h5>
+        <h5>{this.props.certification.file_contract ? this.showFile('file_contract', 'certification', "Sample Contracts") : file_contract}</h5>
         <h5>{this.props.user.statement ? this.showFile('statement', 'user', "Statement of Intent") : statement}</h5>
       </div>
     )
@@ -97,9 +97,9 @@ var CertificationReview = React.createClass({
       </div>
     }
     if ( (this.props.certification.status < 2 && new Date() > Date.parse(this.props.certification.fiscal_end)) || (this.props.certification.status == 0 && this.props.new_user == "true") ) {
-      var actions =  <button className="btn btn-lg save" onClick={this.handleSubmit}>Submit</button>
+      var actions =  <button className="btn btn-lg next" onClick={this.handleSubmit}>Submit</button>
     } else if (this.props.certification.status < 2) {
-      var actions = <button className="btn btn-lg save" disabled="true">Submit</button>
+      var actions = <button className="btn btn-lg next" disabled="true">Submit Application <i className='fa fa-long-arrow-right'></i></button>
     } else {
       var actions
     }
