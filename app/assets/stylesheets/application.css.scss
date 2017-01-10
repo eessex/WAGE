@@ -161,9 +161,34 @@ h6 {
   right: 3em;
   z-index: 100;
 }
+.input-group-addon:first-child {
+    border-radius: 1px 0 0 1px;
+}
+.input-group-addon:last-child {
+    border-radius: 0 1px 1px 0;
+}
+
+.input-group__addon.select {
+  background: white;
+  select {
+    background: none;
+  }
+  .input-group-addon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 20px 0 10px;
+    background: none;
+  }
+}
 
 .form-control {
   border-radius: 1px;
+  -webkit-border-radius: 1px;
+  -webkit-appearance: none;
 }
 
 nav {

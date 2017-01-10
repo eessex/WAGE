@@ -39,7 +39,7 @@ var UploadFile = React.createClass({
           start: function (e) {
             progressBar.
               css('background', 'lime').
-              css('display', 'block').
+              css('display', 'flex').
               css('width', '1%').
               text("Loading...");
           },

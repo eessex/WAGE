@@ -239,50 +239,63 @@ var FiscalDates = React.createClass({
       )
     });
     var fiscal_dates_form = <div className="financials financials--fiscal-dates">
-            <div className="col col-sm-6">
-              <h6>Start Date</h6>
-              <div className="field-group">
-              <select
-                type='text'
-                data-id="s_m"
-                className="form-control"
-                value={this.state.s_m}
-                onChange={this.handleInputChange}
-                >
-                  {options_months}
-                </select>
+          <div className="col col-sm-6">
+            <h5>Start Date</h5>
+            <div className="field-group">
+              <div className="input-group input-group__addon select">
                 <select
                   type='text'
-                  data-id="s_d"
-                  className="form-control"
-                  value={this.state.s_d}
+                  data-id="s_m"
+                  className='form-control'
+                  value={this.state.s_m}
                   onChange={this.handleInputChange}
                   >
-                  {options_start_days}
-                </select>
-                <select
-                  type='text'
-                  data-id="s_y"
-                  className="form-control"
-                  value={this.state.s_y}
-                  onChange={this.handleInputChange}
-                  >
-                  {options_start_years}
-                </select>
+                    {options_months}
+                  </select>
+                  <div className="input-group-addon"><i className="fa fa-sort"></i></div>
+                </div>
+                <div className="input-group input-group__addon select">
+                  <select
+                    type='text'
+                    data-id="s_d"
+                    className="form-control"
+                    value={this.state.s_d}
+                    onChange={this.handleInputChange}
+                    >
+                    {options_start_days}
+                  </select>
+                  <div className="input-group-addon"><i className="fa fa-sort"></i></div>
+                </div>
+                <div className="input-group input-group__addon select">
+                  <select
+                    type='text'
+                    data-id="s_y"
+                    className="form-control"
+                    value={this.state.s_y}
+                    onChange={this.handleInputChange}
+                    >
+                    {options_start_years}
+                  </select>
+                  <div className="input-group-addon"><i className="fa fa-sort"></i></div>
+                </div>
               </div>
             </div>
             <div className="col col-sm-6">
-              <h6>End Date</h6>
+              <h5>End Date</h5>
               <div className="field-group">
-                <select
-                  type='text'
-                  data-id="e_m"
-                  className="form-control"
-                  value={this.state.e_m}
-                  onChange={this.handleInputChange}
-                  >
-                  {options_months}
+                <div className="input-group input-group__addon select">
+                  <select
+                    type='text'
+                    data-id="e_m"
+                    className="form-control"
+                    value={this.state.e_m}
+                    onChange={this.handleInputChange}
+                    >
+                    {options_months}
                   </select>
+                  <div className="input-group-addon"><i className="fa fa-sort"></i></div>
+                </div>
+                <div className="input-group input-group__addon select">
                   <select
                     type='text'
                     data-id="e_d"
@@ -292,7 +305,10 @@ var FiscalDates = React.createClass({
                     >
                     {options_end_days}
                   </select>
-                <select
+                  <div className="input-group-addon"><i className="fa fa-sort"></i></div>
+                </div>
+                <div className="input-group input-group__addon select">
+                  <select
                   type='text'
                   data-id="e_y"
                   className="form-control"
@@ -301,9 +317,11 @@ var FiscalDates = React.createClass({
                   >
                   {options_end_years}
                 </select>
-                </div>
+                <div className="input-group-addon"><i className="fa fa-sort"></i></div>
+              </div>
             </div>
           </div>
+        </div>
 
     var fiscal_dates_show = <h4 className="saved-dates"></h4>
 
