@@ -15,7 +15,7 @@ class CertificationsController < ApplicationController
     if @certification.status == 0
       # render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
     elsif @certification.status > 0
-      @path = ENV['DEVELOPMENT_HOST'] + '/certifications/' + @certification.id.to_s
+      @path = ENV['HOST'] + '/certifications/' + @certification.id.to_s
       render component: 'CertificationView', props: {
           path: @path,
           certification: @certification,

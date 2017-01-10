@@ -5,7 +5,7 @@ class SiteController < ApplicationController
 
   def index
     @user = current_user
-    @path = ENV['DEVELOPMENT_HOST']
+    @path = ENV['HOST']
     @fee_categories = FeeCategory.all
     @certifications = current_user.certifications
     @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
@@ -39,7 +39,7 @@ class SiteController < ApplicationController
     @user = current_user
     @fee_categories = FeeCategory.all
     @certifications = current_user.certifications
-    @path = ENV['DEVELOPMENT_HOST'] + '/fee-schedule'
+    @path = ENV['HOST'] + '/fee-schedule'
     if !has_submitted(@certifications)
       @new_user = true
     end
