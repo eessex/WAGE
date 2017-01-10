@@ -266,6 +266,13 @@ var CertificationView = React.createClass({
     });
     this.setState({artist_payments: artist_payments})
   },
+  handleArtistPaymentUpdate(artist_payment) {
+    var artist_payments = this.state.artist_payments.filter(function(item) {
+      return artist_payment.id !== item.id;
+    });
+    artist_payments.push(artist_payment)
+    this.setState({artist_payments: artist_payments})
+  },
   handleSortPayments(artist_payments) {
     this.setState({artist_payments: artist_payments})
   },
@@ -334,6 +341,7 @@ var CertificationView = React.createClass({
         <ArtistPaymentsTable
           artist_payments={this.state.artist_payments}
           sortRowsBy={this.props.sortRowsBy}
+          handleArtistPaymentUpdate={this.handleArtistPaymentUpdate}
           // paymentsSorted={this.props.paymentsSorted}
           isEdit="false"
           fee_categories={this.props.fee_categories} /></div>
@@ -406,6 +414,7 @@ var CertificationView = React.createClass({
               sortRowsBy={this.sortRowsBy}
               handleAddArtistPayment={this.handleAddArtistPayment}
               handleDeleteArtistPayment={this.handleDeleteArtistPayment}
+              handleArtistPaymentUpdate={this.handleArtistPaymentUpdate}
               handleSortPayments={this.handleSortPayments}
               handleCertificationUpdate={this.handleCertificationUpdate} />
             </div>

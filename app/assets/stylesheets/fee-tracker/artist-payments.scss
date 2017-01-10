@@ -42,6 +42,11 @@
 }
 
 .artist-payments--table {
+  margin-bottom: .5em;
+  tfoot {
+    border-top: 2px solid #ddd;
+    font-weight: 800;
+  }
   td, th {
     vertical-align: center !important;
     &.last {
