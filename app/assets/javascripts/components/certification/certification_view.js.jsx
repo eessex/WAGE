@@ -49,10 +49,18 @@ var CertificationView = React.createClass({
     this.setState({navPosition: this.state.navPosition + 1})
   },
   goFeeSchedule() {
-    this.setState({navPosition: 6})
+    if (this.state.hasCertifications) {
+      this.setState({navPosition: 4})
+    } else {
+      this.setState({navPosition: 6})
+    }
   },
   goFeeTracker() {
-    this.setState({navPosition: 4})
+    if (this.state.hasCertifications) {
+      this.setState({navPosition: 2})
+    } else {
+      this.setState({navPosition: 4})
+    }
   },
   // CERTIFICATION STATUS
   hasCertifications() {
