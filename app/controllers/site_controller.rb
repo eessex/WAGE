@@ -28,7 +28,7 @@ class SiteController < ApplicationController
   end
 
   def guidelines
-    @path = ENV['DEVELOPMENT_HOST'] + '/guidelines'
+    @path = ENV['HOST'] + '/guidelines'
     if current_user
       @certifications = current_user.certifications || []
     end
