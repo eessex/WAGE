@@ -112,7 +112,7 @@ var ArtistPaymentsTableEditRow = React.createClass({
                <select
                  type='text'
                  className='form-control'
-                 name='fee_category'
+                 name='fee_category_id'
                  value={this.optionState}
                  onChange={this.handleInputChange}>
                  {options}
