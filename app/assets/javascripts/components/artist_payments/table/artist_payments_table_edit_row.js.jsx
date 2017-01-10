@@ -10,7 +10,6 @@ var ArtistPaymentsTableEditRow = React.createClass({
     var newPayment = this.state.artist_payment
     newPayment[e.target.name] = e.target.value
     this.setState({artist_payment: newPayment})
-    this.fulfilsRequired(e)
   },
   handleArtistPaymentUpdate() {
     var that = this;
@@ -26,6 +25,7 @@ var ArtistPaymentsTableEditRow = React.createClass({
           artist_payment: res,
           editMode: false
         });
+        that.props.handleArtistPaymentUpdate(res);
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
@@ -112,7 +112,7 @@ var ArtistPaymentsTableEditRow = React.createClass({
                <select
                  type='text'
                  className='form-control'
-                 name='fee_category'
+                 name='fee_category_id'
                  value={this.optionState}
                  onChange={this.handleInputChange}>
                  {options}

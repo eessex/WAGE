@@ -1,7 +1,5 @@
 class SiteController < ApplicationController
   include HasSubmitted
-  # before_action :set_user, only: [:show, :edit, :update, :destroy]
-  # before_action :set_s3_direct_post, only: [:edit, :update]
 
   def index
     @user = current_user
@@ -12,7 +10,11 @@ class SiteController < ApplicationController
     @artist_payments = @certification.artist_payments || []
     if has_submitted(@certifications)
       @new_user = false
-      render component: 'Dashboard', props: { certifications: @certifications, user: @user, fee_categories: @fee_categories}, class: 'dashboard'
+      render component: 'Dashboard', props: {
+        certifications: @certifications,
+        user: @user,
+        fee_categories: @fee_categories
+      }, class: 'dashboard'
     else
       @new_user = true
       render component: 'CertificationView', props: {
@@ -38,7 +40,7 @@ class SiteController < ApplicationController
   def fee_schedule
     @user = current_user
     @fee_categories = FeeCategory.all
-    @certifications = current_user.certifications
+    @certifications = current_user.certifications || []
     @path = ENV['HOST'] + '/fee-schedule'
     if !has_submitted(@certifications)
       @new_user = true

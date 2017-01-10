@@ -126,7 +126,7 @@
             <select
               disabled={disabled}
               type='text'
-              name='fee_category'
+              name='fee_category_id'
               className='form-control'
               value={this.optionState}
               onChange={this.handleInputChange}>
