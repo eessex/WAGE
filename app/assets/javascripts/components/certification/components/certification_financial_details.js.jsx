@@ -4,7 +4,6 @@ var FinancialDetails = React.createClass({
       certification: this.props.certification,
       user: this.props.user,
       certifications: this.props.certifications,
-      // signature: null,
       yearStatus: this.props.yearStatus,
       isProgress: false,
       errors: {}
@@ -31,7 +30,7 @@ var FinancialDetails = React.createClass({
     var file_990
     var file_990_caption
     file_990_caption = "* if available"
-    if (!this.props.new_user && this.props.yearStatus != 'future' ) {
+    if (!this.props.new_user && this.props.yearStatus == 'past' ) {
         file_990 =
           <UploadFile
             model={this.props.certification}
@@ -74,7 +73,7 @@ var FinancialDetails = React.createClass({
       <form className="financials financials--fiscal-details form">
             <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
-                <p>Enter your {operating_caption} annual expenses to generate a custom fee schedule for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</p>
+                <p>Enter your {operating_caption} annual expenses to generate a custom fee schedule.</p>
                 <a href="/#fee-schedule"><button className="btn fee-schedule" >My Fee Schedule</button></a>
                   <div className="input-group input-group__addon">
                   <div className="input-group-addon">$</div>
@@ -88,7 +87,7 @@ var FinancialDetails = React.createClass({
                   <div className="input-group-addon">.00</div>
                 </div>
               <div className="helper">
-                <span style={{color: 'red'}}>{this.state.errors.operating_expenses}</span>
+                <span className='error'>{this.state.errors.operating_expenses}</span>
               </div>
             </div>
 

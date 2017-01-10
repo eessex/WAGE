@@ -174,14 +174,15 @@ nav {
   display: flex;
   align-items: center;
   a.navbar-brand {
-    font-weight: 800;
-    font-size: 38px;
-    text-decoration: none;
-    letter-spacing: .04em;
-    height: inherit;
-    line-height: .5em;
-    color: yellow;
-    padding-left: .55em;
+    padding: 0;
+    font-size: inherit;
+    height: auto;
+    line-height: inherit;
+    padding-left: 1.65em;
+    img {
+      height: 4em;
+      padding: 0;
+    }
   }
   .navbar-right {
     margin-right: 0;

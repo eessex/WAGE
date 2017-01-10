@@ -306,9 +306,13 @@ var CertificationView = React.createClass({
   showNext() {
     var position = this.state.navPosition
     var next
-    if (menu[position] != 'fee-schedule' &&
+    if (menu[position] == 'guidelines') {
+      next = <a href={this.state.root + '/#' + menu[this.state.navPosition + 1]} onClick={this.goNext}>
+               <button className='btn btn-lg next'>Start Application <i className='fa fa-long-arrow-right'></i></button>
+             </a>
+    } else if (menu[position] != 'fee-schedule' &&
         menu[position] != 'review') {
-      next = <a href={this.state.root + '/#' + menu[this.state.navPosition]} onClick={this.goNext}>
+      next = <a href={this.state.root + '/#' + menu[this.state.navPosition + 1]} onClick={this.goNext}>
                <button className='btn btn-lg next'>Next <i className='fa fa-long-arrow-right'></i></button>
              </a>
     }
