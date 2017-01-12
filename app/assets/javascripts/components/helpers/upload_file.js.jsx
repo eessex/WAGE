@@ -49,7 +49,7 @@ var UploadFile = React.createClass({
             var url = $(data.jqXHR.responseXML).find("Location").text()
             var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
             var newModel = this.props.model
-            newModel[e.target.id] = url
+            newModel[e.target.id] = url.split(/%2F/).join('/')
             this.props.handleFileUpdate(newModel)
           }.bind(this),
           fail: function(e, data) {
@@ -104,6 +104,13 @@ var UploadFile = React.createClass({
     }
     return label
   },
+  formatFile() {
+    var filename = this.props.model[this.props.type]
+    if (filename.length > 0) {
+      filename = filename.split(/\//).pop()
+    }
+    return filename
+  },
   hasFile() {
     var type = this.props.type
     var accepted = this.getAcceptedFileTypes()
@@ -111,7 +118,7 @@ var UploadFile = React.createClass({
     if (this.props.model[type]) {
       file = <p id={type} className="direct-upload__has-file form-control">
               <button id={type} onClick={this.clearFile}>Replace</button>
-              <span className="filename">{this.props.model[type]}</span>
+              <a className="filename" href={this.props.model[this.props.type]} target="_blank">{this.formatFile()}</a>
               {this.isRequired()}
             </p>
     } else {

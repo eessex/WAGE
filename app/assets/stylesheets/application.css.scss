@@ -128,7 +128,7 @@ h6 {
 }
 
 .req {
-  color: red;
+  color: $red;
 }
 
 .field-group .req,
@@ -278,7 +278,7 @@ nav {
   }
   nav.navbar {
     background: none transparent;
-    img.logo .foot {
+    img.logo.foot {
       width: 225px;
       position: fixed;
       right: 0;

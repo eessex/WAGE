@@ -29,25 +29,13 @@ var NewFiscalDates = React.createClass({
     }
   },
   getEditDates() {
-    if (this.props.certification && (this.props.certification.fiscal_start != "") && (this.props.certification.fiscal_start != null) ) {
-      return {
-        s_m: moment(this.props.certification.fiscal_start).format('M'),
-        s_d: moment(this.props.certification.fiscal_start).format('D'),
-        s_y: moment(this.props.certification.fiscal_start).format('Y'),
-        e_m: moment(this.props.certification.fiscal_end).format('M'),
-        e_d: moment(this.props.certification.fiscal_end).format('D'),
-        e_y: moment(this.props.certification.fiscal_end).format('Y')
-      }
-    } else {
-      debugger
-      return {
-        s_m: '1',
-        s_d: '1',
-        s_y: moment(new Date).format('Y'),
-        e_m: '12',
-        e_d: '31',
-        e_y: moment(new Date).format('Y')
-      }
+    return {
+      s_m: moment(this.props.certification.fiscal_start).format('M'),
+      s_d: moment(this.props.certification.fiscal_start).format('D'),
+      s_y: moment(this.props.certification.fiscal_start).format('Y'),
+      e_m: moment(this.props.certification.fiscal_end).format('M'),
+      e_d: moment(this.props.certification.fiscal_end).format('D'),
+      e_y: moment(this.props.certification.fiscal_end).format('Y')
     }
   },
   handleFiscalStartChange(e) {

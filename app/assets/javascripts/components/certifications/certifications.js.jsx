@@ -15,7 +15,6 @@ var Certifications = React.createClass({
       },
       url: '/certifications.json',
       success: function(res) {
-        debugger
         window.location.pathname = "/certifications/" + res.id
       },
       error: function(res) {

@@ -171,12 +171,7 @@ var FiscalDates = React.createClass({
       var validEnd_current = moment(today).subtract(90, 'days')
       var validEnd_future = moment(today).add(1, 'year')
       var validStart = moment(today).add(90, 'days')
-      if (end >= moment(today).subtract(90, 'days') && end < today) {
-        // date is recent
-        console.log(moment(start).format('Y') + " is recent")
-        start_years.push(moment(start).format('Y'))
-        end_years.push(moment(end).format('Y'))
-      } else if (start <= today && end >= today) {
+      if (start <= today && end >= today) {
         // date is current
         console.log(moment(start).format('Y') + " is current")
         start_years.push(moment(start).format('Y'))

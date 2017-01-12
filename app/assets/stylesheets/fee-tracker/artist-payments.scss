@@ -1,3 +1,5 @@
+@import "variables";
+
 #artist_payments.new {
   .intro {
     display: block;
@@ -63,7 +65,7 @@
       margin-right: 10px;
     }
     .error {
-      color: red;
+      color: $red;
       font-size: 11px;
       margin-left: -12px;
     }

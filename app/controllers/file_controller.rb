@@ -6,6 +6,6 @@ class FileController < ApplicationController
   end
 
    def set_s3_direct_post
-     @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{current_user.id}/#{SecureRandom.uuid}-file/${filename}", success_action_status: '201', acl: 'public-read')
+     @s3_direct_post = S3_BUCKET.presigned_post(key: "uploads/#{current_user.id}/#{current_user.institution_name.parameterize}#{Time.now.strftime("/%Y/%m/%d/")}${filename}", success_action_status: '201', acl: 'public-read')
    end
 end

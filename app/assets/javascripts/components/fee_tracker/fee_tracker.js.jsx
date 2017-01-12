@@ -114,7 +114,7 @@
         <div className="fee-tracker__intro">
           <h4>Use the {this.showTrackerLink()} to document each fee payment to made to an artist between {this.formatDates()}.</h4>
           <h4>You may submit your application now to become W.A.G.E. Certified Pending, and can return to the {this.showTrackerLink()} at any time.</h4>
-          <h4>At the end of your fiscal year, if you have successfully demonstrated having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>, your organization will become W.A.G.E. Certified for Fiscal Year {moment(this.props.certification.fiscal_end).format('Y')}.</h4>
+          <h4>At the end of your fiscal year, if you have successfully demonstrated having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>, your organization will become W.A.G.E. Certified for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</h4>
           <h4>{this.showQbPlLink()}</h4>
           <h5>* All documentation is confidential and used for internal review purposes only.</h5>
         </div>

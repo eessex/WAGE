@@ -38,11 +38,9 @@ var CertificationMenu = React.createClass({
     }
   },
   printMenuItems() {
-    // var root = location.origin //+ location.pathname
     var that = this
     var menu = this.props.menu.map(function(item, i) {
-      // debugger
-      var formattedItem = item.replace('-', ' ')
+    var formattedItem = item.replace('-', ' ')
       return (
           <a className="certification-menu__item"
             href={'/#' + item}
