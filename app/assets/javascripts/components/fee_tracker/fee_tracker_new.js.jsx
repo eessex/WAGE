@@ -59,7 +59,6 @@
     });
   },
   newForm() {
-    var that = this
     var options = this.props.fee_categories.map( function(fee_category, i) {
       var index = i + 1
       return (
@@ -70,7 +69,7 @@
     })
     var status = this.props.yearStatus
     var disabled
-    if (status == 'future') {
+    if (status == 'future' || this.props.new_user == true) {
       disabled = true
     }
     var form

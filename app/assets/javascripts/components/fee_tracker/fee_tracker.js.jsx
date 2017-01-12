@@ -13,13 +13,10 @@
   },
   showForms() {
     var disabled
-    if (this.props.yearStatus == 'future' || this.props.yearStatus == 'current') {
+    if (this.props.yearStatus == 'future' || this.props.new_user) {
       disabled = ' disabled'
     }
     if (this.state.showForm) {
-      if (this.props.yearStatus == 'current' && this.props.new_user == true) {
-        disabled = ''
-      }
       return (
         <div className={'fee-tracker__payments new-form' + disabled}>
           <div className='title'>
@@ -27,8 +24,8 @@
             <h6 onClick={this.toggleQbPl}>Upload Quickbooks File</h6>
           </div>
           <FeeTrackerNew
-            new_user={this.state.new_user}
-            yearStatus={this.state.yearStatus}
+            new_user={this.props.new_user}
+            yearStatus={this.props.yearStatus}
             certification={this.props.certification}
             fee_categories={this.props.fee_categories}
             handleAddArtistPayment={this.props.handleAddArtistPayment} />
@@ -50,6 +47,15 @@
       )
     }
   },
+  formatDates() {
+    var date
+    if (moment(this.props.certification.fiscal_start).format('Y') == moment(this.props.certification.fiscal_end).format('Y')) {
+      date = moment(this.props.certification.fiscal_start).format('MMM D') + " - " + moment(this.props.certification.fiscal_end).format('MMM D, Y')
+    } else {
+      date = moment(this.props.certification.fiscal_start).format('MMM D, Y') + " - " + moment(this.props.certification.fiscal_end).format('MMM D, Y')
+    }
+    return date
+  },
   formQbPl() {
     var disabled
     if (this.props.yearStatus == 'future' || this.props.yearStatus == 'current') {
@@ -68,32 +74,19 @@
   },
   showTrackerLink() {
     var link
-    if (this.props.yearStatus == 'future') {
-      if (this.state.showForm) {
-        link = <span>Once your fiscal year has started, you are required to create an entry</span>
-      } else {
-        link = <span>Once your fiscal year has started, you are required to <a onClick={this.toggleTracker}>create an entry</a></span>
-      }
-    } else if (!this.state.showForm) {
-      link = <a onClick={this.toggleTracker}>Create an entry</a>
+    if (this.state.showForm) {
+      link = <span>Fee Tracker</span>
     } else {
-      link = <span>Create an entry</span>
+      link = <span><a onClick={this.toggleTracker}>Fee Tracker</a></span>
     }
     return link
-  },
-  showCurrentNewUser() {
-    var current_message
-    if (this.props.new_user && this.props.yearStatus == 'current') {
-      current_message = <span>You do not need to complete the fee tracker until your fiscal year has ended. </span>
-    }
-    return current_message
   },
   showQbPlLink() {
     var link
     if (this.state.showForm) {
-      link = <span>Alternatively, you may <a onClick={this.toggleQbPl}>upload a Quickbooks P&L.</a></span>
+      link = <span>Alternatively, you may <a onClick={this.toggleQbPl}>upload a Quickbooks statement.</a></span>
     } else {
-      link = <span>Alternatively, you may upload a Quickbooks P&L.</span>
+      link = <span>Alternatively, you may upload a Quickbooks statement.</span>
     }
     return link
   },
@@ -115,21 +108,15 @@
     }
     return payments
   },
-  introText() {
-    var intro
-    if (this.props.new_user) {
-      intro = <h4>Using the Fee Tracker you can add documentation of fee payment anytime during the fiscal year, including after the fiscal year has ended.</h4>
-    }
-    return intro
-  },
   render() {
     return (
       <div className="fee-tracker fee-tracker--new">
         <div className="fee-tracker__intro">
-          <h4 className="can-have-payments">Organizations must demonstrate having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a> at the end of each fiscal year.</h4>
-          <h4>{this.introText()}</h4>
-          <h4>Once you have successfully demonstrated having paid fees, your organization will become W.A.G.E. Certified for that fiscal year.</h4>
-          <h4>{this.showTrackerLink()} for each fee payment to an artist between {this.props.formatted_dates}. {this.showCurrentNewUser()}{this.showQbPlLink()}</h4>
+          <h4>Use the {this.showTrackerLink()} to document each fee payment to made to an artist between {this.formatDates()}.</h4>
+          <h4>You may submit your application now to become W.A.G.E. Certified Pending, and can return to the {this.showTrackerLink()} at any time.</h4>
+          <h4>At the end of your fiscal year, if you have successfully demonstrated having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>, your organization will become W.A.G.E. Certified for Fiscal Year {moment(this.props.certification.fiscal_end).format('Y')}.</h4>
+          <h4>{this.showQbPlLink()}</h4>
+          <h5>* All documentation is confidential and used for internal review purposes only.</h5>
         </div>
         {this.showForms()}
         {this.paymentsTable()}
