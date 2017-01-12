@@ -402,6 +402,7 @@ var CertificationView = React.createClass({
     }
     if (menu[position] == 'fee-tracker') {
       title = 'Fee Tracker'
+      subtitle =  <a href="/#fee-schedule" onClick={this.goFeeSchedule}><button className="btn fee-schedule" >My Fee Schedule</button></a>
       body = <div>
             <FeeTracker
               goFeeSchedule={this.goFeeSchedule}

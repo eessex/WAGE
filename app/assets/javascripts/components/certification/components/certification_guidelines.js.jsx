@@ -67,9 +67,8 @@ var CertificationGuidelines = React.createClass({
           </ul>
         </h4>
         <h4>These documents only need to be submitted once.</h4>
-
         <h4>Your application must also include a projected operating budget for the current year with "Artist Fees" as a distinct and visible line item.</h4>
-      </section>
+        </section>
     </div>
   }
     return section
@@ -78,6 +77,7 @@ var CertificationGuidelines = React.createClass({
     return (
       <div id="guidelines">
         {this.getSections()}
+        <h5 className='confidentiality'>* All documentation is confidential and used for internal review purposes only.</h5>
       </div>
     );
   }

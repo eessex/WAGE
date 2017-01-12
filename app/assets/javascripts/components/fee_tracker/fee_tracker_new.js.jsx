@@ -161,14 +161,14 @@
               className="form-control" />
             <span className="error">{this.state.errors.check_no}</span>
           </div>
-                </div>
-                  </div>
-        <div id="actions" className="field-group">
-          <button
-            onClick={this.addArtistPayment}
-            disabled={disabled}
-            className="btn btn-lg"
-            >Save <i className="fa fa-plus" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div id="actions" className="field-group">
+        <button
+          onClick={this.addArtistPayment}
+          disabled={disabled}
+          className="btn btn-lg"
+          >Save <i className="fa fa-plus" aria-hidden="true"></i></button>
       </div>
     </div>
     return form

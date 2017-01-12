@@ -7,13 +7,15 @@
 
 	&__header {
 		margin-top: 0;
-		margin-bottom: 1em;
+		margin-bottom: 3em;
+		max-width: 750px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 		h1 {
 	    border-bottom: 1px solid lime;
 	    margin-top: 0;
+			margin-bottom: 0;
 	    font-size: 28px;
 	    padding-bottom: 10px;
   	}

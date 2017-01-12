@@ -90,6 +90,7 @@ var ArtistPaymentsTable = React.createClass({
     var format_artists
     var format_programs
     var format_categories
+    var has_actions
     if (this.props.artist_payments.length > 1) {
       format_payments = 's'
     }
@@ -104,6 +105,9 @@ var ArtistPaymentsTable = React.createClass({
     } else {
       format_categories = 'Category'
     }
+    if (this.props.isEdit == 'true') {
+      has_actions = <td></td>
+    }
     if (this.props.artist_payments.length > 0) {
       foot = <tfoot>
           <tr>
@@ -112,7 +116,6 @@ var ArtistPaymentsTable = React.createClass({
             <td className="sortable" name="name">{this.state.total_programs} Program{format_programs}</td>
             <td className="sortable" name="fee_category_id">{this.state.total_categories} {format_categories}</td>
             <td className="total--amount" name="amount">${this.state.total_payments} Total Fees</td>
-            <td></td>
             <td></td>
           </tr>
         </tfoot>
