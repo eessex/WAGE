@@ -87,8 +87,9 @@ var CertificationReview = React.createClass({
       artist_payments_info =
       <div className="section artist-payments-info clearfix">
         <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Certified Pending status for FY {moment(this.state.certification.fiscal_end).format('YYYY')}.</h4>
-        <h4>Organizations are expected to pay artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>.</h4>
-        <h4>At the close of this fiscal period your organization must provide documentation of payments using this application’s <a onClick={this.props.goFeeTracker}>fee tracker</a>, or by uploading a Quickbooks P&L.</h4>
+        <h4>Your organization is expected to pay artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>.</h4>
+
+        <h4>At the close of this fiscal period your organization must provide documentation of fee payment using the <a onClick={this.props.goFeeTracker}>Fee Tracker</a>. You can upload this information anytime during the fiscal year or you can wait until the fiscal year has ended. At that point you may also upload a QuickBooks statement but it must contain your history of fee payment for the entire year.</h4>
       </div>
     } else if (this.props.certification.status < 2 && (new Date() < Date.parse(this.props.certification.fiscal_end) ) ) {
       artist_payments_info =

@@ -36,8 +36,16 @@ $(function() {
     	 $('html, body').animate({scrollTop: height}, 1000)
     })
 
-		$(document).click(function(e) {
+    $(document).click(function(e) {
       $('.dropdown .fa-close').toggleClass('fa-close').toggleClass('fa-bars')
-		})
+	})
+
+  $(window).scroll(function(){
+    if ($(window).scrollTop() > 150) {
+      $('.fee-category.header').addClass('active')
+    } else {
+      $('.fee-category.header').removeClass('active')
+    }
+  })
 
 });

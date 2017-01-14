@@ -20,7 +20,9 @@
 	    padding-bottom: 10px;
   	}
   }
-
+	&__subtitle {
+		min-width: 250px;
+	}
   &__body {
   	max-width: 750px;
 		h4 {

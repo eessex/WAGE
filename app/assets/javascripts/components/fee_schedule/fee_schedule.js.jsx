@@ -44,23 +44,12 @@ var FeeSchedule = React.createClass({
   feeHeader() {
     var status = this.feeStatus()
     var fee_header
-    var floor_info = <div className="subtitle floor">Minimum required for certification</div>
-    var minimum_info = <div className="subtitle minimum">Minimum required for certification</div>
+    var floor_info = <span className="subtitle floor">Minimum required for certification</span>
+    var minimum_info = floor_info
     var recommended_info = <div className="subtitle recommended"></div>
     var max_info = <div className="subtitle maximum">Must not exceed average salary of institution’s full time employees</div>
-    if (status == "floor") {
+    if (status == "floor" || status == "min") {
       fee_header = <div className="info__header">
-                    <div className="info__title minimum">
-                      <span className="category">Minimum Wage</span>
-                      {minimum_info}
-                    </div>
-                   </div>
-    } else if (status == "min") {
-      fee_header = <div className="info__header">
-                    <div className="info__title floor">
-                      <span className="category">Floor Wage</span>
-                      {floor_info}
-                    </div>
                     <div className="info__title minimum">
                       <span className="category">Minimum Wage</span>
                       {minimum_info}
@@ -103,14 +92,15 @@ var FeeSchedule = React.createClass({
 
     var format_fee
     if (status == "floor") {
-      format_fee = <span className="wide"><span><span className="amount">${floor_fee}</span>{subtitle}</span></span>
+      format_fee = <div className="info__fee">
+                    <div className="info__fee-amount minimum">
+                      <span className="amount">${floor_fee}</span>
+                      {subtitle}
+                    </div>
+                   </div>
     } else if (status == "min") {
       if (i == 11 || i == 12) {
         format_fee = <div className="info__fee">
-                      <div className="info__fee-amount floor">
-                        <span className="amount">${floor_fee}</span>
-                        {subtitle}
-                      </div>
                       <div className="info__fee-amount minimum">
                         <span className="amount">${existing_text.toLocaleString()}</span>
                         <span className="info__fee-subtitle">/word</span>
@@ -118,21 +108,13 @@ var FeeSchedule = React.createClass({
                     </div>
       } else if (i == 13) {
        format_fee = <div className="info__fee">
-                      <div className="info__fee-amount floor">
-                        <span className="amount">${floor_fee}</span>
-                        {subtitle}
-                      </div>
-                      <div className="info__fee-amount floor">
+                      <div className="info__fee-amount minimum">
                         <span className="amount">${floor_fee}</span>
                         {subtitle}
                       </div>
                     </div>
      } else {
       format_fee = <div className="info__fee">
-                    <div className="info__fee-amount floor">
-                      <span className="amount">${floor_fee}</span>
-                      {subtitle}
-                    </div>
                       <div className="info__fee-amount minimum">
                       <span className="amount">${min_fee}</span>
                       {subtitle}
@@ -166,11 +148,11 @@ var FeeSchedule = React.createClass({
     } else {
       format_fee = <div className="info__fee">
                      <div className="info__fee-amount minimum">
-                      <span className="amount">${min_fee}</span>
+                      <span className="amount">${over5m}</span>
                       {subtitle}
                     </div>
                     <div className="info__fee-amount recommended">
-                      <span className="amount">${over5m}</span>
+                      <span className="amount">${min_fee}</span>
                       {subtitle}
                     </div>
                   </div>
@@ -217,7 +199,10 @@ var FeeSchedule = React.createClass({
     return (
       <div key={fee_category.id} className="fee-category">
         <h5>
-          <span className="title"><span className="category">{fee_category.name}</span>{format_percent}</span>
+          <span className="title">
+            <span className="category">{fee_category.name}</span>
+            {format_percent}
+          </span>
           {format_fee}
         </h5>
         <div className="description"><p>{fee_category.description}</p></div>
@@ -234,9 +219,9 @@ var FeeSchedule = React.createClass({
         <div>
           <div className="fee-category header">
             <h5>
-              <div className="title">
+              <span className="title">
                 <span>Fee Category</span>
-              </div>
+              </span>
               {this.feeHeader()}
             </h5>
           </div>

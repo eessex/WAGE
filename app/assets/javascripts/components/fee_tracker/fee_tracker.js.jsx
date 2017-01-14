@@ -17,10 +17,17 @@
       disabled = ' disabled'
     }
     if (this.state.showForm) {
+      var subtitle
+      if (this.props.yearStatus == 'current' && this.props.new_user) {
+        subtitle = <span className='subtitle'>* submit this application to begin using the fee tracker.</span>
+      }
+      if (this.props.yearStatus == 'future') {
+        subtitle = <span className='subtitle'>* when your fiscal year has started</span>
+      }
       return (
         <div className={'fee-tracker__payments new-form' + disabled}>
           <div className='title'>
-            <h3>Create A New Payment</h3>
+            <h3>Create A New Payment{subtitle}</h3>
             <h6 onClick={this.toggleQbPl}>Upload Quickbooks File</h6>
           </div>
           <FeeTrackerNew
@@ -32,7 +39,6 @@
         </div>
       )
     } else {
-      var subtitle
       if (this.props.yearStatus == 'current') {
         subtitle = <span className='subtitle'>* at the close of your fiscal year</span>
       }
@@ -116,7 +122,7 @@
           <h4>You may submit your application now to become W.A.G.E. Certified Pending, and can return to the {this.showTrackerLink()} at any time.</h4>
           <h4>At the end of your fiscal year, if you have successfully demonstrated having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>, your organization will become W.A.G.E. Certified for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</h4>
           <h4>{this.showQbPlLink()}</h4>
-          <h5>* All documentation is confidential and used for internal review purposes only.</h5>
+          <h5 className="confidentiality">* All documentation is confidential and used for internal review purposes only.</h5>
         </div>
         {this.showForms()}
         {this.paymentsTable()}
