@@ -25,7 +25,7 @@
         subtitle = <span className='subtitle'>* when your fiscal year has started</span>
       }
       return (
-        <div className={'fee-tracker__payments new-form' + disabled}>
+        <div className={'fee-tracker__payments new-form ' + disabled}>
           <div className='title'>
             <h3>Create A New Payment{subtitle}</h3>
             <h6 onClick={this.toggleQbPl}>Upload Quickbooks File</h6>
@@ -115,12 +115,22 @@
     return payments
   },
   render() {
+    var new_user
+    if (this.props.certification.status == 0 && this.props.new_user) {
+      new_user = <h4>You may submit your application now to become W.A.G.E. Certified Pending, and can return to the {this.showTrackerLink()} at any time.</h4>
+    }
+    var upcoming_user
+    if (this.props.yearStatus != 'past') {
+      upcoming_user = <span>At the end of your fiscal year, i</span>
+    } else {
+      upcoming_user = <span>I</span>
+    }
     return (
       <div className="fee-tracker fee-tracker--new">
         <div className="fee-tracker__intro">
           <h4>Use the {this.showTrackerLink()} to document each fee payment to made to an artist between {this.formatDates()}.</h4>
-          <h4>You may submit your application now to become W.A.G.E. Certified Pending, and can return to the {this.showTrackerLink()} at any time.</h4>
-          <h4>At the end of your fiscal year, if you have successfully demonstrated having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>, your organization will become W.A.G.E. Certified for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</h4>
+          <h4>{upcoming_user}f you have successfully demonstrated having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>, your organization will become W.A.G.E. Certified for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</h4>
+          {new_user}
           <h4>{this.showQbPlLink()}</h4>
           <h5 className="confidentiality">* All documentation is confidential and used for internal review purposes only.</h5>
         </div>

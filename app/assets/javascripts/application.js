@@ -48,18 +48,18 @@ $(function() {
   })
 
   $('.dashboard .collapse .collapse__title').click(function(e) {
-    debugger
-    $('.container').removeClass('open')
-    $(e.target).closest('.collapse').toggleClass('open')
-    $(e.target).closest('.collapse').find('fa').toggleClass('fa-plus').toggleClass('fa-minus')
-
-    // $('.collapse').data('state', 'active').each(function(i, collapse) {
-    //   if ($(collapse).data('state') == 'active') {
-    //     $(collapse).data('state', 'closed')
-    //   }
-    // })
-
-    // debugger
+    $('.container').removeClass('active')
+    var active = $(e.target).closest('.collapse').addClass('active')
+    $('.container:not(.active)').find('.collapse__content').slideUp()
+    $('.container').find('.collapse__title .fa').addClass('fa-plus').removeClass('fa-minus')
+    if ($(active).find('.collapse__content').css('display') == 'block') {
+      $(active).find('.collapse__content').slideUp()
+      $(active).find('.collapse__title .fa').addClass('fa-plus').removeClass('fa-minus')
+      $(active).removeClass('active')
+    } else {
+      $(active).find('.collapse__content').slideDown()
+      $(active).find('.collapse__title .fa').removeClass('fa-plus').addClass('fa-minus')
+    }
   })
 
   // fee schedule header bar is sticky

@@ -50,14 +50,14 @@ var CertificationView = React.createClass({
   },
   goFeeSchedule() {
     if (this.state.hasCertifications) {
-      this.setState({navPosition: 4})
+      this.setState({navPosition: 3})
     } else {
       this.setState({navPosition: 6})
     }
   },
   goFeeTracker() {
     if (this.state.hasCertifications) {
-      this.setState({navPosition: 2})
+      this.setState({navPosition: 0})
     } else {
       this.setState({navPosition: 4})
     }
@@ -65,7 +65,7 @@ var CertificationView = React.createClass({
   // CERTIFICATION STATUS
   hasCertifications() {
     if (this.props.certification.status > 0) {
-      menu = ['guidelines', 'fiscal-details', 'fee-tracker', 'review', 'fee-schedule']
+      menu = ['fee-tracker', 'fiscal-details', 'review', 'fee-schedule']
       return true
     } else {
       return false

@@ -1,3 +1,5 @@
+ @import "variables";
+
 .alert, .notice, .notices {
   position: fixed;
   left: 1.5em;
@@ -41,6 +43,7 @@
     padding: 0;
     background-color: #fff;
     border-bottom: 2px solid;
+
     .collapse__title {
       display: flex;
       padding: 0 2em;
@@ -55,14 +58,38 @@
       .fa {
         font-size: 16px;
         padding-left: .5em;
+        opacity: 0;
+      }
+      &:hover {
+        background-color: #fafafa;
+        span:not(.title) {
+          border-bottom: 1px solid lime;
+        }
+        .fa {
+          opacity: 1;
+        }
       }
     }
-    .title.collapse__title:nth-child(1) {
-      margin-top: -2px;
+    &.active {
+      .collapse__title {
+        &:hover {
+          background-color: #fff;
+          .fa {
+            opacity: 1;
+          }
+        }
+        span:not(.title) {
+          border-bottom: 1px solid lime;
+        }
+      }
     }
+/*    .title.collapse__title:nth-child(1) {
+      margin-top: -2px;
+    }*/
     .collapse__content {
       margin: 2em auto;
       padding-bottom: 4em;
+      display: none;
       h4.th {
         font-size: 1em;
         text-transform: uppercase;
@@ -70,20 +97,6 @@
         justify-content: space-between;
         margin-top: 1em;
         padding: 0 2em;
-      }
-    }
-    &[data-state='closed'], &:not(open) {
-      .collapse__content {
-        display: none;
-      }
-    }
-    &[data-state='active'], &.open {
-      .collapse__title h1 .title span {
-        border-bottom: 1px solid lime;
-        margin-bottom: 0;
-      }
-      .collapse__content {
-        display: block;
       }
     }
   }
