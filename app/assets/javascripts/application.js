@@ -40,11 +40,15 @@ $(function() {
       $('.dropdown .fa-close').toggleClass('fa-close').toggleClass('fa-bars')
 	})
 
+    if ($('.dashboard')) {
+      $('.navbar-fixed-top').css('border-bottom', '2px solid')
+    }
+
   $(window).scroll(function(){
     if ($(window).scrollTop() > 150) {
-      $('.fee-category.header').addClass('active')
+      $('.certification-view .fee-category.header').addClass('active')
     } else {
-      $('.fee-category.header').removeClass('active')
+      $('.certification-view  .fee-category.header').removeClass('active')
     }
   })
 

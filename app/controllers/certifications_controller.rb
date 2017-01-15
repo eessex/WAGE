@@ -12,9 +12,9 @@ class CertificationsController < ApplicationController
     @certifications = Certification.where(user_id: @user.id) || []
     @fee_categories = FeeCategory.all
     @artist_payments = @certification.artist_payments || []
-    if @certification.status == 0
+    # if @certification.status == 0
       # render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
-    elsif @certification.status > 0
+    # elsif @certification.status > 0
       @path = ENV['HOST'] + '/certifications/' + @certification.id.to_s
       render component: 'CertificationView', props: {
           path: @path,
@@ -25,7 +25,7 @@ class CertificationsController < ApplicationController
           new_user: false,
           fee_categories: @fee_categories
         }, class: "certification certification--view"
-    end
+    # end
     # render component: 'CertificationView', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
   end
 

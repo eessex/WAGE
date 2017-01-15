@@ -14,7 +14,7 @@ class SiteController < ApplicationController
         certifications: @certifications,
         user: @user,
         fee_categories: @fee_categories
-      }, class: 'dashboard'
+      }
     else
       @new_user = true
       render component: 'CertificationView', props: {
