@@ -34,7 +34,7 @@ var FeeScheduleRoot = React.createClass({
     }
   },
   navigateMenu(item) {
-    window.location = "http://localhost:3000/#" + menu[item]
+    window.location = "/#" + menu[item]
   },
     hasFiscalDetails() {
     if ( this.state.certification.operating_expenses &&
