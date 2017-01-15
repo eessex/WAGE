@@ -38,7 +38,7 @@ $(function() {
 
   //dashboard menu has border
   if ($('.dashboard')) {
-    $('.navbar-fixed-top').css('border-bottom', '2px solid')
+    $('body:not(#site-guidelines) .navbar-fixed-top').css('border-bottom', '2px solid')
   }
 
   //scroll down on guidelines page
