@@ -16,12 +16,6 @@
   margin: 2em auto;
 }
 
-#fee-schedule{
-  .message {
-    margin-bottom: 4em;
-  }
-}
-
 #schedule-table {
   margin-bottom: 7em;
   margin-left: -2em;
@@ -74,7 +68,11 @@
     }
   }
 }
-#fee-schedule {
+.fee-schedule {
+  .message {
+    margin-bottom: 4em;
+    max-width: 725px;
+  }
   h4.taoe {
     position: absolute;
     top: 0;
@@ -109,8 +107,9 @@
       .info__fee-amount,
       .info__title {
         width: 200px;
-        &:first-child {
-          width: 250px;
+        &:first-child,
+        &.maximum {
+          min-width: 250px;
         }
       }
       .info__title {

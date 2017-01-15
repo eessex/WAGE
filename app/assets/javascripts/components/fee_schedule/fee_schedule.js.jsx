@@ -24,7 +24,7 @@ var FeeSchedule = React.createClass({
   isMax() {
     var message
     if (this.feeStatus() == 'max') {
-      message = <div className="message">
+      message = <div className="section message">
         <h4>If your operating budget is over $15,000,000 you are required to pay artist fees meeting Minimum W.A.G.E. standards but must also not exceed a Maximum W.A.G.E.</h4>
         <h4>To determine the Maximum W.A.G.E. please contact us directly: <a href="mailto: certification@wageforwork.com">certification@wageforwork.com</a>.</h4>
       </div>
@@ -213,7 +213,7 @@ var FeeSchedule = React.createClass({
   },
   render() {
     return (
-      <div id="fee-schedule">
+      <div className="fee-schedule">
       {this.isMax()}
       <div id="schedule-table">
         <div>

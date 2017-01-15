@@ -20,7 +20,6 @@ var FiscalDates = React.createClass({
     }
   },
   componentDidMount() {
-    year = this.dateIsValid('s_y')
     var newState = this.state
     this.autoSetEnd(newState)
     this.handleUserUpdate(newState)
@@ -35,57 +34,70 @@ var FiscalDates = React.createClass({
       e_y: moment(this.props.certification.fiscal_end).format('Y')
     }
   },
+  getYears(start) {
+    var start_years = []
+    var end_years = []
+    var today = moment(new Date)
+    var start = moment(start)
+    var end = moment(start).add(1, 'year').subtract(1, 'days')
+    var start_before = moment(today).add(90, 'days')
+
+    if ( end >= today && start_before >= start) {
+      // input date is valid
+      start_years.push(moment(start).format('Y'))
+      end_years.push(moment(end).format('Y'))
+    }
+    if ( moment(end).add(1, 'years') >= today && start_before >= moment(start).add(1, 'years')) {
+      // input date + 1 year is valid
+      start_years.push(moment(start).add(1, 'years').format('Y'))
+      end_years.push(moment(end).add(1, 'years').format('Y'))
+    }
+    if ( moment(end).subtract(1, 'years') >= today && start_before >= moment(start).subtract(1, 'years')) {
+      // input date - 1 year is valid
+      start_years.push(moment(start).subtract(1, 'years').format('Y'))
+      end_years.push(moment(end).subtract(1, 'years').format('Y'))
+    }
+    return {end_years: end_years, start_years: start_years}
+  },
   handleInputChange(e) {
     var changed = $(e.target).data('id')
     var newState = this.state
     newState[changed] = e.target.value
-    if (changed == 's_m' || changed == 's_d' || changed == 's_y') {
-      var s_year = this.dateIsValid(changed)
-      var e_year = this.dateIsValid(changed, false)
-      newState.s_y = s_year
-      newState.e_y = e_year
+    if (changed.indexOf('s') > -1) {
+      var get_years = this.getYears(moment(newState.s_y + "-" + newState.s_m + "-" + newState.s_d))
+      if (get_years.start_years.length == 1) {
+        newState.certification.fiscal_start = moment(get_years.start_years[0] + "-" + newState.s_m + "-" + newState.s_d).format('YYYY-MM-DD')
+      } else {
+        var selected = get_years.start_years.indexOf(newState.s_y)
+        newState.certification.fiscal_start = moment(get_years.start_years[selected] + "-" + newState.s_m + "-" + newState.s_d).format('YYYY-MM-DD')
+      }
       this.autoSetEnd(newState)
     } else {
-      var year = this.dateIsValid(changed, false)
-      newState.e_y = year
+      var end = moment(newState.e_y + "-" + newState.e_m + "-" + newState.e_d)
+      var start = moment(end).subtract(1,'year').add(1, 'days')
+      var get_years = this.getYears(start)
+      if (get_years.end_years.length == 1) {
+        newState.certification.fiscal_start = moment(get_years.start_years[0] + "-" + newState.s_m + "-" + newState.s_d).format('YYYY-MM-DD')
+      } else {
+        var selected = get_years.start_years.indexOf(moment(start).format('Y'))
+        // debugger
+        newState.certification.fiscal_start = moment(get_years.start_years[selected] + "-" + newState.s_m + "-" + newState.s_d).format('YYYY-MM-DD')
+      }
       this.autoSetStart(newState)
     }
+    newState.start_years = get_years.start_years
+    newState.end_years = get_years.end_years
+
+    this.setState({newState})
     this.handleUserUpdate(newState)
-  },
-  dateIsValid(changed, start=true) {
-    var year
-    var newStart = moment(this.state.s_y + "-" + this.state.s_m + "-" + this.state.s_d).format()
-    var valid_years = this.getYears(newStart)
-    if (start) {
-      if (valid_years.start_years.includes(this.state[changed])) {
-        year = this.state.s_y
-      } else if (valid_years[1]) {
-        debugger
-      } else {
-        year = valid_years[0]
-      }
-    } else {
-      // is end
-      if (valid_years.end_years.includes(this.state[changed])) {
-        year = this.state.e_y
-      } else if (valid_years[1]) {
-        debugger
-      } else {
-        year = valid_years[0]
-      }
-    }
-    return year
   },
   autoSetEnd(newState) {
     var plusYear = moment(newState.s_y + "-" + newState.s_m + "-" + newState.s_d).format()
     plusYear = moment(plusYear).add(1, 'year')
     plusYear = moment(plusYear).subtract(1, 'day')
-    // var allYears = this.getYears(plusYear)
     newState.e_m = plusYear.format('M')
     newState.e_d = plusYear.format('D')
     newState.e_y = plusYear.format('Y')
-    // newState.start_years = allYears.start_years
-    // newState.end_years = allYears.end_years
     this.setState(newState)
     this.handleUserUpdate(newState)
   },
@@ -93,12 +105,9 @@ var FiscalDates = React.createClass({
     var plusYear = moment(YEAR + "-" + newState.e_m + "-" + newState.e_d)
     plusYear = moment(plusYear).subtract(1, 'year')
     plusYear = moment(plusYear).add(1, 'day')
-    // var allYears = this.getYears(plusYear)
     newState.s_m = plusYear.format('M')
     newState.s_d = plusYear.format('D')
     newState.s_y = plusYear.format('Y')
-    // newState.start_years = allYears.start_years
-    // newState.end_years = allYears.end_years
     this.setState(newState)
     this.handleUserUpdate(newState)
   },
@@ -149,44 +158,6 @@ var FiscalDates = React.createClass({
   },
   getUnique(value, index, self) {
     return self.indexOf(value) === index;
-  },
-  getYears(start) {
-    var today = new Date
-    var possible = []
-    var start_years = []
-    var end_years = []
-    possible.push(moment(start))
-
-    var new_start = moment(start).subtract(2, 'years')
-    possible.push(new_start)
-    new_start = moment(start).subtract(1, 'years')
-    possible.push(new_start)
-    new_start = moment(start).add(1, 'years')
-    possible.push(new_start)
-    new_start = moment(start).add(2, 'years')
-    possible.push(new_start)
-
-    possible.forEach(function(start) {
-      var end = moment(start).add(1, 'year').subtract(1, 'day')
-      var validEnd_current = moment(today).subtract(90, 'days')
-      var validEnd_future = moment(today).add(1, 'year')
-      var validStart = moment(today).add(90, 'days')
-      if (start <= today && end >= today) {
-        // date is current
-        console.log(moment(start).format('Y') + " is current")
-        start_years.push(moment(start).format('Y'))
-        end_years.push(moment(end).format('Y'))
-      } else if (start <= moment(today).add(90, 'days') && start > today) {
-        // date is upcoming
-        console.log(moment(start).format('Y') + " is upcoming")
-        start_years.push(moment(start).format('Y'))
-        end_years.push(moment(end).format('Y'))
-      } else {
-        // date is far future or past
-        console.log(moment(start).format('Y') + " NOT VALID")
-      }
-    });
-    return {end_years: end_years, start_years: start_years}
   },
   render() {
     var options_months = MONTHS.map( function(month, i) {

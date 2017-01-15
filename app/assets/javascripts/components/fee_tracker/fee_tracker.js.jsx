@@ -19,7 +19,7 @@
     if (this.state.showForm) {
       var subtitle
       if (this.props.yearStatus == 'current' && this.props.new_user) {
-        subtitle = <span className='subtitle'>* submit this application to begin using the fee tracker.</span>
+        subtitle = <span className='subtitle'>* submit your application to begin using the Fee Tracker.</span>
       }
       if (this.props.yearStatus == 'future') {
         subtitle = <span className='subtitle'>* when your fiscal year has started</span>

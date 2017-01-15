@@ -84,3 +84,25 @@
 /* end fee-tracker */
 }
 
+.certification-view--fee-tracker {
+	padding-left: 0;
+	padding-right: 0;
+	.certification-view__header {
+		padding: 0 2em;
+	}
+	.certification-view__subtitle {
+			text-align: right;
+			.btn {
+				padding: 10px 16px;
+			}
+	}
+	.certification-view__body {
+		max-width: 100%;
+		.artist-payments {
+			margin-top: -2px;
+			background-color: white;
+			margin-bottom: 2em;
+			border-bottom: 2px solid;
+		}
+	}
+}
