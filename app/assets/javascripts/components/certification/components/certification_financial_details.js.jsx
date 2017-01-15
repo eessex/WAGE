@@ -5,7 +5,6 @@ var FinancialDetails = React.createClass({
       user: this.props.user,
       certifications: this.props.certifications,
       yearStatus: this.props.yearStatus,
-      isProgress: false,
       errors: {}
     }
   },
@@ -23,7 +22,7 @@ var FinancialDetails = React.createClass({
     var newCertification = this.state.certification
     newCertification.operating_expenses = e.target.value
     this.setState({certification: newCertification})
-    this.props.handleCertificationUpdate(this.state.certification)
+    this.props.handleCertificationUpdate(newCertification)
     this.fulfilsRequired(e)
   },
   hasFile_990() {
@@ -46,10 +45,13 @@ var FinancialDetails = React.createClass({
     if (e.target) {
       e = e.target
     }
-    if ($(e).find('input').attr('id') == 'operating_expenses' && $(e).find('input').val().length > 3) {
+    if ($(e).attr('id') == 'operating_expenses') {
+      e = $(e).parent()
+    }
+    if ($(e).find('input').attr('id') == 'operating_expenses' && $(e).find('input').val().length > 3 ) {
       $(e).find('.req').addClass('green')
     } else if ($(e).find('input').val() != "" && $(e).find('p.form-control') ) {
-      $(e).find('.req').addClass('green')
+      $(e).find('.req').removeClass('green')
     } else {
       $(e).find('.req').removeClass('green')
     }

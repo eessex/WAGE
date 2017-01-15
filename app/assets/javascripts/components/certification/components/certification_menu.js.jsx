@@ -34,6 +34,8 @@ var CertificationMenu = React.createClass({
         return progress.hasPayments
       } else if (item == 'supplemental-materials') {
         return progress.hasMaterials
+      } else if (item == 'review') {
+        return progress.canSubmit
       }
     }
   },

@@ -97,12 +97,39 @@ var CertificationReview = React.createClass({
         <h4>Your application is ready to submit on or after {moment(this.props.user.fiscal_end).format('MMM D, Y')}.</h4>
       </div>
     }
-    if ( (this.props.certification.status < 2 && new Date() > Date.parse(this.props.certification.fiscal_end)) || (this.props.certification.status == 0 && this.props.new_user == "true") ) {
-      var actions =  <button className="btn btn-lg next" onClick={this.handleSubmit}>Submit</button>
-    } else if (this.props.certification.status < 2) {
-      var actions = <button className="btn btn-lg next" disabled="true">Submit Application <i className='fa fa-long-arrow-right'></i></button>
-    } else {
-      var actions
+    var actions
+    if (this.props.certification.status < 1 && this.props.new_user ) {
+      var disabled
+      var click
+      if ( moment(this.props.certification.fiscal_end) <= moment(new Date) ) {
+        // year is past
+          if(this.props.canSubmit != 'true') {
+            disabled = true
+          } else {
+            click = this.handleSubmit
+          }
+      }
+      if ( moment(this.props.certification.fiscal_end) > moment(new Date) ) {
+        // year is current or future
+        if (this.props.new_user) {
+          if(this.props.canSubmit != 'true') {
+            disabled = true
+          } else {
+            click = this.handleSubmit
+          }
+        } else {
+          disabled = true
+        }
+      }
+    //   new Date() > Date.parse(this.props.certification.fiscal_end)) || (this.props.certification.status == 0 && this.props.new_user == "true") ) {
+      // actions =  <button className="btn btn-lg next" onClick={click}>Submit</button>
+    // } else if (this.props.certification.status < 2) {
+    //   if (this.props.canSubmit != 'true') {
+    //     disabled = true
+    //   }
+      actions = <button className="btn btn-lg next" onClick={click} disabled={disabled}>Submit Application <i className='fa fa-long-arrow-right'></i></button>
+    // } else {
+    //   var actions
     }
     return (
       <div className="certification certification-review">

@@ -84,21 +84,56 @@ var CertificationView = React.createClass({
     return status
   },
   canSubmit() {
-    if (this.state.certification.status <= 2 && this.hasFiscalDetails() == 'true') {
-      if (this.state.yearStatus == 'past' && this.hasPayments() == 'true') {
-        return true
-      } else if (
-        (this.state.yearStatus == 'future' || this.state.yearStatus == 'current') &&
-        (this.hasFiscalDetails() == 'true' && this.hasContact() == 'true' && this.hasMaterials() == 'true')
+    var hasFiscalDetails = this.hasFiscalDetails()
+    var hasPayments = this.hasPayments()
+    var hasContact = this.hasContact()
+    var hasMaterials = this.hasMaterials()
+    if (this.state.certification.status <= 2) {
+      // past year is ready
+      if (this.state.yearStatus == 'past' && hasPayments == 'true' && hasFiscalDetails == 'true') {
+        return 'true'
+      }
+      if (this.state.yearStatus == 'past' &&
+        (
+          (hasPayments == 'progress' || hasFiscalDetails == 'progress') ||
+          (hasPayments == 'true' || hasFiscalDetails == 'true')
+          )
         ) {
-        return true
+        return 'progress'
+      }
+      if (this.state.yearStatus == 'current' && !this.props.new_user) {
+        if (hasPayments == 'true' && hasFiscalDetails == 'true') {
+          return 'true'
+        } else if (
+          (hasPayments == 'progress' || hasFiscalDetails == 'progress') ||
+          (hasPayments == 'true' || hasFiscalDetails == 'true')
+          ){
+          return 'progress'
+        }
+      }
+      if (this.state.yearStatus == 'future' && !this.props.new_user) {
+        if (hasFiscalDetails == 'true') {
+          return 'true'
+        } else if (hasFiscalDetails == 'progress') {
+          return 'progress'
+        }
+      }
+      if (this.props.new_user) {
+        if (hasContact == 'true' && hasFiscalDetails == 'true' && hasMaterials == 'true') {
+          return 'true'
+        } else if (
+          (hasContact == 'true' || hasFiscalDetails == 'true' || hasMaterials == 'true') ||
+          (hasContact == 'progress' || hasFiscalDetails == 'progress' || hasMaterials == 'progress')
+          ) {
+          return 'progress'
+        }
       }
     } else {
       return false
     }
   },
   hasFiscalDetails() {
-    if ( this.state.certification.operating_expenses &&
+    if ( (this.state.certification.operating_expenses && this.state.certification.operating_expenses > 999) &&
       this.state.certification.file_budget &&
       this.state.certification.fiscal_start &&
       this.state.certification.fiscal_end ) {
@@ -168,7 +203,8 @@ var CertificationView = React.createClass({
       hasFiscalDetails: this.state.hasFiscalDetails,
       hasPayments: this.state.hasPayments,
       hasContact: this.state.hasContact,
-      hasMaterials: this.state.hasMaterials
+      hasMaterials: this.state.hasMaterials,
+      canSubmit: this.state.canSubmit
     }
   },
   isSaved() {
@@ -191,13 +227,28 @@ var CertificationView = React.createClass({
       },
       url: '/users' + '.json',
       success: function(res) {
-        that.setState({user: user, canSubmit: that.canSubmit(), errors: {}})
+        that.setState({
+          user: user,
+          canSubmit: that.canSubmit(),
+          hasFiscalDetails: that.hasFiscalDetails(),
+          hasPayments: that.hasPayments(),
+          hasContact: that.hasContact(),
+          hasMaterials: that.hasMaterials(),
+          errors: {}
+        })
         setTimeout(function(){
           that.isSaved()
         }, 150)
       },
       error: function(res) {
-        that.setState({errors: res.responseJSON.errors});
+        that.setState({
+          canSubmit: that.canSubmit(),
+          hasFiscalDetails: that.hasFiscalDetails(),
+          hasPayments: that.hasPayments(),
+          hasContact: that.hasContact(),
+          hasMaterials: that.hasMaterials(),
+          errors: res.responseJSON.errors
+        });
         setTimeout(function(){
           that.isSaved()
         }, 150)
@@ -215,38 +266,30 @@ var CertificationView = React.createClass({
       success: function(res) {
         if (res.notice) {
           $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
-          that.setState({certification: res, canSubmit: that.canSubmit()})
+          that.setState({
+            certification: res,
+            canSubmit: that.canSubmit(),
+            hasFiscalDetails: that.hasFiscalDetails(),
+            hasPayments: that.hasPayments(),
+            hasContact: that.hasContact(),
+            hasMaterials: that.hasMaterials()
+          })
           setTimeout(function () {
             window.location = "http://localhost:3000";
           },2000);
         } else {
-          that.setState({certification: res, canSubmit: that.canSubmit()})
+          that.setState({
+            certification: res,
+            canSubmit: that.canSubmit(),
+            hasFiscalDetails: that.hasFiscalDetails(),
+            hasPayments: that.hasPayments(),
+            hasContact: that.hasContact(),
+            hasMaterials: that.hasMaterials()
+          })
         }
       },
       error: function(res) {
         that.setState({errors: res.responseJSON.errors});
-      }
-    });
-  },
-  handleAddCertification(certification) {
-    this.isSaved()
-    var that = this;
-    $.ajax({
-      method: 'POST',
-      data: {
-        certification: certification,
-      },
-      url: '/certifications.json',
-      success: function(res) {
-        setTimeout(function(){
-          that.isSaved()
-        }, 150)
-        certifications = that.state.certifications
-        certifications.push(res)
-        that.setState({certifications: certifications, certification: res, errors: {}})
-      },
-      error: function(res) {
-        that.setState({errors: res.responseJSON.errors})
       }
     });
   },
@@ -379,8 +422,7 @@ var CertificationView = React.createClass({
                 editDates={this.state.editDates}
                 formatDates={this.formatDates}
                 handleCertificationUpdate={this.handleCertificationUpdate}
-                handleUserUpdate={this.handleUserUpdate}
-                handleAddCertification={this.handleAddCertification}/>
+                handleUserUpdate={this.handleUserUpdate}/>
               <FinancialDetails
                 certification={this.state.certification}
                 user={this.state.user}
@@ -435,6 +477,7 @@ var CertificationView = React.createClass({
           goFeeSchedule={this.goFeeSchedule}
           goFeeTracker={this.goFeeTracker}
           sortRowsBy={this.sortRowsBy}
+          canSubmit={this.state.canSubmit}
           // paymentsSorted={this.paymentsSorted}
           // isEdit="false"
           fee_categories={this.props.fee_categories} />
