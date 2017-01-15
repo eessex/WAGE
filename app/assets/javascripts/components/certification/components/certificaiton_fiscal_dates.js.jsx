@@ -1,5 +1,4 @@
 var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-var YEAR = new Date().getFullYear()
 
 var FiscalDates = React.createClass({
   getInitialState() {
@@ -77,11 +76,10 @@ var FiscalDates = React.createClass({
       var start = moment(end).subtract(1,'year').add(1, 'days')
       var get_years = this.getYears(start)
       if (get_years.end_years.length == 1) {
-        newState.certification.fiscal_start = moment(get_years.start_years[0] + "-" + newState.s_m + "-" + newState.s_d).format('YYYY-MM-DD')
+        newState.certification.fiscal_end = moment(get_years.end_years[0] + "-" + newState.e_m + "-" + newState.e_d).format('YYYY-MM-DD')
       } else {
-        var selected = get_years.start_years.indexOf(moment(start).format('Y'))
-        // debugger
-        newState.certification.fiscal_start = moment(get_years.start_years[selected] + "-" + newState.s_m + "-" + newState.s_d).format('YYYY-MM-DD')
+        var selected = get_years.end_years.indexOf(moment(end).format('Y'))
+        newState.certification.fiscal_end = moment(get_years.end_years[selected] + "-" + newState.e_m + "-" + newState.e_d).format('YYYY-MM-DD')
       }
       this.autoSetStart(newState)
     }
@@ -102,7 +100,7 @@ var FiscalDates = React.createClass({
     this.handleUserUpdate(newState)
   },
   autoSetStart(newState){
-    var plusYear = moment(YEAR + "-" + newState.e_m + "-" + newState.e_d)
+    var plusYear = moment(newState.e_y + "-" + newState.e_m + "-" + newState.e_d)
     plusYear = moment(plusYear).subtract(1, 'year')
     plusYear = moment(plusYear).add(1, 'day')
     newState.s_m = plusYear.format('M')
