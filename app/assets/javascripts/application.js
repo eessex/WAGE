@@ -23,27 +23,46 @@
 
 
 $(function() {
-    $('.notice').delay(3500).fadeOut();
-    $('.notices').delay(3500).fadeOut();
-    $('.alert').delay(3500).fadeOut();
+  $('.notice').delay(3500).fadeOut();
+  $('.notices').delay(3500).fadeOut();
+  $('.alert').delay(3500).fadeOut();
 
-    $('.fa-bars, .fa-close').click(function(e){
-    	$(e.target).toggleClass('fa-bars').toggleClass('fa-close')
-    })
+  //nav main menu icon
+  $(document).click(function(e) {
+    $('.dropdown .fa-close').toggleClass('fa-close').toggleClass('fa-bars')
+  })
 
-    $('.intro.one').click(function(e) {
-    	var height = $(window).height()
-    	 $('html, body').animate({scrollTop: height}, 1000)
-    })
+  $('.fa-bars, .fa-close').click(function(e){
+  	$(e.target).toggleClass('fa-bars').toggleClass('fa-close')
+  })
 
-    $(document).click(function(e) {
-      $('.dropdown .fa-close').toggleClass('fa-close').toggleClass('fa-bars')
-	})
+  //dashboard menu has border
+  if ($('.dashboard')) {
+    $('.navbar-fixed-top').css('border-bottom', '2px solid')
+  }
 
-    if ($('.dashboard')) {
-      $('.navbar-fixed-top').css('border-bottom', '2px solid')
-    }
+  //scroll down on guidelines page
+  $('.intro.one').click(function(e) {
+  	var height = $(window).height()
+  	 $('html, body').animate({scrollTop: height}, 1000)
+  })
 
+  $('.dashboard .collapse .collapse__title').click(function(e) {
+    debugger
+    $('.container').removeClass('open')
+    $(e.target).closest('.collapse').toggleClass('open')
+    $(e.target).closest('.collapse').find('fa').toggleClass('fa-plus').toggleClass('fa-minus')
+
+    // $('.collapse').data('state', 'active').each(function(i, collapse) {
+    //   if ($(collapse).data('state') == 'active') {
+    //     $(collapse).data('state', 'closed')
+    //   }
+    // })
+
+    // debugger
+  })
+
+  // fee schedule header bar is sticky
   $(window).scroll(function(){
     if ($(window).scrollTop() > 150) {
       $('.certification-view .fee-category.header').addClass('active')

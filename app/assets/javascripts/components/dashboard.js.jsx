@@ -10,9 +10,9 @@ var Dashboard = React.createClass({
   render() {
     return (
       <div className="dashboard">
-        <div id="certifications" className="container collapse" data-state='true'>
+        <div id="certifications" className="container collapse open">
           <div className="collapse__title">
-            <h1><div className='title'><span>Certifications</span><i className='fa fa-plus'></i></div></h1>
+            <h1><div className='title'><span>Certifications</span><i className='fa fa-minus'></i></div></h1>
           </div>
           <div className="collapse__content">
             <h4 className="th"><span>Fiscal Year</span><span>Application Status</span><span>Last Updated</span></h4>
