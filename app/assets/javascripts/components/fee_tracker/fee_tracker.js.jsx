@@ -128,11 +128,10 @@
     return (
       <div className="fee-tracker fee-tracker--new">
         <div className="fee-tracker__intro">
+        {new_user}
           <h4>Use the {this.showTrackerLink()} to document each fee payment to made to an artist between {this.formatDates()}.</h4>
           <h4>{upcoming_user}f you have successfully demonstrated having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>, your organization will become W.A.G.E. Certified for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</h4>
-          {new_user}
-          <h4>{this.showQbPlLink()}</h4>
-          <h5 className="confidentiality">* All documentation is confidential and used for internal review purposes only.</h5>
+          <h5 className="confidentiality">* All documentation is confidential and is internally reviewed only.</h5>
         </div>
         {this.showForms()}
         {this.paymentsTable()}
@@ -140,3 +139,4 @@
       );
     }
   });
+          // <h4>{this.showQbPlLink()}</h4>

@@ -47,20 +47,20 @@ $(function() {
   	 $('html, body').animate({scrollTop: height}, 1000)
   })
 
-  $('.dashboard .collapse .collapse__title').click(function(e) {
-    $('.container').removeClass('active')
-    var active = $(e.target).closest('.collapse').addClass('active')
-    $('.container:not(.active)').find('.collapse__content').slideUp()
-    $('.container').find('.collapse__title .fa').addClass('fa-plus').removeClass('fa-minus')
-    if ($(active).find('.collapse__content').css('display') == 'block') {
-      $(active).find('.collapse__content').slideUp()
-      $(active).find('.collapse__title .fa').addClass('fa-plus').removeClass('fa-minus')
-      $(active).removeClass('active')
-    } else {
-      $(active).find('.collapse__content').slideDown()
-      $(active).find('.collapse__title .fa').removeClass('fa-plus').addClass('fa-minus')
-    }
-  })
+  // $('.dashboard .collapse .collapse__title').click(function(e) {
+  //   $('.container').removeClass('active')
+  //   var active = $(e.target).closest('.collapse').addClass('active')
+  //   $('.container:not(.active)').find('.collapse__content').slideUp()
+  //   $('.container').find('.collapse__title .fa').addClass('fa-plus').removeClass('fa-minus')
+  //   if ($(active).find('.collapse__content').css('display') == 'block') {
+  //     $(active).find('.collapse__content').slideUp()
+  //     $(active).find('.collapse__title .fa').addClass('fa-plus').removeClass('fa-minus')
+  //     $(active).removeClass('active')
+  //   } else {
+  //     $(active).find('.collapse__content').slideDown()
+  //     $(active).find('.collapse__title .fa').removeClass('fa-plus').addClass('fa-minus')
+  //   }
+  // })
 
   // fee schedule header bar is sticky
   $(window).scroll(function(){
