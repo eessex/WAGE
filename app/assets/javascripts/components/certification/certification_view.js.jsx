@@ -57,15 +57,23 @@ var CertificationView = React.createClass({
   },
   goFeeTracker() {
     if (this.state.hasCertifications) {
-      this.setState({navPosition: 0})
+      if (this.props.certification.status == 0) {
+        this.setState({navPosition: 0})
+      } else {
+        this.setState({navPosition: 1})
+      }
     } else {
       this.setState({navPosition: 4})
     }
   },
   // CERTIFICATION STATUS
   hasCertifications() {
-    if (this.props.certification.status > 0) {
-      menu = ['fee-tracker', 'fiscal-details', 'review', 'fee-schedule']
+    if (!this.props.new_user) {
+      if (this.props.certification.status == 0) {
+        menu = ['fee-tracker', 'fiscal-details', 'review', 'fee-schedule']
+      } else {
+        menu = ['fiscal-details', 'fee-tracker', 'review', 'fee-schedule']
+      }
       return true
     } else {
       return false
