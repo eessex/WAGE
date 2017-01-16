@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
 
   helper HasSubmitted
 
-	# unless  ActionController::Base.consider_all_requests_local
-	  # rescue_from Exception, :with => :render_404
-	# end
+	unless  ActionController::Base.consider_all_requests_local
+	  rescue_from Exception, :with => :render_404
+	end
 
 private
 
