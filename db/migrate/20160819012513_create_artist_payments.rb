@@ -3,6 +3,7 @@ class CreateArtistPayments < ActiveRecord::Migration
     create_table :artist_payments do |t|
       t.string :name
       t.string :artist_name
+      t.string :notes
       t.integer :check_no
       t.integer :fee_category_id
       t.integer :certification_id

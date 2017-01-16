@@ -8,6 +8,7 @@ var Dashboard = React.createClass({
     }
   },
   componentDidMount() {
+    $('.navbar-fixed-top').css('border-bottom', '2px solid')
     $('.dashboard .collapse .collapse__title').click(function(e) {
       $('.container').removeClass('active')
       var active = $(e.target).closest('.collapse').addClass('active')

@@ -73,11 +73,21 @@ var FinancialDetails = React.createClass({
     var file_budget_caption = 'Upload a closed out budget for fiscal year ' + moment(this.props.certification.fiscal_end).format('Y') + ' with ‘Artist Fees’ as a distinct line item.'
     return (
       <form className="financials financials--fiscal-details form">
+            <UploadFile
+              model={this.props.certification}
+              required='true'
+              type='file_budget'
+              handleFileUpdate={this.props.handleCertificationUpdate}
+              accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel'
+              label='Operating Budget'
+              subtitle={file_budget_caption} />
+
+            {this.hasFile_990()}
+
             <div className="form-item required add-on">
                 <h4 className="col">Operating Expenses</h4>
                 <p>Enter your {operating_caption} annual expenses to generate a custom fee schedule.</p>
-                <a href="/#fee-schedule"><button className="btn fee-schedule" >My Fee Schedule</button></a>
-                  <div className="input-group input-group__addon">
+                <div className="input-group input-group__addon">
                   <div className="input-group-addon">$</div>
                   <input
                     value={this.hasOperatingExpenses()}
@@ -92,17 +102,7 @@ var FinancialDetails = React.createClass({
                 <span className='error'>{this.state.errors.operating_expenses}</span>
               </div>
             </div>
-
-            <UploadFile
-              model={this.props.certification}
-              required='true'
-              type='file_budget'
-              handleFileUpdate={this.props.handleCertificationUpdate}
-              accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel'
-              label='Operating Budget'
-              subtitle={file_budget_caption} />
-
-            {this.hasFile_990()}
+            <a href="/#fee-schedule"><button className="btn fee-schedule" >My Fee Schedule</button></a>
           </form>
     );
   }

@@ -18,6 +18,7 @@
 			color: #999;
 			background: none transparent;
 			border-color: #ccc;
+			opacity: .7;
 			.form-control[disabled], fieldset[disabled] .form-control, input:disabled {
 				color: #999;
 			}
@@ -91,10 +92,14 @@
 		padding: 0 2em;
 	}
 	.certification-view__subtitle {
-			text-align: right;
-			.btn {
-				padding: 10px 16px;
-			}
+	  position: fixed;
+    bottom: 15px;
+    right: 11.5em;
+    z-index: 100;
+    text-align: right;
+		.btn {
+			padding: 14px 24px;
+		}
 	}
 	.certification-view__body {
 		max-width: 100%;

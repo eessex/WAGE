@@ -298,7 +298,7 @@ var FiscalDates = React.createClass({
     return (
       <div id="fiscal-dates">
         <h4>Fiscal Period</h4>
-        <p>Choose a current or upcoming fiscal year. Applications for previous years can be opened after this application is completed.</p>
+        <p>Choose a current or upcoming year. Applications for previous years can be opened after this one is completed.</p>
         {fiscal_dates}
      </div>
     );

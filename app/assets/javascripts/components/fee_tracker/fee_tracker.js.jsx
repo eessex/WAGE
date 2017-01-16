@@ -131,7 +131,7 @@
         {new_user}
           <h4>Use the {this.showTrackerLink()} to document each fee payment to made to an artist between {this.formatDates()}.</h4>
           <h4>{upcoming_user}f you have successfully demonstrated having paid artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>, your organization will become W.A.G.E. Certified for fiscal year {moment(this.props.certification.fiscal_end).format('Y')}.</h4>
-          <h5 className="confidentiality">* All documentation is confidential and is internally reviewed only.</h5>
+          <h4 className="confidentiality">* All documentation is confidential and reviewed internally only.</h4>
         </div>
         {this.showForms()}
         {this.paymentsTable()}

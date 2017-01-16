@@ -23,11 +23,11 @@ var FeeScheduleRoot = React.createClass({
     hasMaterials() {
     if ( this.state.user.file_501c3 &&
           this.state.user.statement &&
-          this.state.certification.file_contract ) {
+          this.state.user.file_contract ) {
       return 'true'
     } else if ( this.state.user.file_501c3 ||
           this.state.user.statement ||
-          this.state.certification.file_contract ) {
+          this.state.user.file_contract ) {
       return 'progress'
     } else {
       return false

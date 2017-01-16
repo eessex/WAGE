@@ -10,7 +10,7 @@ class RegistrationsController < Devise::RegistrationsController
       # Fields for sign up
       devise_parameter_sanitizer.permit(:sign_up, keys: [:institution_name, :email, :password])
       # Fields for editing an existing account
-      devise_parameter_sanitizer.permit(:account_update, keys: [:admin, :fiscal_start, :fiscal_end, :institution_name, :email, :website, :password, :rep_name, :rep_title, :phone, :address_st1, :address_st2, :address_city, :address_state, :address_zip, :statement, :file_501c3, :status ])
+      devise_parameter_sanitizer.permit(:account_update, keys: [:admin, :fiscal_start, :fiscal_end, :institution_name, :email, :website, :password, :rep_name, :rep_title, :phone, :address_st1, :address_st2, :address_city, :address_state, :address_zip, :statement, :file_501c3, :file_contract, :status ])
   end
 
   def update_resource(resource, params)

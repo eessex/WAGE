@@ -17,6 +17,7 @@ class SiteController < ApplicationController
       }
     else
       @new_user = true
+      @path = ENV['HOST']
       render component: 'CertificationView', props: {
           path: @path,
           certification: @certification,
@@ -30,11 +31,11 @@ class SiteController < ApplicationController
   end
 
   def guidelines
-    @path = ENV['HOST'] + '/guidelines'
     if current_user
+      @path = ENV['HOST'] + '/guidelines'
       @certifications = current_user.certifications || []
     end
-    render :template => 'site/_guidelines'
+     render :template => 'site/_guidelines'
   end
 
   def fee_schedule
@@ -50,9 +51,13 @@ class SiteController < ApplicationController
         certifications: @certifications,
         certification: @certifications.first,
         new_user: @new_user,
-        user: @user, new_user: @new_user,
+        user: @user,
         fee_categories: @fee_categories
       }, class: 'fee_schedule fee_schedule--full_view'
+  end
+
+  def error_404
+    render :template => 'site/_404'
   end
 
   def new_dates

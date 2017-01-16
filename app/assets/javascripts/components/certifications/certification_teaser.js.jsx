@@ -78,15 +78,15 @@ var Certification = React.createClass({
     if (this.state.certification.status == 0 ) {
       var formatted_status = "Application In Progress"
     } else if (this.state.certification.status == 1 ) {
-      var formatted_status = "W.A.G.E. Certified Pending" //"In Review"
+      var formatted_status = "Appplication Under Review"
     } else if (this.state.certification.status == 2 ) {
       var formatted_status = "W.A.G.E. Certified Pending"
     } else if (this.state.certification.status == 3 ) {
-      var formatted_status = "Pending Updates"
+      var formatted_status = "Appplication Under Review"
     } else if (this.state.certification.status == 4 ) {
       var formatted_status = "W.A.G.E. Certified"
-    } else {
-      var formatted_status = "W.A.G.E. Certified Pending"
+    } else if (this.state.certification.status == 5 ) {
+      var formatted_status = "Pending Updates"
     }
 
     if ( this.state.submitMode ) {

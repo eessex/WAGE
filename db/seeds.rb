@@ -20,8 +20,8 @@ fee_cat_12 = FeeCategory.create(name: "Existing Text for Publication", descripti
 fee_cat_13 = FeeCategory.create(name: "Commissioned Text for Publication", description: "A new essay or text commissioned for publication by an organization. (Copyright remains with the artist/author: payment of a fee does not render the commission 'work for hire.')", floor_fee: 0.25, fee_subtitle: "/word", over500K:"0.75")
 fee_cat_14 = FeeCategory.create(name: "Day Rate for Performers", description: "Fees paid to performers participating in commissioned and existing performances created by the Contracted Artist. Fees are paid to performers directly by the organization.", floor_fee: 20, fee_subtitle: "/hour or $100/day", over500K:"200")
 
-org_1 = User.new(institution_name: "Test Organization One", email: "eve.essex+test1@gmail.com",  website: "http://example.org", phone: "555-555-5555", address_zip: "11111", password: "password", password_confirmation: "password")
-org_2 = User.new(institution_name: "Test Organization One", email: "eve.essex+test2@gmail.com", website: "http://example.org", phone: "555-555-5555", address_zip: "11111", password: "password", password_confirmation: "password")
+org_1 = User.new(institution_name: "Test Organization One", email: "eve.essex+test1@gmail.com", password: "password", password_confirmation: "password")
+org_2 = User.new(institution_name: "Test Organization One", email: "eve.essex+test2@gmail.com", password: "password", password_confirmation: "password")
 
 org_1.skip_confirmation!
 org_2.skip_confirmation!

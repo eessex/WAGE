@@ -1,4 +1,4 @@
-var FeeSchedule = React.createClass({
+ var FeeSchedule = React.createClass({
   getInitialState() {
     return {
       fee_categories: this.props.fee_categories,
@@ -25,8 +25,8 @@ var FeeSchedule = React.createClass({
     var message
     if (this.feeStatus() == 'max') {
       message = <div className="section message">
-        <h4>If your operating budget is over $15,000,000 you are required to pay artist fees meeting Minimum W.A.G.E. standards but must also not exceed a Maximum W.A.G.E.</h4>
-        <h4>To determine the Maximum W.A.G.E. please contact us directly: <a href="mailto: certification@wageforwork.com">certification@wageforwork.com</a>.</h4>
+        <h4>If your operating budget is over $15,000,000 you are required to pay artist fees meeting Minimum W.A.G.E. standards but you must also not exceed a Maximum W.A.G.E.</h4>
+        <h4>To determine your Maximum W.A.G.E. please contact us directly: <a href="mailto: certification@wageforwork.com">certification@wageforwork.com</a>.</h4>
       </div>
     }
     return message

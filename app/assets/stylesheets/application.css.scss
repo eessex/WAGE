@@ -159,7 +159,7 @@ h6 {
 
 .input-group.input-group__addon .req {
   right: 3em;
-  z-index: 100;
+  z-index: 99;
 }
 .input-group-addon:first-child {
     border-radius: 1px 0 0 1px;
@@ -293,7 +293,7 @@ nav {
   }
 }
 
-h5.confidentiality {
+.confidentiality {
   margin-top: 2em;
 }
 

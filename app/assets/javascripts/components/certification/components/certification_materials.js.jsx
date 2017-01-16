@@ -18,10 +18,10 @@ var CertificationMaterials = React.createClass({
             label="Form 990"
             subtitle="Most recent, if available" />
         <UploadFile
-          model={this.props.certification}
+          model={this.props.user}
           required='true'
           type='file_contract'
-          handleFileUpdate={this.props.handleCertificationUpdate}
+          handleFileUpdate={this.props.handleUserUpdate}
           accept='application/pdf'
           label="Sample Contracts"
           subtitle="A PDF of templates for any contracts used with artists." />

@@ -50,7 +50,7 @@ var CertificationReview = React.createClass({
       <div className="section financials clearfix">
         <h5>{this.props.user.file_501c3 ? this.showFile('file_501c3', 'user', "501c3") : file_501c3}</h5>
         <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', "Form 990") : file_990}</h5>
-        <h5>{this.props.certification.file_contract ? this.showFile('file_contract', 'certification', "Sample Contracts") : file_contract}</h5>
+        <h5>{this.props.user.file_contract ? this.showFile('file_contract', 'user', "Sample Contracts") : file_contract}</h5>
         <h5>{this.props.user.statement ? this.showFile('statement', 'user', "Statement of Intent") : statement}</h5>
       </div>
     )
@@ -89,7 +89,7 @@ var CertificationReview = React.createClass({
         <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Certified Pending status for FY {moment(this.state.certification.fiscal_end).format('YYYY')}.</h4>
         <h4>Your organization is expected to pay artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>.</h4>
 
-        <h4>At the close of this fiscal period your organization must provide documentation of fee payment using the <a onClick={this.props.goFeeTracker}>Fee Tracker</a>. You can upload this information anytime during the fiscal year or you can wait until the fiscal year has ended. At that point you may also upload a QuickBooks statement but it must contain your history of fee payment for the entire year.</h4>
+        <h4>At the close of this fiscal period your organization must provide documentation of fee payment using the <a onClick={this.props.goFeeTracker}>Fee Tracker</a>. You can upload this information anytime during the fiscal year or you can wait until the fiscal year has ended.</h4>
       </div>
     } else if (this.props.certification.status < 2 && (new Date() < Date.parse(this.props.certification.fiscal_end) ) ) {
       artist_payments_info =

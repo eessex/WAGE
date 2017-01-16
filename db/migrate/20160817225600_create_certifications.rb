@@ -6,10 +6,11 @@ class CreateCertifications < ActiveRecord::Migration
       t.boolean :approved, :default => false
       t.date   :fiscal_start
       t.date   :fiscal_end
+      t.integer  :ant_operating_expenses
       t.integer  :operating_expenses
-      t.string  :file_contract
       t.string  :file_990
       t.string  :file_budget
+      t.string  :file_ant_budget
       t.timestamps null: false
     end
   end

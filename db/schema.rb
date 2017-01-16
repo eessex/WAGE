@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20161025042107) do
   create_table "artist_payments", force: :cascade do |t|
     t.string   "name"
     t.string   "artist_name"
+    t.string   "notes"
     t.integer  "check_no"
     t.integer  "fee_category_id"
     t.integer  "certification_id"
@@ -30,16 +31,17 @@ ActiveRecord::Schema.define(version: 20161025042107) do
 
   create_table "certifications", force: :cascade do |t|
     t.integer  "user_id"
-    t.integer  "status",             default: 0
-    t.boolean  "approved",           default: false
+    t.integer  "status",                 default: 0
+    t.boolean  "approved",               default: false
     t.date     "fiscal_start"
     t.date     "fiscal_end"
+    t.integer  "ant_operating_expenses"
     t.integer  "operating_expenses"
-    t.string   "file_contract"
     t.string   "file_990"
     t.string   "file_budget"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.string   "file_ant_budget"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.string   "qb_pl"
   end
 
@@ -83,12 +85,12 @@ ActiveRecord::Schema.define(version: 20161025042107) do
     t.string   "address_state"
     t.string   "address_zip"
     t.string   "statement"
-    t.boolean  "certified",              default: false
     t.boolean  "admin",                  default: false
     t.string   "phone"
     t.date     "fiscal_start"
     t.date     "fiscal_end"
     t.string   "file_501c3"
+    t.string   "file_contract"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

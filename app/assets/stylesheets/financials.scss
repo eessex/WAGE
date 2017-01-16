@@ -1,3 +1,12 @@
+#fiscal-dates {
+	h4 {
+		font-size: 19px;
+		margin-bottom: .25em;
+	}
+	p, h5 {
+		margin-bottom: 0.5em;
+	}
+}
 .financials--fiscal-dates {
 	margin-bottom: 2em;
 	.field-group {
@@ -27,6 +36,7 @@
 }
 
 .financials--fiscal-details {
+	margin-top: 9em;
 	h4 {
 		margin: .25em 0;
 	}
@@ -36,11 +46,14 @@
 	.form-item {
 		position: relative;
 	}
+	#file_budget {
+    margin-bottom: 3em;
+	}
 	.btn.fee-schedule {
-		position: absolute;
-    right: 0;
-    top: 4.35em;
-    padding: 10px 16px;
+    position: fixed;
+    right: 11.5em;
+    bottom: 15px;
+    padding: 14px 16px;
 	}
 	.form-item:first-child {
 		margin-bottom: 3em;

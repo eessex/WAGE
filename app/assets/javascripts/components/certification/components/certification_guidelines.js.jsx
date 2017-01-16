@@ -77,7 +77,7 @@ var CertificationGuidelines = React.createClass({
     return (
       <div id="guidelines">
         {this.getSections()}
-        <h5 className='confidentiality'>* All documentation is confidential and used for internal review purposes only.</h5>
+        <h4 className="confidentiality">* All documentation is confidential and reviewed internally only.</h4>
       </div>
     );
   }
