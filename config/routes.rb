@@ -8,9 +8,10 @@ Rails.application.routes.draw do
     resources :fee_categories, :except => [:new, :edit]
     resources :artist_payments, :except => [:new, :edit, :show]
   end
-  # root to: redirect('/users/sign_up')
+
   root to: 'site#guidelines'
 
+  get '/guidelines', to: redirect('/')
 
   devise_for :users, controllers: {registrations: 'registrations'}
   # The priority is based upon order of creation: first created -> highest priority.
