@@ -45,3 +45,30 @@
   }
 /* end certification-view */
 }
+
+
+.btn.fee-schedule {
+	position: fixed;
+  right: 9em;
+  bottom: 15px;
+  padding: 11px 24px;
+  font-size: 18px;
+  display: none;
+}
+.active .btn.fee-schedule {
+	display: block;
+}
+
+.certification-view {
+	&--fee-schedule,
+	&--guidelines {
+		.certification-view__fee-schedule {
+			display: none;
+		}
+	}
+		&--review {
+		.btn.fee-schedule {
+	    right: 15.75em;
+	  }
+	}
+}

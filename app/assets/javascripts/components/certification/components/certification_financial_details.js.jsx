@@ -102,7 +102,6 @@ var FinancialDetails = React.createClass({
                 <span className='error'>{this.state.errors.operating_expenses}</span>
               </div>
             </div>
-            <a href="/#fee-schedule"><button className="btn fee-schedule" >My Fee Schedule</button></a>
           </form>
     );
   }

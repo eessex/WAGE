@@ -403,6 +403,7 @@ var CertificationView = React.createClass({
     var title
     var subtitle
     var body
+    var fee_schedule
     var next = this.showNext()
     var position = this.state.navPosition
     if (this.state.certification.fiscal_start) {
@@ -508,6 +509,9 @@ var CertificationView = React.createClass({
               fee_categories={this.props.fee_categories} />
 
     }
+    if (this.state.certification.operating_expenses && this.state.certification.operating_expenses > 999) {
+        fee_schedule = ' active'
+    }
     return (
         <div className={'certification-view__content certification-view--' + menu[position]}>
           <div className='certification-view__header'>
@@ -515,6 +519,7 @@ var CertificationView = React.createClass({
             <div className='certification-view__subtitle'>{subtitle}</div>
           </div>
           <div className='certification-view__body'>{body}</div>
+          <a href="/#fee-schedule" className={"certification-view__fee-schedule" + fee_schedule} onClick={this.goFeeSchedule}><button className="btn fee-schedule" >My Fee Schedule</button></a>
           <div className='certification-view__next'>{next}</div>
         </div>
       )
