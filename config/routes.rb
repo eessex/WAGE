@@ -4,9 +4,9 @@ Rails.application.routes.draw do
     get "/upload.json" => "file#show"
     get "/fee-schedule" => "site#fee_schedule"
     get "guidelines" => 'site#guidelines'
-    resources :certifications, :except => [:new, :edit]
-    resources :fee_categories, :except => [:new, :edit]
-    resources :artist_payments, :except => [:new, :edit, :show]
+    resources :certifications
+    resources :fee_categories
+    resources :artist_payments
   end
 
   root to: 'site#guidelines'

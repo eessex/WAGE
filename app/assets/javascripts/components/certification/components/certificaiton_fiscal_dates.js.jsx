@@ -157,6 +157,15 @@ var FiscalDates = React.createClass({
   getUnique(value, index, self) {
     return self.indexOf(value) === index;
   },
+  formatDates() {
+    var formatted_date
+    if (moment(this.state.certification.fiscal_start).format('Y') == moment(this.state.certification.fiscal_end).format('Y') ) {
+      formatted_date = moment(this.state.certification.fiscal_start).format('MMM D') + " - " + moment(this.state.certification.fiscal_end).format('MMM D, YYYY');
+    } else {
+      formatted_date = moment(this.state.certification.fiscal_start).format('MMM D, YYYY') + " - " + moment(this.state.certification.fiscal_end).format('MMM D, YYYY');
+    }
+    return formatted_date
+  },
   render() {
     var options_months = MONTHS.map( function(month, i) {
       var index = i + 1
@@ -203,6 +212,8 @@ var FiscalDates = React.createClass({
       )
     });
     var fiscal_dates_form = <div className="financials financials--fiscal-dates">
+          <h4>Fiscal Period</h4>
+          <p>Choose a current or upcoming year. Applications for previous years can be opened after this one is completed.</p>
           <div className="col col-sm-6">
             <h5>Start Date</h5>
             <div className="field-group">
@@ -287,9 +298,9 @@ var FiscalDates = React.createClass({
           </div>
         </div>
 
-    var fiscal_dates_show = <h4 className="saved-dates"></h4>
+    var fiscal_dates_show = <h4 className="saved-dates">Fiscal Year: {this.formatDates()}</h4>
 
-    if (this.props.editDates) {
+    if (this.props.new_user) {
       var fiscal_dates = fiscal_dates_form
     } else {
       var fiscal_dates = fiscal_dates_show
@@ -297,8 +308,6 @@ var FiscalDates = React.createClass({
 
     return (
       <div id="fiscal-dates">
-        <h4>Fiscal Period</h4>
-        <p>Choose a current or upcoming year. Applications for previous years can be opened after this one is completed.</p>
         {fiscal_dates}
      </div>
     );

@@ -21,6 +21,9 @@ var FinancialDetails = React.createClass({
   handleOperatingExpensesChange(e) {
     var newCertification = this.state.certification
     newCertification.operating_expenses = e.target.value
+    if (this.props.yearStatus == 'current' || 'future' && this.props.certification.status == 0) {
+      newCertification.ant_operating_expenses = e.target.value
+    }
     this.setState({certification: newCertification})
     this.props.handleCertificationUpdate(newCertification)
     this.fulfilsRequired(e)

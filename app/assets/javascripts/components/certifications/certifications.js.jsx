@@ -120,16 +120,19 @@ var CertificationNew = React.createClass({
       return (
         <div className="new">
         <div className="field-group">
-          <select
-            type='text'
-            className="form-control"
-            value={this.state.e_y}
-            onChange={this.handleYearChange}
-            defaultValue="default"
-            >
-            <option className="default" value="default">Choose Year</option>
-            {options}
-            </select>
+          <div className="input-group input-group__addon select">
+            <select
+              type='text'
+              className="form-control"
+              value={this.state.e_y}
+              onChange={this.handleYearChange}
+              defaultValue="default"
+              >
+              <option className="default" value="default">Choose Year</option>
+              {options}
+              </select>
+              <div className="input-group-addon"><i className="fa fa-sort"></i></div>
+            </div>
             <button className="btn" disabled={this.state.disabled} onClick={this.handleAddCertification}><i className="fa fa-plus"></i> New</button>
           </div>
         </div>

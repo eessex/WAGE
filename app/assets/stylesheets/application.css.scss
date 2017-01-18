@@ -204,6 +204,7 @@ nav {
     height: auto;
     line-height: inherit;
     padding-left: 1.65em;
+    background: none;
     img {
       height: 4em;
       padding: 0;
@@ -297,13 +298,6 @@ nav {
   margin-top: 2em;
 }
 
-.new-user-dashboard {
-  min-width: 100%;
-  align-self: flex-start;
-  .body {
-    background-color: #eee;
-  }
-}
   i.collapse {
     font-size: xx-large;
     position: absolute;

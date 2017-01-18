@@ -283,7 +283,7 @@ var CertificationView = React.createClass({
             hasMaterials: that.hasMaterials()
           })
           setTimeout(function () {
-            window.location = ENV['HOST']
+            window.location = that.props.path
           },2000);
         } else {
           that.setState({

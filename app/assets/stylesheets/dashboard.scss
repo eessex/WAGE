@@ -83,9 +83,6 @@
         }
       }
     }
-/*    .title.collapse__title:nth-child(1) {
-      margin-top: -2px;
-    }*/
     .collapse__content {
       margin: 2em auto;
       padding-bottom: 4em;
@@ -98,6 +95,7 @@
         margin-top: 1em;
         padding: 0 2em;
       }
+      .fee-schedule .fee-category.header {background: white;}
     }
   }
   #certifications {
@@ -107,26 +105,23 @@
       right: 0;
       left: 0;
       .field-group {
-        /*max-width: 850px;*/
         margin: 0 2em;
         display: flex;
         justify-content: flex-end;
       }
       select {
         float: left;
-        font-size: 1.5em;
         font-weight: 700;
         color: #222;
         padding-left: 1em;
-        height: 1.75em;
-        width: 200px;
+        height: 36px;
+        width: 165px;
         margin-right: .35em;
       }
     }
     .teaser {
       display: flex;
       align-items: center;
-      /*background-color: #eee;*/
       border-top: 1px solid;
       border-bottom: 1px solid;
       margin-top: -1px;

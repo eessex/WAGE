@@ -1,12 +1,13 @@
 @import "variables";
 
+#registrations-edit,
 #registrations-new,
 #site-guidelines,
 #registrations-create {
   flex-direction: column;
   .intro {
     width: 100%;
-    padding: 4em 2.75em;
+    padding: 4em 2em;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -133,7 +134,8 @@
       }
     }
   }
-  #user.new {
+  #user.new,
+  #user.edit {
     margin: 0;
     max-width: 550px;
     padding: 2em;
@@ -167,6 +169,19 @@
     }
   }
 }
+
+  #user.edit {
+    .form-group {
+      margin-top: 1em;
+      h4, p {
+        display: inline-block;
+        margin-bottom: .35em;
+      }
+    }
+    .actions .btn-lg {
+      margin-top: 1em;
+    }
+  }
 
 .password.reset,
 #user.login {
