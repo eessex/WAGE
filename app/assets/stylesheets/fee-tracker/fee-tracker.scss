@@ -82,6 +82,16 @@
 			padding-right: 0;
 		}
 	}
+	.actions {
+		.btn {
+			padding: 10px 5%;
+		}
+	}
+	.notes {
+		position: absolute;
+    left: calc(33% + 15px + 10px);
+    width: 63%;
+	}
 /* end fee-tracker */
 }
 

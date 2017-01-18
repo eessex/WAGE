@@ -24,8 +24,25 @@ var Dashboard = React.createClass({
       }
     })
   },
-  handleUserUpdate(user) {
-
+handleUserUpdate(user) {
+    var that = this;
+    $.ajax({
+      method: 'PATCH',
+      data: {
+        user: user,
+      },
+      url: '/users' + '.json',
+      success: function(res) {
+        that.setState({
+          errors: {}
+        })
+      },
+      error: function(res) {
+        that.setState({
+          errors: res.responseJSON.errors
+        });
+      }
+    });
   },
   render() {
     return (
@@ -68,15 +85,16 @@ var Dashboard = React.createClass({
           </div>
         </div>
 
-        <div id="fee-tracker" className="container collapse">
+        <div id="account" className="container collapse">
           <div className="collapse__title">
             <h1><div className='title'><span>Account Info</span><i className='fa fa-plus'></i></div></h1>
           </div>
           <div className="collapse__content">
             <UserContact
-              user={this.state.user}
+              user={this.props.user}
               errors={this.state.errors}
               handleUserUpdate={this.handleUserUpdate} />
+            <a className='btn btn-lg admin-settings' href='/users/edit'><i className='fa fa-gear'></i> Settings</a>
           </div>
         </div>
 

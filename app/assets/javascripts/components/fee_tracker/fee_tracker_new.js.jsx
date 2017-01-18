@@ -8,6 +8,7 @@
         fee_category_id: 1,
         amount: '',
         check_no: '',
+        notes: '',
         certification_id: this.props.certification.id,
       },
       showForm: true,
@@ -48,6 +49,7 @@
             fee_category_id: 1,
             amount: '',
             check_no: '',
+            notes: '',
             certification_id: that.props.certification.id,
           },
           errors: {}
@@ -169,6 +171,16 @@
           disabled={disabled}
           className="btn btn-lg"
           >Save <i className="fa fa-plus" aria-hidden="true"></i></button>
+        <div className="notes">
+            <input
+              type="text"
+              placeholder="Notes"
+              name='notes'
+              value={this.state.artist_payment.notes}
+              onChange={this.handleInputChange}
+              className="form-control" />
+            <span className="error">{this.state.errors.notes}</span>
+          </div>
       </div>
     </div>
     return form

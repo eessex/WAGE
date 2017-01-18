@@ -98,12 +98,19 @@
       .fee-schedule .fee-category.header {
         background: white;
       }
-      .user-contact__form {
-        max-width: 750px;
-        padding: 0 2em;
-      }
     }
   }
+            #account {
+        .user-contact__form {
+          max-width: 750px;
+          padding: 0 2em;
+        }
+        a.btn {
+          text-decoration: none;
+          margin-left: 2em;
+          font-size: 1em;
+        }
+      }
   #certifications {
     .new {
       position: absolute;
