@@ -95,7 +95,13 @@
         margin-top: 1em;
         padding: 0 2em;
       }
-      .fee-schedule .fee-category.header {background: white;}
+      .fee-schedule .fee-category.header {
+        background: white;
+      }
+      .user-contact__form {
+        max-width: 750px;
+        padding: 0 2em;
+      }
     }
   }
   #certifications {

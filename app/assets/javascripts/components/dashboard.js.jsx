@@ -24,6 +24,9 @@ var Dashboard = React.createClass({
       }
     })
   },
+  handleUserUpdate(user) {
+
+  },
   render() {
     return (
       <div className="dashboard">
@@ -62,6 +65,18 @@ var Dashboard = React.createClass({
               floor_categories={this.props.fee_categories}
               user={this.state.user}
               certification={this.state.certifications[0]}/>
+          </div>
+        </div>
+
+        <div id="fee-tracker" className="container collapse">
+          <div className="collapse__title">
+            <h1><div className='title'><span>Account Info</span><i className='fa fa-plus'></i></div></h1>
+          </div>
+          <div className="collapse__content">
+            <UserContact
+              user={this.state.user}
+              errors={this.state.errors}
+              handleUserUpdate={this.handleUserUpdate} />
           </div>
         </div>
 
