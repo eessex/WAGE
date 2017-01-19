@@ -49,59 +49,57 @@ var Certifications = React.createClass({
 
 var CertificationNew = React.createClass({
   getInitialState() {
+    var canDisplay
     if (this.yearOptions().length > 0) {
-      var canDisplay = true
+      canDisplay = true
     } else {
-      var canDisplay = false
+      canDisplay = false
     }
+    var format_end_date = this.yearOptions()[0] + '-' + moment(this.props.user.fiscal_end).format('M') + '-' + moment(this.props.user.fiscal_end).format('D')
+    var format_start_date = moment(format_end_date).subtract(1,'years').add(1, 'days').format('YYYY-MM-DD')
     return {
       certification: {
-        fiscal_start: this.props.user.fiscal_start,
-        fiscal_end: this.props.user.fiscal_end,
+        fiscal_start: format_start_date,
+        fiscal_end: format_end_date,
         user_id: this.props.user.id,
         status: 0
       },
-      s_m: moment(this.props.user.fiscal_start).format('M'),
-      s_d: moment(this.props.user.fiscal_start).format('D'),
-      s_y: moment(this.props.user.fiscal_start).format('Y'),
       e_m: moment(this.props.user.fiscal_end).format('M'),
       e_d: moment(this.props.user.fiscal_end).format('D'),
-      e_y: moment(this.props.user.fiscal_end).format('Y'),
-      disabled: true,
+      e_y: this.yearOptions()[0],
       canDisplay: canDisplay,
       errors: {}
     }
   },
   yearOptions() {
-    var d = new Date()
-    var years = []
-    for (var i = 2014; i <= d.getFullYear() + 1; i++) {
-      years.push(i)
-    }
+    var d = moment(new Date())
+    var certified_years = []
     this.props.certifications.map( function(certification) {
-      var remove = parseInt(moment(certification.fiscal_end).format('Y'))
-      years = years.filter(item => item !== remove);
+      certified_years.push(moment(certification.fiscal_end))
     })
-    return years.sort(function(a, b){return b-a});
+    certified_years.push(moment(certified_years[0]).subtract(1, 'years'))
+    certified_years = certified_years.sort(function(a, b){return moment(a) - moment(b)})
+    if (moment(certified_years[certified_years.length - 1]).add(1, 'day') < moment(d).add(90, 'days')) {
+      certified_years.push(moment(certified_years[certified_years.length - 1]).add(1, 'year'))
+    }
+    certified_years = certified_years.map(function(date) {
+      return moment(date).format('Y')
+    })
+    this.props.certifications.map( function(certification) {
+      var remove = moment(certification.fiscal_end).format('Y')
+      certified_years = certified_years.filter(item => item !== remove);
+    })
+    return certified_years.sort(function(a, b){ return parseInt(b) - parseInt(a) });
   },
   handleYearChange(e) {
-    if (e.target.value != "default") {
-      var e_y = moment(this.state.certification.fiscal_end).format('Y')
-      var s_y = moment(this.state.certification.fiscal_start).format('Y')
-      var newCertification = this.state.certification
-      if (parseInt(e_y) > parseInt(e.target.value)) {
-        var diff = parseInt(e_y) - parseInt(e.target.value)
-        var newDate = parseInt(e_y) - diff
-      }
-      if (moment(newCertification.fiscal_start).format('Y') == moment(newCertification.fiscal_end).format('Y')) {
-        newCertification.fiscal_start = newCertification.fiscal_start.replace(e_y, newDate)
-      } else {
-        var newSdate = parseInt(s_y) - diff
-        newCertification.fiscal_start = newCertification.fiscal_start.replace(s_y, newSdate)
-      }
-      newCertification.fiscal_end = newCertification.fiscal_end.replace(e_y, newDate)
-      this.setState({certification: newCertification, disabled: !this.state.disabled});
+    if (this.yearOptions().length == 1) {
+      this.handleAddCertification()
+    } else {
+      debugger
     }
+
+    // newCertification.fiscal_end = newCertification.fiscal_end.replace(e_y, newDate)
+    // this.setState({certification: newCertification, disabled: !this.state.disabled});
   },
   handleAddCertification() {
     this.props.addCertification(this.state.certification)
@@ -128,12 +126,11 @@ var CertificationNew = React.createClass({
               onChange={this.handleYearChange}
               defaultValue="default"
               >
-              <option className="default" value="default">Choose Year</option>
               {options}
               </select>
               <div className="input-group-addon"><i className="fa fa-sort"></i></div>
             </div>
-            <button className="btn" disabled={this.state.disabled} onClick={this.handleAddCertification}><i className="fa fa-plus"></i> New</button>
+            <button className="btn" onClick={this.handleAddCertification}><i className="fa fa-plus"></i> New</button>
           </div>
         </div>
       )
