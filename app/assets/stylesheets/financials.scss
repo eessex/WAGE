@@ -36,7 +36,13 @@
 }
 
 .financials--fiscal-details {
-	margin-top: 9em;
+	margin-top: 3em;
+	&.new-user {
+		margin-top: 9em;
+		#file_budget {
+    	margin-bottom: 3em;
+		}
+	}
 	h4 {
 		margin: .25em 0;
 	}
@@ -45,9 +51,6 @@
 	}
 	.form-item {
 		position: relative;
-	}
-	#file_budget {
-    margin-bottom: 3em;
 	}
 	.form-item:first-child {
 		margin-bottom: 3em;

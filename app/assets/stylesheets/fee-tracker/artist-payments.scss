@@ -45,23 +45,33 @@
 
 .artist-payments--table {
   margin-bottom: .5em;
+  font-size: small;
+  .form-control {
+    font-size: small;
+  }
   tfoot {
     border-top: 2px solid #ddd;
     font-weight: 800;
   }
   td, th {
     vertical-align: center !important;
+    max-width: 200px;
+    padding: 15px 8px !important;
+    overflow: hidden;
     &.last {
-      width: 150px;
+      width: 125px;
+      vertical-align: inherit;
+      padding: 0 !important;
     }
     &.first {
       width: 200px;
+      padding-left: 24px !important;
     }
     input, select {
       margin-left: -12px;
     }
     select {
-      width: 200px;
+      width: 175px;
       margin-right: 10px;
     }
     .error {
@@ -72,7 +82,7 @@
   }
   th {
     &.sortable {
-      width: 200px;
+      width: 175px;
       &[name="check_no"] {
         width: 100px;
       }
