@@ -17,6 +17,7 @@
   },
   handleInputChange(e) {
     var newPayment = this.state.artist_payment
+    // debugger
     newPayment[e.target.name] = e.target.value
     this.setState({artist_payment: newPayment})
     this.fulfilsRequired(e)
