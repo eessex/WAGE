@@ -33,27 +33,36 @@ var CertificationReview = React.createClass({
     return formatted_operating
   },
   institutionInfo() {
+    var file_990
+    var label_990
+    if (!this.props.new_user && this.props.yearStatus == 'past') {
+      label_990 = <span className="upload disabled"><i className="fa fa-file"></i> Form 990 <span className="suggested">* If Available</span></span>
+      file_990 = <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', 'Form 990') : label_990}</h5>
+    }
     var file_budget = <span className='upload disabled'><i className='fa fa-file'></i> Operating Budget <span className='req'>*</span></span>
     return ( <div className="section certification-year clearfix">
         <h5>Fiscal Year: {this.props.formatted_dates}</h5>
         <h5>Total Annual Operating Expenses: {this.props.certification.operating_expenses ? this.formattedOperating() : this.formattedOperating()}</h5>
         <h5>{this.props.certification.file_budget ? this.showFile('file_budget', 'certification', "Operating Budget") : file_budget}</h5>
+        {file_990}
       </div>
     )
   },
   showMaterials() {
-    var file_contract = <span className='upload disabled'><i className='fa fa-file'></i> Sample Contracts <span className='req'>*</span></span>
-    var file_990 = <span className='upload disabled'><i className='fa fa-file'></i> Form 990 <span className='suggested'>* If Available</span></span>
-    var file_501c3 = <span className='upload disabled'><i className='fa fa-file'></i> 501c3 <span className='req'>*</span></span>
-    var statement = <span className='upload disabled'><i className='fa fa-file'></i> Statement of Intent <span className='req'>*</span></span>
-    return (
-      <div className="section financials clearfix">
-        <h5>{this.props.user.file_501c3 ? this.showFile('file_501c3', 'user', "501c3") : file_501c3}</h5>
-        <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', "Form 990") : file_990}</h5>
-        <h5>{this.props.user.file_contract ? this.showFile('file_contract', 'user', "Sample Contracts") : file_contract}</h5>
-        <h5>{this.props.user.statement ? this.showFile('statement', 'user', "Statement of Intent") : statement}</h5>
-      </div>
-    )
+    if (this.props.new_user) {
+      var file_contract = <span className='upload disabled'><i className='fa fa-file'></i> Sample Contracts <span className='req'>*</span></span>
+      var file_990 = <span className='upload disabled'><i className='fa fa-file'></i> Form 990 <span className='suggested'>* If Available</span></span>
+      var file_501c3 = <span className='upload disabled'><i className='fa fa-file'></i> 501c3 <span className='req'>*</span></span>
+      var statement = <span className='upload disabled'><i className='fa fa-file'></i> Statement of Intent <span className='req'>*</span></span>
+      return (
+        <div className="section financials clearfix">
+          <h5>{this.props.user.file_501c3 ? this.showFile('file_501c3', 'user', "501c3") : file_501c3}</h5>
+          <h5>{this.props.certification.file_990 ? this.showFile('file_990', 'certification', "Form 990") : file_990}</h5>
+          <h5>{this.props.user.file_contract ? this.showFile('file_contract', 'user', "Sample Contracts") : file_contract}</h5>
+          <h5>{this.props.user.statement ? this.showFile('statement', 'user', "Statement of Intent") : statement}</h5>
+        </div>
+      )
+    }
   },
   paymentsTable() {
     var payments
@@ -98,7 +107,7 @@ var CertificationReview = React.createClass({
       </div>
     }
     var actions
-    if (this.props.certification.status < 1 && this.props.new_user ) {
+    if (this.props.certification.status < 2 ) {
       var disabled
       var click
       if ( moment(this.props.certification.fiscal_end) <= moment(new Date) ) {
@@ -121,15 +130,7 @@ var CertificationReview = React.createClass({
           disabled = true
         }
       }
-    //   new Date() > Date.parse(this.props.certification.fiscal_end)) || (this.props.certification.status == 0 && this.props.new_user == "true") ) {
-      // actions =  <button className="btn btn-lg next" onClick={click}>Submit</button>
-    // } else if (this.props.certification.status < 2) {
-    //   if (this.props.canSubmit != 'true') {
-    //     disabled = true
-    //   }
       actions = <button className="btn btn-lg next" onClick={click} disabled={disabled}>Submit Application <i className='fa fa-long-arrow-right'></i></button>
-    // } else {
-    //   var actions
     }
     return (
       <div className="certification certification-review">

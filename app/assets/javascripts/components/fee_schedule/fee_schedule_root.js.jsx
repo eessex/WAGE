@@ -98,6 +98,8 @@ var FeeScheduleRoot = React.createClass({
 		if (this.props.new_user) {
 			var progress = this.getProgress()
 			items = <CertificationMenu menu={menu}
+            certification={this.props.certification}
+            new_user={this.props.new_user}
             navigateMenu={this.navigateMenu}
             navPosition={this.state.navPosition}
             getProgress={progress} />

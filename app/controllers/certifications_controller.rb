@@ -10,7 +10,7 @@ class CertificationsController < ApplicationController
     @certification = Certification.find(params[:id])
     @user = User.find(@certification.user_id)
     @certifications = Certification.where(user_id: @user.id) || []
-    @fee_categories = FeeCategory.all
+    @fee_categories = FeeCategory.order('id')
     @artist_payments = @certification.artist_payments || []
     # if @certification.status == 0
       # render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
@@ -85,7 +85,7 @@ class CertificationsController < ApplicationController
 
   def fee_categories_list
     @fee_categories = []
-    the_cats = FeeCategory.all.sort_by(&:id)
+    the_cats = FeeCategory.order('id')
     the_cats.map do |category|
       @fee_categories << { name: category.name, floor_fee: category.floor_fee }
     end

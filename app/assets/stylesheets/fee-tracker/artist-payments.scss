@@ -57,14 +57,13 @@
     vertical-align: center !important;
     max-width: 200px;
     padding: 15px 8px !important;
-    overflow: hidden;
     &.last {
       width: 125px;
       vertical-align: inherit;
       padding: 0 !important;
     }
     &.first {
-      width: 200px;
+      width: 180px;
       padding-left: 24px !important;
     }
     input, select {
@@ -78,6 +77,10 @@
       color: $red;
       font-size: 11px;
       margin-left: -12px;
+    }
+    .notes {
+      max-width: 175px;
+      overflow: hidden;
     }
   }
   th {

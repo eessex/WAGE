@@ -13,11 +13,14 @@
   },
   showForms() {
     var disabled
-    if (this.props.yearStatus == 'future' || this.props.new_user) {
+    var subtitle
+    if (this.props.yearStatus == 'future' || this.props.new_user || !this.props.certification.operating_expenses) {
       disabled = ' disabled'
+      if (!this.props.certification.operating_expenses) {
+        subtitle = <span className='subtitle'>* complete your Fiscal Details to begin using the Fee Tracker.</span>
+      }
     }
     if (this.state.showForm) {
-      var subtitle
       if (this.props.yearStatus == 'current' && this.props.new_user) {
         subtitle = <span className='subtitle'>* submit your application to begin using the Fee Tracker.</span>
       }

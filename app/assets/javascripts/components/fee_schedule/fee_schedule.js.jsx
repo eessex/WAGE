@@ -88,8 +88,10 @@
     var floor_fee = Number(fee_category.floor_fee).toLocaleString()
     var min_fee = Number(this.state.certification.operating_expenses * Number(fee_category.over500K)).toLocaleString()
     var over5m = Number(5000000 * Number(fee_category.over500K)).toLocaleString()
-    var existing_text = Number(((this.state.certification.operating_expenses/5000000) * Number(fee_category.over500K)) + .25 )
-
+    var existing_text = Number(((this.state.certification.operating_expenses / 5000000) * .075) + .025)
+    var new_text = Number(((this.state.certification.operating_expenses / 5000000) * .075) + .025) * 10
+    // var existing_text = Number((this.state.certification.operating_expenses/5000000) * 0.075)
+    // ((P4/5000000)*0.075)+0.025
     var format_fee
     if (status == "floor") {
       format_fee = <div className="info__fee">
@@ -99,10 +101,17 @@
                     </div>
                    </div>
     } else if (status == "min") {
-      if (i == 11 || i == 12) {
+      if (i == 11) {
         format_fee = <div className="info__fee">
                       <div className="info__fee-amount minimum">
                         <span className="amount">${existing_text.toLocaleString()}</span>
+                        <span className="info__fee-subtitle">/word</span>
+                      </div>
+                    </div>
+      } else if (i == 12) {
+        format_fee = <div className="info__fee">
+                      <div className="info__fee-amount minimum">
+                        <span className="amount">${new_text.toLocaleString()}</span>
                         <span className="info__fee-subtitle">/word</span>
                       </div>
                     </div>
@@ -122,11 +131,11 @@
                   </div>
       }
     } else if (status == "over5m") {
-      if (i == 11 || i == 12) {
+      if (i == 11) {
        floor_fee = (Number(fee_category.over500K)) + .25
        format_fee = <div className="info__fee">
                      <div className="info__fee-amount minimum">
-                        <span className="amount">${floor_fee}</span>
+                        <span className="amount">$0.10</span>
                         <span className="subtitle">/word</span>
                       </div>
                       <div className="info__fee-amount recommended">
@@ -134,7 +143,19 @@
                        <span className="subtitle">/word</span>
                       </div>
                     </div>
-     } else if (i == 13) {
+     } else if (i == 12) {
+       floor_fee = (Number(fee_category.over500K)) + .25
+       format_fee = <div className="info__fee">
+                     <div className="info__fee-amount minimum">
+                        <span className="amount">$1.00</span>
+                        <span className="subtitle">/word</span>
+                      </div>
+                      <div className="info__fee-amount recommended">
+                       <span className="amount">${existing_text.toLocaleString()}</span>
+                       <span className="subtitle">/word</span>
+                      </div>
+                    </div>
+      } else if (i == 13) {
       format_fee = <div className="info__fee">
                     <div className="info__fee-amount minimum">
                        <span className="amount">${floor_fee}</span>
@@ -159,7 +180,6 @@
       }
     } else if (status == "max") {
       if (i == 11 || i == 12) {
-       floor_fee = (Number(fee_category.over500K)) + .25
        format_fee = <div className="info__fee">
                      <div className="info__fee-amount minimum">
                         <span className="amount">${existing_text.toLocaleString()}</span>

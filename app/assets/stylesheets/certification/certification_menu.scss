@@ -11,6 +11,10 @@
   right: 0;
   top: 4em;
   z-index: 100;
+  &__title {
+  	font-weight: 600;
+  	margin-right: 2.5em;
+  }
 	&__item {
 		text-transform: capitalize;
 		margin-right: 1.5em;

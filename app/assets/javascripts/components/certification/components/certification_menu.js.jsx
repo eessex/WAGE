@@ -59,9 +59,19 @@ var CertificationMenu = React.createClass({
       })
     return menu
   },
+  title() {
+    var title
+    if (this.props.new_user) {
+      title = "Get Certified"
+    } else {
+      title = "FY " + moment(this.props.certification.fiscal_end).format('Y')
+    }
+     return title
+  },
   render() {
     return (
       <div className="certification-menu">
+        <div className='certification-menu__title'>{this.title()}</div>
         {this.printMenuItems()}
         <div className="is-saved"><i className="fa fa-check"></i><span>Saved</span></div>
       </div>

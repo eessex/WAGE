@@ -4,7 +4,7 @@ class SiteController < ApplicationController
   def index
     @user = current_user
     @path = ENV['HOST']
-    @fee_categories = FeeCategory.all
+    @fee_categories = FeeCategory.order('id')
     @certifications = current_user.certifications
     @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
     @artist_payments = @certification.artist_payments || []
@@ -40,8 +40,9 @@ class SiteController < ApplicationController
 
   def fee_schedule
     @user = current_user
-    @fee_categories = FeeCategory.all
+    @fee_categories = FeeCategory.order('id')
     @certifications = current_user.certifications || []
+    @certification = current_user.certifications.first
     @path = ENV['HOST'] + '/fee-schedule'
     if !has_submitted(@certifications)
       @new_user = true
@@ -49,7 +50,7 @@ class SiteController < ApplicationController
     render component: 'FeeScheduleRoot', props: {
         path: @path,
         certifications: @certifications,
-        certification: @certifications.first,
+        certification: @certification,
         new_user: @new_user,
         user: @user,
         fee_categories: @fee_categories

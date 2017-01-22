@@ -42,6 +42,7 @@ var CertificationView = React.createClass({
   },
   // NAVIGATION
   navigateMenu(item) {
+    window.location.hash = ''
     this.setState({navPosition: item})
   },
   goNext(e) {
@@ -49,6 +50,7 @@ var CertificationView = React.createClass({
     this.setState({navPosition: this.state.navPosition + 1})
   },
   goFeeSchedule() {
+    window.location.hash = ''
     if (this.state.hasCertifications) {
       this.setState({navPosition: 3})
     } else {
@@ -56,6 +58,7 @@ var CertificationView = React.createClass({
     }
   },
   goFeeTracker() {
+    window.location.hash = ''
     if (this.state.hasCertifications) {
       if (this.props.certification.status == 0) {
         this.setState({navPosition: 0})
@@ -70,9 +73,9 @@ var CertificationView = React.createClass({
   hasCertifications() {
     if (!this.props.new_user) {
       if (this.props.certification.status == 0) {
-        menu = ['fee-tracker', 'fiscal-details', 'review', 'fee-schedule']
-      } else {
         menu = ['fiscal-details', 'fee-tracker', 'review', 'fee-schedule']
+      } else {
+        menu = ['fee-tracker', 'fiscal-details', 'review', 'fee-schedule']
       }
       return true
     } else {
@@ -519,7 +522,7 @@ var CertificationView = React.createClass({
             <div className='certification-view__subtitle'>{subtitle}</div>
           </div>
           <div className='certification-view__body'>{body}</div>
-          <a href="/#fee-schedule" className={"certification-view__fee-schedule" + fee_schedule} onClick={this.goFeeSchedule}><button className="btn fee-schedule" >My Fee Schedule</button></a>
+          <a href={this.state.root + "/#fee-schedule"} className={"certification-view__fee-schedule" + fee_schedule} onClick={this.goFeeSchedule}><button className="btn fee-schedule" >My Fee Schedule</button></a>
           <div className='certification-view__next'>{next}</div>
         </div>
       )
@@ -529,7 +532,9 @@ var CertificationView = React.createClass({
     return (
         <div>
           <CertificationMenu menu={menu}
+            certification={this.state.certification}
             navigateMenu={this.navigateMenu}
+            new_user={this.props.new_user}
             navPosition={this.state.navPosition}
             getProgress={progress} />
           {this.printContent()}
