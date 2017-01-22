@@ -69,6 +69,18 @@ var CertificationView = React.createClass({
       this.setState({navPosition: 4})
     }
   },
+  goFiscalDetails() {
+    window.location.hash = ''
+    if (this.state.hasCertifications) {
+      if (this.props.certification.status == 0 || this.props.certification.status == 1) {
+        this.setState({navPosition: 0})
+      } else {
+        this.setState({navPosition: 1})
+      }
+    } else {
+      this.setState({navPosition: 4})
+    }
+  },
   // CERTIFICATION STATUS
   hasCertifications() {
     if (!this.props.new_user) {
@@ -396,8 +408,6 @@ var CertificationView = React.createClass({
           artist_payments={this.state.artist_payments}
           sortRowsBy={this.props.sortRowsBy}
           handleArtistPaymentUpdate={this.handleArtistPaymentUpdate}
-          // paymentsSorted={this.props.paymentsSorted}
-          isEdit="false"
           fee_categories={this.props.fee_categories} /></div>
     }
     return payments
@@ -471,6 +481,8 @@ var CertificationView = React.createClass({
               handleDeleteArtistPayment={this.handleDeleteArtistPayment}
               handleArtistPaymentUpdate={this.handleArtistPaymentUpdate}
               handleSortPayments={this.handleSortPayments}
+              showIntro
+              goFiscalDetails={this.goFiscalDetails}
               handleCertificationUpdate={this.handleCertificationUpdate} />
             </div>
     }
@@ -490,8 +502,6 @@ var CertificationView = React.createClass({
           goFeeTracker={this.goFeeTracker}
           sortRowsBy={this.sortRowsBy}
           canSubmit={this.state.canSubmit}
-          // paymentsSorted={this.paymentsSorted}
-          // isEdit="false"
           fee_categories={this.props.fee_categories} />
     }
     if (menu[position] == 'fee-schedule') {

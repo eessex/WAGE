@@ -20,6 +20,21 @@
 			margin-top: -2px;
 			background: white;
 			border-bottom: 2px solid;
+			.artist-payments__title span {
+				border-bottom: none;
+				&.req {
+			    font-size: 20px;
+			    vertical-align: bottom;
+			    margin-left: 5px;
+				}
+			}
+			.payments-required {
+		    width: 750px;
+		    margin-left: 24px;
+		    border-top: 1px solid lime;
+		    padding-top: 1em;
+		    margin-bottom: 4em;
+			}
 		}
 	.certification-review__body {
 		background-color: white;

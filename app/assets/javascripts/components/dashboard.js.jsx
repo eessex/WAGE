@@ -2,8 +2,12 @@ var Dashboard = React.createClass({
   getInitialState() {
     return {
       certifications: this.props.certifications,
+      certification: this.props.certification,
       fee_categories: this.props.fee_categories,
+      artist_payments: this.props.artist_payments,
       user: this.props.user,
+      sortBy: 'date',
+      sortDir: 'ASC',
       errors: {}
     }
   },
@@ -24,7 +28,38 @@ var Dashboard = React.createClass({
       }
     })
   },
-handleUserUpdate(user) {
+  sortRowsBy(e) {
+    var sortDir = this.state.sortDir;
+    var sortBy = $(e.target).attr('name') || $(e.target).parent().attr('name')
+    if (sortBy === this.state.sortBy) {
+      sortDir = this.state.sortDir == 'ASC' ? 'DESC' : 'ASC';
+    } else {
+     sortDir = 'ASC';
+    }
+    var artist_payments = this.state.artist_payments.slice();
+    artist_payments.sort((a, b) => {
+      var sortVal = 0;
+      if (a[sortBy] > b[sortBy]) {
+        sortVal = 1;
+      }
+      if (a[sortBy] < b[sortBy]) {
+        sortVal = -1;
+      }
+      if (sortDir === 'DESC') {
+        sortVal = sortVal * -1;
+      }
+      return sortVal;
+    });
+    this.setState({sortBy, sortDir});
+    this.setState({artist_payments: artist_payments});
+    $('th').removeClass('active')
+    if ($(e.target).attr('name')) {
+      $(e.target).addClass('active').toggleClass('ASC')
+    } else {
+      $(e.target).parent().addClass('active').toggleClass('ASC')
+    }
+  },
+  handleUserUpdate(user) {
     var that = this;
     $.ajax({
       method: 'PATCH',
@@ -43,6 +78,74 @@ handleUserUpdate(user) {
         });
       }
     });
+  },
+  handleCertificationUpdate(certification) {
+    var that = this;
+    $.ajax({
+      method: 'PUT',
+      data: {
+        certification: certification,
+      },
+      url: '/certifications/' + certification.id + '.json',
+      success: function(res) {
+        if (res.notice) {
+          $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
+          that.setState({
+            certification: certification,
+            canSubmit: that.canSubmit(),
+            hasFiscalDetails: that.hasFiscalDetails(),
+            hasPayments: that.hasPayments(),
+            hasContact: that.hasContact(),
+            hasMaterials: that.hasMaterials()
+          })
+          setTimeout(function () {
+            window.location = that.props.path
+          },2000);
+        } else {
+          that.setState({
+            certification: certification,
+            canSubmit: that.canSubmit(),
+            hasFiscalDetails: that.hasFiscalDetails(),
+            hasPayments: that.hasPayments(),
+            hasContact: that.hasContact(),
+            hasMaterials: that.hasMaterials()
+          })
+        }
+      },
+      error: function(res) {
+        that.setState({errors: res.responseJSON.errors});
+      }
+    });
+  },
+  handleAddArtistPayment(artist_payment) {
+    var artist_payments = this.state.artist_payments
+    artist_payments.push(artist_payment)
+    this.setState({artist_payments: artist_payments})
+  },
+  handleDeleteArtistPayment(artist_payment) {
+    var artist_payments = this.state.artist_payments.filter(function(item) {
+      return artist_payment.id !== item.id;
+    });
+    this.setState({artist_payments: artist_payments})
+  },
+  handleArtistPaymentUpdate(artist_payment) {
+    var artist_payments = this.state.artist_payments.filter(function(item) {
+      return artist_payment.id !== item.id;
+    });
+    artist_payments.push(artist_payment)
+    this.setState({artist_payments: artist_payments})
+  },
+  handleSortPayments(artist_payments) {
+    this.setState({artist_payments: artist_payments})
+  },
+  formatDates(certification) {
+    var formatted_date
+    if (moment(certification.fiscal_start).format('Y') == moment(certification.fiscal_end).format('Y') ) {
+      formatted_date = moment(certification.fiscal_start).format('MMM D') + " - " + moment(certification.fiscal_end).format('MMM D, YYYY');
+    } else {
+      formatted_date = moment(certification.fiscal_start).format('MMM D, YYYY') + " - " + moment(certification.fiscal_end).format('MMM D, YYYY');
+    }
+    return formatted_date
   },
   render() {
     return (
@@ -64,6 +167,7 @@ handleUserUpdate(user) {
             <h1><div className='title'><span>My Fee Schedule</span><i className='fa fa-plus'></i></div></h1>
           </div>
           <div className="collapse__content">
+            <div className='fee-schedule__certification-date'>{this.formatDates(this.props.certification)}</div>
             <FeeSchedule
               fee_categories={this.props.fee_categories}
               floor_categories={this.props.fee_categories}
@@ -77,11 +181,19 @@ handleUserUpdate(user) {
             <h1><div className='title'><span>Fee Tracker</span><i className='fa fa-plus'></i></div></h1>
           </div>
           <div className="collapse__content">
+            <div className='fee-tracker__certification-date'>{this.formatDates(this.props.certification)}</div>
             <FeeTracker
               fee_categories={this.props.fee_categories}
-              floor_categories={this.props.fee_categories}
               user={this.state.user}
-              certification={this.state.certifications[0]}/>
+              artist_payments={this.state.artist_payments}
+              handleAddArtistPayment={this.props.handleAddArtistPayment}
+              certification={this.state.certifications[0]}
+              sortRowsBy={this.sortRowsBy}
+              handleDeleteArtistPayment={this.handleDeleteArtistPayment}
+              handleArtistPaymentUpdate={this.handleArtistPaymentUpdate}
+              handleSortPayments={this.handleSortPayments}
+              handleCertificationUpdate={this.handleCertificationUpdate}
+              formatted_dates={this.formatDates(this.state.certification)} />
           </div>
         </div>
 

@@ -118,3 +118,25 @@
 		}
 	}
 }
+
+.dashboard {
+	.fee-tracker__certification-date,
+	.fee-schedule__certification-date {
+		position: absolute;
+    right: 2em;
+    top: 2em;
+    font-weight: 600;
+    text-transform: uppercase;
+	}
+	.fee-tracker .section.artist-payments__title {
+		display: none;
+	}
+	.fee-tracker__payments {
+		border-top: none;
+		border-bottom: none;
+		padding-top: 0;
+		.title {
+			display: none;
+		}
+	}
+}

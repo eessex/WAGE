@@ -41,7 +41,7 @@
     display: block;
     width: 100%;
     padding: 0;
-    background-color: #fff;
+    background-color: #fafafa;
     border-bottom: 2px solid;
 
     .collapse__title {
@@ -61,7 +61,7 @@
         opacity: 0;
       }
       &:hover {
-        background-color: #fafafa;
+        background-color: #fff;
         span:not(.title) {
           border-bottom: 1px solid lime;
         }
@@ -71,9 +71,10 @@
       }
     }
     &.active {
+      background-color: #fff;
+      min-height: calc(100vh - 5em);
       .collapse__title {
         &:hover {
-          background-color: #fff;
           .fa {
             opacity: 1;
           }
@@ -100,17 +101,17 @@
       }
     }
   }
-            #account {
-        .user-contact__form {
-          max-width: 750px;
-          padding: 0 2em;
-        }
-        a.btn {
-          text-decoration: none;
-          margin-left: 2em;
-          font-size: 1em;
-        }
-      }
+  #account {
+    .user-contact__form {
+      max-width: 750px;
+      padding: 0 2em;
+    }
+    a.btn {
+      text-decoration: none;
+      margin-left: 2em;
+      font-size: 1em;
+    }
+  }
   #certifications {
     .new {
       position: absolute;

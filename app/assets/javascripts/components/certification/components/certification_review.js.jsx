@@ -73,7 +73,16 @@ var CertificationReview = React.createClass({
           artist_payments={this.props.artist_payments}
           sortRowsBy={this.props.sortRowsBy}
           isEdit="false"
-          fee_categories={this.props.fee_categories} /></div>
+          fee_categories={this.props.fee_categories} />
+        </div>
+    } else if (this.props.yearStatus == 'past') {
+       payments = <div className="section artist-payments clearfix disabled">
+        <h3 className="section artist-payments__title">Artist Payments<span className="req">*</span> </h3>
+        <div className="payments-required">
+          <h5>Use the Fee Tracker to document your history of fee payments.</h5>
+          <h5>Alternatively, you may upload a Quickbooks Statement.</h5>
+        </div>
+      </div>
     }
     return payments
   },

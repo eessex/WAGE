@@ -5,28 +5,41 @@ class SiteController < ApplicationController
     @user = current_user
     @path = ENV['HOST']
     @fee_categories = FeeCategory.order('id')
-    @certifications = current_user.certifications
-    @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
-    @artist_payments = @certification.artist_payments || []
-    if has_submitted(@certifications)
-      @new_user = false
-      render component: 'Dashboard', props: {
+    if @user.admin
+      @certifications = Certification.order('updated_at')
+      @users = User.order('institution_name')
+      render component: 'AdminDashboard', props: {
         certifications: @certifications,
-        user: @user,
-        fee_categories: @fee_categories
-      }
+        users: @users
+      }, class: 'admin--dashboard'
     else
-      @new_user = true
       @path = ENV['HOST']
-      render component: 'CertificationView', props: {
-          path: @path,
-          certification: @certification,
+      @fee_categories = FeeCategory.order('id')
+      @certifications = current_user.certifications
+      @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
+      @artist_payments = @certification.artist_payments || []
+      if has_submitted(@certifications)
+        @new_user = false
+        render component: 'Dashboard', props: {
           certifications: @certifications,
+          certification: @certification,
           artist_payments: @artist_payments,
           user: @user,
-          new_user: @new_user,
           fee_categories: @fee_categories
-        }, class: "certification certification--view"
+        }
+      else
+        @new_user = true
+        @path = ENV['HOST']
+        render component: 'CertificationView', props: {
+            path: @path,
+            certification: @certification,
+            certifications: @certifications,
+            artist_payments: @artist_payments,
+            user: @user,
+            new_user: @new_user,
+            fee_categories: @fee_categories
+          }, class: "certification certification--view"
+      end
     end
   end
 
