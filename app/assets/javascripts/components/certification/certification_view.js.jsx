@@ -278,7 +278,7 @@ var CertificationView = React.createClass({
         if (res.notice) {
           $('main').append('<div class="submit notice"><p>' + res.notice + '</p></div>')
           that.setState({
-            certification: res,
+            certification: certification,
             canSubmit: that.canSubmit(),
             hasFiscalDetails: that.hasFiscalDetails(),
             hasPayments: that.hasPayments(),
@@ -290,7 +290,7 @@ var CertificationView = React.createClass({
           },2000);
         } else {
           that.setState({
-            certification: res,
+            certification: certification,
             canSubmit: that.canSubmit(),
             hasFiscalDetails: that.hasFiscalDetails(),
             hasPayments: that.hasPayments(),
@@ -479,7 +479,7 @@ var CertificationView = React.createClass({
       body = <CertificationReview
           user={this.state.user}
           new_user={this.state.new_user}
-          certification={this.props.certification}
+          certification={this.state.certification}
           certifications={this.props.certifications}
           formatted_dates={this.state.formattedDate}
           artist_payments={this.state.artist_payments}

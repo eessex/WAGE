@@ -72,7 +72,7 @@
     })
     var status = this.props.yearStatus
     var disabled
-    if (status == 'future' || this.props.new_user == true) {
+    if (status == 'future' || this.props.new_user == true || !this.props.certification.operating_expenses) {
       disabled = true
     }
     var form
@@ -174,6 +174,7 @@
           >Save <i className="fa fa-plus" aria-hidden="true"></i></button>
         <div className="notes">
             <input
+              disabled={disabled}
               type="text"
               placeholder="Notes"
               name='notes'

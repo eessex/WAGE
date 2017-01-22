@@ -13,7 +13,7 @@ var CertificationReview = React.createClass({
   showFile(type, model, title) {
     var file
     if (this.props[model][type] && this.props[model][type].length > 2) {
-      if (this.state.certification.status < 1 || (this.state.certification.status == 1 && type != 'statement' && type != 'file_contract')) {
+      if (this.props.certification.status < 1 || (this.props.certification.status == 1 && type != 'statement' && type != 'file_contract')) {
         file = <h5><a href={this.props[model][type]} target="_blank"><i className="fa fa-file" aria-hidden="true"></i> {title}</a>
             </h5>
       }
@@ -79,10 +79,10 @@ var CertificationReview = React.createClass({
   },
 
   render() {
-    if (moment(this.state.certification.fiscal_start).format('YYYY') == moment(this.state.certification.fiscal_end).format('YYYY')) {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('YYYY')
+    if (moment(this.props.certification.fiscal_start).format('YYYY') == moment(this.props.certification.fiscal_end).format('YYYY')) {
+      var formatted_date = moment(this.props.certification.fiscal_start).format('YYYY')
     } else {
-      var formatted_date = moment(this.state.certification.fiscal_start).format('YY') + "-" + moment(this.state.certification.fiscal_end).format('YY')
+      var formatted_date = moment(this.props.certification.fiscal_start).format('YY') + "-" + moment(this.props.certification.fiscal_end).format('YY')
     }
     if (moment(this.props.user.fiscal_start).format('Y') == moment(this.props.user.fiscal_end).format('Y')) {
       var format_start = moment(this.props.user.fiscal_start).format('MMM D - ')
@@ -92,10 +92,10 @@ var CertificationReview = React.createClass({
     var fiscal_dates_show = <span>{format_start}{moment(this.props.user.fiscal_end).format('MMM D, Y')}</span>
     var artist_payments_info
 
-    if (!this.props.isFuture && this.state.certification.status < 1 && (new Date() < Date.parse(this.props.certification.fiscal_end))) {
+    if (!this.props.isFuture && this.props.certification.status < 1 && (new Date() < Date.parse(this.props.certification.fiscal_end))) {
       artist_payments_info =
       <div className="section artist-payments-info clearfix">
-        <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Certified Pending status for FY {moment(this.state.certification.fiscal_end).format('YYYY')}.</h4>
+        <h4>Pending approval of this application, {this.state.user.institution_name} will have W.A.G.E. Certified Pending status for FY {moment(this.props.certification.fiscal_end).format('YYYY')}.</h4>
         <h4>Your organization is expected to pay artist fees according to <a onClick={this.props.goFeeSchedule}>W.A.G.E.’s minimum standards of compensation</a>.</h4>
 
         <h4>At the close of this fiscal period your organization must provide documentation of fee payment using the <a onClick={this.props.goFeeTracker}>Fee Tracker</a>. You can upload this information anytime during the fiscal year or you can wait until the fiscal year has ended.</h4>
