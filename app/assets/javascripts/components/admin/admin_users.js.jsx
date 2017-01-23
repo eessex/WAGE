@@ -11,7 +11,7 @@ var AdminUsers = React.createClass({
   },
   render() {
     return (
-      <div id="users">
+      <div id="users" className='admin--users'>
       	{this.userRow()}
       </div>
     );
