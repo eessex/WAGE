@@ -17,7 +17,7 @@ class SiteController < ApplicationController
       @fee_categories = FeeCategory.order('id')
       @certifications = current_user.certifications
       @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
-      @artist_payments = @certification.artist_payments || []
+      @artist_payments = @user.artist_payments || []
       if has_submitted(@certifications)
         @new_user = false
         render component: 'Dashboard', props: {

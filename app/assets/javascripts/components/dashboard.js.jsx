@@ -12,6 +12,7 @@ var Dashboard = React.createClass({
     }
   },
   componentDidMount() {
+    this.setState({artist_payments: this.setPayments(this.state.certification)})
     $('.navbar-fixed-top').css('border-bottom', '2px solid')
     $('.dashboard .collapse .collapse__title').click(function(e) {
       $('.container').removeClass('active')
@@ -58,6 +59,45 @@ var Dashboard = React.createClass({
     } else {
       $(e.target).parent().addClass('active').toggleClass('ASC')
     }
+  },
+  handleInputChange(e) {
+    var i = e.target.value
+    this.setState({certification: this.props.certifications[i]})
+    debugger
+    this.setState({artist_payments: this.setPayments(this.props.certifications[i])})
+  },
+  setPayments(certification) {
+    var payments = []
+    this.props.artist_payments.map( function(artist_payment) {
+      if (artist_payment.certification_id == certification.id) {
+        payments.push(artist_payment)
+      }
+    })
+    debugger
+    return payments
+  },
+  getCertificationDates() {
+    var that = this
+    var date_options = this.props.certifications.map(function(certification, i) {
+      var formatted_date = that.formatDates(certification)
+      return (
+        <option key={i} value={i}>
+          {formatted_date}
+        </option>
+      )
+    })
+    var form = <div className="field-group">
+            <select
+              type='text'
+              name='fee_category_id'
+              className='form-control'
+              value={this.optionState}
+              onChange={this.handleInputChange}>
+              {date_options}
+            </select>
+            <i className='fa fa-sort'></i>
+            </div>
+    return form
   },
   handleUserUpdate(user) {
     var that = this;
@@ -167,12 +207,12 @@ var Dashboard = React.createClass({
             <h1><div className='title'><span>My Fee Schedule</span><i className='fa fa-plus'></i></div></h1>
           </div>
           <div className="collapse__content">
-            <div className='fee-schedule__certification-date'>{this.formatDates(this.props.certification)}</div>
+            <div className='fee-schedule__certification-date'>{this.getCertificationDates()}</div>
             <FeeSchedule
               fee_categories={this.props.fee_categories}
               floor_categories={this.props.fee_categories}
               user={this.state.user}
-              certification={this.state.certifications[0]}/>
+              certification={this.state.certification}/>
           </div>
         </div>
 
@@ -181,13 +221,13 @@ var Dashboard = React.createClass({
             <h1><div className='title'><span>Fee Tracker</span><i className='fa fa-plus'></i></div></h1>
           </div>
           <div className="collapse__content">
-            <div className='fee-tracker__certification-date'>{this.formatDates(this.props.certification)}</div>
+            <div className='fee-tracker__certification-date'>{this.getCertificationDates()}</div>
             <FeeTracker
               fee_categories={this.props.fee_categories}
               user={this.state.user}
               artist_payments={this.state.artist_payments}
               handleAddArtistPayment={this.props.handleAddArtistPayment}
-              certification={this.state.certifications[0]}
+              certification={this.state.certification}
               sortRowsBy={this.sortRowsBy}
               handleDeleteArtistPayment={this.handleDeleteArtistPayment}
               handleArtistPaymentUpdate={this.handleArtistPaymentUpdate}

@@ -83,6 +83,7 @@
             sortRowsBy={this.props.sortRowsBy}
             paymentsSorted={this.props.paymentsSorted}
             isEdit="true"
+            certification={this.props.certification}
             handleArtistPaymentUpdate={this.props.handleArtistPaymentUpdate}
             handleDeleteArtistPayment={this.props.handleDeleteArtistPayment}
             fee_categories={this.props.fee_categories} /></div>

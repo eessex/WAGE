@@ -28,25 +28,31 @@ var ArtistPaymentsTable = React.createClass({
     var that = this
     var row
     var payment_row = this.props.artist_payments.map( function(artist_payment) {
-      if (that.props.isEdit == 'true') {
-        row = <ArtistPaymentsTableEditRow
-                key={artist_payment.id}
-                deleteArtistPayment={that.props.handleDeleteArtistPayment}
-                handleArtistPaymentUpdate={that.handleArtistPaymentUpdate}
-                artist_payment={artist_payment}
-                fee_categories={that.props.fee_categories} />
-      } else {
-        row = <ArtistPaymentsTableRow
-                key={artist_payment.id}
-                deleteArtistPayment={that.props.handleDeleteArtistPayment}
-                artist_payment={artist_payment}
-                fee_categories={that.props.fee_categories} />
-      }
+        if (that.props.isEdit == 'true') {
+          row = <ArtistPaymentsTableEditRow
+                  key={artist_payment.id}
+                  deleteArtistPayment={that.props.handleDeleteArtistPayment}
+                  handleArtistPaymentUpdate={that.handleArtistPaymentUpdate}
+                  artist_payment={artist_payment}
+                  fee_categories={that.props.fee_categories} />
+        } else {
+          row = <ArtistPaymentsTableRow
+                  key={artist_payment.id}
+                  deleteArtistPayment={that.props.handleDeleteArtistPayment}
+                  artist_payment={artist_payment}
+                  fee_categories={that.props.fee_categories} />
+        }
       return row
     })
     return payment_row
   },
   totals(artist_payments) {
+    var that = this
+    artist_payments = artist_payments.map( function(artist_payment) {
+      if (artist_payment.certification_id == that.props.certification.id) {
+        return artist_payment
+      }
+    })
     var total_payments = artist_payments.reduce(function(a, b) {
       return a + parseInt(b.amount);
     }, 0);

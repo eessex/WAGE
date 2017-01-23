@@ -127,6 +127,14 @@
     top: 2em;
     font-weight: 600;
     text-transform: uppercase;
+		select {
+			padding-right: 2em;
+		}
+		i {
+	    position: absolute;
+	    top: 0.75em;
+	    right: .75em;
+		}
 	}
 	.fee-tracker .section.artist-payments__title {
 		display: none;
