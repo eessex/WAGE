@@ -15,7 +15,9 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def set_certifications
-    @certifications = resource.certifications
+    if resource
+      @certifications = resource.certifications || []
+    end
   end
 
   def update_resource(resource, params)

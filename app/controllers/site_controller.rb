@@ -15,7 +15,7 @@ class SiteController < ApplicationController
     else
       @path = ENV['HOST']
       @fee_categories = FeeCategory.order('id')
-      @certifications = current_user.certifications
+      @certifications = current_user.certifications || []
       @certification = current_user.certifications.first || Certification.create(status: 0, user_id: @user.id, fiscal_start: new_dates[:s_d], fiscal_end: new_dates[:e_d])
       @artist_payments = @user.artist_payments || []
       if has_submitted(@certifications)
