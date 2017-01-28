@@ -64,7 +64,8 @@
       }
       .text {
         margin-left: 0;
-        min-width: 995px;
+        width: 995px;
+        max-width: 100%;
       }
     }
     &.three {
@@ -225,4 +226,38 @@
         }
       }
     }
+}
+
+@media screen and (max-width: 1200px) {
+  #site-guidelines {
+    .intro.two {
+      .text {
+        width: calc(100% - 220px);
+      }
+      .columns {
+        flex-direction: column;
+        width: calc(100% - 220px);
+      }
+      .col {
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 0;
+      }
+    }
+    #schedule-explainer,
+    .intro.three .text {
+      width: calc(100% - 220px);
+    }
+  }
+}
+@media screen and (max-width: 750px) {
+  #site-guidelines nav.navbar img.logo.foot {
+    display: none;
+  }
+  #schedule-explainer,
+  .intro.three .text,
+  .intro.two .text,
+  .intro.two .columns {
+      min-width: 100%;
+  }
 }
