@@ -7,10 +7,11 @@ class SiteController < ApplicationController
     @fee_categories = FeeCategory.order('id')
     if @user.admin
       @certifications = Certification.order('updated_at')
-      @users = User.order('institution_name')
+      @users = User.includes(:certifications)
       render component: 'AdminDashboard', props: {
         certifications: @certifications,
-        users: @users
+        users: @users,
+        fee_categories: @fee_categories
       }, class: 'admin--dashboard'
     else
       @path = ENV['HOST']

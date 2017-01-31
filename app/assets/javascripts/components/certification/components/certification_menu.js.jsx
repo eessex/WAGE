@@ -45,7 +45,7 @@ var CertificationMenu = React.createClass({
     var formattedItem = item.replace('-', ' ')
       return (
           <a className="certification-menu__item"
-            href={'/#' + item}
+            href={that.props.path + '/#' + item}
             name={item}
             data-id={i}
             key={i}

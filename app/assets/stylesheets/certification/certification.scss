@@ -1,4 +1,4 @@
- @import "variables";
+@import "variables";
 
 .certification-view {
 	&__content {
@@ -71,4 +71,42 @@
 	    right: 15.75em;
 	  }
 	}
+}
+
+.certifications--table {
+  h4.th {
+    font-size: 1em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+    padding: 0 2em;
+  }
+	.teaser {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    margin-top: -1px;
+    text-decoration: none;
+    justify-content: space-between;
+    padding: 0 2em;
+    font-weight: 600;
+    &:hover {
+      background-color: #00aeef;
+    }
+    h3 {
+      width: 33%;
+    }
+    .updated {
+      width: 33%;
+      text-align: right;
+    }
+    .status {
+      width: 205px;
+      i {
+        margin-right: .5em;
+      }
+    }
+  }
 }

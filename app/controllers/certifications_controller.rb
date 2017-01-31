@@ -12,10 +12,8 @@ class CertificationsController < ApplicationController
     @certifications = Certification.where(user_id: @user.id) || []
     @fee_categories = FeeCategory.order('id')
     @artist_payments = @certification.artist_payments || []
-    # if @certification.status == 0
-      # render component: 'CertificationShow', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
-    # elsif @certification.status > 0
-      @path = ENV['HOST'] + '/certifications/' + @certification.id.to_s
+    @path = ENV['HOST'] + '/certifications/' + @certification.id.to_s
+    if !current_user.admin
       render component: 'CertificationView', props: {
           path: @path,
           certification: @certification,
@@ -25,8 +23,15 @@ class CertificationsController < ApplicationController
           new_user: false,
           fee_categories: @fee_categories
         }, class: "certification certification--view"
-    # end
-    # render component: 'CertificationView', props: { certification: @certification, certifications: @certifications, artist_payments: @artist_payments, user: @user, fee_categories: @fee_categories }, class: "certification show"
+      else
+        render component: 'AdminCertificationShow', props: {
+          certification: @certification,
+          certifications: @certifications,
+          artist_payments: @artist_payments,
+          user: @user,
+          fee_categories: @fee_categories
+        }, class: "admin-certification admin-certification--show"
+    end
   end
 
   def create
@@ -50,7 +55,7 @@ class CertificationsController < ApplicationController
       certification_params[:operating_expenses] = certification_params[:operating_expenses].gsub(",","")
       format.json do
         if @certification.update(certification_params)
-          if submit == true
+          if submit == true && !current_user.admin
             WageMailer.submit_confirmation(@user, @certification).deliver_now
             render :json =>  { certification: @certification, notice: 'Your application has been successfully submitted, thank you.' }
           else

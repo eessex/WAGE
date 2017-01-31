@@ -1,29 +1,101 @@
 @import "variables";
 
+.admin-menu {
+  position: fixed;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-bottom: 2px solid;
+  border-top: 2px solid;
+  top: 4em;
+  display: flex;
+  justify-content: space-between;
+  padding: .65em 2em;
+
+  a {
+    text-transform: capitalize;
+    text-decoration: none;
+    margin-right: 1em;
+		&.active, &:hover {
+		  font-weight: 600;
+		  border-bottom: 2px solid lime;
+		}
+  }
+}
+
 .admin--dashboard {
-	margin-top: 4em;
+	margin-top: 6em;
 }
 
-.admin--users {
+.admin-dashboard {
+	&__header {
+		padding: 2em;
+	}
 }
 
-.user-container {
 
+
+
+.admin--users-table {
+}
+
+.user-container,
+.certification-container {
+	&.active {
+		background-color: #fff;
+		min-height: 50vh;
+	}
 	&__title {
     border-top: 1px solid;
-    padding: 1em 0;
+    padding: 1em 28px;
     margin: 0;
+    display: flex;
+    justify-content: space-between;
     &:hover {
     	color: $blue;
     	border-color: $primary-color;
+    	background-color: #fff;
+    }
+    .certifications {
+    	font-size: 14px;
+    	font-weight: normal;
     }
 	}
 	&__content {
 		display: none;
+		background-color: #fff;
+	}
+	&__content-item {
+		padding-left: 28px;
+		padding-right: 28px;
 	}
 	.certification-review--user-contact {
 		display: flex;
+		padding: 0 2em;
 		max-width: 750px;
 		margin-bottom: 4em;
 	}
+}
+
+
+.admin-certification--show {
+  .certification-review {
+    &__body {
+      padding: 6em 2em;
+      max-width: 750px;
+      .disabled {
+        color: #aaa;
+      }
+      .section {
+        padding: 2em 0;
+        border-top: 1px solid lime;
+      }
+    }
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      /*border-bottom: 1px solid lime;*/
+    }
+  }
 }

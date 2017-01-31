@@ -35,12 +35,19 @@ var Certifications = React.createClass({
     var that = this;
     certifications = this.props.certifications.map( function(certification) {
       return (
-        <Certification certification={certification} key={certification.id} onDeleteCertification={that.handleDeleteCertification} />
+        <Certification
+          certification={certification}
+          key={certification.id}
+          onDeleteCertification={that.handleDeleteCertification} />
       );
     });
     return (
       <div id="certifications">
-        <CertificationNew user={this.props.user} certifications={this.props.certifications} addCertification={this.addCertification}/>
+        <CertificationNew
+          user={this.props.user}
+          certifications={this.props.certifications}
+          addCertification={this.addCertification}
+          is_admin={this.props.is_admin} />
         {certifications}
       </div>
     );
@@ -114,7 +121,7 @@ var CertificationNew = React.createClass({
         </option>
       )
     });
-    if (this.state.canDisplay == true) {
+    if (this.state.canDisplay == true && this.props.is_admin != 'true') {
       return (
         <div className="new">
         <div className="field-group">

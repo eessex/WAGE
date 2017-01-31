@@ -133,33 +133,6 @@
         margin-right: .35em;
       }
     }
-    .teaser {
-      display: flex;
-      align-items: center;
-      border-top: 1px solid;
-      border-bottom: 1px solid;
-      margin-top: -1px;
-      text-decoration: none;
-      justify-content: space-between;
-      padding: 0 2em;
-      font-weight: 600;
-      &:hover {
-        background-color: #00aeef;
-      }
-      h3 {
-        width: 33%;
-      }
-      .updated {
-        width: 33%;
-        text-align: right;
-      }
-      .status {
-        width: 205px;
-        i {
-          margin-right: .5em;
-        }
-      }
-    }
   }
   #fee-schedule {
     clear: both;

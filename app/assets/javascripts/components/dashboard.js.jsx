@@ -194,7 +194,7 @@ var Dashboard = React.createClass({
           <div className="collapse__title">
             <h1><div className='title'><span>Certifications</span><i className='fa fa-plus'></i></div></h1>
           </div>
-          <div className="collapse__content">
+          <div className="collapse__content certifications--teaser">
             <h4 className="th"><span>Fiscal Year</span><span>Application Status</span><span>Last Updated</span></h4>
             <Certifications
               certifications={this.state.certifications}
