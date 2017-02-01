@@ -34,7 +34,12 @@ var FeeCategory = React.createClass({
     newFeeCategory.description = !this.state.fee_category.description
     this.handleFeeCategoryUpdate();
   },
-
+  handleInputChange(e) {
+    var changed = $(e.target).data('id')
+    var newFeeCategory = this.state.fee_category
+    newFeeCategory[changed] = e.target.value
+    this.handleFeeCategoryUpdate(newFeeCategory)
+  },
   handleFeeCategoryUpdate() {
     var that = this;
     $.ajax({
@@ -70,45 +75,64 @@ var FeeCategory = React.createClass({
   render() {
     if ( this.state.editMode ) {
       markup = (
-        <tr>
-          <td>
+        <div className='fee-categories--table__row edit'>
+          <div className='item' data-id='name'>
             <input
+              className="form-control"
               type="text"
               value={this.state.fee_category.name}
               onChange={this.handleNameChange} />
             <span style={{color: 'red'}}>{this.state.errors.name}</span>
-          </td>
-          <td>
+          </div>
+          <div className='item' data-id='floor_fee'>
             <input
               type="text"
+              className="form-control"
               value={this.state.fee_category.floor_fee}
               onChange={this.handleFloorFeeChange} />
-            <br />
             <span style={{color: 'red'}}>{this.state.errors.floor_fee}</span>
-          </td>
-          <td>
+          </div>
+          <div className='item' data-id='over500K'>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.fee_category.over500K}
+              onChange={this.handleInputChange} />
+            <span style={{color: 'red'}}>{this.state.errors.over500K}</span>
+          </div>
+          <div className='item' data-id='description'>
             <textarea
+              className="form-control"
               value={this.state.fee_category.description}
               onChange={this.handleDescriptionChange} />
-            <br />
             <span style={{color: 'red'}}>{this.state.errors.description}</span>
-          </td>
-          <td>
-            <button onClick={this.handleFeeCategoryUpdate}>Save</button>
-            <button onClick={this.handleFeeCategoryDelete} style={{color: 'red'}}>Delete</button>
-          </td>
-        </tr>
+          </div>
+          <div className='actions' data-id='save'>
+            <button className='btn' onClick={this.handleFeeCategoryUpdate}>Save</button>
+            <button className='btn btn-dgr' onClick={this.handleFeeCategoryDelete} style={{color: 'red'}}>Delete</button>
+          </div>
+        </div>
       );
     } else {
       markup = (
-        <tr>
-          <td>{this.state.fee_category.name}</td>
-          <td>{this.state.fee_category.floor_fee}</td>
-          <td>{this.state.fee_category.description}</td>
-          <td>
-            <button onClick={this.setEditMode}>Edit</button>
-          </td>
-        </tr>
+          <div className='fee-categories--table__row show'>
+            <div className='header'>
+              <div className='item' data-id='name'>
+                {this.state.fee_category.name}
+              </div>
+              <div className='item' data-id='floor_fee'>
+                {this.state.fee_category.floor_fee}
+              </div>
+              <div className='actions' data-id='edit'>
+                <button className='btn' onClick={this.setEditMode}>Edit</button>
+              </div>
+            </div>
+            <div className='content'>
+              <div className='item' data-id='description'>
+                {this.state.fee_category.description}
+              </div>
+            </div>
+          </div>
       );
     }
     return markup;

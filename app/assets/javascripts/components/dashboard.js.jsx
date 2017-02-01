@@ -63,7 +63,6 @@ var Dashboard = React.createClass({
   handleInputChange(e) {
     var i = e.target.value
     this.setState({certification: this.props.certifications[i]})
-    debugger
     this.setState({artist_payments: this.setPayments(this.props.certifications[i])})
   },
   setPayments(certification) {
@@ -73,7 +72,6 @@ var Dashboard = React.createClass({
         payments.push(artist_payment)
       }
     })
-    debugger
     return payments
   },
   getCertificationDates() {

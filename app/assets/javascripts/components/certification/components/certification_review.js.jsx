@@ -14,8 +14,9 @@ var CertificationReview = React.createClass({
     var file
     if (this.props[model][type] && this.props[model][type].length > 2) {
       if (this.props.certification.status < 1 || (this.props.certification.status == 1 && type != 'statement' && type != 'file_contract')) {
-        file = <h5><a href={this.props[model][type]} target="_blank"><i className="fa fa-file" aria-hidden="true"></i> {title}</a>
-            </h5>
+        file = <a href={this.props[model][type]} target="_blank">
+            <i className="fa fa-file" aria-hidden="true"></i> {title}
+          </a>
       }
     }
     return file

@@ -22,6 +22,27 @@ var AdminUser = React.createClass({
     }
     return fiscalDates
   },
+  showFile(type, model, title) {
+    var file
+    if (this.props[model][type] && this.props[model][type].length > 2) {
+      file = <a href={this.props[model][type]} target="_blank">
+          <i className="fa fa-file" aria-hidden="true"></i> {title}
+        </a>
+    }
+    return file
+  },
+  showMaterials() {
+    var file_contract = <span className='upload disabled'><i className='fa fa-file'></i> Sample Contracts <span className='req'>*</span></span>
+    var file_501c3 = <span className='upload disabled'><i className='fa fa-file'></i> 501c3 <span className='req'>*</span></span>
+    var statement = <span className='upload disabled'><i className='fa fa-file'></i> Statement of Intent <span className='req'>*</span></span>
+    return (
+      <div className="user-container__content-item section">
+        <h5>{this.props.user.file_501c3 ? this.showFile('file_501c3', 'user', "501c3") : file_501c3}</h5>
+        <h5>{this.props.user.file_contract ? this.showFile('file_contract', 'user', "Sample Contracts") : file_contract}</h5>
+        <h5>{this.props.user.statement ? this.showFile('statement', 'user', "Statement of Intent") : statement}</h5>
+      </div>
+    )
+  },
   getCertifications() {
     var certifications
     if (this.props.certifications) {
@@ -76,8 +97,11 @@ var AdminUser = React.createClass({
 			<div key={this.props.user.id} data-user={this.props.user.id} className={"user-container user-container--" + this.props.user.id + " "}>
 				<h4 className='user-container__title'>{this.props.user.institution_name}{this.getCertificationCount()}</h4>
 				<div className='user-container__content'>
-          {this.getFiscalDates()}
-          <ReviewUserContact user={this.props.user} />
+          <div className="section">
+            {this.getFiscalDates()}
+            <ReviewUserContact user={this.props.user} />
+          </div>
+          {this.showMaterials()}
           {this.getCertifications()}
 				</div>
 			</div>

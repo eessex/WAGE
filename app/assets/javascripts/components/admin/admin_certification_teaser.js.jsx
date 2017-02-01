@@ -4,7 +4,6 @@ var AdminCertificationTeaser = React.createClass({
   },
   watchClick() {
     $('.certification-container__title').unbind().click(function(e) {
-      debugger
       if ($(e.target).closest('.certification-container').hasClass('active')) {
         $('.certification-container').removeClass('active').find('.certification-container__content').slideUp()
       } else {

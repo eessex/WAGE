@@ -22,7 +22,7 @@ var AdminMenu = React.createClass({
     var formattedItem = item.replace('-', ' ')
       return (
           <a className="admin-menu__item"
-            href={'/#' + item}
+            href={that.state.root + '/#' + item}
             name={item}
             data-id={i}
             key={i}

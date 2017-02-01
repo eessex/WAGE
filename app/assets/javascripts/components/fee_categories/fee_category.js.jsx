@@ -70,33 +70,27 @@ var FeeCategories = React.createClass({
     });
     return (
       <div>
-        <h1>Fee Categories</h1>
-        <div id="fee_categories">
-          <table className="table-responsive table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Floor Fee</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {fee_categories}
-              <tr>
-                <td>
-                  <input type="text" value={this.state.fee_category.name} onChange={this.handleNameChange} />
-                  <span style={{color: 'red'}}>{this.state.errors.name}</span>
-                </td>
-                <td>
-                  <input value={this.state.fee_category.floor_fee} type="text" />
-                  <span style={{color: 'red'}}>{this.state.errors.floor_fee}</span>
-                </td>
-                <td><button onClick={this.handleAddFeeCategory}>Add</button></td>
-              </tr>
-            </tbody>
-          </table>
+        <div id="fee_categories" className='fee-categories'>
+          <div className='fee-categories--table'>
+            <div className='fee-categories--table__header'>
+              <div className='item' data-id='name'>Name</div>
+              <div className='item' data-id='floor_fee'>Floor Fee</div>
+            </div>
+            {fee_categories}
+          </div>
         </div>
       </div>
     );
   }
 });
+// <div>
+//               <div>
+//                 <input type="text" className="form-control" value={this.state.fee_category.name} onChange={this.handleNameChange} />
+//                 <span style={{color: 'red'}}>{this.state.errors.name}</span>
+//               </div>
+//               <div>
+//                 <input className="form-control" value={this.state.fee_category.floor_fee} type="text" />
+//                 <span style={{color: 'red'}}>{this.state.errors.floor_fee}</span>
+//               </div>
+//               <div><button onClick={this.handleAddFeeCategory}>Add</button></div>
+//             </div>

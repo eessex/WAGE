@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   padding: .65em 2em;
-
+  z-index: 200;
   a {
     text-transform: capitalize;
     text-decoration: none;
@@ -36,7 +36,9 @@
 
 
 
-.admin--users-table {
+.admin--users-table,
+.admin--certifications-table {
+  border-bottom: 1px solid;
 }
 
 .user-container,
@@ -44,7 +46,22 @@
 	&.active {
 		background-color: #fff;
 		min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    padding-bottom: 3em;
+    .certification-container__title {
+      opacity: 0;
+      height: 0;
+    }
 	}
+  .section {
+    margin: 0 2em;
+    padding: 2em 0;
+    border-top: 1px solid lime;
+    max-width: 750px;
+  }
 	&__title {
     border-top: 1px solid;
     padding: 1em 28px;
@@ -56,6 +73,9 @@
     	border-color: $primary-color;
     	background-color: #fff;
     }
+    &:last-child {
+      border-bottom: 1px solid;
+    }
     .certifications {
     	font-size: 14px;
     	font-weight: normal;
@@ -66,14 +86,11 @@
 		background-color: #fff;
 	}
 	&__content-item {
-		padding-left: 28px;
-		padding-right: 28px;
+	/*	padding-left: 28px;
+		padding-right: 28px;*/
 	}
 	.certification-review--user-contact {
 		display: flex;
-		padding: 0 2em;
-		max-width: 750px;
-		margin-bottom: 4em;
 	}
 }
 
@@ -95,7 +112,44 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      /*border-bottom: 1px solid lime;*/
+    }
+  }
+}
+
+.admin--certifications-table {
+  .certification-review {
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      padding: 0 2em;
+    }
+  }
+}
+
+
+.admin-dashboard .fee-categories {
+  .fee-categories--table {
+    border-bottom: 1px solid;
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 28px;
+    }
+    &__row {
+      border-top: 1px solid;
+      padding: 10px 28px;
+      &.show {
+        .header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .content {
+          display: none;
+        }
+      }
     }
   }
 }
