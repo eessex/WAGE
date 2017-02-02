@@ -12,7 +12,8 @@ var CertificationMenu = React.createClass({
     this.setState({navPosition: item})
   },
   isActiveItem(i) {
-    if (this.props.navPosition && this.props.navPosition == i) {
+    debugger
+    if ((this.props.navPosition && this.props.navPosition == i) || (this.props.navPosition == 0 && i == 0)) {
       return true
     }
   },

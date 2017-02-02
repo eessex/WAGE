@@ -7,6 +7,20 @@
 	}
 	 .certification-view__body {
 		min-width: 100%;
+		h3 {
+			display: flex;
+			justify-content: space-between;
+			max-width: 750px;
+			span {
+				margin-bottom: 0;
+				padding-bottom: 0;
+				border-bottom: none;
+				&:nth-child(2) {
+					font-size: 15px;
+					font-weight: normal;
+				}
+			}
+		}
 	}
 	.certification-review__intro {
 		padding: 0 2em;

@@ -30,7 +30,12 @@ var CertificationReview = React.createClass({
     return userContact
   },
   formattedOperating() {
-    var formatted_operating = '$' + Number(this.props.certification.operating_expenses).toLocaleString()
+    var formatted_operating
+    if (this.props.certification.operating_expenses && this.props.certification.operating_expenses > 100) {
+      formatted_operating = <span>Total Annual Operating Expenses: ${Number(this.props.certification.operating_expenses).toLocaleString()}</span>
+    } else {
+      formatted_operating = <span className="disabled">Total Annual Operating Expenses: ${Number(this.props.certification.operating_expenses).toLocaleString()} <span className='req'>*</span></span>
+    }
     return formatted_operating
   },
   institutionInfo() {
@@ -43,7 +48,7 @@ var CertificationReview = React.createClass({
     var file_budget = <span className='upload disabled'><i className='fa fa-file'></i> Operating Budget <span className='req'>*</span></span>
     return ( <div className="section certification-year clearfix">
         <h5>Fiscal Year: {this.props.formatted_dates}</h5>
-        <h5>Total Annual Operating Expenses: {this.props.certification.operating_expenses ? this.formattedOperating() : this.formattedOperating()}</h5>
+        <h5>{this.formattedOperating()}</h5>
         <h5>{this.props.certification.file_budget ? this.showFile('file_budget', 'certification', "Operating Budget") : file_budget}</h5>
         {file_990}
       </div>
@@ -119,11 +124,13 @@ var CertificationReview = React.createClass({
     var actions
     if (this.props.certification.status < 2 ) {
       var disabled
+      var pending_message
       var click
       if ( moment(this.props.certification.fiscal_end) <= moment(new Date) ) {
         // year is past
           if(this.props.canSubmit != 'true') {
             disabled = true
+            pending_message = '* Please complete all fields'
           } else {
             click = this.handleSubmit
           }
@@ -133,6 +140,7 @@ var CertificationReview = React.createClass({
         if (this.props.new_user) {
           if(this.props.canSubmit != 'true') {
             disabled = true
+            pending_message = '* Please complete all fields'
           } else {
             click = this.handleSubmit
           }
@@ -148,7 +156,10 @@ var CertificationReview = React.createClass({
           {artist_payments_info}
         </div>
         <div className="certification-review__body">
-          <h3>{this.props.user.institution_name}</h3>
+          <h3>
+            {this.props.user.institution_name}
+            <span className='pending_message'>{pending_message}</span>
+          </h3>
           {this.userContact()}
           {this.institutionInfo()}
           {this.showMaterials()}
