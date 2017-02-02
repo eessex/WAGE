@@ -176,3 +176,29 @@
     }
   }
 }
+
+.fee-schedule--show {
+  margin-top: 6em;
+  padding: 0 2em;
+  .fee-schedule {
+    &__intro {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5em;
+      .field-group {
+        position: relative;
+        .form-control {
+          padding-right: 25px;
+          min-width: 255px;
+        }
+        i {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+        }
+      }
+    }
+  }
+
+}

@@ -192,7 +192,7 @@ var Dashboard = React.createClass({
           <div className="collapse__title">
             <h1><div className='title'><span>Certifications</span><i className='fa fa-plus'></i></div></h1>
           </div>
-          <div className="collapse__content certifications--teaser">
+          <div className="collapse__content certifications--table">
             <h4 className="th"><span>Fiscal Year</span><span>Application Status</span><span>Last Updated</span></h4>
             <Certifications
               certifications={this.state.certifications}
@@ -202,7 +202,7 @@ var Dashboard = React.createClass({
 
         <div id="fee-schedule" className="container collapse">
           <div className="collapse__title">
-            <h1><div className='title'><span>My Fee Schedule</span><i className='fa fa-plus'></i></div></h1>
+            <h1><div className='title'><span>My Fee Schedule<span className='subtitle'>{moment(this.state.certification.fiscal_end).format(': Y')}</span></span><i className='fa fa-plus'></i></div></h1>
           </div>
           <div className="collapse__content">
             <div className='fee-schedule__certification-date'>{this.getCertificationDates()}</div>

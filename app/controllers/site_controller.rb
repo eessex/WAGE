@@ -60,8 +60,7 @@ class SiteController < ApplicationController
     @path = ENV['HOST'] + '/fee-schedule'
     if !has_submitted(@certifications)
       @new_user = true
-    end
-    render component: 'FeeScheduleRoot', props: {
+      render component: 'FeeScheduleRoot', props: {
         path: @path,
         certifications: @certifications,
         certification: @certification,
@@ -69,6 +68,16 @@ class SiteController < ApplicationController
         user: @user,
         fee_categories: @fee_categories
       }, class: 'fee_schedule fee_schedule--full_view'
+    else
+      render component: 'FeeScheduleShow', props: {
+        path: @path,
+        certifications: @certifications,
+        certification: @certifications[0],
+        new_user: @new_user,
+        user: @user,
+        fee_categories: @fee_categories
+      }, class: 'fee-schedule--show'
+    end
   end
 
   def error_404

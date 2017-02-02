@@ -86,10 +86,10 @@
     var subtitle = <span className="info__fee-subtitle">{fee_category.fee_subtitle}</span>
 
     var floor_fee = Number(fee_category.floor_fee).toLocaleString()
-    var min_fee = Number(this.state.certification.operating_expenses * Number(fee_category.over500K)).toLocaleString()
+    var min_fee = Number(this.props.certification.operating_expenses * Number(fee_category.over500K)).toLocaleString()
     var over5m = Number(5000000 * Number(fee_category.over500K)).toLocaleString()
-    var existing_text = Number(((this.state.certification.operating_expenses / 5000000) * .075) + .025)
-    var new_text = Number(((this.state.certification.operating_expenses / 5000000) * .075) + .025) * 10
+    var existing_text = Number(((this.props.certification.operating_expenses / 5000000) * .075) + .025)
+    var new_text = Number(((this.props.certification.operating_expenses / 5000000) * .075) + .025) * 10
     // var existing_text = Number((this.state.certification.operating_expenses/5000000) * 0.075)
     // ((P4/5000000)*0.075)+0.025
     var format_fee
@@ -192,7 +192,7 @@
      } else if (i == 13) {
       format_fee = <div className="info__fee">
                      <div className="info__fee-amount minimum">
-                      <span className="amount">${fee_category.over500K}</span>
+                      <span className="amount">$$40/hour or $200</span>
                       <span className="subtitle">/day</span>
                       </div>
                       <div className="info__fee-amount maximum">

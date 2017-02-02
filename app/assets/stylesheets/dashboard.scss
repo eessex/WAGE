@@ -55,6 +55,9 @@
           margin-bottom: 0;
         }
       }
+      .subtitle {
+        display: none;
+      }
       .fa {
         font-size: 16px;
         padding-left: .5em;
@@ -81,6 +84,10 @@
         }
         span:not(.title) {
           border-bottom: 1px solid lime;
+        }
+        .subtitle {
+          display: inline-block;
+          border-bottom: none !important;
         }
       }
     }
