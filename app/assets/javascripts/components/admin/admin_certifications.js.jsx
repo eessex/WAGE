@@ -20,6 +20,7 @@ var AdminCertifications = React.createClass({
       row = <AdminCertificationTeaser
               key={certification.id}
               user={setUser}
+              root={that.props.root}
               artist_payments={setPayments}
               certification={certification} />
       return row
@@ -28,9 +29,18 @@ var AdminCertifications = React.createClass({
   },
   render() {
     return (
+      <div className='admin--certifications'>
       <div className='admin--certifications-table'>
       	{this.certificationRows()}
       </div>
+    </div>
     );
   }
 });
+
+        // <h4 className='th'>
+        //   <span className="fiscal-dates">Fiscal Dates</span>
+        //   <span className="institution-name">Institution Name</span>
+        //   <span className="operating">Operating Expenses</span>
+        //   <span className="status">Application Status</span>
+        // </h4>

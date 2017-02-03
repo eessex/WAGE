@@ -3,15 +3,15 @@ var AdminCertificationTeaser = React.createClass({
     this.watchClick()
   },
   watchClick() {
-    $('.certification-container__title').unbind().click(function(e) {
-      if ($(e.target).closest('.certification-container').hasClass('active')) {
-        $('.certification-container').removeClass('active').find('.certification-container__content').slideUp()
-      } else {
-        $('.certification-container').removeClass('active')
-        $(e.target).closest('.certification-container').addClass('active').find('.certification-container__content').slideDown()
-      }
-      $('.certification-container').not('.active').find('.certification-container__content').slideUp()
-    })
+    // $('.certification-container__title').unbind().click(function(e) {
+    //   if ($(e.target).closest('.certification-container').hasClass('active')) {
+    //     $('.certification-container').removeClass('active').find('.certification-container__content').slideUp()
+    //   } else {
+    //     $('.certification-container').removeClass('active')
+    //     $(e.target).closest('.certification-container').addClass('active').find('.certification-container__content').slideDown()
+    //   }
+    //   $('.certification-container').not('.active').find('.certification-container__content').slideUp()
+    // })
   },
   getFiscalDates() {
     var fiscalDates
@@ -31,7 +31,7 @@ var AdminCertificationTeaser = React.createClass({
   getStatus() {
     var formatted_status
     if (this.props.certification.status == 0 ) {
-      formatted_status = "Application In Progress"
+      formatted_status = "In Progress"
     } else if (this.props.certification.status == 1 ) {
       formatted_status = "Appplication Under Review"
     } else if (this.props.certification.status == 2 ) {
@@ -47,16 +47,14 @@ var AdminCertificationTeaser = React.createClass({
   },
 	render() {
 		return (
-			<div key={this.props.certification.id} data-certification={this.props.certification.id} className={"certification-container certification-container--" + this.props.certification.id + " "}>
-				<h4 className='certification-container__title'>
-          {this.getFiscalDates()}
-          {this.props.user.institution_name}
-          {this.getStatus()}
+			<a href={this.props.root + "/certifications/" + this.props.certification.id } key={this.props.certification.id} data-certification={this.props.certification.id} className={"certification-container certification-container--" + this.props.certification.id + " "}>
+        <h4 className='certification-container__title'>
+          <span className="fiscal-dates">{this.getFiscalDates()}</span>
+          <span className="institution-name">{this.props.user.institution_name}</span>
+          <span className="operating">{'$' + this.props.certification.operating_expenses}</span>
+          <span className="status">{this.getStatus()}</span>
         </h4>
-				<div className='certification-container__content'>
-          {this.getCertifications()}
-				</div>
-			</div>
+      </a>
 		);
 	}
 });

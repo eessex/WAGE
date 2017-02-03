@@ -12,10 +12,12 @@ class CertificationsController < ApplicationController
     @certifications = Certification.where(user_id: @user.id) || []
     @fee_categories = FeeCategory.order('id')
     @artist_payments = @certification.artist_payments || []
+    @root = ENV['HOST']
     @path = ENV['HOST'] + '/certifications/' + @certification.id.to_s
     if !current_user.admin
       render component: 'CertificationView', props: {
           path: @path,
+          root: @root,
           certification: @certification,
           certifications: @certifications,
           artist_payments: @artist_payments,
@@ -25,6 +27,8 @@ class CertificationsController < ApplicationController
         }, class: "certification certification--view"
       else
         render component: 'AdminCertificationShow', props: {
+          root: @root,
+          path: @path,
           certification: @certification,
           certifications: @certifications,
           artist_payments: @artist_payments,

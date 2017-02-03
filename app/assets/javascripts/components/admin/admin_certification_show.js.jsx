@@ -134,7 +134,11 @@ var AdminCertificationShow = React.createClass({
       <div className="certification certification-review">
         <div className="certification-review__body">
           <div className="certification-review__header">
-	          <h3 className="title">{this.props.user.institution_name}</h3>
+	          <h3 className="title">
+              <a href={this.props.root + '/users/' + this.props.user.id}>
+                {this.props.user.institution_name}
+              </a>
+            </h3>
 	          <div className="status">{this.setStatus()}</div>
           </div>
           {this.userContact()}

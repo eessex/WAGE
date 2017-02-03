@@ -73,12 +73,16 @@ var Certification = React.createClass({
     var formatted_date = moment(this.state.certification.fiscal_end).format('Y')
     return formatted_date
   },
+  formatOperatingExpenses() {
+    var formatted_operating = '$' + Number(this.props.certification.operating_expenses).toLocaleString(2)
+    return formatted_operating
+  },
   render() {
-    var url = "certifications/" + this.state.certification.id
+    var url = this.props.root + "/certifications/" + this.state.certification.id
     if (this.state.certification.status == 0 ) {
-      var formatted_status = "Application In Progress"
+      var formatted_status = "In Progress"
     } else if (this.state.certification.status == 1 ) {
-      var formatted_status = "Appplication Under Review"
+      var formatted_status = "Pending Review"
     } else if (this.state.certification.status == 2 ) {
       var formatted_status = "W.A.G.E. Certified Pending"
     } else if (this.state.certification.status == 3 ) {
@@ -98,7 +102,8 @@ var Certification = React.createClass({
 
     var row = (
         <a href={url} key={this.state.certification.id} className="certification teaser">
-          <h3>{this.formatFiscalDates()}</h3>
+          <span className='date'><h3>{this.formatFiscalDates()}</h3></span>
+          <span className='operating'>{this.formatOperatingExpenses()}</span>
           <span className="status"><i className="fa fa-check"></i>{formatted_status}</span>
           <span className="updated">{moment(this.state.certification.updated_at).fromNow()}</span>
           {submit}

@@ -2,14 +2,16 @@ var AdminMenu = React.createClass({
   getInitialState() {
     return {
       navPosition: this.props.navPosition || 0,
-      root: this.props.path
+      root: this.props.root
     }
   },
   navigateMenu(e) {
-    e.preventDefault()
-    var item = $(e.target).closest('.admin-menu__item').data('id')
-    this.props.navigateMenu(item)
-    this.setState({navPosition: item})
+    if (this.props.root == this.props.path) {
+      e.preventDefault()
+      var item = $(e.target).closest('.admin-menu__item').data('id')
+      this.props.navigateMenu(item)
+      this.setState({navPosition: item})
+    }
   },
   isActiveItem(i) {
     if (this.props.navPosition && this.props.navPosition == i) {
@@ -20,9 +22,17 @@ var AdminMenu = React.createClass({
     var that = this
     var menu = this.props.menu.map(function(item, i) {
     var formattedItem = item.replace('-', ' ')
+
+    var link
+    if (that.props.root == that.props.path) {
+      link = that.props.root + '/#' + item
+    } else {
+      link = that.props.root + '/#' + item
+    }
+
       return (
           <a className="admin-menu__item"
-            href={that.state.root + '/#' + item}
+            href={link}
             name={item}
             data-id={i}
             key={i}

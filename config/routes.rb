@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :certifications
     resources :fee_categories
     resources :artist_payments
+    get 'users/:id' => 'users#show'
   end
 
   root to: 'site#guidelines'

@@ -11,6 +11,7 @@ var AdminUsers = React.createClass({
       })
       row = <AdminUser
               key={user.id}
+              root={that.props.root}
               certifications={certifications.length > 0 ? certifications : null}
               user={user} />
       return row

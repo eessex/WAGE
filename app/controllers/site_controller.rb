@@ -11,6 +11,8 @@ class SiteController < ApplicationController
       render component: 'AdminDashboard', props: {
         certifications: @certifications,
         users: @users,
+        root: @path,
+        path: @path,
         fee_categories: @fee_categories
       }, class: 'admin--dashboard'
     else

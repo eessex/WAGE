@@ -8,6 +8,22 @@ var AdminDashboard = React.createClass({
       errors: {}
     }
   },
+  componentDidMount() {
+    var location = window.location.hash.replace('#','')
+    var navPosition
+    if (location == 'users') {
+      navPosition = 0
+    }
+    if (location == 'certifications') {
+      navPosition = 1
+    }
+    if (location == 'fee-categories') {
+      navPosition = 2
+    } else {
+      navPosition = 0
+    }
+    this.setState({navPosition: navPosition})
+  },
   navigateMenu(item) {
     window.location.hash = ''
     this.setState({navPosition: item})
@@ -22,6 +38,7 @@ var AdminDashboard = React.createClass({
           <div className="admin-dashboard__content">
             <AdminUsers
               users={this.props.users}
+              root={this.props.root}
               certifications={this.props.certifications} />
           </div>
         </div>
@@ -33,6 +50,7 @@ var AdminDashboard = React.createClass({
           <div className="admin-dashboard__content">
             <AdminCertifications
               users={this.props.users}
+              root={this.props.root}
               certifications={this.props.certifications} />
           </div>
         </div>
@@ -55,6 +73,8 @@ var AdminDashboard = React.createClass({
 			<div className="admin-dashboard">
         <AdminMenu
           menu={menu}
+          root={this.props.root}
+          path={this.props.path}
           navPosition={this.state.navPosition}
           navigateMenu={this.navigateMenu} />
           {this.getContent()}

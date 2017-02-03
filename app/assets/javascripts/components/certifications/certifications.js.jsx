@@ -37,6 +37,7 @@ var Certifications = React.createClass({
       return (
         <Certification
           certification={certification}
+          root={that.props.root}
           key={certification.id}
           onDeleteCertification={that.handleDeleteCertification} />
       );

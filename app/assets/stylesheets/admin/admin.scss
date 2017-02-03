@@ -30,68 +30,44 @@
 .admin-dashboard {
 	&__header {
 		padding: 2em;
-	}
-}
-
-
-
-
-.admin--users-table,
-.admin--certifications-table {
-  border-bottom: 1px solid;
-}
-
-.user-container,
-.certification-container {
-	&.active {
-		background-color: #fff;
-		min-height: 50vh;
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid;
     border-bottom: 1px solid;
-    padding-bottom: 3em;
-    .certification-container__title {
-      opacity: 0;
-      height: 0;
-    }
 	}
-  .section {
-    margin: 0 2em;
-    padding: 2em 0;
-    border-top: 1px solid lime;
-    max-width: 750px;
-  }
-	&__title {
-    border-top: 1px solid;
+  .user-container,
+  .certification-container {
+    text-decoration: none;
+    background-color: white;
+    &__title {
     padding: 1em 28px;
     margin: 0;
     display: flex;
     justify-content: space-between;
+    border-bottom: 1px solid;
     &:hover {
-    	color: $blue;
-    	border-color: $primary-color;
-    	background-color: #fff;
+      color: $blue;
+      background-color: #fff;
     }
-    &:last-child {
-      border-bottom: 1px solid;
-    }
+  }
+}
+
+
+.user-container,
+.certification-container {
+
+
     .certifications {
     	font-size: 14px;
     	font-weight: normal;
     }
 	}
 	&__content {
-		display: none;
+		/*display: none;*/
 		background-color: #fff;
 	}
 	&__content-item {
 	/*	padding-left: 28px;
 		padding-right: 28px;*/
 	}
-	.certification-review--user-contact {
-		display: flex;
-	}
+
 }
 
 
@@ -112,6 +88,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      a {
+        text-decoration: none;
+      }
     }
   }
 }
@@ -127,7 +106,17 @@
     }
   }
 }
-
+.admin-dashboard--certifications {
+  .certification-container__title span{
+    width: 20%;
+  }
+/*  .admin--certifications-table {
+    color: blue;
+    .certification-container__title span {
+      width: 25%;
+    }
+  }*/
+}
 
 .admin-dashboard .fee-categories {
   .fee-categories--table {
@@ -149,6 +138,41 @@
         .content {
           display: none;
         }
+      }
+    }
+  }
+}
+
+.admin-user--show {
+  margin-top: 8em;
+  .user-container {
+    border: none;
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    &__title {
+      padding: 0 2em;
+      display: flex;
+      max-width: 750px;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  .certification-review--user-contact {
+    display: flex;
+  }
+  .section {
+    margin: 0 2em;
+    padding: 2em 0;
+    border-top: 1px solid lime;
+    max-width: 750px;
+  }
+  .certifications--table {
+    .th span,
+    .certification.teaser span {
+      width: 25%;
+      &.updated {
+        text-align: right;
       }
     }
   }
