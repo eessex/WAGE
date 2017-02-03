@@ -29,18 +29,16 @@ var AdminCertifications = React.createClass({
   },
   render() {
     return (
-      <div className='admin--certifications'>
       <div className='admin--certifications-table'>
+        <h5 className='th'>
+          <span>Fiscal Dates</span>
+          <span>Name</span>
+          <span>Operating Expenses</span>
+          <span>Application Status</span>
+          <span>Updated At</span>
+        </h5>
       	{this.certificationRows()}
       </div>
-    </div>
     );
   }
 });
-
-        // <h4 className='th'>
-        //   <span className="fiscal-dates">Fiscal Dates</span>
-        //   <span className="institution-name">Institution Name</span>
-        //   <span className="operating">Operating Expenses</span>
-        //   <span className="status">Application Status</span>
-        // </h4>

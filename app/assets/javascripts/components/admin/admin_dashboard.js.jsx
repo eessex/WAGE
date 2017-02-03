@@ -60,7 +60,8 @@ var AdminDashboard = React.createClass({
             <h1 className='title'><span>Fee Categories</span></h1>
           </div>
           <div className="admin-dashboard__content">
-            <FeeCategories
+            <FeeCategoryTable
+              root={this.props.root}
               fee_categories={this.props.fee_categories} />
           </div>
           </div>

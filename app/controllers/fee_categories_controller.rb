@@ -1,10 +1,34 @@
 class FeeCategoriesController < ApplicationController
   def index
     @fee_categories = FeeCategory.all
-    if current_user
-      @user = current_user
+    if current_user.admin
+    @user = current_user
+    @certifications = []
+    @root = ENV['HOST']
+
+    render component: 'FeeCategories', props: {
+      fee_categories: @fee_categories,
+      user: @user,
+      root: @root,
+      certifications: @certifications
+    }
     end
-    render component: 'FeeCategories', props: { fee_categories: @fee_categories, user: @user }
+  end
+
+  def show
+    @fee_category = FeeCategory.find(params[:id])
+    if current_user.admin
+    @user = current_user
+    @certifications = []
+    @root = ENV['HOST']
+
+    render component: 'FeeCategoryShow', props: {
+      fee_category: @fee_category,
+      user: @user,
+      root: @root,
+      certifications: @certifications
+    }, class: 'fee-category--show'
+    end
   end
 
   def create

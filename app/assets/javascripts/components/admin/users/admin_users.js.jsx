@@ -9,7 +9,7 @@ var AdminUsers = React.createClass({
           certifications.push(certification)
         }
       })
-      row = <AdminUser
+      row = <AdminUserTeaser
               key={user.id}
               root={that.props.root}
               certifications={certifications.length > 0 ? certifications : null}
@@ -21,6 +21,12 @@ var AdminUsers = React.createClass({
   render() {
     return (
       <div className='admin--users-table'>
+        <h5 className='th'>
+          <span>Name</span>
+          <span>Representative</span>
+          <span>Fiscal Dates</span>
+          <span>Applications</span>
+        </h5>
       	{this.userRow()}
       </div>
     );

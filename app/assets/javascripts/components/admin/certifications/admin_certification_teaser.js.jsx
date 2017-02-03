@@ -1,18 +1,4 @@
 var AdminCertificationTeaser = React.createClass({
-	 componentDidMount() {
-    this.watchClick()
-  },
-  watchClick() {
-    // $('.certification-container__title').unbind().click(function(e) {
-    //   if ($(e.target).closest('.certification-container').hasClass('active')) {
-    //     $('.certification-container').removeClass('active').find('.certification-container__content').slideUp()
-    //   } else {
-    //     $('.certification-container').removeClass('active')
-    //     $(e.target).closest('.certification-container').addClass('active').find('.certification-container__content').slideDown()
-    //   }
-    //   $('.certification-container').not('.active').find('.certification-container__content').slideUp()
-    // })
-  },
   getFiscalDates() {
     var fiscalDates
     if (this.props.user.fiscal_start) {
@@ -20,40 +6,42 @@ var AdminCertificationTeaser = React.createClass({
     }
     return fiscalDates
   },
-  getCertifications() {
-    return (
-      <AdminCertificationShow
-        user={this.props.user}
-        certification={this.props.certification}
-        artist_payments={this.props.artist_payments} />
-      )
+  getOperatingExpenses() {
+    var operating_expenses
+    if (this.props.certification.operating_expenses && this.props.certification.operating_expenses > 0) {
+      operating_expenses = <span className="operating">${Number(this.props.certification.operating_expenses).toLocaleString()}</span>
+    } else {
+      operating_expenses = <span className="operating disabled">${Number(this.props.certification.operating_expenses).toLocaleString()}</span>
+    }
+    return operating_expenses
   },
   getStatus() {
     var formatted_status
     if (this.props.certification.status == 0 ) {
       formatted_status = "In Progress"
     } else if (this.props.certification.status == 1 ) {
-      formatted_status = "Appplication Under Review"
+      formatted_status = "Pending Review"
     } else if (this.props.certification.status == 2 ) {
       formatted_status = "W.A.G.E. Certified Pending"
     } else if (this.props.certification.status == 3 ) {
-      var formatted_status = "Appplication Under Review"
+      var formatted_status = "Payments Pending Review"
     } if (this.props.certification.status == 4 ) {
       var formatted_status = "W.A.G.E. Certified"
     } else if (this.props.certification.status == 5 ) {
-      formatted_status = "Pending Updates"
+      formatted_status = "Please Revise Application"
     }
     return formatted_status
   },
 	render() {
 		return (
 			<a href={this.props.root + "/certifications/" + this.props.certification.id } key={this.props.certification.id} data-certification={this.props.certification.id} className={"certification-container certification-container--" + this.props.certification.id + " "}>
-        <h4 className='certification-container__title'>
+        <h5 className='certification-container__title'>
           <span className="fiscal-dates">{this.getFiscalDates()}</span>
           <span className="institution-name">{this.props.user.institution_name}</span>
-          <span className="operating">{'$' + this.props.certification.operating_expenses}</span>
+          {this.getOperatingExpenses()}
           <span className="status">{this.getStatus()}</span>
-        </h4>
+          <span className="updated">{moment(this.props.certification.updated_at).fromNow()}</span>
+        </h5>
       </a>
 		);
 	}

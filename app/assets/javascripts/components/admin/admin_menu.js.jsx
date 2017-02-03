@@ -50,7 +50,6 @@ var AdminMenu = React.createClass({
         <div className="nav">
         	{this.printMenuItems()}
         </div>
-        <div className="is-saved"><i className="fa fa-check"></i><span>Saved</span></div>
       </div>
     );
   }
