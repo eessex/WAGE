@@ -3,7 +3,8 @@
 #registrations-edit,
 #registrations-new,
 #site-guidelines,
-#registrations-create {
+#registrations-create,
+#passwords-edit {
   flex-direction: column;
   .intro {
     width: 100%;
@@ -195,37 +196,50 @@
 }
 
 #user.login,
-.password.reset {
+.password.reset,
+.password.edit {
   max-width: 550px;
   padding: 0em 2.5em 8em 2.5em;
   min-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-    .login {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 1.5em;
-      align-items: center;
-      .actions {
+  .form-group {
+    position: relative;
+    padding-bottom: 1.35em;
+  }
+  .helper {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    font-size: 12px;
+    color: #aaa;
+  }
+  .login {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5em;
+    align-items: center;
+    .actions {
+      width: 100%;
+      order: 1;
+      margin-bottom: 2em;
+      .btn {
         width: 100%;
-        order: 1;
-        margin-bottom: 2em;
-        .btn {
-          width: 100%;
-        }
-      }
-      .remember {
-        order: 2;
-        font-size: small;
-        margin-left: 3em;
-        min-width: 115px;
-        input[type='checkbox'] {
-          margin-right: .5em;
-          margin-top: -5px;
-        }
       }
     }
+    .remember {
+      order: 2;
+      font-size: small;
+      margin-left: 3em;
+      min-width: 115px;
+      input[type='checkbox'] {
+        margin-right: .5em;
+        margin-top: -5px;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 1200px) {

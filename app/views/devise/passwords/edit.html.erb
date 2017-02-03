@@ -1,20 +1,20 @@
-<div class="password edit col-sm-12 col-md-offset-2 col-md-8 col-lg-offset-4 col-lg-4">
+<div class="password edit">
   <h1><span>Change your password</span></h1>
 
   <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
     <%= devise_error_messages! %>
     <%= f.hidden_field :reset_password_token %>
 
-    <div class="field">
-      <%= f.label :password, "New password" %><br />
+    <div class="form-group">
+      <%= f.label :password, "New Password" %>
       <% if @minimum_password_length %>
-        <span class="helper"><%= @minimum_password_length %> characters minimum)</span>
+        <span class="helper"><%= @minimum_password_length %> characters minimum</span>
       <% end %>
       <%= f.password_field :password, autofocus: true, autocomplete: "off", required: true,  class: "form-control" %>
     </div>
 
-    <div class="field">
-      <%= f.label :password_confirmation, "Confirm new password" %><br />
+    <div class="form-group">
+      <%= f.label :password_confirmation, "Confirm New Password" %>
       <%= f.password_field :password_confirmation, autocomplete: "off", required: true,  class: "form-control" %>
     </div>
 
