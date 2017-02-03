@@ -96,10 +96,10 @@ var AdminUser = React.createClass({
     return (
   		<a href={this.props.root + '/users/' + this.props.user.id} key={this.props.user.id} data-user={this.props.user.id} className={"user-container user-container--" + this.props.user.id + " "}>
         <h4 className='user-container__title'>
-          {this.props.user.institution_name}
-          {this.props.user.rep_name}
-          {this.getFiscalDates()}
-          {this.getCertificationCount()}
+          <span className="intstitution">{this.props.user.institution_name}</span>
+          <span className="name">{this.props.user.rep_name}</span>
+          <span className="dates">{this.getFiscalDates()}</span>
+          <span className="status">{this.getCertificationCount()}</span>
         </h4>
 		  </a>
 		);

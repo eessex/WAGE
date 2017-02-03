@@ -106,16 +106,12 @@
     }
   }
 }
-.admin-dashboard--certifications {
-  .certification-container__title span{
+.admin-dashboard--certifications,
+.admin-dashboard--users {
+  .certification-container__title span,
+  .user-container__title span {
     width: 20%;
   }
-/*  .admin--certifications-table {
-    color: blue;
-    .certification-container__title span {
-      width: 25%;
-    }
-  }*/
 }
 
 .admin-dashboard .fee-categories {
